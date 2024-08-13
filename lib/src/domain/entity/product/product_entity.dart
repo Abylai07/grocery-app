@@ -1,0 +1,141 @@
+import 'package:equatable/equatable.dart';
+
+class ProductEntity extends Equatable {
+  final int id;
+  final int subcategoryId;
+  final int countryId;
+  final int brandId;
+  final String? photoUrl;
+  final Map<String, String> name;
+  final Map<String, String> description;
+  final num price;
+  final num? discount;
+  final num? priceWithDiscount;
+  final num? rating;
+  final int totalSales;
+  final bool isActive;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String? weight;
+  final num? calories;
+  final num? proteins;
+  final num? fats;
+  final num? carbohydrates;
+  final BrandEntity? brand;
+  final CountryEntity? country;
+
+  const ProductEntity({
+    required this.id,
+    required this.subcategoryId,
+    required this.countryId,
+    required this.brandId,
+    this.photoUrl,
+    required this.name,
+    required this.description,
+    required this.price,
+    this.discount,
+    this.priceWithDiscount,
+    this.rating,
+    required this.totalSales,
+    required this.isActive,
+    required this.createdAt,
+    required this.updatedAt,
+    this.weight,
+    this.calories,
+    this.proteins,
+    this.fats,
+    this.carbohydrates,
+    this.brand,
+    this.country,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    subcategoryId,
+    countryId,
+    brandId,
+    photoUrl,
+    name,
+    description,
+    price,
+    discount,
+    priceWithDiscount,
+    rating,
+    totalSales,
+    isActive,
+    createdAt,
+    updatedAt,
+    weight,
+    calories,
+    proteins,
+    fats,
+    carbohydrates,
+    brand,
+    country,
+  ];
+}
+
+
+class SubcategoryEntity extends Equatable {
+  final int id;
+  final int categoryId;
+  final String? photoUrl;
+  final Map<String, String> name;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  const SubcategoryEntity({
+    required this.id,
+    required this.categoryId,
+    this.photoUrl,
+    required this.name,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    categoryId,
+    photoUrl,
+    name,
+    createdAt,
+    updatedAt,
+  ];
+}
+
+class BrandEntity extends Equatable {
+  final int id;
+  final String name;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  const BrandEntity({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  @override
+  List<Object> get props => [
+    id,
+    name,
+    createdAt,
+    updatedAt,
+  ];
+}
+
+class CountryEntity extends Equatable {
+  final int id;
+  final String name;
+
+  const CountryEntity({
+    required this.id,
+    required this.name,
+  });
+
+  @override
+  List<Object> get props => [id, name];
+}

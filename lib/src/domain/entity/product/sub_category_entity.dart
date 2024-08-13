@@ -1,0 +1,29 @@
+import 'package:equatable/equatable.dart';
+
+class SubCategoryEntity extends Equatable {
+  final int id;
+  final int categoryId;
+  final String? photoUrl;
+  final Map<String, String> name;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  const SubCategoryEntity({
+    required this.id,
+    required this.categoryId,
+    required this.photoUrl,
+    required this.name,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  @override
+  List<Object?> get props => [
+    id,
+    categoryId,
+    photoUrl,
+    name,
+    createdAt,
+    updatedAt,
+  ];
+}
