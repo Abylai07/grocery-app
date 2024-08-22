@@ -2,9 +2,10 @@ import 'package:equatable/equatable.dart';
 
 class ProductEntity extends Equatable {
   final int id;
-  final int subcategoryId;
-  final int countryId;
-  final int brandId;
+  final int? subcategoryId;
+  final int? countryId;
+  final int? brandId;
+  final int? productQuantity;
   final String? photoUrl;
   final Map<String, String> name;
   final Map<String, String> description;
@@ -12,10 +13,10 @@ class ProductEntity extends Equatable {
   final num? discount;
   final num? priceWithDiscount;
   final num? rating;
-  final int totalSales;
+  final int? totalSales;
   final bool isActive;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final String? weight;
   final num? calories;
   final num? proteins;
@@ -26,9 +27,10 @@ class ProductEntity extends Equatable {
 
   const ProductEntity({
     required this.id,
-    required this.subcategoryId,
-    required this.countryId,
-    required this.brandId,
+    this.subcategoryId,
+    this.countryId,
+    this.brandId,
+    this.productQuantity,
     this.photoUrl,
     required this.name,
     required this.description,
@@ -36,10 +38,10 @@ class ProductEntity extends Equatable {
     this.discount,
     this.priceWithDiscount,
     this.rating,
-    required this.totalSales,
+    this.totalSales,
     required this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
     this.weight,
     this.calories,
     this.proteins,
@@ -51,31 +53,31 @@ class ProductEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    subcategoryId,
-    countryId,
-    brandId,
-    photoUrl,
-    name,
-    description,
-    price,
-    discount,
-    priceWithDiscount,
-    rating,
-    totalSales,
-    isActive,
-    createdAt,
-    updatedAt,
-    weight,
-    calories,
-    proteins,
-    fats,
-    carbohydrates,
-    brand,
-    country,
-  ];
+        id,
+        subcategoryId,
+        countryId,
+        brandId,
+        photoUrl,
+        name,
+        description,
+        price,
+        discount,
+        productQuantity,
+        priceWithDiscount,
+        rating,
+        totalSales,
+        isActive,
+        createdAt,
+        updatedAt,
+        weight,
+        calories,
+        proteins,
+        fats,
+        carbohydrates,
+        brand,
+        country,
+      ];
 }
-
 
 class SubcategoryEntity extends Equatable {
   final int id;
@@ -96,13 +98,13 @@ class SubcategoryEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    categoryId,
-    photoUrl,
-    name,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        categoryId,
+        photoUrl,
+        name,
+        createdAt,
+        updatedAt,
+      ];
 }
 
 class BrandEntity extends Equatable {
@@ -120,11 +122,11 @@ class BrandEntity extends Equatable {
 
   @override
   List<Object> get props => [
-    id,
-    name,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        name,
+        createdAt,
+        updatedAt,
+      ];
 }
 
 class CountryEntity extends Equatable {

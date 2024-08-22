@@ -1,5 +1,8 @@
+import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
+import 'package:abricoz_app/src/domain/entity/user/district_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/favorite_entity.dart';
 import 'package:abricoz_app/src/domain/repository/abstract_user_service_profile.dart';
 import 'package:dartz/dartz.dart';
 
@@ -34,5 +37,41 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   Future<Either<Failure, List<BannerEntity>>> fetchBanners() {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.fetchBanners());
+  }
+
+  @override
+  Future<Either<Failure, AddressEntity>> createAddress(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.createAddress(params));
+  }
+
+  @override
+  Future<Either<Failure, List<AddressEntity>>> fetchAddress() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchAddress());
+  }
+
+  @override
+  Future<Either<Failure, List<DistrictEntity>>> getDistricts() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.getDistricts());
+  }
+
+  @override
+  Future<Either<Failure, List<FavoriteEntity>>> fetchFavorite() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchFavorites());
+  }
+
+  @override
+  Future<Either<Failure, FavoriteEntity>> storeFavorite(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.storeFavorite(params));
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> deleteFavorite(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.deleteFavorite(params));
   }
 }

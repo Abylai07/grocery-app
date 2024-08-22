@@ -1,0 +1,18 @@
+import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
+import 'package:dartz/dartz.dart';
+
+import '../../../core/error/failure.dart';
+import '../../../core/usecases/usecase.dart';
+import '../../entity/order/check_card_entity.dart';
+import '../../repository/abstract_order_service_profile.dart';
+
+class CheckBasketUseCase extends UseCase<CheckCardEntity?, MapParams> {
+  CheckBasketUseCase(this.repository);
+
+  final AbstractOrderServiceRepository repository;
+
+  @override
+  Future<Either<Failure, CheckCardEntity>> call(MapParams? params) async {
+    return await repository.checkBasketItems(params);
+  }
+}

@@ -41,7 +41,7 @@ class SingInCubit extends Cubit<SignInState> {
     if (failureOrAuth.isRight()) {
       final data = failureOrAuth.toOption().toNullable();
       SharedPrefs().setAccessToken(data?['data']['token']);
-     // SharedPrefs().setCityId(data?['data']['']);
+      SharedPrefs().setPhone(number.trim());
     }
 
     emit(

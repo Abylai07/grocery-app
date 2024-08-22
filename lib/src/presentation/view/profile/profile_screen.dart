@@ -4,10 +4,13 @@ import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_styles/colors.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
+import '../../../common/utils/parsers/date_parser.dart';
+import 'bloc/user_session_bloc.dart';
 
 @RoutePage()
 class ProfileScreen extends StatelessWidget {
@@ -15,6 +18,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -41,22 +45,41 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  ProfileElementWidget(
-                    title: S.of(context).loginAccount,
-                    icon: AppAssets.account,
-                    onPressed: () {
-                      context.router.push(const SignInRoute());
-                    },
-                  ),
-                  ProfileElementWidget(
-                    title: S.of(context).logout,
-                    icon: AppAssets.logout,
-                    logout: true,
-                    onPressed: () {
-                      SharedPrefs().deleteTokens();
-                      context.router.replaceAll([
-                        const IndexRoute(children: [HomeRoute()])
-                      ]);
+                  BlocBuilder<UserSessionBloc, UserSessionState>(
+                    builder: (context, state) {
+                      if (state is UserSessionLoaded) {
+                        return Column(
+                          children: [
+                            ProfileElementWidget(
+                              title:
+                                  '+7 ${AppUtils.phoneMaskFormatter.maskText(SharedPrefs().getPhone() ?? '')}',
+                              icon: AppAssets.account,
+                              onPressed: () {
+                                // context.router.push(const SignInRoute());
+                              },
+                            ),
+                            ProfileElementWidget(
+                              title: S.of(context).logout,
+                              icon: AppAssets.logout,
+                              logout: true,
+                              onPressed: () {
+                                context.read<UserSessionBloc>().add(LogoutUserSession());
+                                context.router.replaceAll([
+                                  const IndexRoute(children: [HomeRoute()])
+                                ]);
+                              },
+                            ),
+                          ],
+                        );
+                      } else {
+                        return ProfileElementWidget(
+                          title: S.of(context).loginAccount,
+                          icon: AppAssets.account,
+                          onPressed: () {
+                            context.router.push(const SignInRoute());
+                          },
+                        );
+                      }
                     },
                   ),
                 ],
@@ -74,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                     title: S.of(context).address,
                     icon: AppAssets.address,
                     onPressed: () {
-                      // context.router.push(const SignInRoute());
+                      context.router.push(const AddressRoute());
                     },
                   ),
                   ProfileElementWidget(

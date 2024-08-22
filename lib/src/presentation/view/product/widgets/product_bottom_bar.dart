@@ -5,7 +5,7 @@ import '../../../../common/app_styles/colors.dart';
 import '../../../../common/app_styles/text_styles.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../domain/entity/product/product_entity.dart';
-import '../../basket/basket_bloc/basket_bloc.dart';
+import '../../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
 
 class ProductBottomBar extends StatelessWidget {
   const ProductBottomBar({super.key, required this.product});
@@ -47,7 +47,7 @@ class ProductBottomBar extends StatelessWidget {
                 ),
               ],
             ),
-            BlocBuilder<BasketBloc, BasketState>(
+            BlocBuilder<BasketButtonBloc, BasketButtonState>(
               builder: (context, state) {
                 return state.inBasket
                     ? Container(
@@ -66,12 +66,12 @@ class ProductBottomBar extends StatelessWidget {
                               onPressed: () {
                                 if (state.count > 1) {
                                   context
-                                      .read<BasketBloc>()
-                                      .add(DecrementCount(product));
+                                      .read<BasketButtonBloc>()
+                                      .add(DecrementCount(product.id));
                                 } else if (state.count == 1) {
                                   context
-                                      .read<BasketBloc>()
-                                      .add(DeleteAtBasket(product));
+                                      .read<BasketButtonBloc>()
+                                      .add(DeleteAtBasket(product.id));
                                 }
                               },
                             ),
@@ -83,8 +83,8 @@ class ProductBottomBar extends StatelessWidget {
                               icon: const Icon(Icons.add),
                               onPressed: () {
                                 context
-                                    .read<BasketBloc>()
-                                    .add(IncrementCount(product));
+                                    .read<BasketButtonBloc>()
+                                    .add(IncrementCount(product.id));
                               },
                             ),
                           ],
@@ -92,7 +92,7 @@ class ProductBottomBar extends StatelessWidget {
                       )
                     : InkWell(
                         onTap: () {
-                          context.read<BasketBloc>().add(AddToBasket(product));
+                          context.read<BasketButtonBloc>().add(AddToBasket(product));
                         },
                         child: Container(
                           height: 48,

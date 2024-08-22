@@ -23,6 +23,9 @@ class API {
     options = BaseOptions(
       baseUrl: _endpoint,
       contentType: Headers.jsonContentType,
+      headers: {
+        "Accept": "application/json",
+      },
       connectTimeout:
           Duration(milliseconds: httpStatusCode.connectTimeout),
       receiveTimeout:
@@ -59,7 +62,7 @@ class _TokenInterceptor extends Interceptor {
     String defaultConfig = '${options.method} ${options.path}';
 
     String? authToken = SharedPrefs().getAccessToken();
-    if (authToken != null && authToken != '') {
+    if (authToken != null && authToken != '' && options.extra['skipAuth'] != true) {
       options.headers['Authorization'] = 'Bearer $authToken';
     }
 
@@ -94,9 +97,15 @@ class _TokenInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    debugPrint(
-      '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode} ${response.data}',
-    );
+    if(response.data.toString().contains('<!DOCTYPE html>')){
+      debugPrint(
+        '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode}',
+      );
+    } else {
+      debugPrint(
+        '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode} ${response.data}',
+      );
+    }
     return super.onResponse(response, handler);
   }
 
@@ -111,8 +120,9 @@ class _TokenInterceptor extends Interceptor {
     debugPrint('Error -->');
     String? refresh = SharedPrefs().getRefreshToken();
     try{
-      if(error.response?.data != null && error.response?.data['code'] == 'user_inactive'){
+      if(error.response?.statusCode == 401){
         SharedPrefs().deleteTokens();
+        return super.onError(error, handler);
       } else if (error.response?.statusCode == 401 && refresh != null && tryRefreshCount < 3) {
         tryRefreshCount++;
         if (kDebugMode) {

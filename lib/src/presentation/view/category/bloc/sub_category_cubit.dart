@@ -10,18 +10,19 @@ class SubCategoryCubit extends Cubit<BaseState> {
 
   final CategoryUseCase categoryUseCase;
 
-  void fetchSubCategory() async {
+  void fetchSubCategory(int id) async {
     emit(const BaseState(status: CubitStatus.loading));
 
-    final failureOrAuth = await categoryUseCase.fetchSubCategory(const MapParams({}));
+    final failureOrAuth =
+        await categoryUseCase.fetchSubCategory(MapParams({'id': id}));
 
     emit(
       failureOrAuth.fold(
-            (l) => BaseState(
+        (l) => BaseState(
           status: CubitStatus.error,
           message: l.message,
         ),
-            (r) => BaseState(
+        (r) => BaseState(
           status: CubitStatus.success,
           entity: r,
         ),

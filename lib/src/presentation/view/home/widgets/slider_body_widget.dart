@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/enums.dart';
@@ -14,16 +16,41 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../bloc/base_state.dart';
-import '../../../widgets/shimmer_widget.dart';
 import '../bloc/banner_cubit.dart';
 
-class SliderBodyWidget extends StatelessWidget {
+class SliderBodyWidget extends StatefulWidget {
   const SliderBodyWidget({super.key});
 
   @override
+  State<SliderBodyWidget> createState() => _SliderBodyWidgetState();
+}
+
+class _SliderBodyWidgetState extends State<SliderBodyWidget> {
+  late Timer _timer;
+  final controller = PageController(viewportFraction: 1, keepPage: true);
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
+      controller.nextPage(
+        duration: const Duration(milliseconds: 450),
+        curve: Curves.easeIn,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final controller = PageController(viewportFraction: 1, keepPage: true);
     double screenHeight = MediaQuery.of(context).size.height;
+
+    List<BannerEntity> banners = [];
 
     return Container(
       color: AppColors.white,
@@ -31,72 +58,98 @@ class SliderBodyWidget extends StatelessWidget {
       height: double.infinity,
       child: BlocBuilder<BannerCubit, BaseState>(
         builder: (context, state) {
-          if (state.status.isSuccess) {
-            List<BannerEntity>? banners = state.entity;
-            return Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                PageView.builder(
-                  controller: controller,
-                  allowImplicitScrolling: true,
-                  itemBuilder: (_, index) {
-                    return CachedNetworkImage(
-                      imageUrl: getLocaleText(banners?[index % banners.length].imageUrl),
-                      fit: BoxFit.cover,
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                      const SizedBox(),
-                      errorWidget: (context, url, error) =>
-                      const Icon(Icons.error),
-                    );
-                  },
-                ),
-                SafeArea(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          if (state.status.isSuccess && state.entity != null) {
+            banners = state.entity;
+          }
+          return Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              PageView.builder(
+                controller: controller,
+                allowImplicitScrolling: true,
+                onPageChanged: (page){
+                  _timer.cancel();
+                },
+                itemBuilder: (_, index) {
+                  return Stack(
+                    fit: StackFit.expand,
+                    alignment: Alignment.bottomLeft,
                     children: [
-                      Column(
-                        children: [
-                          6.height,
-                          Text(
-                            S.of(context).selectAddress,
-                            style: AppTextStyle.displayLarge.copyWith(
-                              color: AppColors.black.withOpacity(0.5),
+                      banners.isEmpty
+                          ? buildLocalImage()
+                          : CachedNetworkImage(
+                              imageUrl: getLocaleText(
+                                  banners[index % banners.length].imageUrl),
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      buildLocalImage(),
+                              errorWidget: (context, url, error) =>
+                                  buildLocalImage(),
                             ),
-                          ),
-                          BlocBuilder<CityCubit, CityState>(
-                            builder: (context, state) {
-                              return DropdownButton<String>(
-                                value: state.selectCity?.name,
-                                icon: SvgPicture.asset(AppAssets.arrowDown),
-                                underline: const SizedBox(),
-                                style: AppTextStyle.bodyLarge
-                                    .copyWith(fontWeight: FontWeight.w600),
-                                onChanged: (String? value) {},
-                                borderRadius: BorderRadius.circular(16),
-                                items: state.entity
-                                    ?.map<DropdownMenuItem<String>>(
-                                        (CityEntity city) {
-                                  return DropdownMenuItem<String>(
-                                    value: city.name,
-                                    child: Text(city.name),
-                                    onTap: () {
-                                      context
-                                          .read<CityCubit>()
-                                          .selectCity(city);
-                                    },
-                                  );
-                                }).toList(),
-                              );
-                            },
-                          ),
-                        ],
+                      Positioned(
+                        left: 16,
+                        bottom: 56,
+                        right: 16,
+                        child: Text(
+                          banners.isEmpty
+                              ? S.of(context).bannerLocal
+                              : getLocaleText(
+                                  banners[index % banners.length].title),
+                          style: AppTextStyle.titleMedium
+                              .copyWith(fontWeight: FontWeight.w700),
+                        ),
                       ),
+                    ],
+                  );
+                },
+              ),
+              SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        6.height,
+                        Text(
+                          S.of(context).selectAddress,
+                          style: AppTextStyle.displayLarge.copyWith(
+                            color: AppColors.black.withOpacity(0.5),
+                          ),
+                        ),
+                        BlocBuilder<CityCubit, CityState>(
+                          builder: (context, state) {
+                            return DropdownButton<String>(
+                              value: state.selectCity?.name,
+                              isDense: true,
+                              icon: SvgPicture.asset(AppAssets.arrowDown),
+                              underline: const SizedBox(),
+                              style: AppTextStyle.bodyLarge
+                                  .copyWith(fontWeight: FontWeight.w600),
+                              onChanged: (String? value) {},
+                              borderRadius: BorderRadius.circular(16),
+                              items: state.entity
+                                  ?.map<DropdownMenuItem<String>>(
+                                      (CityEntity city) {
+                                return DropdownMenuItem<String>(
+                                  value: city.name,
+                                  child: Text(city.name),
+                                  onTap: () {
+                                    context.read<CityCubit>().selectCity(city);
+                                  },
+                                );
+                              }).toList(),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    if (banners.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32.0),
                         child: SmoothPageIndicator(
                           controller: controller,
-                          count: banners?.length ?? 0,
+                          count: banners.length,
                           effect: WormEffect(
                               dotHeight: 8,
                               dotWidth: 8,
@@ -108,22 +161,20 @@ class SliderBodyWidget extends StatelessWidget {
                           },
                         ),
                       ),
-                    ],
-                  ),
+                  ],
                 ),
-              ],
-            );
-          } else {
-            return Center(
-              child: Text(
-                'Abricoz',
-                style: AppTextStyle.titleLarge.copyWith(
-                    fontWeight: FontWeight.w700, color: AppColors.shimmer),
               ),
-            );
-          }
+            ],
+          );
         },
       ),
+    );
+  }
+
+  Image buildLocalImage() {
+    return Image.asset(
+      AppAssets.banner,
+      fit: BoxFit.cover,
     );
   }
 }

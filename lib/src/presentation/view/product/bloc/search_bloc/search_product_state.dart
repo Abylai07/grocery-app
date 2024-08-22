@@ -1,8 +1,19 @@
 part of 'search_product_cubit.dart';
 
+enum SearchStatus { initial, successHint, searchSubmit, success, error, loading}
+
+extension SearchStatusX on SearchStatus {
+  bool get isInitial => this == SearchStatus.initial;
+  bool get isSearchSubmit => this == SearchStatus.searchSubmit;
+  bool get isSuccess => this == SearchStatus.success;
+  bool get isSuccessHint => this == SearchStatus.successHint;
+  bool get isError => this == SearchStatus.error;
+  bool get isLoading => this == SearchStatus.loading;
+}
+
 class SearchProductState<T> extends Equatable {
   const SearchProductState({
-    this.status = CubitStatus.initial,
+    this.status = SearchStatus.initial,
     this.entity,
     this.searchHints,
     this.count = 0,
@@ -10,7 +21,7 @@ class SearchProductState<T> extends Equatable {
     String? message,
   }) : message = message ?? '';
 
-  final CubitStatus status;
+  final SearchStatus status;
   final List<ProductEntity>? entity;
   final List<SearchHintEntity>? searchHints;
   final String message;
@@ -30,7 +41,7 @@ class SearchProductState<T> extends Equatable {
   SearchProductState copyWith({
     List<ProductEntity>? entity,
     List<SearchHintEntity>? searchHints,
-    CubitStatus? status,
+    SearchStatus? status,
     String? message,
     int? count,
     int? errorCode,

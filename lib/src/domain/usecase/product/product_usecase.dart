@@ -1,12 +1,10 @@
 import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/product/category_usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/error/failure.dart';
 import '../../entity/product/search_hint_entity.dart';
 import '../../repository/abstract_product_service_profile.dart';
 import '../user/sign_in_usecase.dart';
-
 
 class ProductUseCase {
   ProductUseCase(this.repository);
@@ -20,6 +18,16 @@ class ProductUseCase {
   Future<Either<Failure, List<SearchHintEntity>>> fetchSearchHint(MapParams? params) async {
     return await repository.fetchSearchHint(params);
   }
+
+  Future<Either<Failure, ProductEntity>> fetchProductInfo(PathParams? params) async {
+    return await repository.fetchProductInfo(params);
+  }
+}
+
+class PathParams {
+  const PathParams(this.path);
+
+  final String path;
 }
 
 

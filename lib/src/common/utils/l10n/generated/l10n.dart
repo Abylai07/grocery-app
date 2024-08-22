@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -461,6 +460,16 @@ class S {
     );
   }
 
+  /// `Попробуйте другие категории`
+  String get otherCategory {
+    return Intl.message(
+      'Попробуйте другие категории',
+      name: 'otherCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Войти в аккаунт`
   String get loginAccount {
     return Intl.message(
@@ -606,6 +615,526 @@ class S {
     return Intl.message(
       'Производитель',
       name: 'maker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Заказывайте клубнику в новом приложении от Abricoz!`
+  String get bannerLocal {
+    return Intl.message(
+      'Заказывайте клубнику в новом приложении от Abricoz!',
+      name: 'bannerLocal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Перейти к оформлению: {sum} ₸`
+  String goToPay(Object sum) {
+    return Intl.message(
+      'Перейти к оформлению: $sum ₸',
+      name: 'goToPay',
+      desc: '',
+      args: [sum],
+    );
+  }
+
+  /// `Подтвердить заказ: {sum} ₸`
+  String confirmPay(Object sum) {
+    return Intl.message(
+      'Подтвердить заказ: $sum ₸',
+      name: 'confirmPay',
+      desc: '',
+      args: [sum],
+    );
+  }
+
+  /// `Оформление заказа`
+  String get makeOrder {
+    return Intl.message(
+      'Оформление заказа',
+      name: 'makeOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Доставка до`
+  String get deliveryBefore {
+    return Intl.message(
+      'Доставка до',
+      name: 'deliveryBefore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Время доставки`
+  String get deliveryTime {
+    return Intl.message(
+      'Время доставки',
+      name: 'deliveryTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Способ оплаты`
+  String get paymentType {
+    return Intl.message(
+      'Способ оплаты',
+      name: 'paymentType',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Наличными курьеру`
+  String get cashToCourier {
+    return Intl.message(
+      'Наличными курьеру',
+      name: 'cashToCourier',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Продукты`
+  String get products {
+    return Intl.message(
+      'Продукты',
+      name: 'products',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Стоимость доставки`
+  String get deliveryPrice {
+    return Intl.message(
+      'Стоимость доставки',
+      name: 'deliveryPrice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Доставка от 30 минут`
+  String get delivery30min {
+    return Intl.message(
+      'Доставка от 30 минут',
+      name: 'delivery30min',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Оплата заказа`
+  String get paymentOrder {
+    return Intl.message(
+      'Оплата заказа',
+      name: 'paymentOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Номер заказа`
+  String get orderNumber {
+    return Intl.message(
+      'Номер заказа',
+      name: 'orderNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сумма к оплате`
+  String get paySum {
+    return Intl.message(
+      'Сумма к оплате',
+      name: 'paySum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Статус оплаты`
+  String get paymentStatus {
+    return Intl.message(
+      'Статус оплаты',
+      name: 'paymentStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Завершите оплату в течение {time} или заказ будет отменён`
+  String payTime(Object time) {
+    return Intl.message(
+      'Завершите оплату в течение $time или заказ будет отменён',
+      name: 'payTime',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Время на оплату истекло, заказ в процессе отмены`
+  String get payTimeFinish {
+    return Intl.message(
+      'Время на оплату истекло, заказ в процессе отмены',
+      name: 'payTimeFinish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Заказ был отменён по инициативе пользователя`
+  String get orderCanceled {
+    return Intl.message(
+      'Заказ был отменён по инициативе пользователя',
+      name: 'orderCanceled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Спасибо за покупку! Мы свяжемся с вами с деталями для доставки`
+  String get thanksForOrder {
+    return Intl.message(
+      'Спасибо за покупку! Мы свяжемся с вами с деталями для доставки',
+      name: 'thanksForOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Оплатить заказ`
+  String get payOrder {
+    return Intl.message(
+      'Оплатить заказ',
+      name: 'payOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Отменить заказ`
+  String get cancelOrder {
+    return Intl.message(
+      'Отменить заказ',
+      name: 'cancelOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Эта опция доступна для авторизованных пользователей`
+  String get nonAuthorizedText {
+    return Intl.message(
+      'Эта опция доступна для авторизованных пользователей',
+      name: 'nonAuthorizedText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Закрыть`
+  String get close {
+    return Intl.message(
+      'Закрыть',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Удалить`
+  String get delete {
+    return Intl.message(
+      'Удалить',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Неактивен`
+  String get notActive {
+    return Intl.message(
+      'Неактивен',
+      name: 'notActive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Добавить новую карту`
+  String get addNewCard {
+    return Intl.message(
+      'Добавить новую карту',
+      name: 'addNewCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ваши адреса`
+  String get yourAddress {
+    return Intl.message(
+      'Ваши адреса',
+      name: 'yourAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `У вас нет адресов`
+  String get noAddress {
+    return Intl.message(
+      'У вас нет адресов',
+      name: 'noAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ваши адреса будут храниться здесь`
+  String get addressSaveHere {
+    return Intl.message(
+      'Ваши адреса будут храниться здесь',
+      name: 'addressSaveHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Добавить новый адрес`
+  String get addNewAddress {
+    return Intl.message(
+      'Добавить новый адрес',
+      name: 'addNewAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Город`
+  String get city {
+    return Intl.message(
+      'Город',
+      name: 'city',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Район`
+  String get district {
+    return Intl.message(
+      'Район',
+      name: 'district',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Улица, дом*`
+  String get street {
+    return Intl.message(
+      'Улица, дом*',
+      name: 'street',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Кв/офис`
+  String get office {
+    return Intl.message(
+      'Кв/офис',
+      name: 'office',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Подъезд`
+  String get entrance {
+    return Intl.message(
+      'Подъезд',
+      name: 'entrance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Этаж`
+  String get floor {
+    return Intl.message(
+      'Этаж',
+      name: 'floor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Комментарий к адресу`
+  String get commentToAddress {
+    return Intl.message(
+      'Комментарий к адресу',
+      name: 'commentToAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Редактировать адрес`
+  String get editAddress {
+    return Intl.message(
+      'Редактировать адрес',
+      name: 'editAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Изменить список адресов`
+  String get changeAddress {
+    return Intl.message(
+      'Изменить список адресов',
+      name: 'changeAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Добавить адрес`
+  String get addAddress {
+    return Intl.message(
+      'Добавить адрес',
+      name: 'addAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Удалить выбранные товары из корзины?`
+  String get deleteAllBasket {
+    return Intl.message(
+      'Удалить выбранные товары из корзины?',
+      name: 'deleteAllBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Подтвердить`
+  String get confirm {
+    return Intl.message(
+      'Подтвердить',
+      name: 'confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Отмена`
+  String get cancel {
+    return Intl.message(
+      'Отмена',
+      name: 'cancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Отмена заказа? Ваши покупки почти отправились в путь!`
+  String get orderCancel {
+    return Intl.message(
+      'Отмена заказа? Ваши покупки почти отправились в путь!',
+      name: 'orderCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Вы точно хотите выйти? Мы будем скучать.`
+  String get sureLogout {
+    return Intl.message(
+      'Вы точно хотите выйти? Мы будем скучать.',
+      name: 'sureLogout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Этот адрес больше не нужен? Прощаться всегда непросто.`
+  String get deleteAddress {
+    return Intl.message(
+      'Этот адрес больше не нужен? Прощаться всегда непросто.',
+      name: 'deleteAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сохранить`
+  String get save {
+    return Intl.message(
+      'Сохранить',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сейчас нет доступного времени`
+  String get notAvailableNow {
+    return Intl.message(
+      'Сейчас нет доступного времени',
+      name: 'notAvailableNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выберите адрес доставки`
+  String get selectAddressPlease {
+    return Intl.message(
+      'Выберите адрес доставки',
+      name: 'selectAddressPlease',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выберите время доставки`
+  String get selectTimePlease {
+    return Intl.message(
+      'Выберите время доставки',
+      name: 'selectTimePlease',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выберите способ оплаты`
+  String get selectPaymentPlease {
+    return Intl.message(
+      'Выберите способ оплаты',
+      name: 'selectPaymentPlease',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Список товаров`
+  String get itemList {
+    return Intl.message(
+      'Список товаров',
+      name: 'itemList',
       desc: '',
       args: [],
     );

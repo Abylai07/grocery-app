@@ -23,6 +23,7 @@ class AppColors {
   static const Color border = Color(0xFFD6D6D7);
   static const Color buttonGrey = Color(0xFFEAEAEA);
   static const Color gray = Color(0xFFC4C4C4);
+  static const Color grayContainer = Color(0xFFF5F5F5);
   static const Color textGray = Color(0xFF9D9D9D);
   static const Color lightGray = Color(0xffF8FAFD);
   static const Color backgroundGray = Color(0xffD6D9DC);
@@ -33,6 +34,7 @@ class AppColors {
   static const Color background = Color(0xffFAFAFA);
   static const Color backgroundBlue = Color(0xffEEF5FF);
   static const Color darkBlue = Color(0xff013E74);
+  static const Color lightOrange = Color(0xffFCE8E5);
   static const Color black = Colors.black;
   static const Color black54 = Colors.black54;
   static const Color black12 = Colors.black12;

@@ -13,22 +13,18 @@ class SharedPrefs {
 
   final _box = GetStorage();
   static const _accessToken = '_accessToken';
-  static const _verifyOrganization = '_checkOrganization';
   static const _username = '_username';
   static const _refreshToken = '_refreshToken';
   static const _id = '_id';
-  static const _tokenId = '_tokenId';
-  static const _onBoardingKey = '_onBoardingKey';
+  static const _phone = '_phone';
   static const _language = 'language';
   static const _fullName = '_fullName';
   static const _cityName = '_cityName';
   static const _cityId = '_cityId';
   static const _email = '_email';
   static const _password = '_password';
-  static const _googleAuth = '_googleAuth';
   static const _lightTheme = '_lightTheme';
   static const _setThemeAuto = '_setThemeAuto';
-  static const _authByBiometrics = '_authByBiometrics';
 
   dynamic _getValue(String key) {
     return _box.read(key);
@@ -41,12 +37,10 @@ class SharedPrefs {
   void _removePref() {
     _box.remove(_accessToken);
     _box.remove(_username);
-    _box.remove(_verifyOrganization);
     _box.remove(_refreshToken);
     _box.remove(_id);
     _box.remove(_fullName);
     _box.remove(_cityName);
-    _box.remove(_tokenId);
   }
 
   void setAccessToken(String? value) {
@@ -59,17 +53,8 @@ class SharedPrefs {
     _setValue(_username, username);
   }
 
-
-  void setVerifyOrganization(bool value) {
-    _setValue(_verifyOrganization, value);
-  }
-
   String? getAccessToken() {
     return _getValue(_accessToken);
-  }
-
-  bool? getVerifyOrganization() {
-    return _getValue(_verifyOrganization);
   }
 
   String? getUsername() {
@@ -93,12 +78,12 @@ class SharedPrefs {
     return _getValue(_language) ?? getLocale();
   }
 
-  void setSeenOnBoarding([isSeen = true]) {
-    _setValue(_onBoardingKey, isSeen);
+  void setPhone(String number) {
+    _setValue(_phone, number);
   }
 
-  bool? getOnBoardingState() {
-    return _getValue(_onBoardingKey);
+  String? getPhone() {
+    return _getValue(_phone);
   }
 
   void setId(String? id) {
@@ -107,14 +92,6 @@ class SharedPrefs {
 
   String? getId() {
     return _getValue(_id);
-  }
-
-  void setTokenId(int? name) {
-    _setValue(_tokenId, name);
-  }
-
-  int? getTokenId() {
-    return _getValue(_tokenId);
   }
 
   void setFullName(String? name) {
@@ -166,12 +143,6 @@ class SharedPrefs {
     return _getValue(_password);
   }
 
-  void authViaGoogle() {
-    _setValue(_googleAuth, true);
-  }
-
-  bool isAuthViaGoogle() => _getValue(_googleAuth) ?? false;
-
   void setLightTheme([bool v = true]) => _setValue(_lightTheme, v);
 
   bool? isLightTheme() => _getValue(_lightTheme);
@@ -196,8 +167,4 @@ class SharedPrefs {
     }
     return locale;
   }
-
-  bool isAuthByBiometrics() => _getValue(_authByBiometrics) ?? false;
-
-  void authByBiometrics(bool value) => _setValue(_authByBiometrics, value);
 }

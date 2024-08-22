@@ -1,15 +1,17 @@
+import 'package:abricoz_app/src/presentation/widgets/text_fields/search_text_field.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../common/app_styles/assets.dart';
 import '../../common/utils/l10n/generated/l10n.dart';
-import 'text_fields/custom_text_field.dart';
 
 class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const SearchAppBar({super.key, this.onChanged, this.controller});
+  const SearchAppBar({super.key, this.onChanged, this.controller, this.onSent, this.onBackPressed});
   final TextEditingController? controller;
+  final Function()? onBackPressed;
   final Function(String?)? onChanged;
+  final Function(String?)? onSent;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             IconButton(
               icon: SvgPicture.asset(AppAssets.back),
-              onPressed: () {
+              onPressed: onBackPressed ?? () {
                 context.router.maybePop();
               },
             ),
@@ -31,6 +33,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
                 controller: controller,
                 hintText: S.of(context).searchItem,
                 onChanged: onChanged,
+                onSent: onSent,
               ),
             ),
           ],

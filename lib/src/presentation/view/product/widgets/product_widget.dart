@@ -1,6 +1,7 @@
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
+import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,8 +12,8 @@ import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../widgets/main_functions.dart';
 import '../../../widgets/shimmer_widget.dart';
-import '../../basket/basket_bloc/basket_bloc.dart';
-import '../product_card_screen.dart';
+import '../../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
+import '../screens/product_card_screen.dart';
 
 class ProductWidget extends StatelessWidget {
   const ProductWidget({super.key, required this.product});
@@ -32,8 +33,8 @@ class ProductWidget extends StatelessWidget {
           ),
           builder: (cxt) {
             return BlocProvider.value(
-              value: BlocProvider.of<BasketBloc>(context),
-              child: ProductCardScreen(
+              value: BlocProvider.of<BasketButtonBloc>(context),
+              child: ProductCardView(
                 product: product,
               ),
             );
@@ -75,9 +76,18 @@ class ProductWidget extends StatelessWidget {
                       Positioned(
                         top: 0,
                         right: 0,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: SvgPicture.asset(AppAssets.favorite),
+                        child: BlocBuilder<FavoriteCubit, FavoriteState>(
+                          builder: (context, state) {
+                            bool isFavorite = state.entity?.any((element) => element.productId == product.id) ?? false;
+                            return IconButton(
+                              onPressed: () {
+                                context
+                                    .read<FavoriteCubit>()
+                                    .storeOrDeleteFavorite(isFavorite, product.id);
+                              },
+                              icon: SvgPicture.asset(isFavorite ? AppAssets.favoriteFill : AppAssets.favorite),
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -121,7 +131,7 @@ class ProductWidget extends StatelessWidget {
                 ),
               ],
             ),
-            BlocBuilder<BasketBloc, BasketState>(
+            BlocBuilder<BasketButtonBloc, BasketButtonState>(
               builder: (context, state) {
                 return state.inBasket
                     ? Container(
@@ -140,12 +150,12 @@ class ProductWidget extends StatelessWidget {
                               onPressed: () {
                                 if (state.count > 1) {
                                   context
-                                      .read<BasketBloc>()
-                                      .add(DecrementCount(product));
+                                      .read<BasketButtonBloc>()
+                                      .add(DecrementCount(product.id));
                                 } else if (state.count == 1) {
                                   context
-                                      .read<BasketBloc>()
-                                      .add(DeleteAtBasket(product));
+                                      .read<BasketButtonBloc>()
+                                      .add(DeleteAtBasket(product.id));
                                 }
                               },
                             ),
@@ -157,8 +167,8 @@ class ProductWidget extends StatelessWidget {
                               icon: const Icon(Icons.add),
                               onPressed: () {
                                 context
-                                    .read<BasketBloc>()
-                                    .add(IncrementCount(product));
+                                    .read<BasketButtonBloc>()
+                                    .add(IncrementCount(product.id));
                               },
                             ),
                           ],
@@ -166,7 +176,9 @@ class ProductWidget extends StatelessWidget {
                       )
                     : InkWell(
                         onTap: () {
-                          context.read<BasketBloc>().add(AddToBasket(product));
+                          context
+                              .read<BasketButtonBloc>()
+                              .add(AddToBasket(product));
                         },
                         child: Container(
                           height: 40,

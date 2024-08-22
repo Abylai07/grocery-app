@@ -7,7 +7,7 @@ class ProductHiveModel extends HiveObject {
   @HiveField(0)
   final int id;
   @HiveField(1)
-  final int subcategoryId;
+  final int? subcategoryId;
   @HiveField(2)
   final int? countryId;
   @HiveField(3)
@@ -31,15 +31,17 @@ class ProductHiveModel extends HiveObject {
   @HiveField(12)
   final bool? isActive;
   @HiveField(13)
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @HiveField(14)
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
   @HiveField(15)
   final int basketCount;
+  @HiveField(16)
+  final String? weight;
 
   ProductHiveModel({
     required this.id,
-    required this.subcategoryId,
+     this.subcategoryId,
     this.countryId,
     this.brandId,
     this.photoUrl,
@@ -51,8 +53,9 @@ class ProductHiveModel extends HiveObject {
     this.rating,
     this.totalSales,
     this.isActive,
-    required this.createdAt,
-    required this.updatedAt,
+    this.weight,
+     this.createdAt,
+     this.updatedAt,
     this.basketCount = 1,
   });
 
@@ -74,6 +77,7 @@ class ProductHiveModel extends HiveObject {
         'en': json['description_en'],
       },
       price: json['price'],
+      weight: json['weight'],
       discount: json['discount'],
       priceWithDiscount: json['price_with_discount'],
       rating: json['rating'],
@@ -81,7 +85,7 @@ class ProductHiveModel extends HiveObject {
       isActive: json['is_active'] == 1,
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      basketCount: json['basket_count'] ?? 0,
+      basketCount: json['basket_count'] ?? 1,
     );
   }
 
@@ -92,6 +96,7 @@ class ProductHiveModel extends HiveObject {
       'country_id': countryId,
       'brand_id': brandId,
       'photo_url': photoUrl,
+      'weight': weight,
       'name_ru': name['ru'],
       'name_kz': name['kz'],
       'name_en': name['en'],
@@ -104,8 +109,8 @@ class ProductHiveModel extends HiveObject {
       'rating': rating,
       'total_sales': totalSales,
       'is_active': isActive ?? false ? 1 : 0,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
       'basket_count': basketCount,
     };
   }
@@ -116,6 +121,7 @@ class ProductHiveModel extends HiveObject {
     int? countryId,
     int? brandId,
     String? photoUrl,
+    String? weight,
     Map<String, String>? name,
     Map<String, String>? description,
     double? price,
@@ -136,6 +142,7 @@ class ProductHiveModel extends HiveObject {
       photoUrl: photoUrl ?? this.photoUrl,
       name: name ?? this.name,
       description: description ?? this.description,
+      weight: weight ?? this.weight,
       price: price ?? this.price,
       discount: discount ?? this.discount,
       priceWithDiscount: priceWithDiscount ?? this.priceWithDiscount,

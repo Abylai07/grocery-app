@@ -37,4 +37,10 @@ class ProductServiceRepositoryImpl extends AbstractProductServiceRepository {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.fetchSearchHint(params));
   }
+
+  @override
+  Future<Either<Failure, ProductEntity>> fetchProductInfo(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchProductInfo(params));
+  }
 }

@@ -14,6 +14,7 @@ import '../../../common/utils/parsers/date_parser.dart';
 import '../../../get_it_sl.dart';
 import '../../widgets/buttons/main_button.dart';
 import '../../widgets/padding_nav_buttons.dart';
+import '../profile/bloc/user_session_bloc.dart';
 import 'bloc/sign_in_bloc/sign_in_cubit.dart';
 import 'bloc/timer_bloc.dart';
 
@@ -86,9 +87,8 @@ class CodeEnterView extends StatelessWidget {
                 listener: (context, state) {
                   if (state.status.isSuccessCode) {
                     context.read<TimerBloc>().add(ResetTimer());
-                    context.router.replaceAll([
-                      const IndexRoute(children: [HomeRoute()])
-                    ]);
+                    context.read<UserSessionBloc>().add(LoadUserSession());
+                    context.router.replaceAll([const IndexRoute(children: [HomeRoute()])]);
                   }
                 },
                 builder: (context, state) {
@@ -99,13 +99,6 @@ class CodeEnterView extends StatelessWidget {
                         appContext: context,
                         length: 6,
                         animationType: AnimationType.fade,
-                        // validator: (v) {
-                        //   if (state.status.isError) {
-                        //     return '';
-                        //   } else {
-                        //     return null;
-                        //   }
-                        // },
                         pinTheme: PinTheme(
                           shape: PinCodeFieldShape.box,
                           borderRadius: BorderRadius.circular(8),
@@ -151,7 +144,8 @@ class CodeEnterView extends StatelessWidget {
                 },
               ),
               Text(
-                S.of(context).sentTo('+7 ${AppUtils.phoneMaskFormatter.getMaskedText()}'),
+                S.of(context).sentTo(
+                    '+7 ${AppUtils.phoneMaskFormatter.getMaskedText()}'),
                 style: AppTextStyle.bodyMedium,
               ),
             ],

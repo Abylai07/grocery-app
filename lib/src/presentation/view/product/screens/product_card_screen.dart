@@ -1,25 +1,24 @@
-import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/presentation/view/product/widgets/product_bottom_bar.dart';
-import 'package:abricoz_app/src/presentation/view/product/widgets/rich_text_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../common/app_styles/assets.dart';
-import '../../../common/app_styles/colors.dart';
-import '../../../common/app_styles/text_styles.dart';
-import '../../../common/utils/l10n/generated/l10n.dart';
-import '../../../domain/entity/product/product_entity.dart';
-import '../../widgets/main_functions.dart';
-import '../../widgets/shimmer_widget.dart';
+import '../../../../common/app_styles/assets.dart';
+import '../../../../common/app_styles/colors.dart';
+import '../../../../common/app_styles/text_styles.dart';
+import '../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../../domain/entity/product/product_entity.dart';
+import '../../../widgets/main_functions.dart';
+import '../../../widgets/shimmer_widget.dart';
+import '../widgets/product_structure_widget.dart';
 
-class ProductCardScreen extends StatelessWidget {
-  const ProductCardScreen({super.key, required this.product});
+class ProductCardView extends StatelessWidget {
+  const ProductCardView({super.key, required this.product});
   final ProductEntity product;
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height * 0.4;
+    double photoHeight = MediaQuery.of(context).size.height * 0.4;
     return ClipRRect(
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(24), topRight: Radius.circular(24)),
@@ -30,7 +29,7 @@ class ProductCardScreen extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                //Navigator.pop(context);
               },
               icon: SvgPicture.asset(AppAssets.favorite),
             ),
@@ -62,7 +61,7 @@ class ProductCardScreen extends StatelessWidget {
                   children: [
                     product.photoUrl?.isNotEmpty == true
                         ? CachedNetworkImage(
-                            height: screenHeight,
+                            height: photoHeight,
                             width: double.infinity,
                             imageUrl: product.photoUrl!,
                             fit: BoxFit.cover,
@@ -70,14 +69,14 @@ class ProductCardScreen extends StatelessWidget {
                                 (context, url, downloadProgress) =>
                                     ShimmerWidget(
                               width: double.infinity,
-                              height: screenHeight,
+                              height: photoHeight,
                             ),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                           )
                         : Container(
                             width: double.infinity,
-                            height: screenHeight,
+                            height: photoHeight,
                             color: AppColors.shimmer,
                           ),
                     Padding(
@@ -101,7 +100,9 @@ class ProductCardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              buildInfoContainer(context),
+              ProductStructureWidget(
+                product: product,
+              ),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 width: double.infinity,
@@ -161,46 +162,6 @@ class ProductCardScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildInfoContainer(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-          color: AppColors.background, borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).in100gr,
-            style: AppTextStyle.bodyLarge,
-          ),
-          12.height,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RichTextInfoWidget(
-                count: product.calories ?? 0,
-                name: S.of(context).calories,
-              ),
-              RichTextInfoWidget(
-                count: product.proteins ?? 0,
-                name: S.of(context).proteins,
-              ),
-              RichTextInfoWidget(
-                count: product.fats ?? 0,
-                name: S.of(context).fats,
-              ),
-              RichTextInfoWidget(
-                count: product.carbohydrates ?? 0,
-                name: S.of(context).carbohydrates,
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

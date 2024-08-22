@@ -1,5 +1,6 @@
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:abricoz_app/src/common/utils/shared_preference.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
@@ -11,6 +12,7 @@ import '../../common/app_styles/assets.dart';
 import '../../common/app_styles/colors.dart';
 import '../../common/utils/l10n/generated/l10n.dart';
 import '../bloc/nav_bar_bloc.dart';
+import 'basket/bloc/basket_bloc/basket_bloc.dart';
 
 @RoutePage()
 class IndexScreen extends StatelessWidget {
@@ -18,8 +20,6 @@ class IndexScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double bottom = MediaQuery.of(context).viewInsets.bottom;
-
     return AutoTabsRouter(
       routes: const [
         HomeRoute(),
@@ -36,17 +36,29 @@ class IndexScreen extends StatelessWidget {
           bottomNavigationBar: BlocBuilder<NavBarBloc, NavBarState>(
             builder: (context, state) {
               return AnimatedContainer(
-                margin: EdgeInsets.only(bottom: state.isVisible ? MediaQuery.of(context).padding.bottom : 0),
+                margin: EdgeInsets.only(
+                    bottom: state.isVisible
+                        ? MediaQuery.of(context).padding.bottom
+                        : 0),
                 duration: const Duration(milliseconds: 300),
                 height: state.isVisible ? kBottomNavigationBarHeight : 0,
                 child: Wrap(
                   children: [
                     BottomNavigationBar(
-                      unselectedLabelStyle: AppTextStyle.displayMedium.copyWith(fontWeight: FontWeight.w500),
-                      selectedLabelStyle: AppTextStyle.displayMedium.copyWith(fontWeight: FontWeight.w500),
+                      unselectedLabelStyle: AppTextStyle.displayMedium
+                          .copyWith(fontWeight: FontWeight.w500),
+                      selectedLabelStyle: AppTextStyle.displayMedium
+                          .copyWith(fontWeight: FontWeight.w500),
                       type: BottomNavigationBarType.fixed,
                       currentIndex: tabsRouter.activeIndex,
                       onTap: (value) async {
+                        String? token = SharedPrefs().getAccessToken();
+                        if(value == 1 && token != null){
+                          context.read<BasketBloc>().add(const CheckBasketItems());
+                        } else if(value == 1 && token == null){
+                         context.read<BasketBloc>().add(const RefreshBasket());
+                        }
+                       // context.read<BasketBloc>().add(const RefreshBasket());
                         tabsRouter.setActiveIndex(value);
                       },
                       iconSize: 26,
@@ -83,7 +95,6 @@ class IndexScreen extends StatelessWidget {
     );
   }
 
-
   Widget getBadgetIcon(bool active) {
     // return state <= 0
     //     ? getIcon(index)
@@ -101,16 +112,25 @@ class IndexScreen extends StatelessWidget {
     //   ),
     //   child: getIcon(index),
     // );
-    return badges.Badge(
-          position: BadgePosition.topEnd(top: -12, end: -10),
-          badgeAnimation: const BadgeAnimation.slide(
-              colorChangeAnimationDuration: Duration(milliseconds: 300),
-          ),
-          badgeContent: Text(
-            '2',
-            style: AppTextStyle.labelSmall.copyWith(color: AppColors.white),
-          ),
-          child: SvgPicture.asset(active ? AppAssets.iconActive3 : AppAssets.icon3),
-        );
+    return BlocBuilder<BasketBloc, BasketState>(
+      builder: (context, state) {
+        int count = state.allProducts?.length ?? 0;
+        return count < 1
+            ? SvgPicture.asset(active ? AppAssets.iconActive3 : AppAssets.icon3)
+            : badges.Badge(
+                position: BadgePosition.topEnd(top: -12, end: -10),
+                badgeAnimation: const BadgeAnimation.slide(
+                  colorChangeAnimationDuration: Duration(milliseconds: 300),
+                ),
+                badgeContent: Text(
+                  count.toString(),
+                  style:
+                      AppTextStyle.labelSmall.copyWith(color: AppColors.white),
+                ),
+                child: SvgPicture.asset(
+                    active ? AppAssets.iconActive3 : AppAssets.icon3),
+              );
+      },
+    );
   }
 }

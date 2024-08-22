@@ -11,6 +11,7 @@ class PaddingForNavButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
+        top: 6,
           right: 16,
           left: 16,
           bottom: MediaQuery.of(context).viewInsets.bottom + 12),

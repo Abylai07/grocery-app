@@ -18,7 +18,7 @@ class ProductHiveModelAdapter extends TypeAdapter<ProductHiveModel> {
     };
     return ProductHiveModel(
       id: fields[0] as int,
-      subcategoryId: fields[1] as int,
+      subcategoryId: fields[1] as int?,
       countryId: fields[2] as int?,
       brandId: fields[3] as int?,
       photoUrl: fields[4] as String?,
@@ -30,8 +30,9 @@ class ProductHiveModelAdapter extends TypeAdapter<ProductHiveModel> {
       rating: fields[10] as num?,
       totalSales: fields[11] as int?,
       isActive: fields[12] as bool?,
-      createdAt: fields[13] as DateTime,
-      updatedAt: fields[14] as DateTime,
+      weight: fields[16] as String?,
+      createdAt: fields[13] as DateTime?,
+      updatedAt: fields[14] as DateTime?,
       basketCount: fields[15] as int,
     );
   }
@@ -39,7 +40,7 @@ class ProductHiveModelAdapter extends TypeAdapter<ProductHiveModel> {
   @override
   void write(BinaryWriter writer, ProductHiveModel obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(17)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -71,7 +72,9 @@ class ProductHiveModelAdapter extends TypeAdapter<ProductHiveModel> {
       ..writeByte(14)
       ..write(obj.updatedAt)
       ..writeByte(15)
-      ..write(obj.basketCount);
+      ..write(obj.basketCount)
+      ..writeByte(16)
+      ..write(obj.weight);
   }
 
   @override

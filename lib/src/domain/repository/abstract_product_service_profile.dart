@@ -15,4 +15,6 @@ abstract class AbstractProductServiceRepository {
   Future<Either<Failure, List<ProductEntity>>> fetchProducts(params);
 
   Future<Either<Failure, List<SearchHintEntity>>> fetchSearchHint(params);
+
+  Future<Either<Failure, ProductEntity>> fetchProductInfo(params);
 }

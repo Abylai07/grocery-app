@@ -18,6 +18,22 @@ class BasketDatabase {
     return hiveBox?.values.cast<ProductHiveModel>().toList() ?? [];
   }
 
+  ProductHiveModel getProductById(String id) {
+    if (hiveBox?.keys.contains(id) == true) {
+      return hiveBox?.get(id);
+    } else {
+      return ProductHiveModel(
+        id: -1,
+        subcategoryId: -1,
+        name: {},
+        description: {},
+        price: 0,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+    }
+  }
+
   Future<void> deleteProduct(String? key) async {
     if (key == null) return;
     hiveBox?.delete(key);
@@ -25,7 +41,7 @@ class BasketDatabase {
 
   Future<void> changeProductCount(String key, int count) async {
     ProductHiveModel? product = hiveBox?.get(key);
-    if(product == null) return;
+    if (product == null) return;
     await hiveBox?.put(key, product.copyWith(basketCount: count));
     log('changeProductCount call success : key $key');
   }
@@ -33,7 +49,7 @@ class BasketDatabase {
   Future<void> addProductFromEntity(ProductModel product) async {
     ProductHiveModel model = ProductHiveModel.fromJson(product.toJson());
     await hiveBox?.put(model.id.toString(), model);
-    log('addProductFromEntity call success : key ${model.id}');
+    log('addProductFromEntity call success : key ${model.id} ${model.basketCount}');
   }
 
   // Future<void> addProductFromEntity(ProductModel product, int count) async {
@@ -51,5 +67,4 @@ class BasketDatabase {
   }
 
   Future<void> clearBasket() async => hiveBox?.clear();
-
 }

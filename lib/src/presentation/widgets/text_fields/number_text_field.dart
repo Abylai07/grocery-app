@@ -13,6 +13,7 @@ class NumberTextFieldWidget extends StatelessWidget {
   final String? labelText;
   final String? errorText;
   final int maxLines;
+
   final int minLines;
   final TextInputType? keyboardType;
   final bool hide;
@@ -54,9 +55,10 @@ class NumberTextFieldWidget extends StatelessWidget {
           Container(
               padding: const EdgeInsets.all(12),
               decoration: const BoxDecoration(
-                color: AppColors.gray3,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(6), bottomLeft:  Radius.circular(6))
-              ),
+                  color: AppColors.gray3,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(6),
+                      bottomLeft: Radius.circular(6))),
               child: Text(
                 '+7',
                 style: AppTextStyle.bodyLarge,
@@ -66,6 +68,8 @@ class NumberTextFieldWidget extends StatelessWidget {
                 child: TextFormField(
               obscureText: hide,
               readOnly: readOnly,
+              onTapOutside: (event) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
               controller: controller,
               initialValue: initialValue,
               inputFormatters: inputFormatters,

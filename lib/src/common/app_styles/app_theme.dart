@@ -12,9 +12,9 @@ class AppTheme {
       primaryColor: AppColors.main,
       appBarTheme: const AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light,
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
         ),
         backgroundColor: AppColors.white,
         centerTitle: true,
@@ -44,8 +44,8 @@ class AppTheme {
         shape: CircularNotchedRectangle(),
       ),
       dialogTheme: const DialogTheme(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
       ),
       bottomSheetTheme:
           const BottomSheetThemeData(backgroundColor: AppColors.white),
@@ -108,5 +108,5 @@ class AppTheme {
                 height: 1.2,
               ))),
       colorScheme: const ColorScheme.light(
-          primary: AppColors.main, background: AppColors.white));
+          primary: AppColors.main, surface: AppColors.white));
 }

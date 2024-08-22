@@ -57,7 +57,7 @@ class AppTextStyle {
       fontWeight: FontWeight.w500,
       color: AppColors.black,
       fontFamily: fontFamily);
-  static final bodyMedium = TextStyle(
+    static final bodyMedium = TextStyle(
       fontSize: 15.spMin,
       fontWeight: FontWeight.w500,
       color: AppColors.black,

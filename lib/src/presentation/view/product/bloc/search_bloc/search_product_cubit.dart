@@ -1,15 +1,11 @@
 import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
 import 'package:abricoz_app/src/domain/entity/product/search_hint_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/product/category_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../../../common/enums.dart';
 import '../../../../../domain/usecase/user/sign_in_usecase.dart';
-import '../../../../bloc/base_state.dart';
 
 part 'search_product_state.dart';
 
@@ -46,7 +42,7 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         (l) {
           pagingController.error = l.message;
           return SearchProductState(
-            status: CubitStatus.error,
+            status: SearchStatus.error,
             message: l.message,
           );
         },
@@ -63,7 +59,7 @@ class SearchProductCubit extends Cubit<SearchProductState> {
           }
 
           return SearchProductState(
-            status: CubitStatus.success,
+            status: SearchStatus.success,
             entity: r,
           );
         },
@@ -73,19 +69,19 @@ class SearchProductCubit extends Cubit<SearchProductState> {
 
 
   void fetchSearchHint(String hint) async {
-    emit(const SearchProductState(status: CubitStatus.loading));
+    emit(const SearchProductState(status: SearchStatus.loading));
 
     final failureOrAuth = await productUseCase.fetchSearchHint(MapParams({'name': hint}));
 
     emit(
       failureOrAuth.fold(
               (l) => SearchProductState(
-            status: CubitStatus.error,
+            status: SearchStatus.error,
             message: l.message,
           ),
               (r) {
             return SearchProductState(
-              status: CubitStatus.success,
+              status: SearchStatus.successHint,
               searchHints: r,
             );
           }
@@ -95,6 +91,9 @@ class SearchProductCubit extends Cubit<SearchProductState> {
 
   void searchItems(String query) {
     currentSearchQuery = query;
+    if(!state.status.isSearchSubmit){
+      emit(state.copyWith(status: SearchStatus.searchSubmit));
+    }
     if (query.isEmpty) {
       pagingController.refresh();
       _restoreInitialResults();

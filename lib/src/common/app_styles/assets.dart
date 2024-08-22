@@ -1,9 +1,9 @@
 class AppAssets {
   static const String banner = 'assets/images/banner.png';
-  static const String banner2 = 'assets/images/banner2.png';
   static const String basketEmpty = 'assets/images/basket_empty.png';
   static const String favoriteEmpty = 'assets/images/favorite_empty.png';
   static const String searchEmpty = 'assets/images/search_empty.png';
+  static const String addressEmpty = 'assets/images/address_empty.png';
 
 
   //svg
@@ -31,4 +31,12 @@ class AppAssets {
   static const String favorite = 'assets/icons/favorite.svg';
   static const String favoriteFill = 'assets/icons/favorite_fill.svg';
   static const String close = 'assets/icons/close.svg';
+  static const String remove = 'assets/icons/remove.svg';
+  static const String card = 'assets/icons/card.svg';
+  static const String cash = 'assets/icons/cash.svg';
+  static const String selected = 'assets/icons/selected.svg';
+  static const String redact = 'assets/icons/redact.svg';
+  static const String add = 'assets/icons/add.svg';
+  static const String warning = 'assets/icons/warning.svg';
+  static const String time = 'assets/icons/time.svg';
 }

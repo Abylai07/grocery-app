@@ -15,6 +15,23 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AddOrChangeAddressRoute.name: (routeData) {
+      final args = routeData.argsAs<AddOrChangeAddressRouteArgs>(
+          orElse: () => const AddOrChangeAddressRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AddOrChangeAddressScreen(
+          key: args.key,
+          address: args.address,
+        ),
+      );
+    },
+    AddressRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddressScreen(),
+      );
+    },
     BasketRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -45,6 +62,27 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const IndexScreen(),
       );
     },
+    MakeOrderRoute.name: (routeData) {
+      final args = routeData.argsAs<MakeOrderRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MakeOrderScreen(
+          key: args.key,
+          products: args.products,
+          productSum: args.productSum,
+        ),
+      );
+    },
+    PaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<PaymentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: PaymentScreen(
+          key: args.key,
+          orderInfo: args.orderInfo,
+        ),
+      );
+    },
     ProductRoute.name: (routeData) {
       final args = routeData.argsAs<ProductRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -59,6 +97,16 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ProfileScreen(),
+      );
+    },
+    SearchedProductRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchedProductRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SearchedProductScreen(
+          key: args.key,
+          searchHint: args.searchHint,
+        ),
       );
     },
     SignInRoute.name: (routeData) {
@@ -78,6 +126,59 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AddOrChangeAddressScreen]
+class AddOrChangeAddressRoute
+    extends PageRouteInfo<AddOrChangeAddressRouteArgs> {
+  AddOrChangeAddressRoute({
+    Key? key,
+    AddressEntity? address,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AddOrChangeAddressRoute.name,
+          args: AddOrChangeAddressRouteArgs(
+            key: key,
+            address: address,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddOrChangeAddressRoute';
+
+  static const PageInfo<AddOrChangeAddressRouteArgs> page =
+      PageInfo<AddOrChangeAddressRouteArgs>(name);
+}
+
+class AddOrChangeAddressRouteArgs {
+  const AddOrChangeAddressRouteArgs({
+    this.key,
+    this.address,
+  });
+
+  final Key? key;
+
+  final AddressEntity? address;
+
+  @override
+  String toString() {
+    return 'AddOrChangeAddressRouteArgs{key: $key, address: $address}';
+  }
+}
+
+/// generated route for
+/// [AddressScreen]
+class AddressRoute extends PageRouteInfo<void> {
+  const AddressRoute({List<PageRouteInfo>? children})
+      : super(
+          AddressRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddressRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -151,6 +252,87 @@ class IndexRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MakeOrderScreen]
+class MakeOrderRoute extends PageRouteInfo<MakeOrderRouteArgs> {
+  MakeOrderRoute({
+    Key? key,
+    required List<ProductHiveModel> products,
+    required num productSum,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MakeOrderRoute.name,
+          args: MakeOrderRouteArgs(
+            key: key,
+            products: products,
+            productSum: productSum,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MakeOrderRoute';
+
+  static const PageInfo<MakeOrderRouteArgs> page =
+      PageInfo<MakeOrderRouteArgs>(name);
+}
+
+class MakeOrderRouteArgs {
+  const MakeOrderRouteArgs({
+    this.key,
+    required this.products,
+    required this.productSum,
+  });
+
+  final Key? key;
+
+  final List<ProductHiveModel> products;
+
+  final num productSum;
+
+  @override
+  String toString() {
+    return 'MakeOrderRouteArgs{key: $key, products: $products, productSum: $productSum}';
+  }
+}
+
+/// generated route for
+/// [PaymentScreen]
+class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
+  PaymentRoute({
+    Key? key,
+    required OrderEntity orderInfo,
+    List<PageRouteInfo>? children,
+  }) : super(
+          PaymentRoute.name,
+          args: PaymentRouteArgs(
+            key: key,
+            orderInfo: orderInfo,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentRoute';
+
+  static const PageInfo<PaymentRouteArgs> page =
+      PageInfo<PaymentRouteArgs>(name);
+}
+
+class PaymentRouteArgs {
+  const PaymentRouteArgs({
+    this.key,
+    required this.orderInfo,
+  });
+
+  final Key? key;
+
+  final OrderEntity orderInfo;
+
+  @override
+  String toString() {
+    return 'PaymentRouteArgs{key: $key, orderInfo: $orderInfo}';
+  }
+}
+
+/// generated route for
 /// [ProductScreen]
 class ProductRoute extends PageRouteInfo<ProductRouteArgs> {
   ProductRoute({
@@ -200,6 +382,44 @@ class ProfileRoute extends PageRouteInfo<void> {
   static const String name = 'ProfileRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SearchedProductScreen]
+class SearchedProductRoute extends PageRouteInfo<SearchedProductRouteArgs> {
+  SearchedProductRoute({
+    Key? key,
+    required SearchHintEntity searchHint,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SearchedProductRoute.name,
+          args: SearchedProductRouteArgs(
+            key: key,
+            searchHint: searchHint,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchedProductRoute';
+
+  static const PageInfo<SearchedProductRouteArgs> page =
+      PageInfo<SearchedProductRouteArgs>(name);
+}
+
+class SearchedProductRouteArgs {
+  const SearchedProductRouteArgs({
+    this.key,
+    required this.searchHint,
+  });
+
+  final Key? key;
+
+  final SearchHintEntity searchHint;
+
+  @override
+  String toString() {
+    return 'SearchedProductRouteArgs{key: $key, searchHint: $searchHint}';
+  }
 }
 
 /// generated route for

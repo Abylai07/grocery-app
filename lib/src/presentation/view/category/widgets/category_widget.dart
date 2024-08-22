@@ -1,6 +1,8 @@
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/app_styles/colors.dart';
@@ -19,6 +21,18 @@ class CategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // cachedSvgPhoto() async {
+    //   return await DefaultCacheManager().getSingleFile(category.mobileUrl!);
+    // }
+    // FutureBuilder(
+    //     future: cachedSvgPhoto(),
+    //     builder: (context, sn) {
+    //       return sn.data != null ? SvgPicture.file(
+    //         sn.data!,
+    //         height: 60,
+    //       ) : CircularProgressIndicator();
+    //     })
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -39,20 +53,29 @@ class CategoryWidget extends StatelessWidget {
               style: AppTextStyle.displayLarge
                   .copyWith(fontWeight: FontWeight.w600),
             ),
-            if (category.photoUrl != null)
-              Center(child: SvgPicture.network(category.photoUrl!))
-            // CachedNetworkImage(
-            //   imageUrl: ,
-            //   fit: BoxFit.fitWidth,
-            //   progressIndicatorBuilder:
-            //       (context, url, downloadProgress) =>
-            //   const ShimmerWidget(
-            //     width: double.infinity,
-            //     height: 60,
-            //   ),
-            //   errorWidget: (context, url, error) =>
-            //   const Icon(Icons.error),
-            // )
+            if (category.mobileUrl != null)
+              Center(
+                child: category.mobileUrl?.contains('.svg') == true
+                    ? SvgPicture.network(
+                        category.mobileUrl!,
+                        height: 60,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: category.mobileUrl!,
+                        fit: BoxFit.fitWidth,
+                        height: 60,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) =>
+                                const ShimmerWidget(
+                          width: double.infinity,
+                          height: 60,
+                        ),
+                        errorWidget: (context, url, error) => const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(Icons.error),
+                        ),
+                      ),
+              )
           ],
         ),
       ),

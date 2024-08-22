@@ -55,7 +55,7 @@ class CustomMainButton extends StatelessWidget {
 }
 
 
-class CustomBlueButton extends StatelessWidget {
+class CustomGrayButton extends StatelessWidget {
   final String text;
   final Function()? onTap;
   final bool isLoading;
@@ -63,13 +63,13 @@ class CustomBlueButton extends StatelessWidget {
   final Color buttonColor;
   final bool isActive;
 
-  const CustomBlueButton({
+  const CustomGrayButton({
     super.key,
     required this.text,
     required this.onTap,
     this.isLoading = false,
     this.height = 48,
-    this.buttonColor = AppColors.mainBlue,
+    this.buttonColor = AppColors.lightGrey,
     this.isActive = true,
   });
 
@@ -88,12 +88,10 @@ class CustomBlueButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          backgroundColor: isActive ? buttonColor : AppColors.lightBlue,
+          backgroundColor: isActive ? buttonColor : AppColors.buttonGrey,
         ),
-        onPressed: isActive && isLoading == false ? onTap : () {
-          print('not active');
-        },
-        child: isLoading ?? false
+        onPressed: isActive && isLoading == false ? onTap : () {},
+        child: isLoading
             ? const Center(
             child: CircularProgressIndicator(
               color: AppColors.white,
@@ -101,12 +99,13 @@ class CustomBlueButton extends StatelessWidget {
             : Text(
           text,
           style: AppTextStyle.bodyLarge.copyWith(
-              color: AppColors.white),
+              color: isActive ? AppColors.black : AppColors.gray),
         ),
       ),
     );
   }
 }
+
 
 class CustomOutlinedButton extends StatelessWidget {
   final String text;

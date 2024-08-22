@@ -1,10 +1,18 @@
+import 'package:abricoz_app/src/common/enums.dart';
+import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
+import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_button_bloc/basket_button_bloc.dart';
+import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/app_styles/assets.dart';
 import '../../../common/app_styles/colors.dart';
 import '../../../common/app_styles/text_styles.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
+import '../../../data/hive/adapter/product_adapter.dart';
+import '../product/widgets/product_loading_widget.dart';
+import '../product/widgets/product_widget.dart';
 
 @RoutePage()
 class FavoriteScreen extends StatelessWidget {
@@ -12,55 +20,85 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isEmpty = true;
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).favorite),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: isEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 42.0),
-                    child: Image.asset(AppAssets.favoriteEmpty),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 18.0, bottom: 12),
-                    child: Text(
-                      S.of(context).favoriteEmpty,
-                      style: AppTextStyle.titleMedium
-                          .copyWith(fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  Text(
-                    S.of(context).hereWillFavorite,
-                    style: AppTextStyle.bodyLarge
-                        .copyWith(color: AppColors.textGray),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ) : SizedBox()
-            // : GridView.builder(
-            //     shrinkWrap: true,
-            //     padding: const EdgeInsets.only(top: 12, bottom: 24),
-            //     itemCount: 3,
-            //     itemBuilder: (context, index) {
-            //       return BlocProvider(
-            //         create: (context) => BasketBloc(),
-            //         child: ProductWidget(),
-            //       );
-            //     },
-            //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            //       crossAxisCount: 2,
-            //       mainAxisSpacing: 8.0,
-            //       crossAxisSpacing: 8.0,
-            //       mainAxisExtent: 360,
-            //     ),
-            //   ),
+      body: BlocBuilder<BasketBloc, BasketState>(
+        builder: (context, basketState) {
+          return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: BlocBuilder<FavoriteCubit, FavoriteState>(
+                builder: (context, state) {
+                  if (state.status.isSuccess &&
+                      state.entity?.isNotEmpty == true) {
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(top: 12, bottom: 24),
+                      itemCount: state.entity?.length,
+                      itemBuilder: (context, index) {
+                        ProductHiveModel? itemInBasket =
+                            basketState.allProducts?.firstWhere(
+                          (element) =>
+                              element.id == state.entity?[index].productId,
+                          orElse: () => ProductHiveModel(
+                            id: -1,
+                            name: {},
+                            description: {},
+                            price: 0,
+                          ),
+                        );
+                        return BlocProvider(
+                          create: (context) => BasketButtonBloc(itemInBasket),
+                          child: ProductWidget(
+                              product: state.entity![index].product),
+                        );
+                      },
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8.0,
+                        crossAxisSpacing: 8.0,
+                        mainAxisExtent: 360,
+                      ),
+                    );
+                  } else if (state.status.isSuccess &&
+                      state.entity?.isEmpty == true) {
+                    return buildEmptyFavorite(context);
+                  } else if (state.status.isLoading) {
+                    return const ProductLoadingWidget();
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ));
+        },
       ),
+    );
+  }
+
+  Column buildEmptyFavorite(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 42.0),
+          child: Image.asset(AppAssets.favoriteEmpty),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 18.0, bottom: 12),
+          child: Text(
+            S.of(context).favoriteEmpty,
+            style:
+                AppTextStyle.titleMedium.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ),
+        Text(
+          S.of(context).hereWillFavorite,
+          style: AppTextStyle.bodyLarge.copyWith(color: AppColors.textGray),
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }

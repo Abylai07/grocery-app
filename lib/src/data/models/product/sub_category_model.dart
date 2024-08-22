@@ -23,7 +23,7 @@ class SubCategoryModel extends SubCategoryEntity {
       },
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
-      photoUrl: json['photo_url'] != null ? convertFilePathToUrl(json['photo_url']) : json['photo_url'],
+      photoUrl: json['image_url'] != null ? convertFilePathToUrl(json['image_url']) : json['image_url'],
     );
   }
 
@@ -36,7 +36,7 @@ class SubCategoryModel extends SubCategoryEntity {
       'name_en': name['en'],
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
-      'photo_url': photoUrl,
+      'image_url': photoUrl,
     };
   }
 }

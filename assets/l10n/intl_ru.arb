@@ -51,6 +51,7 @@
   "hereWillFavorite": "Здесь будут отображаться лайкнутые вами товары",
   "notFound": "Ничего не найдено",
   "againOtherWord": "Попробуйте другие ключевые слова или проверьте правильность ввода",
+  "otherCategory": "Попробуйте другие категории",
   "loginAccount": "Войти в аккаунт",
   "address": "Адреса",
   "carts": "Карты",
@@ -65,5 +66,72 @@
   "carbohydrates": "углеводы",
   "description": "Описание",
   "brand": "Бренд",
-  "maker": "Производитель"
+  "maker": "Производитель",
+  "bannerLocal": "Заказывайте клубнику в новом приложении от Abricoz!",
+  "goToPay": "Перейти к оформлению: {sum} ₸",
+  "@goToPay": {
+    "placeholders": {
+      "sum": {}
+    }
+  },
+  "confirmPay": "Подтвердить заказ: {sum} ₸",
+  "@confirmPay": {
+    "placeholders": {
+      "sum": {}
+    }
+  },
+  "makeOrder": "Оформление заказа",
+  "deliveryBefore": "Доставка до",
+  "deliveryTime": "Время доставки",
+  "paymentType": "Способ оплаты",
+  "cashToCourier": "Наличными курьеру",
+  "products": "Продукты",
+  "deliveryPrice": "Стоимость доставки",
+  "delivery30min": "Доставка от 30 минут",
+  "paymentOrder": "Оплата заказа",
+  "orderNumber": "Номер заказа",
+  "paySum": "Сумма к оплате",
+  "paymentStatus": "Статус оплаты",
+  "payTime": "Завершите оплату в течение {time} или заказ будет отменён",
+  "@payTime": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "payTimeFinish": "Время на оплату истекло, заказ в процессе отмены",
+  "orderCanceled": "Заказ был отменён по инициативе пользователя",
+  "thanksForOrder": "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки",
+  "payOrder": "Оплатить заказ",
+  "cancelOrder": "Отменить заказ",
+  "nonAuthorizedText": "Эта опция доступна для авторизованных пользователей",
+  "close": "Закрыть",
+  "delete": "Удалить",
+  "notActive": "Неактивен",
+  "addNewCard": "Добавить новую карту",
+  "yourAddress": "Ваши адреса",
+  "noAddress": "У вас нет адресов",
+  "addressSaveHere": "Ваши адреса будут храниться здесь",
+  "addNewAddress": "Добавить новый адрес",
+  "city": "Город",
+  "district": "Район",
+  "street": "Улица, дом*",
+  "office": "Кв/офис",
+  "entrance": "Подъезд",
+  "floor": "Этаж",
+  "commentToAddress": "Комментарий к адресу",
+  "editAddress": "Редактировать адрес",
+  "changeAddress": "Изменить список адресов",
+  "addAddress": "Добавить адрес",
+  "deleteAllBasket": "Удалить выбранные товары из корзины?",
+  "confirm": "Подтвердить",
+  "cancel": "Отмена",
+  "orderCancel": "Отмена заказа? Ваши покупки почти отправились в путь!",
+  "sureLogout": "Вы точно хотите выйти? Мы будем скучать.",
+  "deleteAddress": "Этот адрес больше не нужен? Прощаться всегда непросто.",
+  "save": "Сохранить",
+  "notAvailableNow": "Сейчас нет доступного времени",
+  "selectAddressPlease": "Выберите адрес доставки",
+  "selectTimePlease": "Выберите время доставки",
+  "selectPaymentPlease": "Выберите способ оплаты",
+  "itemList": "Список товаров"
 }
