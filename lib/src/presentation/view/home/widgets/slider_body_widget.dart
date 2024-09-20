@@ -25,26 +25,58 @@ class SliderBodyWidget extends StatefulWidget {
   State<SliderBodyWidget> createState() => _SliderBodyWidgetState();
 }
 
-class _SliderBodyWidgetState extends State<SliderBodyWidget> {
-  late Timer _timer;
-  final controller = PageController(viewportFraction: 1, keepPage: true);
+class _SliderBodyWidgetState extends State<SliderBodyWidget> with RouteAware {
+  Timer? _timer;
+  late PageController controller;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
-      controller.nextPage(
-        duration: const Duration(milliseconds: 450),
-        curve: Curves.easeIn,
-      );
-    });
+    controller = PageController(viewportFraction: 1, keepPage: true);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Subscribe to route changes
+    final route = ModalRoute.of(context);
+    if (route is PageRoute) {
+      RouteObserver<PageRoute>().subscribe(this, route);
+    }
+  }
+
+  @override
+  void didPop() {
+    _stopTimer();
+  }
+
+  @override
+  void didPushNext() {
+    _stopTimer();
+  }
+
+  void _startTimer() {
+    if (_timer == null || !_timer!.isActive) {
+      _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+        controller.nextPage(
+          duration: const Duration(milliseconds: 450),
+          curve: Curves.easeIn,
+        );
+      });
+    }
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
   }
 
   @override
   void dispose() {
+    _stopTimer();
+    controller.dispose();
     super.dispose();
-    _timer.cancel();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +92,7 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> {
         builder: (context, state) {
           if (state.status.isSuccess && state.entity != null) {
             banners = state.entity;
+            _startTimer();
           }
           return Stack(
             alignment: Alignment.bottomCenter,
@@ -67,9 +100,9 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> {
               PageView.builder(
                 controller: controller,
                 allowImplicitScrolling: true,
-                onPageChanged: (page){
-                  _timer.cancel();
-                },
+                // onPageChanged: (page){
+                //   _timer.cancel();
+                // },
                 itemBuilder: (_, index) {
                   return Stack(
                     fit: StackFit.expand,
@@ -78,8 +111,7 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> {
                       banners.isEmpty
                           ? buildLocalImage()
                           : CachedNetworkImage(
-                              imageUrl: getLocaleText(
-                                  banners[index % banners.length].imageUrl),
+                              imageUrl: banners[index % banners.length].imageUrl,
                               fit: BoxFit.cover,
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) =>

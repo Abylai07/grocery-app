@@ -2,8 +2,8 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sliding_up_panel/src/panel.dart';
 
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/app_router/app_router.dart';
@@ -15,9 +15,11 @@ class CategoryWidget extends StatelessWidget {
   const CategoryWidget({
     super.key,
     required this.category,
+    required this.controller,
   });
 
   final CategoryEntity category;
+  final  PanelController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,10 @@ class CategoryWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
-        context.router.push(SubCategoryRoute(category: category));
+        if(controller.isAttached && !controller.isPanelOpen){
+          controller.open();
+        }
+        AutoRouter.of(context).push(SubCategoryRoute(category: category));
       },
       child: Container(
         padding: const EdgeInsets.all(8),

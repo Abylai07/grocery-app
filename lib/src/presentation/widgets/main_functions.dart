@@ -1,5 +1,6 @@
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/app_styles/colors.dart';
@@ -41,4 +42,12 @@ Color? getColorByStatus(String key) {
     'closed': AppColors.errorRedColor,
   };
   return data[key];
+}
+
+String formatDate(DateTime dateTime) {
+  String locale = SharedPrefs().getLocaleLang();
+  DateFormat formatter = DateFormat("d MMMM y 'г.'", locale);
+  String formattedDate = formatter.format(dateTime);
+
+  return formattedDate;
 }

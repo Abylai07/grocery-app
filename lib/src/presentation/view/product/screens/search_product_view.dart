@@ -49,7 +49,7 @@ class SearchProductsView extends StatelessWidget {
                     childCount: state.searchHints?.length,
                   ),
                 )
-              : const SliverToBoxAdapter(
+              : const SliverFillRemaining(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -66,7 +66,7 @@ class SearchProductsView extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 8.0,
               crossAxisSpacing: 8.0,
-              mainAxisExtent: 360,
+              mainAxisExtent: 334,
             ),
             builderDelegate: PagedChildBuilderDelegate<ProductEntity>(
               firstPageProgressIndicatorBuilder: (context) {
@@ -101,10 +101,11 @@ class SearchProductsView extends StatelessWidget {
             ),
           );
         } else if (state.status.isLoading) {
-          return const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(12.0),
-              child: CircularProgressIndicator.adaptive(),
+          return  SliverToBoxAdapter(
+            child: Container(
+              padding: const EdgeInsets.all(12.0),
+              alignment: Alignment.center,
+              child: const CircularProgressIndicator.adaptive(),
             ),
           );
         } else {

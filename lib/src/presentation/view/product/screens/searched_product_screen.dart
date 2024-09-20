@@ -18,6 +18,7 @@ import '../../../bloc/base_state.dart';
 import '../../../widgets/main_functions.dart';
 import '../../../widgets/shimmer_widget.dart';
 import '../../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
+import '../../favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import '../bloc/product_info_cubit.dart';
 import '../widgets/product_bottom_bar.dart';
 import '../widgets/product_structure_widget.dart';
@@ -55,6 +56,7 @@ class SearchedProductView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
+        centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: IconButton(
@@ -65,14 +67,30 @@ class SearchedProductView extends StatelessWidget {
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {
-                //Navigator.pop(context);
-              },
-              icon: SvgPicture.asset(AppAssets.favorite),
-            ),
+          BlocBuilder<ProductInfoCubit, BaseState>(
+            builder: (context, productState) {
+              if (productState.status.isSuccess) {
+                return BlocBuilder<FavoriteCubit, FavoriteState>(
+                  builder: (context, state) {
+                    bool isFavorite = state.entity
+                        ?.any((element) => element.id == productState.entity.id) ??
+                        false;
+                    return IconButton(
+                      onPressed: () {
+                        context
+                            .read<FavoriteCubit>()
+                            .storeOrDeleteFavorite(isFavorite, productState.entity);
+                      },
+                      icon: SvgPicture.asset(isFavorite
+                          ? AppAssets.favoriteFill
+                          : AppAssets.favorite),
+                    );
+                  },
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
           ),
         ],
       ),

@@ -1,7 +1,6 @@
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
-import 'package:abricoz_app/src/domain/entity/user/favorite_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/error/failure.dart';
@@ -22,11 +21,13 @@ abstract class AbstractUserServiceRepository {
 
   Future<Either<Failure, AddressEntity>> createAddress(params);
 
+  Future<Either<Failure, Map<String, dynamic>>> deleteAddress(params);
+
   Future<Either<Failure, List<AddressEntity>>> fetchAddress();
 
-  Future<Either<Failure, FavoriteEntity>> storeFavorite(params);
+  Future<Either<Failure, ProductEntity>> storeFavorite(params);
 
   Future<Either<Failure, Map<String, dynamic>>> deleteFavorite(params);
 
-  Future<Either<Failure, List<FavoriteEntity>>> fetchFavorite();
+  Future<Either<Failure, List<ProductEntity>>> fetchFavorite();
 }

@@ -1,12 +1,11 @@
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../common/app_styles/assets.dart';
 import '../../../common/app_styles/colors.dart';
 import '../../../common/app_styles/text_styles.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
@@ -42,17 +41,12 @@ class CodeEnterView extends StatelessWidget {
   Widget build(BuildContext context) {
     String number = AppUtils.phoneMaskFormatter.getUnmaskedText();
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: SvgPicture.asset(AppAssets.back),
-          onPressed: () {
-            context.router.maybePop();
-            context.read<TimerBloc>().add(ResetTimer());
-          },
-        ),
-        title: Text(
-          S.of(context).signIn,
-        ),
+      appBar: CustomAppBar(
+        onBackPressed: (){
+          context.router.maybePop();
+          context.read<TimerBloc>().add(ResetTimer());
+        },
+        title: S.of(context).signIn,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -88,7 +82,7 @@ class CodeEnterView extends StatelessWidget {
                   if (state.status.isSuccessCode) {
                     context.read<TimerBloc>().add(ResetTimer());
                     context.read<UserSessionBloc>().add(LoadUserSession());
-                    context.router.replaceAll([const IndexRoute(children: [HomeRoute()])]);
+                    context.router.replaceAll([const IndexRoute(children: [HomeNestedRoute()])]);
                   }
                 },
                 builder: (context, state) {

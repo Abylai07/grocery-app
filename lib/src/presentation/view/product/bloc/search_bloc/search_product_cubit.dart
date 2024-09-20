@@ -48,19 +48,19 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         },
         (r) {
           if (pageKey == 1 && searchQuery.isEmpty && initialResults.isEmpty) {
-            initialResults = r;
+            initialResults = r.products;
           }
-          if (r.isEmpty || searchQuery.isNotEmpty) {
-            pagingController.appendLastPage(r);
+          if (r.totalItems <= r.currentPage || searchQuery.isNotEmpty) {
+            pagingController.appendLastPage(r.products);
           } else {
             final nextPageKey = pageKey + 1;
             // r.removeWhere((element) => pagingController.itemList?.contains(element) ?? false);
-            pagingController.appendPage(r, nextPageKey);
+            pagingController.appendPage(r.products, nextPageKey);
           }
 
           return SearchProductState(
             status: SearchStatus.success,
-            entity: r,
+            entity: r.products,
           );
         },
       ),

@@ -40,12 +40,12 @@ class ProductsCubit extends Cubit<BaseState> {
           );
         },
         (r) {
-          if (r.isEmpty) {
-            pagingController.appendLastPage(r);
+          if (r.totalItems <= r.currentPage) {
+            pagingController.appendLastPage(r.products);
           } else {
             final nextPageKey = pageKey + 1;
             // r.removeWhere((element) => pagingController.itemList?.contains(element) ?? false);
-            pagingController.appendPage(r, nextPageKey);
+            pagingController.appendPage(r.products, nextPageKey);
           }
 
           return BaseState(

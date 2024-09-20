@@ -1,4 +1,5 @@
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
+import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
 import 'package:abricoz_app/src/domain/repository/abstract_order_service_profile.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dartz/dartz.dart';
@@ -13,6 +14,10 @@ class OrderUseCase {
 
   Future<Either<Failure, OrderEntity>> createOrder(MapParams? params) async {
     return await repository.createOrder(params);
+  }
+
+  Future<Either<Failure, List<OrderHistoryEntity>>> fetchOrderHistory() async {
+    return await repository.fetchOrderHistory();
   }
 
 }

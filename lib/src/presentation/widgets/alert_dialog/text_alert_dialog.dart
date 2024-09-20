@@ -42,7 +42,7 @@ void confirmAlertDialog(BuildContext context,
                 child: InkWell(
                   onTap: onYesTap,
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -63,7 +63,7 @@ void confirmAlertDialog(BuildContext context,
                     Navigator.pop(context);
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),

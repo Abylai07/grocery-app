@@ -13,7 +13,6 @@ class NumberTextFieldWidget extends StatelessWidget {
   final String? labelText;
   final String? errorText;
   final int maxLines;
-
   final int minLines;
   final TextInputType? keyboardType;
   final bool hide;

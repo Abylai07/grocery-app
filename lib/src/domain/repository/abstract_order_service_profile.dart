@@ -6,6 +6,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../core/error/failure.dart';
 import '../entity/order/check_card_entity.dart';
+import '../entity/order/order_history_entity.dart';
 
 abstract class AbstractOrderServiceRepository {
 
@@ -15,5 +16,7 @@ abstract class AbstractOrderServiceRepository {
   Future<Either<Failure, List<DeliveryTimeEntity>>> getDeliveryTime();
 
   Future<Either<Failure, OrderEntity>> createOrder(params);
+
+  Future<Either<Failure, List<OrderHistoryEntity>>> fetchOrderHistory();
 
 }

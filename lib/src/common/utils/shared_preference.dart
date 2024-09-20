@@ -154,16 +154,16 @@ class SharedPrefs {
   void deleteTokens() => _removePref();
 
   String getLocale() {
-    String locale = 'kk';
+    String locale = 'ru';
     final systemLocale = Platform.localeName;
     final filteredLocale = systemLocale.split('_')[0];
 
-    if (filteredLocale == 'ru') {
-      locale = 'ru';
+    if (filteredLocale == 'kk') {
+      locale = 'kk';
     } else if (filteredLocale == 'en') {
       locale = 'en';
     } else {
-      locale = 'kk';
+      locale = 'ru';
     }
     return locale;
   }

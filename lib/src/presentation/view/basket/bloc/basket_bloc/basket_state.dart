@@ -3,7 +3,7 @@ part of 'basket_bloc.dart';
 class BasketState<T> extends Equatable {
   final num basketSum;
   final ProductHiveModel? product;
-  final List<ProductHiveModel>? allProducts;
+    final List<ProductHiveModel>? allProducts;
   final CubitStatus status;
   final CheckCardEntity? entity;
   final String? message;

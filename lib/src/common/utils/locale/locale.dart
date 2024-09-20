@@ -6,12 +6,8 @@ class LocaleBuilder extends StatefulWidget {
 
   const LocaleBuilder({super.key, required this.builder});
 
-  static State<LocaleBuilder> of(BuildContext context) {
-    final state = context.findAncestorStateOfType<_LocaleBuilderState>();
-    if (state == null) {
-      throw Exception('No LocaleBuilder ancestor found');
-    }
-    return state;
+  static void setLocale(BuildContext context, Locale locale) {
+    context.findAncestorStateOfType<_LocaleBuilderState>()?.setLocale(locale);
   }
 
   @override
@@ -19,7 +15,7 @@ class LocaleBuilder extends StatefulWidget {
 }
 
 class _LocaleBuilderState extends State<LocaleBuilder> {
-  Locale _locale = Locale(SharedPrefs().getLocaleLang()); // задаем язык локализации по умолчанию
+  Locale _locale = Locale(SharedPrefs().getLocaleLang());
 
   void setLocale(Locale locale) {
     setState(() {

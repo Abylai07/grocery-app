@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import '../../common/api.dart';
 import '../../common/constants.dart' as constants;
 import '../../core/error/exception.dart';
+import '../../domain/entity/product/pagination_entity.dart';
 import '../../domain/entity/product/search_hint_entity.dart';
 import '../../domain/entity/product/sub_category_entity.dart';
 import '../models/product/category_model.dart';
@@ -19,7 +20,7 @@ abstract class ProductRemoteDataSource {
 
   Future<List<SubCategoryEntity>> fetchSubCategory(MapParams params);
 
-  Future<List<ProductEntity>> fetchProducts(MapParams params);
+  Future<PaginationEntity> fetchProducts(MapParams params);
 
   Future<List<SearchHintEntity>> fetchSearchHint(MapParams params);
 
@@ -78,15 +79,18 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<List<ProductEntity>> fetchProducts(MapParams params) async {
+  Future<PaginationEntity> fetchProducts(MapParams params) async {
     try {
       final response = await api.dio
           .get('${constants.host}product/index', queryParameters: params.data);
 
       if (response.statusCode == 200) {
-        return (response.data['data']['products'] as List)
-            .map((e) => ProductModel.fromJson(e))
-            .toList();
+        return PaginationEntity(
+            currentPage: response.data['data']['current_page'] ?? 1,
+            totalItems: response.data['data']['total_pages'] ?? 1,
+            products: (response.data['data']['products'] as List)
+                .map((e) => ProductModel.fromJson(e))
+                .toList());
       } else {
         throw ServerException();
       }

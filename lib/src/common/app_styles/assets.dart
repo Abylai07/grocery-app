@@ -4,6 +4,7 @@ class AppAssets {
   static const String favoriteEmpty = 'assets/images/favorite_empty.png';
   static const String searchEmpty = 'assets/images/search_empty.png';
   static const String addressEmpty = 'assets/images/address_empty.png';
+  static const String historyEmpty = 'assets/images/history_empty.png';
 
 
   //svg
@@ -24,6 +25,7 @@ class AppAssets {
   static const String arrowNext = 'assets/icons/arrow_next.svg';
   static const String settings = 'assets/icons/settings.svg';
   static const String orders = 'assets/icons/orders.svg';
+  static const String language = 'assets/icons/language.svg';
   static const String cards = 'assets/icons/cards.svg';
   static const String account = 'assets/icons/account.svg';
   static const String address = 'assets/icons/address.svg';

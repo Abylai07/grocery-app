@@ -10,13 +10,13 @@ import '../../common/api.dart';
 import '../../common/constants.dart' as constants;
 import '../../common/constants.dart';
 import '../../core/error/exception.dart';
-import '../../domain/entity/user/favorite_entity.dart';
+import '../../domain/entity/product/product_entity.dart';
 import '../../domain/usecase/product/category_usecase.dart';
+import '../models/product/product_model.dart';
 import '../models/user/address_model.dart';
 import '../models/user/banner_model.dart';
 import '../models/user/city_model.dart';
 import '../models/user/district_model.dart';
-import '../models/user/favorite_model.dart';
 
 abstract class UserRemoteDataSource {
   Future<Map<String, dynamic>> signInPhone(MapParams params);
@@ -31,11 +31,13 @@ abstract class UserRemoteDataSource {
 
   Future<List<AddressEntity>> fetchAddress();
 
+  Future<Map<String, dynamic>> deleteAddress(PathParams params);
+
   Future<AddressEntity> createAddress(PathMapParams params);
 
-  Future<FavoriteEntity> storeFavorite(MapParams params);
+  Future<ProductEntity> storeFavorite(MapParams params);
 
-  Future<List<FavoriteEntity>> fetchFavorites();
+  Future<List<ProductEntity>> fetchFavorites();
 
   Future<Map<String, dynamic>> deleteFavorite(PathParams params);
 }
@@ -183,14 +185,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<List<FavoriteEntity>> fetchFavorites() async {
+  Future<List<ProductEntity>> fetchFavorites() async {
     try {
       final response = await api.dio.get(
         '${constants.host}favorite-product/index',
       );
       if (response.statusCode == 200) {
         return (response.data['data'] as List)
-            .map((e) => FavoriteModel.fromJson(e))
+            .map((e) => ProductModel.fromJson(e['product']))
             .toList();
       } else {
         throw ServerException();
@@ -201,14 +203,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<FavoriteEntity> storeFavorite(MapParams params) async {
+  Future<ProductEntity> storeFavorite(MapParams params) async {
     try {
       final response = await api.dio.post(
         '${host}favorite-product/store',
         data: params.data,
       );
       if (response.statusCode == 200) {
-        return FavoriteModel.fromJson(response.data['data']);
+        return ProductModel.fromJson(response.data['data']['product']);
       } else {
         throw ServerException();
       }
@@ -222,6 +224,22 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     try {
       final response = await api.dio.delete(
         '${host}favorite-product/delete/${params.path}',
+      );
+      if (response.statusCode == 200) {
+        return {};
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> deleteAddress(PathParams params) async {
+    try {
+      final response = await api.dio.delete(
+        '${host}address/delete/${params.path}',
       );
       if (response.statusCode == 200) {
         return {};

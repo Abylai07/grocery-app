@@ -50,16 +50,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `example@mail.com`
-  String get gmail {
-    return Intl.message(
-      'example@mail.com',
-      name: 'gmail',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Войти`
   String get login {
     return Intl.message(
@@ -67,16 +57,6 @@ class S {
       name: 'login',
       desc: '',
       args: [],
-    );
-  }
-
-  /// `от {price} тг/{period}`
-  String price(Object price, Object period) {
-    return Intl.message(
-      'от $price тг/$period',
-      name: 'price',
-      desc: '',
-      args: [price, period],
     );
   }
 
@@ -1139,6 +1119,226 @@ class S {
       args: [],
     );
   }
+
+  /// `Версия`
+  String get version {
+    return Intl.message(
+      'Версия',
+      name: 'version',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Язык приложения`
+  String get appLanguage {
+    return Intl.message(
+      'Язык приложения',
+      name: 'appLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Список заказов пуст`
+  String get orderEmpty {
+    return Intl.message(
+      'Список заказов пуст',
+      name: 'orderEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Здесь будут отображаться ваши\nпоследние заказы`
+  String get lastOrderWillHere {
+    return Intl.message(
+      'Здесь будут отображаться ваши\nпоследние заказы',
+      name: 'lastOrderWillHere',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Перейти к покупкам`
+  String get goToProducts {
+    return Intl.message(
+      'Перейти к покупкам',
+      name: 'goToProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Заказ`
+  String get order {
+    return Intl.message(
+      'Заказ',
+      name: 'order',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ожидание`
+  String get wait {
+    return Intl.message(
+      'Ожидание',
+      name: 'wait',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Обработка`
+  String get processing {
+    return Intl.message(
+      'Обработка',
+      name: 'processing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `В процессе отмены`
+  String get processCancel {
+    return Intl.message(
+      'В процессе отмены',
+      name: 'processCancel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Отменён`
+  String get canceled {
+    return Intl.message(
+      'Отменён',
+      name: 'canceled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Доставлен`
+  String get delivered {
+    return Intl.message(
+      'Доставлен',
+      name: 'delivered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Все товары`
+  String get allProducts {
+    return Intl.message(
+      'Все товары',
+      name: 'allProducts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Повторить заказ`
+  String get orderAgain {
+    return Intl.message(
+      'Повторить заказ',
+      name: 'orderAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Итоговая сумма`
+  String get totalSum {
+    return Intl.message(
+      'Итоговая сумма',
+      name: 'totalSum',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Мои заказы`
+  String get myOrders {
+    return Intl.message(
+      'Мои заказы',
+      name: 'myOrders',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Дата оформления`
+  String get createDate {
+    return Intl.message(
+      'Дата оформления',
+      name: 'createDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Дата и время доставки`
+  String get deliveryDate {
+    return Intl.message(
+      'Дата и время доставки',
+      name: 'deliveryDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Статус`
+  String get status {
+    return Intl.message(
+      'Статус',
+      name: 'status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Адрес доставки`
+  String get deliveryAddress {
+    return Intl.message(
+      'Адрес доставки',
+      name: 'deliveryAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Активный заказ`
+  String get activeOrder {
+    return Intl.message(
+      'Активный заказ',
+      name: 'activeOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Перейти`
+  String get go {
+    return Intl.message(
+      'Перейти',
+      name: 'go',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Перейти в корзину`
+  String get goToBasket {
+    return Intl.message(
+      'Перейти в корзину',
+      name: 'goToBasket',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -1147,6 +1347,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'ru'),
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'kk'),
     ];
   }
 

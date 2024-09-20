@@ -1,18 +1,17 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
-import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
 import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
-import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../widgets/main_functions.dart';
 import '../../../widgets/shimmer_widget.dart';
+import '../../profile/bloc/order_history_cubit.dart';
 
 @RoutePage()
 class PaymentScreen extends StatelessWidget {
@@ -21,28 +20,28 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<OrderHistoryCubit>().fetchOrderHistory();
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).paymentOrder,
       ),
       backgroundColor: AppColors.background,
-      bottomNavigationBar: PaddingForNavButtons(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // No Online Payment
-            // CustomMainButton(
-            //   text: S.of(context).paymentOrder,
-            //   onTap: () {},
-            // ),
-            // 12.height,
-            CustomGrayButton(
-              text: S.of(context).cancelOrder,
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: PaddingForNavButtons(
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       CustomMainButton(
+      //         text: S.of(context).paymentOrder,
+      //         onTap: () {},
+      //       ),
+      //       12.height,
+      //       CustomGrayButton(
+      //         text: S.of(context).cancelOrder,
+      //         onTap: () {},
+      //       ),
+      //     ],
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [

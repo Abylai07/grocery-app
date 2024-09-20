@@ -22,12 +22,13 @@ class FavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(S.of(context).favorite),
       ),
       body: BlocBuilder<BasketBloc, BasketState>(
         builder: (context, basketState) {
           return Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
               child: BlocBuilder<FavoriteCubit, FavoriteState>(
                 builder: (context, state) {
                   if (state.status.isSuccess &&
@@ -39,8 +40,7 @@ class FavoriteScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         ProductHiveModel? itemInBasket =
                             basketState.allProducts?.firstWhere(
-                          (element) =>
-                              element.id == state.entity?[index].productId,
+                          (element) => element.id == state.entity?[index].id,
                           orElse: () => ProductHiveModel(
                             id: -1,
                             name: {},
@@ -50,8 +50,7 @@ class FavoriteScreen extends StatelessWidget {
                         );
                         return BlocProvider(
                           create: (context) => BasketButtonBloc(itemInBasket),
-                          child: ProductWidget(
-                              product: state.entity![index].product),
+                          child: ProductWidget(product: state.entity![index]),
                         );
                       },
                       gridDelegate:
@@ -59,7 +58,7 @@ class FavoriteScreen extends StatelessWidget {
                         crossAxisCount: 2,
                         mainAxisSpacing: 8.0,
                         crossAxisSpacing: 8.0,
-                        mainAxisExtent: 360,
+                        mainAxisExtent: 334,
                       ),
                     );
                   } else if (state.status.isSuccess &&
@@ -68,7 +67,7 @@ class FavoriteScreen extends StatelessWidget {
                   } else if (state.status.isLoading) {
                     return const ProductLoadingWidget();
                   } else {
-                    return const SizedBox();
+                    return buildEmptyFavorite(context);
                   }
                 },
               ));

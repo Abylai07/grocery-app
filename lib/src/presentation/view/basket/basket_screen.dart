@@ -12,10 +12,13 @@ import 'package:flutter_svg/svg.dart';
 import '../../../common/app_styles/colors.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../data/hive/adapter/product_adapter.dart';
+import '../../../domain/entity/order/order_history_entity.dart';
+import '../../bloc/base_state.dart';
 import '../../widgets/alert_dialog/text_alert_dialog.dart';
 import '../../widgets/buttons/main_button.dart';
 import '../../widgets/modal_bottoms/non_authorize_modal.dart';
 import '../../widgets/padding_nav_buttons.dart';
+import '../profile/bloc/order_history_cubit.dart';
 import 'bloc/basket_bloc/basket_bloc.dart';
 import 'bloc/basket_button_bloc/basket_button_bloc.dart';
 
@@ -77,65 +80,173 @@ class BasketScreen extends StatelessWidget {
           },
         ),
       ),
-      body: BlocBuilder<BasketBloc, BasketState>(
-        builder: (context, state) {
-          if (state.status.isLoading) {
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
+      backgroundColor: AppColors.background,
+      body: BlocBuilder<OrderHistoryCubit, BaseState>(
+        builder: (context, orderState) {
+          List<OrderHistoryEntity> list = orderState.entity ?? [];
+          OrderHistoryEntity? lastOrder;
+          if (orderState.status.isSuccess && list.isNotEmpty) {
+            lastOrder = list.last;
           }
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: state.allProducts?.isNotEmpty == true
-                ? ListView.separated(
-                    padding: EdgeInsets.zero,
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: state.allProducts?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      ProductHiveModel? product = state.allProducts?[index];
-                      return product != null
-                          ? BlocProvider(
-                              key: ValueKey(
-                                  '${product.id}:${product.basketCount}'),
-                              create: (context) => BasketButtonBloc(product),
-                              child: BasketItemWidget(product: product),
-                            )
-                          : const SizedBox();
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(height: 8);
-                    },
-                  )
-                : buildEmptyBasket(context),
+
+          return Column(
+            children: [
+              if (lastOrder != null) buildActiveOrder(context, lastOrder),
+              BlocBuilder<BasketBloc, BasketState>(
+                builder: (context, state) {
+                  if (state.status.isLoading) {
+                    return const Expanded(
+                      child: Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
+                    );
+                  }
+                  return state.allProducts?.isNotEmpty == true
+                      ? Expanded(
+                          child: Container(
+                            color: AppColors.white,
+                            child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              padding: const EdgeInsets.all(16),
+                              itemCount: state.allProducts?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                ProductHiveModel? product =
+                                    state.allProducts?[index];
+                                return product != null
+                                    ? BlocProvider(
+                                        key: ValueKey(
+                                            '${product.id}:${product.basketCount}'),
+                                        create: (context) =>
+                                            BasketButtonBloc(product),
+                                        child:
+                                            BasketItemWidget(product: product),
+                                      )
+                                    : const SizedBox();
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const SizedBox(height: 8);
+                              },
+                            ),
+                          ),
+                        )
+                      : Expanded(child: buildEmptyBasket(context));
+                },
+              ),
+            ],
           );
         },
       ),
     );
   }
 
-  Column buildEmptyBasket(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 42.0),
-          child: Image.asset(AppAssets.basketEmpty),
+  Container buildActiveOrder(
+      BuildContext context, OrderHistoryEntity lastOrder) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      decoration: const BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(16),
+          bottomRight: Radius.circular(16),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 18.0, bottom: 12),
-          child: Text(
-            S.of(context).basketEmpty,
-            style:
-                AppTextStyle.titleMedium.copyWith(fontWeight: FontWeight.w600),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0XFFFCE8E5),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        S.of(context).activeOrder,
+                        style: AppTextStyle.labelSmall.copyWith(
+                            color: AppColors.main, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0XFFE1F2FE),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        lastOrder.orderStatus.name,
+                        style: AppTextStyle.labelSmall.copyWith(
+                            color: AppColors.blue, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+                4.height,
+                Text(
+                  '${S.of(context).order} №${lastOrder.id}',
+                  style: AppTextStyle.bodyLarge
+                      .copyWith(fontWeight: FontWeight.w600),
+                )
+              ],
+            ),
           ),
-        ),
-        Text(
-          S.of(context).hereWillProduct,
-          style: AppTextStyle.bodyLarge.copyWith(color: AppColors.textGray),
-          textAlign: TextAlign.center,
-        ),
-      ],
+          TextButton(
+              onPressed: () {
+                context.router.push(OrderDetailRoute(orderInfo: lastOrder!));
+              },
+              child: Row(
+                children: [
+                  Text(
+                    S.of(context).go,
+                    style:
+                        AppTextStyle.bodyMedium.copyWith(color: AppColors.main),
+                  ),
+                  4.width,
+                  SvgPicture.asset(
+                    AppAssets.arrowNext,
+                    colorFilter:
+                        const ColorFilter.mode(AppColors.main, BlendMode.srcIn),
+                  ),
+                ],
+              ))
+        ],
+      ),
+    );
+  }
+
+  Widget buildEmptyBasket(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      color: AppColors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 42.0),
+            child: Image.asset(AppAssets.basketEmpty),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 18.0, bottom: 12),
+            child: Text(
+              S.of(context).basketEmpty,
+              style: AppTextStyle.titleMedium
+                  .copyWith(fontWeight: FontWeight.w600),
+            ),
+          ),
+          Text(
+            S.of(context).hereWillProduct,
+            style: AppTextStyle.bodyLarge.copyWith(color: AppColors.textGray),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

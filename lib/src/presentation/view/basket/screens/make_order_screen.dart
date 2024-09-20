@@ -3,6 +3,7 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
+import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/delivery_time_bloc/delivery_time_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/basket/widgets/select_address_widget.dart';
@@ -66,7 +67,8 @@ class DeliveryTimeView extends StatelessWidget {
         child: BlocConsumer<OrderCubit, OrderState>(
           listener: (context, state) {
             if (state.status.isSuccess && state.entity != null) {
-              context.router.push(PaymentRoute(orderInfo: state.entity!));
+              context.read<BasketBloc>().add(const DeleteAllBasket());
+              context.router.popAndPush(PaymentRoute(orderInfo: state.entity!));
             } else if (state.status.isError) {
               showErrorSnackBar(context, S.of(context).somethingError);
             }

@@ -1,13 +1,5 @@
 {
-  "gmail": "example@mail.com",
   "login": "Войти",
-  "price": "от {price} тг/{period}",
-  "@price": {
-    "placeholders": {
-      "price": {},
-      "period": {}
-    }
-  },
   "orderHistory": "История заказов",
   "personalData": "Личные данные",
   "back": "Назад",
@@ -133,5 +125,27 @@
   "selectAddressPlease": "Выберите адрес доставки",
   "selectTimePlease": "Выберите время доставки",
   "selectPaymentPlease": "Выберите способ оплаты",
-  "itemList": "Список товаров"
+  "itemList": "Список товаров",
+  "version": "Версия",
+  "appLanguage": "Язык приложения",
+  "orderEmpty": "Список заказов пуст",
+  "lastOrderWillHere": "Здесь будут отображаться ваши\nпоследние заказы",
+  "goToProducts": "Перейти к покупкам",
+  "order": "Заказ",
+  "wait": "Ожидание",
+  "processing": "Обработка",
+  "processCancel": "В процессе отмены",
+  "canceled": "Отменён",
+  "delivered": "Доставлен",
+  "allProducts": "Все товары",
+  "orderAgain": "Повторить заказ",
+  "totalSum": "Итоговая сумма",
+  "myOrders": "Мои заказы",
+  "createDate": "Дата оформления",
+  "deliveryDate": "Дата и время доставки",
+  "status": "Статус",
+  "deliveryAddress": "Адрес доставки",
+  "activeOrder": "Активный заказ",
+  "go": "Перейти",
+  "goToBasket": "Перейти в корзину"
 }

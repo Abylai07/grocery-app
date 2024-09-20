@@ -41,11 +41,10 @@ class SelectAddressWidget extends StatelessWidget {
                   )
                 ],
               ),
-              24.height,
+              16.height,
               BlocBuilder<AddressCubit, AddressState>(
                 builder: (context, state) {
                   if (state.status.isSuccess) {
-
                     List<AddressEntity> addresses = state.entity ?? [];
                     return Column(
                       children: [
@@ -70,22 +69,25 @@ class SelectAddressWidget extends StatelessWidget {
                                               .read<AddressCubit>()
                                               .selectAddress(addresses[index]);
                                         },
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                                child: Text(
-                                              '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
-                                              style: AppTextStyle.bodyLarge,
-                                            )),
-                                            if (addresses[index].id ==
-                                                state.selectAddress?.id)
-                                              SvgPicture.asset(
-                                                  AppAssets.selected),
-                                          ],
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                  child: Text(
+                                                '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
+                                                style: AppTextStyle.bodyLarge,
+                                              )),
+                                              if (addresses[index].id ==
+                                                  state.selectAddress?.id)
+                                                SvgPicture.asset(
+                                                    AppAssets.selected),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       const Divider(
-                                        height: 24,
+                                        height: 12,
                                         color: AppColors.grayContainer,
                                       ),
                                     ],

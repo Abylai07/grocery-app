@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "775143759922",
+    "project_id": "abricoz-94dfc",
+    "storage_bucket": "abricoz-94dfc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775143759922:android:39bb51ded158afa7285c2b",
+        "android_client_info": {
+          "package_name": "com.abricoz.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAILw7MVRWD4_I534vZkFPwhwH3gdWWrfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775143759922:android:c3b771faabee1a4c285c2b",
+        "android_client_info": {
+          "package_name": "kz.abricoz.market.abricoz_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAILw7MVRWD4_I534vZkFPwhwH3gdWWrfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

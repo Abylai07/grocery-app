@@ -11,7 +11,7 @@ class FavoriteState<T> extends Equatable {
   }) : message = message ?? '';
 
   final CubitStatus status;
-  final List<FavoriteEntity>? entity;
+  final List<ProductEntity>? entity;
   final String message;
   final int count;
   final int? errorCode;
@@ -26,7 +26,7 @@ class FavoriteState<T> extends Equatable {
   ];
 
   FavoriteState copyWith({
-    List<FavoriteEntity>? entity,
+    List<ProductEntity>? entity,
     CubitStatus? status,
     String? message,
     int? count,

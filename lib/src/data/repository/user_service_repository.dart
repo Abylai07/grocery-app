@@ -2,12 +2,12 @@ import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
 import 'package:abricoz_app/src/domain/entity/user/district_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/favorite_entity.dart';
 import 'package:abricoz_app/src/domain/repository/abstract_user_service_profile.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/check_error_type.dart';
 import '../../core/error/failure.dart';
+import '../../domain/entity/product/product_entity.dart';
 import '../datasources/user_remote_data_source.dart';
 
 class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
@@ -58,13 +58,13 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   }
 
   @override
-  Future<Either<Failure, List<FavoriteEntity>>> fetchFavorite() {
+  Future<Either<Failure, List<ProductEntity>>> fetchFavorite() {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.fetchFavorites());
   }
 
   @override
-  Future<Either<Failure, FavoriteEntity>> storeFavorite(params) {
+  Future<Either<Failure, ProductEntity>> storeFavorite(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.storeFavorite(params));
   }
@@ -73,5 +73,11 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   Future<Either<Failure, Map<String, dynamic>>> deleteFavorite(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.deleteFavorite(params));
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> deleteAddress(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.deleteAddress(params));
   }
 }

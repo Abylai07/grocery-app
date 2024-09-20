@@ -147,7 +147,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                             itemCount: categories.length,
                                             itemBuilder: (context, index) {
                                               return CategoryWidget(
-                                                  category: categories[index]);
+                                                controller: panelController,
+                                                  category: categories[index],
+                                              );
                                             },
                                             gridDelegate:
                                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -157,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                   8.0, // spacing between rows
                                               crossAxisSpacing:
                                                   8.0, // spacing between columns
-                                              mainAxisExtent: 124,
+                                              mainAxisExtent: 136,
                                             ),
                                           );
                                         } else if (state.status.isLoading) {
@@ -182,10 +184,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           );
         },
         onPanelSlide: (position) {
+         final bloc = context.read<NavBarBloc>();
           if (position >= 0.94) {
-            context.read<NavBarBloc>().add(ShowNavBar());
-          } else {
-            context.read<NavBarBloc>().add(HideNavBar());
+            bloc.add(ShowNavBar());
+          } else if(bloc.state.isVisible){
+            bloc.add(HideNavBar());
           }
         },
         body: const SliderBodyWidget(),

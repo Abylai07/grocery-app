@@ -1,11 +1,11 @@
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
+import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/app_styles/colors.dart';
@@ -28,9 +28,6 @@ class ProductWidget extends StatelessWidget {
           isScrollControlled: true,
           context: context,
           backgroundColor: AppColors.white,
-          constraints: BoxConstraints(
-            maxHeight: 0.9.sh,
-          ),
           builder: (cxt) {
             return BlocProvider.value(
               value: BlocProvider.of<BasketButtonBloc>(context),
@@ -59,31 +56,34 @@ class ProductWidget extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      product.photoUrl?.isNotEmpty == true
-                          ? CachedNetworkImage(
-                              imageUrl: product.photoUrl!,
-                              fit: BoxFit.cover,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                      const ShimmerWidget(
-                                width: double.infinity,
-                                height: 177,
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            )
-                          : Image.asset(AppAssets.banner),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: product.photoUrl?.isNotEmpty == true
+                            ? CachedNetworkImage(
+                                imageUrl: product.photoUrl!,
+                                fit: BoxFit.cover,
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                        const ShimmerWidget(
+                                  width: double.infinity,
+                                  height: 177,
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              )
+                            : Image.asset(AppAssets.banner),
+                      ),
                       Positioned(
                         top: 0,
                         right: 0,
                         child: BlocBuilder<FavoriteCubit, FavoriteState>(
                           builder: (context, state) {
-                            bool isFavorite = state.entity?.any((element) => element.productId == product.id) ?? false;
+                            bool isFavorite = state.entity?.any((element) => element.id == product.id) ?? false;
                             return IconButton(
                               onPressed: () {
                                 context
                                     .read<FavoriteCubit>()
-                                    .storeOrDeleteFavorite(isFavorite, product.id);
+                                    .storeOrDeleteFavorite(isFavorite, product);
                               },
                               icon: SvgPicture.asset(isFavorite ? AppAssets.favoriteFill : AppAssets.favorite),
                             );
@@ -120,11 +120,19 @@ class ProductWidget extends StatelessWidget {
                   style: AppTextStyle.bodyMedium,
                   maxLines: 2,
                 ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 6.0),
+                //   child: Text(
+                //     getLocaleText(product.description),
+                //     maxLines: 2,
+                //     style: AppTextStyle.labelMedium
+                //         .copyWith(color: AppColors.gray),
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6.0),
                   child: Text(
-                    getLocaleText(product.description),
-                    maxLines: 2,
+                    product.weight ?? '',
                     style: AppTextStyle.labelMedium
                         .copyWith(color: AppColors.gray),
                   ),
@@ -156,6 +164,7 @@ class ProductWidget extends StatelessWidget {
                                   context
                                       .read<BasketButtonBloc>()
                                       .add(DeleteAtBasket(product.id));
+                                  context.read<BasketBloc>().add(const RefreshBasket());
                                 }
                               },
                             ),
@@ -179,6 +188,7 @@ class ProductWidget extends StatelessWidget {
                           context
                               .read<BasketButtonBloc>()
                               .add(AddToBasket(product));
+                          context.read<BasketBloc>().add(const RefreshBasket());
                         },
                         child: Container(
                           height: 40,

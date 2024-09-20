@@ -50,6 +50,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FavoriteScreen(),
       );
     },
+    HomeNestedRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HomeNestedScreen(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -71,6 +77,22 @@ abstract class _$AppRouter extends RootStackRouter {
           products: args.products,
           productSum: args.productSum,
         ),
+      );
+    },
+    OrderDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<OrderDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OrderDetailScreen(
+          key: args.key,
+          orderInfo: args.orderInfo,
+        ),
+      );
+    },
+    OrderHistoryRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OrderHistoryScreen(),
       );
     },
     PaymentRoute.name: (routeData) {
@@ -224,6 +246,20 @@ class FavoriteRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HomeNestedScreen]
+class HomeNestedRoute extends PageRouteInfo<void> {
+  const HomeNestedRoute({List<PageRouteInfo>? children})
+      : super(
+          HomeNestedRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeNestedRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -292,6 +328,58 @@ class MakeOrderRouteArgs {
   String toString() {
     return 'MakeOrderRouteArgs{key: $key, products: $products, productSum: $productSum}';
   }
+}
+
+/// generated route for
+/// [OrderDetailScreen]
+class OrderDetailRoute extends PageRouteInfo<OrderDetailRouteArgs> {
+  OrderDetailRoute({
+    Key? key,
+    required OrderHistoryEntity orderInfo,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OrderDetailRoute.name,
+          args: OrderDetailRouteArgs(
+            key: key,
+            orderInfo: orderInfo,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderDetailRoute';
+
+  static const PageInfo<OrderDetailRouteArgs> page =
+      PageInfo<OrderDetailRouteArgs>(name);
+}
+
+class OrderDetailRouteArgs {
+  const OrderDetailRouteArgs({
+    this.key,
+    required this.orderInfo,
+  });
+
+  final Key? key;
+
+  final OrderHistoryEntity orderInfo;
+
+  @override
+  String toString() {
+    return 'OrderDetailRouteArgs{key: $key, orderInfo: $orderInfo}';
+  }
+}
+
+/// generated route for
+/// [OrderHistoryScreen]
+class OrderHistoryRoute extends PageRouteInfo<void> {
+  const OrderHistoryRoute({List<PageRouteInfo>? children})
+      : super(
+          OrderHistoryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderHistoryRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

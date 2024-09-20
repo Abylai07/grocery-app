@@ -1,11 +1,11 @@
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
-import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
 import 'package:abricoz_app/src/presentation/bloc/button_bloc/button_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/district_bloc/district_cubit.dart';
+import 'package:abricoz_app/src/presentation/widgets/alert_dialog/text_alert_dialog.dart';
 import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
 import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
 import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
@@ -110,6 +110,22 @@ class AddOrChangeAddressView extends StatelessWidget {
         title: isChangeAddress
             ? S.of(context).editAddress
             : S.of(context).addNewAddress,
+        actions: [
+          if (address != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: IconButton(
+                onPressed: () {
+                  confirmAlertDialog(context,
+                      title: S.of(context).deleteAddress, onYesTap: () {
+                    Navigator.pop(context);
+                    context.read<AddressCubit>().deleteAddress(address?.id);
+                  });
+                },
+                icon: SvgPicture.asset(AppAssets.remove),
+              ),
+            ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

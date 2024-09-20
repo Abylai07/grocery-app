@@ -1,13 +1,12 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
+import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
 import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_styles/colors.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
@@ -47,16 +46,8 @@ class SignInView extends StatelessWidget {
     String number = AppUtils.phoneMaskFormatter.getUnmaskedText();
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: SvgPicture.asset(AppAssets.back),
-          onPressed: () {
-            context.router.maybePop();
-          },
-        ),
-        title: Text(
-          S.of(context).signIn,
-        ),
+      appBar: CustomAppBar(
+        title: S.of(context).signIn,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -91,6 +82,7 @@ class SignInView extends StatelessWidget {
                 initialValue: number,
                 inputFormatters: [AppUtils.phoneMaskFormatter],
                 hintText: S.of(context).phoneNumber,
+                keyboardType: TextInputType.number,
                 onChanged: (val) {
                   final buttonBloc = context.read<ButtonBloc>();
                   bool buttonActive = buttonBloc.state is ButtonActive;

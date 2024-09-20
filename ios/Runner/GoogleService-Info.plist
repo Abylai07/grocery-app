@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyD4-SIhYhUGGX8cvu8Ep8XHLCmwXysN9DA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>775143759922</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.abricoz.app</string>
+	<key>PROJECT_ID</key>
+	<string>abricoz-94dfc</string>
+	<key>STORAGE_BUCKET</key>
+	<string>abricoz-94dfc.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:775143759922:ios:0af29c2652e310d7285c2b</string>
+</dict>
+</plist>

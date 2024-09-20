@@ -27,13 +27,12 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(time) =>
       "Завершите оплату в течение ${time} или заказ будет отменён";
 
-  static String m3(price, period) => "от ${price} тг/${period}";
-
-  static String m4(num) => "Код выслан на ${num}";
+  static String m3(num) => "Код выслан на ${num}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "abricoz": MessageLookupByLibrary.simpleMessage("Abricoz"),
+        "activeOrder": MessageLookupByLibrary.simpleMessage("Активный заказ"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Добавить адрес"),
         "addNewAddress":
             MessageLookupByLibrary.simpleMessage("Добавить новый адрес"),
@@ -44,7 +43,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Ваши адреса будут храниться здесь"),
         "againOtherWord": MessageLookupByLibrary.simpleMessage(
             "Попробуйте другие ключевые слова или проверьте правильность ввода"),
+        "allProducts": MessageLookupByLibrary.simpleMessage("Все товары"),
         "and": MessageLookupByLibrary.simpleMessage(" и "),
+        "appLanguage": MessageLookupByLibrary.simpleMessage("Язык приложения"),
         "back": MessageLookupByLibrary.simpleMessage("Назад"),
         "bannerLocal": MessageLookupByLibrary.simpleMessage(
             "Заказывайте клубнику в новом приложении от Abricoz!"),
@@ -55,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "calories": MessageLookupByLibrary.simpleMessage("ккал"),
         "cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
         "cancelOrder": MessageLookupByLibrary.simpleMessage("Отменить заказ"),
+        "canceled": MessageLookupByLibrary.simpleMessage("Отменён"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("углеводы"),
         "carts": MessageLookupByLibrary.simpleMessage("Карты"),
         "cashToCourier":
@@ -71,14 +73,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "confirmPay": m0,
         "continueAgree": MessageLookupByLibrary.simpleMessage(
             "Продолжая, вы соглашаетесь с "),
+        "createDate": MessageLookupByLibrary.simpleMessage("Дата оформления"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
         "deleteAddress": MessageLookupByLibrary.simpleMessage(
             "Этот адрес больше не нужен? Прощаться всегда непросто."),
         "deleteAllBasket": MessageLookupByLibrary.simpleMessage(
             "Удалить выбранные товары из корзины?"),
+        "delivered": MessageLookupByLibrary.simpleMessage("Доставлен"),
         "delivery30min":
             MessageLookupByLibrary.simpleMessage("Доставка от 30 минут"),
+        "deliveryAddress":
+            MessageLookupByLibrary.simpleMessage("Адрес доставки"),
         "deliveryBefore": MessageLookupByLibrary.simpleMessage("Доставка до"),
+        "deliveryDate":
+            MessageLookupByLibrary.simpleMessage("Дата и время доставки"),
         "deliveryPrice":
             MessageLookupByLibrary.simpleMessage("Стоимость доставки"),
         "deliveryTime": MessageLookupByLibrary.simpleMessage("Время доставки"),
@@ -102,8 +110,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "getSms": MessageLookupByLibrary.simpleMessage("Получить код"),
         "getSmsTime": MessageLookupByLibrary.simpleMessage(
             "Получить новый код можно через"),
-        "gmail": MessageLookupByLibrary.simpleMessage("example@mail.com"),
+        "go": MessageLookupByLibrary.simpleMessage("Перейти"),
+        "goToBasket": MessageLookupByLibrary.simpleMessage("Перейти в корзину"),
         "goToPay": m1,
+        "goToProducts":
+            MessageLookupByLibrary.simpleMessage("Перейти к покупкам"),
         "hereWillFavorite": MessageLookupByLibrary.simpleMessage(
             "Здесь будут отображаться лайкнутые вами товары"),
         "hereWillProduct": MessageLookupByLibrary.simpleMessage(
@@ -112,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Некорректный номер телефона"),
         "itemList": MessageLookupByLibrary.simpleMessage("Список товаров"),
+        "lastOrderWillHere": MessageLookupByLibrary.simpleMessage(
+            "Здесь будут отображаться ваши\nпоследние заказы"),
         "login": MessageLookupByLibrary.simpleMessage("Войти"),
         "loginAccount": MessageLookupByLibrary.simpleMessage("Войти в аккаунт"),
         "logout": MessageLookupByLibrary.simpleMessage("Выйти"),
@@ -120,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "maker": MessageLookupByLibrary.simpleMessage("Производитель"),
         "mustFill": MessageLookupByLibrary.simpleMessage(
             "Поле обязательно для заполнения"),
+        "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
         "noAddress": MessageLookupByLibrary.simpleMessage("У вас нет адресов"),
         "nonAuthorizedText": MessageLookupByLibrary.simpleMessage(
             "Эта опция доступна для авторизованных пользователей"),
@@ -128,10 +142,14 @@ class MessageLookup extends MessageLookupByLibrary {
             "Сейчас нет доступного времени"),
         "notFound": MessageLookupByLibrary.simpleMessage("Ничего не найдено"),
         "office": MessageLookupByLibrary.simpleMessage("Кв/офис"),
+        "order": MessageLookupByLibrary.simpleMessage("Заказ"),
+        "orderAgain": MessageLookupByLibrary.simpleMessage("Повторить заказ"),
         "orderCancel": MessageLookupByLibrary.simpleMessage(
             "Отмена заказа? Ваши покупки почти отправились в путь!"),
         "orderCanceled": MessageLookupByLibrary.simpleMessage(
             "Заказ был отменён по инициативе пользователя"),
+        "orderEmpty":
+            MessageLookupByLibrary.simpleMessage("Список заказов пуст"),
         "orderHistory": MessageLookupByLibrary.simpleMessage("История заказов"),
         "orderNumber": MessageLookupByLibrary.simpleMessage("Номер заказа"),
         "orders": MessageLookupByLibrary.simpleMessage("Заказы"),
@@ -150,9 +168,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Номер телефона"),
         "pinError": MessageLookupByLibrary.simpleMessage(
             "PIN-код не верен, либо истёк."),
-        "price": m3,
         "privacyPolicy": MessageLookupByLibrary.simpleMessage(
             "Политикой конфиденциальности"),
+        "processCancel":
+            MessageLookupByLibrary.simpleMessage("В процессе отмены"),
+        "processing": MessageLookupByLibrary.simpleMessage("Обработка"),
         "products": MessageLookupByLibrary.simpleMessage("Продукты"),
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
         "proteins": MessageLookupByLibrary.simpleMessage("белки"),
@@ -166,18 +186,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Выберите способ оплаты"),
         "selectTimePlease":
             MessageLookupByLibrary.simpleMessage("Выберите время доставки"),
-        "sentTo": m4,
+        "sentTo": m3,
         "signIn": MessageLookupByLibrary.simpleMessage("Вход в аккаунт"),
         "somethingError":
             MessageLookupByLibrary.simpleMessage("Что-то пошло не так"),
+        "status": MessageLookupByLibrary.simpleMessage("Статус"),
         "street": MessageLookupByLibrary.simpleMessage("Улица, дом*"),
         "sureLogout": MessageLookupByLibrary.simpleMessage(
             "Вы точно хотите выйти? Мы будем скучать."),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки"),
         "toBasket": MessageLookupByLibrary.simpleMessage("В корзину"),
+        "totalSum": MessageLookupByLibrary.simpleMessage("Итоговая сумма"),
         "userAgreement": MessageLookupByLibrary.simpleMessage(
             "Пользовательским соглашением"),
+        "version": MessageLookupByLibrary.simpleMessage("Версия"),
+        "wait": MessageLookupByLibrary.simpleMessage("Ожидание"),
         "welcome": MessageLookupByLibrary.simpleMessage("Добро пожаловать в "),
         "wrongCurrentPass":
             MessageLookupByLibrary.simpleMessage("Текущий пароль неверен"),

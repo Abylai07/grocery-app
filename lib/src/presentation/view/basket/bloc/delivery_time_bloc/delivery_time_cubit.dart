@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enums.dart';
 
-
 part 'delivery_time_state.dart';
 
 class DeliveryTimeCubit extends Cubit<DeliveryTimeState> {

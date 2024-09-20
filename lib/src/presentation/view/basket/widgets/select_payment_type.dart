@@ -74,26 +74,29 @@ class SelectPaymentType extends StatelessWidget {
                 height: 32,
                 color: AppColors.grayContainer,
               ),
-              TextButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        S.of(context).addNewCard,
-                        style:
-                        AppTextStyle.bodyMedium.copyWith(
-                          color: AppColors.main,
+              Opacity(
+                opacity: 0.5,
+                child: TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          S.of(context).addNewCard,
+                          style:
+                          AppTextStyle.bodyMedium.copyWith(
+                            color: AppColors.main,
+                          ),
                         ),
-                      ),
-                      4.width,
-                      const Icon(
-                        Icons.add,
-                        color: AppColors.main,
-                      )
-                    ],
-                  ))
+                        4.width,
+                        const Icon(
+                          Icons.add,
+                          color: AppColors.main,
+                        )
+                      ],
+                    )),
+              )
             ],
           ),
         ),

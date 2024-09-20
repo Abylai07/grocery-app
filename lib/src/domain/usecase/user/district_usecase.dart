@@ -1,6 +1,5 @@
 
 
-import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
 import 'package:abricoz_app/src/domain/entity/user/district_entity.dart';
 import 'package:dartz/dartz.dart';
 
