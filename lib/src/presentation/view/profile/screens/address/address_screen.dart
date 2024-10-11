@@ -19,6 +19,7 @@ class AddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AddressCubit>().fetchAddress();
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).yourAddress,
@@ -53,21 +54,19 @@ class AddressScreen extends StatelessWidget {
                                     children: [
                                       Expanded(
                                           child: Text(
-                                            '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
+                                        '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
                                         style: AppTextStyle.bodyLarge,
                                       )),
                                       IconButton(
                                         icon:
                                             SvgPicture.asset(AppAssets.redact),
                                         onPressed: () async {
-                                          final result = await context.router
-                                              .push(AddOrChangeAddressRoute(
+                                          await context.router.push(
+                                              MapAddressRoute(
                                                   address: addresses[index]));
-                                          if (result == 'refreshPage') {
-                                            context
-                                                .read<AddressCubit>()
-                                                .fetchAddress();
-                                          }
+                                          context
+                                              .read<AddressCubit>()
+                                              .fetchAddress();
                                         },
                                       )
                                     ],
@@ -81,11 +80,8 @@ class AddressScreen extends StatelessWidget {
                             }),
                         TextButton(
                             onPressed: () async {
-                              final result = await context.router
-                                  .push(AddOrChangeAddressRoute());
-                              if (result == 'refreshPage') {
-                                context.read<AddressCubit>().fetchAddress();
-                              }
+                              await context.router.push(MapAddressRoute());
+                              context.read<AddressCubit>().fetchAddress();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -143,10 +139,8 @@ class AddressScreen extends StatelessWidget {
         16.height,
         InkWell(
           onTap: () async {
-            final result = await context.router.push(AddOrChangeAddressRoute());
-            if (result == 'refreshPage') {
-              context.read<AddressCubit>().fetchAddress();
-            }
+            await context.router.push(MapAddressRoute());
+            context.read<AddressCubit>().fetchAddress();
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),

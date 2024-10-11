@@ -1,10 +1,10 @@
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/enums.dart';
+import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/presentation/bloc/button_bloc/button_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
-import 'package:abricoz_app/src/presentation/view/profile/bloc/district_bloc/district_cubit.dart';
 import 'package:abricoz_app/src/presentation/widgets/alert_dialog/text_alert_dialog.dart';
 import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
 import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
@@ -20,6 +20,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../common/app_styles/colors.dart';
 import '../../../../../common/app_styles/text_styles.dart';
 import '../../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../../../data/models/user/yandex_address.dart';
 import '../../../../../get_it_sl.dart';
 import '../../../../widgets/border_container.dart';
 import '../../../../widgets/custom_app_bar.dart';
@@ -27,17 +28,18 @@ import '../../../../widgets/expandable_theme.dart';
 
 @RoutePage()
 class AddOrChangeAddressScreen extends StatelessWidget {
-  const AddOrChangeAddressScreen({super.key, this.address});
+  const AddOrChangeAddressScreen({
+    super.key,
+    this.address,
+    required this.selectAddress,
+  });
   final AddressEntity? address;
+  final YandexAddress selectAddress;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) =>
-              DistrictCubit(sl())..fetchDistricts(address?.districtId),
-        ),
         BlocProvider(
           create: (_) => AddressCubit(sl()),
         ),
@@ -47,21 +49,26 @@ class AddOrChangeAddressScreen extends StatelessWidget {
       ],
       child: AddOrChangeAddressView(
         address: address,
+        selectAddress: selectAddress,
       ),
     );
   }
 }
 
 class AddOrChangeAddressView extends StatelessWidget {
-  const AddOrChangeAddressView({super.key, this.address});
+  const AddOrChangeAddressView({
+    super.key,
+    this.address,
+    required this.selectAddress,
+  });
   final AddressEntity? address;
-
+  final YandexAddress selectAddress;
   @override
   Widget build(BuildContext context) {
     ExpandableController cityController = ExpandableController();
-    ExpandableController districtController = ExpandableController();
+
     TextEditingController streetController =
-        TextEditingController(text: address?.streetAndHouse);
+        TextEditingController(text: selectAddress.street);
     TextEditingController houseController =
         TextEditingController(text: address?.apartment);
     TextEditingController entranceController =
@@ -87,15 +94,15 @@ class AddOrChangeAddressView extends StatelessWidget {
 
     onSavePressed() {
       int? cityId = context.read<CityCubit>().state.selectCity?.id;
-      int? districtId = context.read<DistrictCubit>().state.selectDistrict?.id;
       context.read<AddressCubit>().addAddress(addressId: address?.id, data: {
         "city_id": cityId,
-        "district_id": districtId,
         "address_street_and_house": streetController.text,
         "address_apartment": houseController.text,
         "address_entrance": entranceController.text,
         "address_floor": floorController.text,
         "address_comment": commentController.text,
+        "latitude": selectAddress.latitude.toString(),
+        "longitude": selectAddress.longitude.toString(),
       });
     }
 
@@ -118,7 +125,8 @@ class AddOrChangeAddressView extends StatelessWidget {
                 onPressed: () {
                   confirmAlertDialog(context,
                       title: S.of(context).deleteAddress, onYesTap: () {
-                    Navigator.pop(context);
+                    context.router.popUntil(
+                        (route) => route.settings.name == AddressRoute.name);
                     context.read<AddressCubit>().deleteAddress(address?.id);
                   });
                 },
@@ -189,70 +197,70 @@ class AddOrChangeAddressView extends StatelessWidget {
                   },
                 ),
               ),
-              Text(
-                S.of(context).district,
-                style: AppTextStyle.bodyLarge,
-              ),
-              BorderContainer(
-                margin: const EdgeInsets.only(top: 4, bottom: 12),
-                child: BlocBuilder<DistrictCubit, DistrictState>(
-                  builder: (context, state) {
-                    if (state.status.isSuccess) {
-                      return ExpandablePanel(
-                        controller: districtController,
-                        theme: buildExpandableThemeData(),
-                        header: Text(
-                          state.selectDistrict?.name ?? 'Select city',
-                          style: AppTextStyle.bodyMedium,
-                        ),
-                        collapsed: const SizedBox(),
-                        expanded: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: state.entity?.length,
-                          itemBuilder: (context, i) {
-                            bool select =
-                                state.entity?[i].id == state.selectDistrict?.id;
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 12),
-                              child: InkWell(
-                                onTap: () {
-                                  context
-                                      .read<DistrictCubit>()
-                                      .selectDistrict(state.entity?[i]);
-                                  districtController.value = false;
-                                },
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      state.entity?[i].name ?? '',
-                                      style: AppTextStyle.labelLarge.copyWith(
-                                          color: select
-                                              ? AppColors.main
-                                              : AppColors.gray2),
-                                    ),
-                                    if (select)
-                                      SvgPicture.asset(AppAssets.selected),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (state.status.isLoading) {
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-              ),
+              // Text(
+              //   S.of(context).district,
+              //   style: AppTextStyle.bodyLarge,
+              // ),
+              // BorderContainer(
+              //   margin: const EdgeInsets.only(top: 4, bottom: 12),
+              //   child: BlocBuilder<DistrictCubit, DistrictState>(
+              //     builder: (context, state) {
+              //       if (state.status.isSuccess) {
+              //         return ExpandablePanel(
+              //           controller: districtController,
+              //           theme: buildExpandableThemeData(),
+              //           header: Text(
+              //             state.selectDistrict?.name ?? 'Select city',
+              //             style: AppTextStyle.bodyMedium,
+              //           ),
+              //           collapsed: const SizedBox(),
+              //           expanded: ListView.builder(
+              //             padding: EdgeInsets.zero,
+              //             shrinkWrap: true,
+              //             physics: const NeverScrollableScrollPhysics(),
+              //             itemCount: state.entity?.length,
+              //             itemBuilder: (context, i) {
+              //               bool select =
+              //                   state.entity?[i].id == state.selectDistrict?.id;
+              //               return Padding(
+              //                 padding: const EdgeInsets.only(top: 12),
+              //                 child: InkWell(
+              //                   onTap: () {
+              //                     context
+              //                         .read<DistrictCubit>()
+              //                         .selectDistrict(state.entity?[i]);
+              //                     districtController.value = false;
+              //                   },
+              //                   child: Row(
+              //                     mainAxisAlignment:
+              //                         MainAxisAlignment.spaceBetween,
+              //                     children: [
+              //                       Text(
+              //                         state.entity?[i].name ?? '',
+              //                         style: AppTextStyle.labelLarge.copyWith(
+              //                             color: select
+              //                                 ? AppColors.main
+              //                                 : AppColors.gray2),
+              //                       ),
+              //                       if (select)
+              //                         SvgPicture.asset(AppAssets.selected),
+              //                     ],
+              //                   ),
+              //                 ),
+              //               );
+              //             },
+              //           ),
+              //         );
+              //       } else if (state.status.isLoading) {
+              //         return const Center(
+              //           child: CircularProgressIndicator.adaptive(),
+              //         );
+              //       } else {
+              //         return const SizedBox();
+              //       }
+              //     },
+              //   ),
+              // ),
               CustomTextFieldWidget(
                 controller: streetController,
                 hintText: S.of(context).street,
@@ -307,7 +315,8 @@ class AddOrChangeAddressView extends StatelessWidget {
         child: BlocConsumer<AddressCubit, AddressState>(
           listener: (context, state) {
             if (state.status.isSuccess) {
-              context.router.maybePop('refreshPage');
+              context.router.popUntil(
+                      (route) => route.settings.name == AddressRoute.name);
             } else if (state.status.isError) {
               showErrorSnackBar(context, S.of(context).somethingError);
             }
@@ -316,12 +325,13 @@ class AddOrChangeAddressView extends StatelessWidget {
             return BlocBuilder<ButtonBloc, ButtonState>(
               builder: (context, buttonState) {
                 return CustomMainButton(
-                  isActive: buttonState is ButtonActive,
+                  isActive: true, // buttonState is ButtonActive,
                   text: isChangeAddress
                       ? S.of(context).save
                       : S.of(context).addAddress,
                   isLoading: state.status.isLoading,
-                  onTap: onSavePressed,
+                  onTap: () => onSavePressed(),
+                  // onTap: () => context.router.push(const MapAddressRoute())// onSavePressed,
                 );
               },
             );

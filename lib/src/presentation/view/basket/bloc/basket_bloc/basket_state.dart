@@ -1,10 +1,19 @@
 part of 'basket_bloc.dart';
 
-class BasketState<T> extends Equatable {
+enum BasketStatus { initial, success, clearedBasket,  error, loading}
+
+extension BasketStatusX on BasketStatus {
+  bool get isInitial => this == BasketStatus.initial;
+  bool get isSuccess => this == BasketStatus.success;
+  bool get isError => this == BasketStatus.error;
+  bool get isLoading => this == BasketStatus.loading;
+  bool get isClearedBasket => this == BasketStatus.clearedBasket;
+}
+class BasketState extends Equatable {
   final num basketSum;
   final ProductHiveModel? product;
-    final List<ProductHiveModel>? allProducts;
-  final CubitStatus status;
+  final List<ProductHiveModel>? allProducts;
+  final BasketStatus status;
   final CheckCardEntity? entity;
   final String? message;
   final int? errorCode;
@@ -13,22 +22,22 @@ class BasketState<T> extends Equatable {
     this.allProducts,
     this.basketSum = 0,
     this.product,
-    this.status = CubitStatus.initial,
+    this.status = BasketStatus.initial,
     this.entity,
     this.errorCode,
     this.message = '',
   });
 
-  BasketState<T> copyWith({
+  BasketState copyWith({
     num? basketSum,
     ProductHiveModel? product,
     List<ProductHiveModel>? allProducts,
-    CubitStatus? status,
+    BasketStatus? status,
     CheckCardEntity? entity,
     String? message,
     int? errorCode,
   }) {
-    return BasketState<T>(
+    return BasketState(
       basketSum: basketSum ?? this.basketSum,
       product: product ?? this.product,
       allProducts: allProducts ?? this.allProducts,

@@ -230,6 +230,26 @@ class S {
     );
   }
 
+  /// `Выбрать адрес`
+  String get select {
+    return Intl.message(
+      'Выбрать адрес',
+      name: 'select',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Укажите город`
+  String get selectCity {
+    return Intl.message(
+      'Укажите город',
+      name: 'selectCity',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Получить новый код можно через`
   String get getSmsTime {
     return Intl.message(
@@ -1335,6 +1355,66 @@ class S {
     return Intl.message(
       'Перейти в корзину',
       name: 'goToBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Введите имя и фамилию`
+  String get enterName {
+    return Intl.message(
+      'Введите имя и фамилию',
+      name: 'enterName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Заполните поля "Имя" и "Фамилия"`
+  String get fillName {
+    return Intl.message(
+      'Заполните поля "Имя" и "Фамилия"',
+      name: 'fillName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Имя`
+  String get name {
+    return Intl.message(
+      'Имя',
+      name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Фамилия`
+  String get surname {
+    return Intl.message(
+      'Фамилия',
+      name: 'surname',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Вы точно хотите удалить аккаунт?`
+  String get deleteAccountSure {
+    return Intl.message(
+      'Вы точно хотите удалить аккаунт?',
+      name: 'deleteAccountSure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Удалить аккаунт?`
+  String get deleteAccount {
+    return Intl.message(
+      'Удалить аккаунт?',
+      name: 'deleteAccount',
       desc: '',
       args: [],
     );

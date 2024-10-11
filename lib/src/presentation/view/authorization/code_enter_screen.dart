@@ -8,6 +8,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../common/app_styles/colors.dart';
 import '../../../common/app_styles/text_styles.dart';
+import '../../../common/utils/firebase_api/notifications.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../common/utils/parsers/date_parser.dart';
 import '../../../get_it_sl.dart';
@@ -79,10 +80,15 @@ class CodeEnterView extends StatelessWidget {
               ),
               BlocConsumer<SingInCubit, SignInState>(
                 listener: (context, state) {
-                  if (state.status.isSuccessCode) {
+                  if (state.status.isSuccessCode || state.status.isNeedName) {
                     context.read<TimerBloc>().add(ResetTimer());
                     context.read<UserSessionBloc>().add(LoadUserSession());
-                    context.router.replaceAll([const IndexRoute(children: [HomeNestedRoute()])]);
+                    Notifications().init();
+                    if(state.status.isNeedName){
+                      context.router.replace(const UserInfoRoute());
+                    } else {
+                      context.router.replaceAll([const IndexRoute(children: [HomeNestedRoute()])]);
+                    }
                   }
                 },
                 builder: (context, state) {

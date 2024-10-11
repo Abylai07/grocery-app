@@ -6,12 +6,15 @@ import 'package:dartz/dartz.dart';
 import '../../core/error/failure.dart';
 import '../entity/product/product_entity.dart';
 import '../entity/user/district_entity.dart';
+import '../entity/user/user_entity.dart';
 
 abstract class AbstractUserServiceRepository {
 
   Future<Either<Failure, Map<String, dynamic>>> signInPhone(params);
 
   Future<Either<Failure, Map<String, dynamic>>> signInCode(params);
+
+  Future<Either<Failure, UserEntity>> setName(params);
 
   Future<Either<Failure, List<CityEntity>>> getCityList();
 
@@ -30,4 +33,6 @@ abstract class AbstractUserServiceRepository {
   Future<Either<Failure, Map<String, dynamic>>> deleteFavorite(params);
 
   Future<Either<Failure, List<ProductEntity>>> fetchFavorite();
+
+  Future<Either<Failure, bool>> deleteUser();
 }

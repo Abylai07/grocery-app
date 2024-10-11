@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
@@ -11,17 +13,21 @@ import '../../common/constants.dart' as constants;
 import '../../common/constants.dart';
 import '../../core/error/exception.dart';
 import '../../domain/entity/product/product_entity.dart';
+import '../../domain/entity/user/user_entity.dart';
 import '../../domain/usecase/product/category_usecase.dart';
 import '../models/product/product_model.dart';
 import '../models/user/address_model.dart';
 import '../models/user/banner_model.dart';
 import '../models/user/city_model.dart';
 import '../models/user/district_model.dart';
+import '../models/user/user_model.dart';
 
 abstract class UserRemoteDataSource {
   Future<Map<String, dynamic>> signInPhone(MapParams params);
 
   Future<Map<String, dynamic>> signInCode(MapParams params);
+
+  Future<UserEntity> setName(MapParams params);
 
   Future<List<CityEntity>> getCityList();
 
@@ -40,6 +46,8 @@ abstract class UserRemoteDataSource {
   Future<List<ProductEntity>> fetchFavorites();
 
   Future<Map<String, dynamic>> deleteFavorite(PathParams params);
+
+  Future<bool> deleteUser();
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -83,7 +91,27 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return response.data;
+        Map<String, dynamic> result = response.data is Map
+            ? response.data
+            : deleteNotNeedPart(response.data);
+        return result;
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<UserEntity> setName(MapParams params) async {
+    try {
+      final response = await api.dio.post(
+        '${host}auth/set-name',
+        data: params.data,
+      );
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(response.data['data']['user']);
       } else {
         throw ServerException();
       }
@@ -165,6 +193,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       return api.handleDioException(e);
     }
   }
+
 
   @override
   Future<List<DistrictEntity>> getDistricts() async {
@@ -249,5 +278,32 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } on DioException catch (e) {
       return api.handleDioException(e);
     }
+  }
+
+  @override
+  Future<bool> deleteUser() async {
+    try {
+      final response = await api.dio.delete(
+        '${host}user/delete',
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+}
+
+
+Map<String, dynamic> deleteNotNeedPart(String result) {
+  int index = result.indexOf('{"data":');
+  if (index != -1) {
+    String remainingJsonString = result.substring(index);
+    return jsonDecode(remainingJsonString);
+  } else {
+    return jsonDecode(result);
   }
 }

@@ -21,6 +21,7 @@ class ProductsCubit extends Cubit<BaseState> {
   int _currentId = 1;
 
   Future<void> _fetchPage(int pageKey, int id) async {
+    emit(state.copyWith(status: CubitStatus.loading));
     final failureOrAuth = await productUseCase.fetchProducts(MapParams(
         {
           'perPage': 20,
@@ -60,6 +61,7 @@ class ProductsCubit extends Cubit<BaseState> {
   void setCategoryId(int id) {
     _currentId = id;
   }
+
 
   @override
   Future<void> close() {

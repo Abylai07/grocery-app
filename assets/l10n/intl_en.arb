@@ -8,6 +8,8 @@
       "period": {}
     }
   },
+  "select": "Select address",
+  "selectCity": "Specify the city",
   "orderHistory": "Order History",
   "personalData": "Personal Data",
   "back": "Back",
@@ -155,6 +157,13 @@
   "deliveryAddress": "Delivery Address",
   "activeOrder": "Active order",
   "go": "Go over",
-  "goToBasket": "Go to cart"
+  "goToBasket": "Go to cart",
+  "enterName": "Enter your first and last name",
+  "fillName": "Fill in the first and last name fields",
+  "name": "First name",
+  "surname": "Last name",
+  "deleteAccountSure": "Are you sure you want to delete your account?",
+  "deleteAccount": "Delete an account?"
+
 }
 

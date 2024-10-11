@@ -14,7 +14,7 @@ class SingInCubit extends Cubit<SignInState> {
     emit(const SignInState(status: SignInStatus.loading));
 
     final failureOrAuth = await signInUseCase
-        .signInPhone(MapParams({'phone': number.trim()}));
+        .signInPhone(MapParams({'phone': '+7$number',}));
 
     emit(
       failureOrAuth.fold(
@@ -34,15 +34,9 @@ class SingInCubit extends Cubit<SignInState> {
     emit(const SignInState(status: SignInStatus.loading));
 
     final failureOrAuth = await signInUseCase.signInCode(MapParams({
-      'phone': number.trim(),
+      'phone': '+7$number',
       'code': code,
     }));
-
-    if (failureOrAuth.isRight()) {
-      final data = failureOrAuth.toOption().toNullable();
-      SharedPrefs().setAccessToken(data?['data']['token']);
-      SharedPrefs().setPhone(number.trim());
-    }
 
     emit(
       failureOrAuth.fold(
@@ -50,10 +44,46 @@ class SingInCubit extends Cubit<SignInState> {
           status: SignInStatus.error,
           message: l.message,
         ),
-        (r) => SignInState(
-          status: SignInStatus.successCode,
-          entity: r,
+        (r) {
+          final data = r['data'];
+          SharedPrefs().setAccessToken(data['token']);
+          SharedPrefs().setPhone(number.trim());
+          bool needName = data['user']['firstname'] == null || data['user']['lastname'] == null;
+          if (!needName) {
+            SharedPrefs().setFullName('${data['user']['firstname']} ${data['user']['lastname']}');
+          }
+          return SignInState(
+            status: needName
+                ? SignInStatus.needName
+                : SignInStatus.successCode,
+            entity: r,
+          );
+        },
+      ),
+    );
+  }
+
+  void setName(String name, String surname) async {
+    emit(const SignInState(status: SignInStatus.loading));
+
+    final failureOrAuth = await signInUseCase.setName(MapParams({
+      'firstname': name,
+      'lastname': surname,
+    }));
+
+    emit(
+      failureOrAuth.fold(
+            (l) => SignInState(
+          status: SignInStatus.error,
+          message: l.message,
         ),
+            (r) {
+          SharedPrefs().setFullName('${r.firstname} ${r.lastname}');
+          return SignInState(
+            status: SignInStatus.successName,
+            entity: r,
+          );
+        },
       ),
     );
   }

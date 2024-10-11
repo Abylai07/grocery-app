@@ -144,7 +144,7 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> with RouteAware {
                       children: [
                         6.height,
                         Text(
-                          S.of(context).selectAddress,
+                          S.of(context).selectCity,
                           style: AppTextStyle.displayLarge.copyWith(
                             color: AppColors.black.withOpacity(0.5),
                           ),

@@ -4,7 +4,6 @@ import 'package:abricoz_app/src/domain/usecase/order/check_basket_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../common/enums.dart';
 import '../../../../../data/hive/hive_database.dart';
 import '../../../../../domain/usecase/user/sign_in_usecase.dart';
 
@@ -20,7 +19,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
     on<DeleteAllBasket>((event, emit) {
       BasketDatabase().clearBasket();
-      emit(const BasketState());
+      emit(const BasketState(status: BasketStatus.clearedBasket));
     });
 
     on<CheckBasketItems>(_onCheckBasket);
@@ -28,11 +27,11 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   final CheckBasketUseCase useCase;
 
   Future<void> _onCheckBasket(CheckBasketItems event, Emitter<BasketState> emit) async {
-    emit(const BasketState(status: CubitStatus.loading));
+    emit(const BasketState(status: BasketStatus.loading));
 
     List<ProductHiveModel> list = BasketDatabase().getAllProducts();
     if(list.isEmpty) {
-      emit(state.copyWith(status: CubitStatus.initial));
+      emit(state.copyWith(status: BasketStatus.initial));
       return;
     }
     final data = list.map((item) => {
@@ -45,13 +44,13 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     emit(
       failureOrAuth.fold(
             (l) => BasketState(
-          status: CubitStatus.error,
+          status: BasketStatus.error,
           message: l.message,
               allProducts: list,
               basketSum: _calculatePrice(list),
         ),
             (r) => BasketState(
-          status: CubitStatus.success,
+          status: BasketStatus.success,
           entity: r,
           allProducts: list,
           basketSum: r.totalPrice,

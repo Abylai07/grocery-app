@@ -2,6 +2,7 @@ import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
 import 'package:abricoz_app/src/domain/entity/user/district_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/user_entity.dart';
 import 'package:abricoz_app/src/domain/repository/abstract_user_service_profile.dart';
 import 'package:dartz/dartz.dart';
 
@@ -9,6 +10,7 @@ import '../../core/check_error_type.dart';
 import '../../core/error/failure.dart';
 import '../../domain/entity/product/product_entity.dart';
 import '../datasources/user_remote_data_source.dart';
+import '../models/user/user_model.dart';
 
 class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   UserServiceRepositoryImpl(this.dataSource, this._networkOperationHelper);
@@ -25,6 +27,12 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   Future<Either<Failure, Map<String, dynamic>>> signInCode(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.signInCode(params));
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> setName(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.setName(params));
   }
 
   @override
@@ -79,5 +87,11 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   Future<Either<Failure, Map<String, dynamic>>> deleteAddress(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.deleteAddress(params));
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteUser() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.deleteUser());
   }
 }

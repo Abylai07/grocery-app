@@ -75,6 +75,9 @@ class MessageLookup extends MessageLookupByLibrary {
             "Жалғастыра отырып, сіз келісесіз "),
         "createDate": MessageLookupByLibrary.simpleMessage("Ресімдеу күні"),
         "delete": MessageLookupByLibrary.simpleMessage("Жою"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("Аккаунт жою?"),
+        "deleteAccountSure": MessageLookupByLibrary.simpleMessage(
+            "Сіз аккаунтты жою керектігіне сенімдісізбе?"),
         "deleteAddress": MessageLookupByLibrary.simpleMessage(
             "Бұл мекенжай енді қажет емес пе? Қоштасу әрқашан қиын."),
         "deleteAllBasket": MessageLookupByLibrary.simpleMessage(
@@ -98,6 +101,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty": MessageLookupByLibrary.simpleMessage("Бос"),
         "enterCode":
             MessageLookupByLibrary.simpleMessage("Растау кодын енгізіңіз"),
+        "enterName":
+            MessageLookupByLibrary.simpleMessage("Аты мен тегіңізді енгізіңіз"),
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Жалғастыру үшін телефон нөмірін енгізіңіз"),
         "entrance": MessageLookupByLibrary.simpleMessage("Кіреберіс"),
@@ -105,6 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorite": MessageLookupByLibrary.simpleMessage("Таңдаулы"),
         "favoriteEmpty":
             MessageLookupByLibrary.simpleMessage("Таңдаулы өнімдер тізімі бос"),
+        "fillName": MessageLookupByLibrary.simpleMessage(
+            "Есіміңізді және Тегіңізді толтырыңыз"),
         "floor": MessageLookupByLibrary.simpleMessage("Қабат"),
         "getNewSms": MessageLookupByLibrary.simpleMessage("Жаңа кодты алу"),
         "getSms": MessageLookupByLibrary.simpleMessage("Кодты алу"),
@@ -133,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mustFill": MessageLookupByLibrary.simpleMessage(
             "Бұл орын міндетті түрде толтырылуы керек"),
         "myOrders": MessageLookupByLibrary.simpleMessage("Менің тапсарыстарым"),
+        "name": MessageLookupByLibrary.simpleMessage("Есім"),
         "noAddress": MessageLookupByLibrary.simpleMessage(
             "Сізде қосылған мекенжайлар жоқ"),
         "nonAuthorizedText": MessageLookupByLibrary.simpleMessage(
@@ -181,10 +189,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteins": MessageLookupByLibrary.simpleMessage("ақуыздар"),
         "save": MessageLookupByLibrary.simpleMessage("Сақтау"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Тауарды іздеу"),
+        "select": MessageLookupByLibrary.simpleMessage("Мекенжайды таңдау"),
         "selectAddress": MessageLookupByLibrary.simpleMessage(
             "Жеткізу мекенжайын көрсетіңіз"),
         "selectAddressPlease":
             MessageLookupByLibrary.simpleMessage("Жеткізу мекенжайын таңдаңыз"),
+        "selectCity": MessageLookupByLibrary.simpleMessage("Қаланы көрсетіңіз"),
         "selectPaymentPlease":
             MessageLookupByLibrary.simpleMessage("Төлем әдісін таңдаңыз"),
         "selectTimePlease":
@@ -197,6 +207,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "street": MessageLookupByLibrary.simpleMessage("Көше, үй*"),
         "sureLogout": MessageLookupByLibrary.simpleMessage(
             "Шығуға сенімдісіз бе? Біз сізді сағынамыз."),
+        "surname": MessageLookupByLibrary.simpleMessage("Тегі"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Сатып алғаныңыз үшін рахмет! Жеткізу туралы мәліметтермен сізге хабарласамыз"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Себетке қосу"),

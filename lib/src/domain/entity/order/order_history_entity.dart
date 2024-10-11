@@ -9,7 +9,6 @@ class OrderHistoryEntity extends Equatable {
   final int deliveryIntervalId;
   final int paymentTypeId;
   final int cityId;
-  final int districtId;
     final String addressStreetAndHouse;
   final String addressApartment;
   final String? addressEntrance;
@@ -32,7 +31,6 @@ class OrderHistoryEntity extends Equatable {
     required this.deliveryIntervalId,
     required this.paymentTypeId,
     required this.cityId,
-    required this.districtId,
     required this.addressStreetAndHouse,
     required this.addressApartment,
      this.addressEntrance,
@@ -57,7 +55,6 @@ class OrderHistoryEntity extends Equatable {
     deliveryIntervalId,
     paymentTypeId,
     cityId,
-    districtId,
     addressStreetAndHouse,
     addressApartment,
     addressEntrance,

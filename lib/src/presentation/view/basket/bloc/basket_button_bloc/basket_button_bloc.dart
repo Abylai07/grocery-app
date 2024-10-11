@@ -36,4 +36,5 @@ class BasketButtonBloc extends Bloc<BasketButtonEvent, BasketButtonState> {
       emit(BasketButtonState(inBasket: false, count: 0));
     });
   }
+
 }

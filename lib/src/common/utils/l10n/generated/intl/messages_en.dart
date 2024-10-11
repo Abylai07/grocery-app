@@ -74,6 +74,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "By continuing, you agree to the "),
         "createDate": MessageLookupByLibrary.simpleMessage("Registration date"),
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "deleteAccount":
+            MessageLookupByLibrary.simpleMessage("Delete an account?"),
+        "deleteAccountSure": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete your account?"),
         "deleteAddress": MessageLookupByLibrary.simpleMessage(
             "No longer need this address? Saying goodbye is never easy."),
         "deleteAllBasket": MessageLookupByLibrary.simpleMessage(
@@ -96,6 +100,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "enterCode":
             MessageLookupByLibrary.simpleMessage("Enter the verification code"),
+        "enterName": MessageLookupByLibrary.simpleMessage(
+            "Enter your first and last name"),
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Enter your phone number to continue"),
         "entrance": MessageLookupByLibrary.simpleMessage("Entrance"),
@@ -103,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorite": MessageLookupByLibrary.simpleMessage("Favorite"),
         "favoriteEmpty": MessageLookupByLibrary.simpleMessage(
             "Favorite items list is empty"),
+        "fillName": MessageLookupByLibrary.simpleMessage(
+            "Fill in the first and last name fields"),
         "floor": MessageLookupByLibrary.simpleMessage("Floor"),
         "getNewSms": MessageLookupByLibrary.simpleMessage("Get a new code"),
         "getSms": MessageLookupByLibrary.simpleMessage("Get code"),
@@ -132,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mustFill":
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "myOrders": MessageLookupByLibrary.simpleMessage("My orders"),
+        "name": MessageLookupByLibrary.simpleMessage("First name"),
         "noAddress":
             MessageLookupByLibrary.simpleMessage("You have no addresses"),
         "nonAuthorizedText": MessageLookupByLibrary.simpleMessage(
@@ -176,10 +185,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteins": MessageLookupByLibrary.simpleMessage("proteins"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Search for item"),
+        "select": MessageLookupByLibrary.simpleMessage("Select address"),
         "selectAddress":
             MessageLookupByLibrary.simpleMessage("Specify delivery address"),
         "selectAddressPlease": MessageLookupByLibrary.simpleMessage(
             "Please select a delivery address"),
+        "selectCity": MessageLookupByLibrary.simpleMessage("Specify the city"),
         "selectPaymentPlease": MessageLookupByLibrary.simpleMessage(
             "Please select a payment method"),
         "selectTimePlease": MessageLookupByLibrary.simpleMessage(
@@ -192,6 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "street": MessageLookupByLibrary.simpleMessage("Street, house*"),
         "sureLogout": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to log out? We will miss you."),
+        "surname": MessageLookupByLibrary.simpleMessage("Last name"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Thank you for your purchase! We will contact you with delivery details"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Add to basket"),

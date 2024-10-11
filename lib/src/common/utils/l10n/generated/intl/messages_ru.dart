@@ -75,6 +75,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Продолжая, вы соглашаетесь с "),
         "createDate": MessageLookupByLibrary.simpleMessage("Дата оформления"),
         "delete": MessageLookupByLibrary.simpleMessage("Удалить"),
+        "deleteAccount":
+            MessageLookupByLibrary.simpleMessage("Удалить аккаунт?"),
+        "deleteAccountSure": MessageLookupByLibrary.simpleMessage(
+            "Вы точно хотите удалить аккаунт?"),
         "deleteAddress": MessageLookupByLibrary.simpleMessage(
             "Этот адрес больше не нужен? Прощаться всегда непросто."),
         "deleteAllBasket": MessageLookupByLibrary.simpleMessage(
@@ -98,6 +102,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty": MessageLookupByLibrary.simpleMessage("Пусто"),
         "enterCode":
             MessageLookupByLibrary.simpleMessage("Введите код подтверждения"),
+        "enterName":
+            MessageLookupByLibrary.simpleMessage("Введите имя и фамилию"),
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Введите номер телефона для продолжения"),
         "entrance": MessageLookupByLibrary.simpleMessage("Подъезд"),
@@ -105,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorite": MessageLookupByLibrary.simpleMessage("Избранное"),
         "favoriteEmpty": MessageLookupByLibrary.simpleMessage(
             "Список избранных товаров пуст"),
+        "fillName": MessageLookupByLibrary.simpleMessage(
+            "Заполните поля \"Имя\" и \"Фамилия\""),
         "floor": MessageLookupByLibrary.simpleMessage("Этаж"),
         "getNewSms": MessageLookupByLibrary.simpleMessage("Получить новый код"),
         "getSms": MessageLookupByLibrary.simpleMessage("Получить код"),
@@ -134,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mustFill": MessageLookupByLibrary.simpleMessage(
             "Поле обязательно для заполнения"),
         "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
+        "name": MessageLookupByLibrary.simpleMessage("Имя"),
         "noAddress": MessageLookupByLibrary.simpleMessage("У вас нет адресов"),
         "nonAuthorizedText": MessageLookupByLibrary.simpleMessage(
             "Эта опция доступна для авторизованных пользователей"),
@@ -178,10 +187,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteins": MessageLookupByLibrary.simpleMessage("белки"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Поиск товара"),
+        "select": MessageLookupByLibrary.simpleMessage("Выбрать адрес"),
         "selectAddress":
             MessageLookupByLibrary.simpleMessage("Укажите адрес доставки"),
         "selectAddressPlease":
             MessageLookupByLibrary.simpleMessage("Выберите адрес доставки"),
+        "selectCity": MessageLookupByLibrary.simpleMessage("Укажите город"),
         "selectPaymentPlease":
             MessageLookupByLibrary.simpleMessage("Выберите способ оплаты"),
         "selectTimePlease":
@@ -194,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "street": MessageLookupByLibrary.simpleMessage("Улица, дом*"),
         "sureLogout": MessageLookupByLibrary.simpleMessage(
             "Вы точно хотите выйти? Мы будем скучать."),
+        "surname": MessageLookupByLibrary.simpleMessage("Фамилия"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки"),
         "toBasket": MessageLookupByLibrary.simpleMessage("В корзину"),

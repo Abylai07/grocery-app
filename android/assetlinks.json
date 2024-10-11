@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "com.abricoz.app",
+    "sha256_cert_fingerprints": ["96:3E:83:65:88:8D:08:39:9F:92:AC:80:95:F1:E2:FB:79:42:43:27:CE:6F:56:DD:4E:05:EF:D5:4B:86:29:22"] }
+}]

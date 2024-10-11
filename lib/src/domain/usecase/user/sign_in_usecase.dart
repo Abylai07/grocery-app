@@ -1,3 +1,4 @@
+import 'package:abricoz_app/src/domain/entity/user/user_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
@@ -16,6 +17,10 @@ class SignInUseCase {
 
   Future<Either<Failure, Map<String, dynamic>>> signInCode(MapParams? params) async {
     return await repository.signInCode(params);
+  }
+
+  Future<Either<Failure, UserEntity>> setName(MapParams? params) async {
+    return await repository.setName(params);
   }
 }
 

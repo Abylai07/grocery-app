@@ -3,11 +3,13 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/user_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/widgets/change_language_widget.dart';
 import 'package:abricoz_app/src/presentation/view/profile/widgets/profile_element_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../common/app_styles/colors.dart';
@@ -29,6 +31,39 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: AppColors.background,
         title: Text(S.of(context).profile),
         centerTitle: true,
+        actions: [
+          BlocBuilder<UserSessionBloc, UserSessionState>(
+            builder: (context, state) {
+              if (state is UserSessionLoaded) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: IconButton(
+                    onPressed: () {
+                      confirmAlertDialog(context,
+                          title: S.of(context).deleteAccountSure, onYesTap: () {
+                        context.read<UserCubit>().deleteAccount();
+                        Navigator.pop(context);
+                        context
+                            .read<UserSessionBloc>()
+                            .add(LogoutUserSession());
+                        context.router.replaceAll([
+                          const IndexRoute(children: [HomeNestedRoute()])
+                        ]);
+                      });
+                    },
+                    icon: SvgPicture.asset(
+                      AppAssets.remove,
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.redColor, BlendMode.srcIn),
+                    ),
+                  ),
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -62,9 +97,12 @@ class ProfileScreen extends StatelessWidget {
                                   title: S.of(context).sureLogout,
                                   onYesTap: () {
                                     Navigator.pop(context);
-                                    context.read<UserSessionBloc>().add(LogoutUserSession());
+                                    context
+                                        .read<UserSessionBloc>()
+                                        .add(LogoutUserSession());
                                     context.router.replaceAll([
-                                      const IndexRoute(children: [HomeNestedRoute()])
+                                      const IndexRoute(
+                                          children: [HomeNestedRoute()])
                                     ]);
                                   },
                                 );
@@ -98,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
                     title: S.of(context).address,
                     icon: AppAssets.address,
                     onPressed: () {
-                      if(SharedPrefs().getAccessToken() == null){
+                      if (SharedPrefs().getAccessToken() == null) {
                         nonAuthorizeModal(context);
                       } else {
                         context.router.push(const AddressRoute());
@@ -109,7 +147,7 @@ class ProfileScreen extends StatelessWidget {
                     title: S.of(context).orders,
                     icon: AppAssets.orders,
                     onPressed: () {
-                      if(SharedPrefs().getAccessToken() == null){
+                      if (SharedPrefs().getAccessToken() == null) {
                         nonAuthorizeModal(context);
                       } else {
                         context.router.push(const OrderHistoryRoute());
@@ -147,6 +185,27 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  // ProfileElementWidget(
+                  //   title: S.of(context).deleteAccount,
+                  //   icon: AppAssets.remove,
+                  //   logout: true,
+                  //   onPressed: () {
+                  //     confirmAlertDialog(
+                  //       context,
+                  //       title: S.of(context).deleteAccountSure,
+                  //       onYesTap: () {
+                  //         context.read<UserCubit>().deleteAccount();
+                  //         Navigator.pop(context);
+                  //         context
+                  //             .read<UserSessionBloc>()
+                  //             .add(LogoutUserSession());
+                  //         context.router.replaceAll([
+                  //           const IndexRoute(children: [HomeNestedRoute()])
+                  //         ]);
+                  //       },
+                  //     );
+                  //   },
+                  // ),
                 ],
               ),
             ),

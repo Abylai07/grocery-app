@@ -67,10 +67,11 @@ class SubCategoryView extends StatelessWidget {
             if (val != null && val.length >= 2) {
               context.read<SearchProductCubit>().fetchSearchHint(val);
             }
-            final searchBloc =  context.read<SearchBloc>();
-            if(searchBloc.state.isShowWidgets && (val?.length ?? 0) < 2){
+            final searchBloc = context.read<SearchBloc>();
+            if (searchBloc.state.isShowWidgets && (val?.length ?? 0) < 2) {
               searchBloc.add(ToggleWidgetsVisibility());
-            } if(!searchBloc.state.isShowWidgets && (val?.length ?? 0) > 2){
+            }
+            if (!searchBloc.state.isShowWidgets && (val?.length ?? 0) > 2) {
               searchBloc.add(ToggleWidgetsVisibility());
             }
           },
@@ -113,11 +114,9 @@ class SubCategoryView extends StatelessWidget {
                                           mainAxisExtent: 124,
                                         ),
                                       )
-                                    : Expanded(
-                                        child: EmptyAnswerWidget(
-                                          description:
-                                              S.of(context).otherCategory,
-                                        ),
+                                    : EmptyAnswerWidget(
+                                        description:
+                                            S.of(context).otherCategory,
                                       );
                               } else if (state.status.isLoading) {
                                 return const Column(

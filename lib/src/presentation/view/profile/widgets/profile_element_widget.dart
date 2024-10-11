@@ -27,30 +27,40 @@ class ProfileElementWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: ListTile(
-        leading: SvgPicture.asset(icon),
+        leading: SvgPicture.asset(
+          icon,
+          colorFilter: logout
+              ? const ColorFilter.mode(AppColors.redColor, BlendMode.srcIn)
+              : null,
+        ),
         title: Text(
           title,
           style: AppTextStyle.bodyMedium.copyWith(
               fontWeight: FontWeight.w600,
               color: logout ? AppColors.redColor : AppColors.black),
         ),
-        trailing:
-        logout ? const SizedBox() : Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if(isLanguage)
-              Text(getLanguageText(), style: AppTextStyle.bodyMedium.copyWith(color: AppColors.gray),),
-            6.width,
-            SvgPicture.asset(AppAssets.arrowNext),
-          ],
-        ),
+        trailing: logout
+            ? const SizedBox()
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (isLanguage)
+                    Text(
+                      getLanguageText(),
+                      style: AppTextStyle.bodyMedium
+                          .copyWith(color: AppColors.gray),
+                    ),
+                  6.width,
+                  SvgPicture.asset(AppAssets.arrowNext),
+                ],
+              ),
       ),
     );
   }
 
-  getLanguageText(){
+  getLanguageText() {
     final localLan = SharedPrefs().getLocaleLang();
-    switch(localLan){
+    switch (localLan) {
       case 'kk':
         return 'Қазақша';
       case 'ru':

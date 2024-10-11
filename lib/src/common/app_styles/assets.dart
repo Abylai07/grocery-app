@@ -5,6 +5,8 @@ class AppAssets {
   static const String searchEmpty = 'assets/images/search_empty.png';
   static const String addressEmpty = 'assets/images/address_empty.png';
   static const String historyEmpty = 'assets/images/history_empty.png';
+  static const String location = 'assets/images/location.png';
+  static const String findLocation = 'assets/images/find_location.png';
 
 
   //svg
@@ -41,4 +43,5 @@ class AppAssets {
   static const String add = 'assets/icons/add.svg';
   static const String warning = 'assets/icons/warning.svg';
   static const String time = 'assets/icons/time.svg';
+  static const String myLocation = 'assets/icons/my_location.svg';
 }

@@ -16,13 +16,13 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AddOrChangeAddressRoute.name: (routeData) {
-      final args = routeData.argsAs<AddOrChangeAddressRouteArgs>(
-          orElse: () => const AddOrChangeAddressRouteArgs());
+      final args = routeData.argsAs<AddOrChangeAddressRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: AddOrChangeAddressScreen(
           key: args.key,
           address: args.address,
+          selectAddress: args.selectAddress,
         ),
       );
     },
@@ -76,6 +76,17 @@ abstract class _$AppRouter extends RootStackRouter {
           key: args.key,
           products: args.products,
           productSum: args.productSum,
+        ),
+      );
+    },
+    MapAddressRoute.name: (routeData) {
+      final args = routeData.argsAs<MapAddressRouteArgs>(
+          orElse: () => const MapAddressRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MapAddressScreen(
+          key: args.key,
+          address: args.address,
         ),
       );
     },
@@ -147,6 +158,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    UserInfoRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const UserInfoScreen(),
+      );
+    },
   };
 }
 
@@ -157,12 +174,14 @@ class AddOrChangeAddressRoute
   AddOrChangeAddressRoute({
     Key? key,
     AddressEntity? address,
+    required YandexAddress selectAddress,
     List<PageRouteInfo>? children,
   }) : super(
           AddOrChangeAddressRoute.name,
           args: AddOrChangeAddressRouteArgs(
             key: key,
             address: address,
+            selectAddress: selectAddress,
           ),
           initialChildren: children,
         );
@@ -177,15 +196,18 @@ class AddOrChangeAddressRouteArgs {
   const AddOrChangeAddressRouteArgs({
     this.key,
     this.address,
+    required this.selectAddress,
   });
 
   final Key? key;
 
   final AddressEntity? address;
 
+  final YandexAddress selectAddress;
+
   @override
   String toString() {
-    return 'AddOrChangeAddressRouteArgs{key: $key, address: $address}';
+    return 'AddOrChangeAddressRouteArgs{key: $key, address: $address, selectAddress: $selectAddress}';
   }
 }
 
@@ -327,6 +349,44 @@ class MakeOrderRouteArgs {
   @override
   String toString() {
     return 'MakeOrderRouteArgs{key: $key, products: $products, productSum: $productSum}';
+  }
+}
+
+/// generated route for
+/// [MapAddressScreen]
+class MapAddressRoute extends PageRouteInfo<MapAddressRouteArgs> {
+  MapAddressRoute({
+    Key? key,
+    AddressEntity? address,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MapAddressRoute.name,
+          args: MapAddressRouteArgs(
+            key: key,
+            address: address,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MapAddressRoute';
+
+  static const PageInfo<MapAddressRouteArgs> page =
+      PageInfo<MapAddressRouteArgs>(name);
+}
+
+class MapAddressRouteArgs {
+  const MapAddressRouteArgs({
+    this.key,
+    this.address,
+  });
+
+  final Key? key;
+
+  final AddressEntity? address;
+
+  @override
+  String toString() {
+    return 'MapAddressRouteArgs{key: $key, address: $address}';
   }
 }
 
@@ -560,4 +620,18 @@ class SubCategoryRouteArgs {
   String toString() {
     return 'SubCategoryRouteArgs{key: $key, category: $category}';
   }
+}
+
+/// generated route for
+/// [UserInfoScreen]
+class UserInfoRoute extends PageRouteInfo<void> {
+  const UserInfoRoute({List<PageRouteInfo>? children})
+      : super(
+          UserInfoRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'UserInfoRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

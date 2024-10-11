@@ -7,7 +7,9 @@ import 'package:abricoz_app/src/presentation/view/home/bloc/banner_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/product/bloc/search_bloc/search_product_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/map_address_bloc/map_address_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/order_history_cubit.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/user_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/user_session_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,6 +59,12 @@ class _ApplicationState extends State<Application> {
         ),
         BlocProvider<FavoriteCubit>(
           create: (_) => FavoriteCubit(sl())..fetchFavorites(),
+        ),
+        BlocProvider<MapAddressCubit>(
+          create: (_) => MapAddressCubit(sl()),
+        ),
+        BlocProvider<UserCubit>(
+          create: (_) => UserCubit(sl()),
         ),
         BlocProvider(
           create: (context) => BasketBloc(sl())..add(const RefreshBasket()),

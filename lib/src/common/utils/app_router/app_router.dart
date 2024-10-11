@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/hive/adapter/product_adapter.dart';
+import '../../../data/models/user/yandex_address.dart';
 import '../../../domain/entity/order/order_entity.dart';
 import '../../../domain/entity/order/order_history_entity.dart';
 import '../../../domain/entity/product/category_entity.dart';
@@ -11,6 +12,7 @@ import '../../../domain/entity/product/sub_category_entity.dart';
 import '../../../domain/entity/user/address_entity.dart';
 import '../../../presentation/view/authorization/code_enter_screen.dart';
 import '../../../presentation/view/authorization/sign_in_screen.dart';
+import '../../../presentation/view/authorization/user_info_screen.dart';
 import '../../../presentation/view/basket/basket_screen.dart';
 import '../../../presentation/view/basket/screens/make_order_screen.dart';
 import '../../../presentation/view/basket/screens/payment_screen.dart';
@@ -24,6 +26,7 @@ import '../../../presentation/view/product/screens/searched_product_screen.dart'
 import '../../../presentation/view/profile/profile_screen.dart';
 import '../../../presentation/view/profile/screens/address/add_change_address_screen.dart';
 import '../../../presentation/view/profile/screens/address/address_screen.dart';
+import '../../../presentation/view/profile/screens/address/map_address_screen.dart';
 import '../../../presentation/view/profile/screens/orders/order_detail_screen.dart';
 
 part 'app_router.gr.dart';
@@ -51,5 +54,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: AddressRoute.page),
         AutoRoute(page: OrderHistoryRoute.page),
         AutoRoute(page: OrderDetailRoute.page),
+        AutoRoute(page: UserInfoRoute.page),
+        AutoRoute(page: MapAddressRoute.page),
       ];
 }

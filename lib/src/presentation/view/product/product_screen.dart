@@ -19,6 +19,7 @@ import '../../bloc/search_bloc/search_bloc.dart';
 import '../../widgets/empty_answer_widget.dart';
 import '../../widgets/main_functions.dart';
 import '../../widgets/search_app_bar.dart';
+import '../basket/bloc/basket_bloc/basket_bloc.dart';
 import '../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
 import 'bloc/search_bloc/search_product_cubit.dart';
 
@@ -69,95 +70,104 @@ class ProductView extends StatelessWidget {
           if (val != null && val.length >= 2) {
             context.read<SearchProductCubit>().fetchSearchHint(val);
           }
-          final searchBloc =  context.read<SearchBloc>();
-          if(searchBloc.state.isShowWidgets && (val?.length ?? 0) < 2){
+          final searchBloc = context.read<SearchBloc>();
+          if (searchBloc.state.isShowWidgets && (val?.length ?? 0) < 2) {
             searchBloc.add(ToggleWidgetsVisibility());
-          } if(!searchBloc.state.isShowWidgets && (val?.length ?? 0) > 2){
+          }
+          if (!searchBloc.state.isShowWidgets && (val?.length ?? 0) > 2) {
             searchBloc.add(ToggleWidgetsVisibility());
           }
         },
       ),
-      body: BlocBuilder<SearchBloc, SearchState>(
-        builder: (context, state) {
-          if (state.isShowWidgets) {
-            return const CustomScrollView(
-              slivers: [
-                SearchProductsView(),
-              ],
-            );
+      body: BlocListener<BasketBloc, BasketState>(
+        listener: (context, state) {
+          if (state.status.isClearedBasket) {
+            context.read<ProductsCubit>().pagingController.refresh();
           }
-          return BlocBuilder<ProductsCubit, BaseState>(
-            builder: (context, state) {
-              final cubit = context.read<ProductsCubit>();
-              if (state.status.isSuccess) {
-                basketList = BasketDatabase().getAllProducts();
-              }
-              return RefreshIndicator(
-                onRefresh: () => Future.sync(
-                  () {
-                    context.read<ProductsCubit>().pagingController.refresh();
-                    basketList = BasketDatabase().getAllProducts();
-                  },
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 12),
-                  child: CustomScrollView(
-                    slivers: [
-                      PagedSliverGrid<int, ProductEntity>(
-                        pagingController: cubit.pagingController,
-                        showNewPageProgressIndicatorAsGridChild: false,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 8.0,
-                          crossAxisSpacing: 8.0,
-                          mainAxisExtent: 334,
-                        ),
-                        builderDelegate:
-                            PagedChildBuilderDelegate<ProductEntity>(
-                          firstPageProgressIndicatorBuilder: (context) {
-                            return const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ProductLoadingWidget(),
-                              ],
-                            );
-                          },
-                          noItemsFoundIndicatorBuilder: (context) {
-                            return EmptyAnswerWidget(
-                              description: S.of(context).otherCategory,
-                            );
-                          },
-                          itemBuilder: (context, item, index) {
-                            ProductHiveModel itemInBasket =
-                                basketList.firstWhere(
-                              (element) => element.id == item.id,
-                              orElse: () => ProductHiveModel(
-                                id: -1,
-                                name: {},
-                                description: {},
-                                price: 0,
-                              ),
-                            );
-                            return BlocProvider(
-                              create: (context) =>
-                                  BasketButtonBloc(itemInBasket),
-                              child: ProductWidget(product: item),
-                            );
-                          },
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(height: 40),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          );
         },
+        child: BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state) {
+            if (state.isShowWidgets) {
+              return const CustomScrollView(
+                slivers: [
+                  SearchProductsView(),
+                ],
+              );
+            }
+            return BlocBuilder<ProductsCubit, BaseState>(
+              builder: (context, state) {
+                final cubit = context.read<ProductsCubit>();
+                if (state.status.isSuccess) {
+                  basketList = BasketDatabase().getAllProducts();
+                }
+                return RefreshIndicator(
+                  onRefresh: () => Future.sync(
+                    () {
+                      context.read<ProductsCubit>().pagingController.refresh();
+                      basketList = BasketDatabase().getAllProducts();
+                    },
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 12),
+                    child: CustomScrollView(
+                      slivers: [
+                        PagedSliverGrid<int, ProductEntity>(
+                          pagingController: cubit.pagingController,
+                          showNewPageProgressIndicatorAsGridChild: false,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8.0,
+                            crossAxisSpacing: 8.0,
+                            mainAxisExtent: 334,
+                          ),
+                          builderDelegate:
+                              PagedChildBuilderDelegate<ProductEntity>(
+                            firstPageProgressIndicatorBuilder: (context) {
+                              return const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ProductLoadingWidget(),
+                                ],
+                              );
+                            },
+                            noItemsFoundIndicatorBuilder: (context) {
+                              return EmptyAnswerWidget(
+                                description: S.of(context).otherCategory,
+                              );
+                            },
+                            itemBuilder: (context, item, index) {
+                              ProductHiveModel itemInBasket =
+                                  basketList.firstWhere(
+                                (element) => element.id == item.id,
+                                orElse: () => ProductHiveModel(
+                                  id: -1,
+                                  name: {},
+                                  description: {},
+                                  price: 0,
+                                ),
+                              );
+
+                              return BlocProvider(
+                                create: (context) =>
+                                    BasketButtonBloc(itemInBasket),
+                                child: ProductWidget(product: item),
+                              );
+                            },
+                          ),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: SizedBox(height: 40),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

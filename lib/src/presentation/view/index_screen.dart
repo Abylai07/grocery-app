@@ -2,24 +2,49 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
 import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
+import 'package:app_links/app_links.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../common/app_styles/assets.dart';
 import '../../common/app_styles/colors.dart';
+import '../../common/utils/firebase_api/notifications.dart';
 import '../../common/utils/l10n/generated/l10n.dart';
 import '../bloc/nav_bar_bloc.dart';
 import '../widgets/modal_bottoms/non_authorize_modal.dart';
 import 'basket/bloc/basket_bloc/basket_bloc.dart';
 
 @RoutePage()
-class IndexScreen extends StatelessWidget {
+class IndexScreen extends StatefulWidget {
   const IndexScreen({super.key});
+
+  @override
+  State<IndexScreen> createState() => _IndexScreenState();
+}
+
+class _IndexScreenState extends State<IndexScreen> {
+
+
+  Future<void> initAppLinks() async {
+    final appLinks = AppLinks();
+
+    final sub = appLinks.uriLinkStream.listen((uri) {
+      print('Received link: $uri');
+
+    });
+  }
+
+  @override
+  void initState() {
+    Notifications().init();
+    initAppLinks();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

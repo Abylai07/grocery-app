@@ -141,6 +141,7 @@ class ProductWidget extends StatelessWidget {
             ),
             BlocBuilder<BasketButtonBloc, BasketButtonState>(
               builder: (context, state) {
+                print('state ${state.count}');
                 return state.inBasket
                     ? Container(
                         height: 40,
