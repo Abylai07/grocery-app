@@ -30,6 +30,8 @@ class CityCubit extends Cubit<CityState> {
 
           if (cityId != null) {
             city = r.firstWhere((element) => element.id == cityId);
+          } else {
+            SharedPrefs().setCityId(r.first.id);
           }
 
           return CityState(

@@ -60,9 +60,6 @@ class _ApplicationState extends State<Application> {
         BlocProvider<FavoriteCubit>(
           create: (_) => FavoriteCubit(sl())..fetchFavorites(),
         ),
-        BlocProvider<MapAddressCubit>(
-          create: (_) => MapAddressCubit(sl()),
-        ),
         BlocProvider<UserCubit>(
           create: (_) => UserCubit(sl()),
         ),

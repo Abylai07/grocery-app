@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:abricoz_app/src/application.dart';
-import 'package:abricoz_app/src/common/utils/firebase_api/notifications.dart';
 import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
 import 'package:abricoz_app/src/get_it_sl.dart' as sl;
 import 'package:firebase_core/firebase_core.dart';

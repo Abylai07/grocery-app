@@ -7,9 +7,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:upgrader/upgrader.dart';
 
 import '../../common/app_styles/assets.dart';
 import '../../common/app_styles/colors.dart';
@@ -17,6 +17,7 @@ import '../../common/utils/firebase_api/notifications.dart';
 import '../../common/utils/l10n/generated/l10n.dart';
 import '../bloc/nav_bar_bloc.dart';
 import '../widgets/modal_bottoms/non_authorize_modal.dart';
+import '../widgets/upgrader_widget.dart';
 import 'basket/bloc/basket_bloc/basket_bloc.dart';
 
 @RoutePage()
@@ -58,6 +59,13 @@ class _IndexScreenState extends State<IndexScreen> {
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
 
+        // dialogStyle: UpgradeDialogStyle.cupertino,
+        // showIgnore: false,
+        // showLater: false,
+        // upgrader: Upgrader(
+        // durationUntilAlertAgain: const Duration(days: 1),
+        // debugLogging: true,
+        // ),
         return Scaffold(
           resizeToAvoidBottomInset: false,
           body: child,
@@ -151,5 +159,21 @@ class _IndexScreenState extends State<IndexScreen> {
               );
       },
     );
+  }
+}
+
+class Solution {
+  int removeDuplicates(List<int> nums) {
+    List<int> result = [];
+    for(final item in nums){
+      if(!result.contains(item)){
+        print('will add $item');
+        result.add(item);
+
+      }
+    }
+    print('result $result');
+    nums = result;
+    return result.length;
   }
 }

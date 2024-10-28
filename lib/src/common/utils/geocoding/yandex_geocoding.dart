@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 import '../../../data/models/user/yandex_address.dart';
 
-const yandexGeoderAPIkey = '1c473376-5626-4276-a3ca-96b0891926bd'; //'401e897c-fc82-4c23-92f2-0131246dcab2';
+const yandexGeoderAPIkey = '401e897c-fc82-4c23-92f2-0131246dcab2';
 const base = 'https://geocode-maps.yandex.ru/1.x';
 
 class YandexGeo {

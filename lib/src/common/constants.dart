@@ -1,7 +1,7 @@
 // API
 
 const host = 'https://api.abricoz.kz/api/'; // prod
-// const host = 'http://91.201.215.143:8000/api/'; // dev
+// const host = 'http://195.210.47.45/api/'; // dev
 
 
 

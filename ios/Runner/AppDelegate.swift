@@ -4,7 +4,7 @@ import Firebase
 import FirebaseCore
 import YandexMapsMobile
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,

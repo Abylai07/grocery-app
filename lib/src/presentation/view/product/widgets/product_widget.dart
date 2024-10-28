@@ -10,7 +10,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../../common/utils/shared_preference.dart';
 import '../../../widgets/main_functions.dart';
+import '../../../widgets/modal_bottoms/non_authorize_modal.dart';
 import '../../../widgets/shimmer_widget.dart';
 import '../../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
 import '../screens/product_card_screen.dart';
@@ -81,9 +83,13 @@ class ProductWidget extends StatelessWidget {
                             bool isFavorite = state.entity?.any((element) => element.id == product.id) ?? false;
                             return IconButton(
                               onPressed: () {
-                                context
-                                    .read<FavoriteCubit>()
-                                    .storeOrDeleteFavorite(isFavorite, product);
+                                if (SharedPrefs().getAccessToken() == null) {
+                                  nonAuthorizeModal(context);
+                                } else {
+                                  context
+                                      .read<FavoriteCubit>()
+                                      .storeOrDeleteFavorite(isFavorite, product);
+                                }
                               },
                               icon: SvgPicture.asset(isFavorite ? AppAssets.favoriteFill : AppAssets.favorite),
                             );
@@ -141,7 +147,6 @@ class ProductWidget extends StatelessWidget {
             ),
             BlocBuilder<BasketButtonBloc, BasketButtonState>(
               builder: (context, state) {
-                print('state ${state.count}');
                 return state.inBasket
                     ? Container(
                         height: 40,

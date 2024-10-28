@@ -163,7 +163,7 @@
   "name": "First name",
   "surname": "Last name",
   "deleteAccountSure": "Are you sure you want to delete your account?",
-  "deleteAccount": "Delete an account?"
-
+  "deleteAccount": "Delete an account?",
+  "notDeliverPlace": "Delivery to this region is not carried out"
 }
 

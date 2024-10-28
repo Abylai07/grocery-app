@@ -148,6 +148,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notActive": MessageLookupByLibrary.simpleMessage("Белсенді емес"),
         "notAvailableNow": MessageLookupByLibrary.simpleMessage(
             "Қазіргі уақытта қолжетімді уақыт жоқ"),
+        "notDeliverPlace": MessageLookupByLibrary.simpleMessage(
+            "Бұл аймаққа жеткізу қазір мүмкін емес"),
         "notFound": MessageLookupByLibrary.simpleMessage("Ештеңе табылмады"),
         "office": MessageLookupByLibrary.simpleMessage("Пәтер/кеңсе"),
         "order": MessageLookupByLibrary.simpleMessage("Тапсырыс"),

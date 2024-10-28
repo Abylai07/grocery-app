@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
-import 'package:abricoz_app/src/domain/entity/user/district_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/location_entity.dart';
 import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dio/dio.dart';
@@ -19,7 +19,7 @@ import '../models/product/product_model.dart';
 import '../models/user/address_model.dart';
 import '../models/user/banner_model.dart';
 import '../models/user/city_model.dart';
-import '../models/user/district_model.dart';
+import '../models/user/location_model.dart';
 import '../models/user/user_model.dart';
 
 abstract class UserRemoteDataSource {
@@ -31,7 +31,7 @@ abstract class UserRemoteDataSource {
 
   Future<List<CityEntity>> getCityList();
 
-  Future<List<DistrictEntity>> getDistricts();
+  Future<List<LocationEntity>> getCityPolygon(PathParams params);
 
   Future<List<BannerEntity>> fetchBanners();
 
@@ -194,25 +194,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     }
   }
 
-
-  @override
-  Future<List<DistrictEntity>> getDistricts() async {
-    try {
-      final response = await api.dio.get(
-        '${constants.host}district/index',
-      );
-      if (response.statusCode == 200) {
-        return (response.data['data'] as List)
-            .map((e) => DistrictModel.fromJson(e))
-            .toList();
-      } else {
-        throw ServerException();
-      }
-    } on DioException catch (e) {
-      return api.handleDioException(e);
-    }
-  }
-
   @override
   Future<List<ProductEntity>> fetchFavorites() async {
     try {
@@ -288,6 +269,24 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       );
       if (response.statusCode == 200) {
         return true;
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<List<LocationEntity>> getCityPolygon(PathParams params) async {
+    try {
+      final response = await api.dio.get(
+        '${constants.host}point/index?city_id=${params.path}',
+      );
+      if (response.statusCode == 200) {
+        return (response.data['data'] as List)
+            .map((e) => LocationModel.fromJson(e))
+            .toList();
       } else {
         throw ServerException();
       }

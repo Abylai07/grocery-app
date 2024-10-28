@@ -86,7 +86,7 @@ class BasketScreen extends StatelessWidget {
           List<OrderHistoryEntity> list = orderState.entity ?? [];
           OrderHistoryEntity? lastOrder;
           if (orderState.status.isSuccess && list.isNotEmpty) {
-            lastOrder = list.last;
+            lastOrder = list.lastWhere((element) => element.orderStatusId <= 4);
           }
 
           return Column(

@@ -8,8 +8,10 @@ import '../../../../common/app_styles/assets.dart';
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/app_styles/text_styles.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../../common/utils/shared_preference.dart';
 import '../../../../domain/entity/product/product_entity.dart';
 import '../../../widgets/main_functions.dart';
+import '../../../widgets/modal_bottoms/non_authorize_modal.dart';
 import '../../../widgets/shimmer_widget.dart';
 import '../../favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import '../widgets/product_structure_widget.dart';
@@ -43,9 +45,13 @@ class ProductCardView extends StatelessWidget {
                             false;
                     return IconButton(
                       onPressed: () {
-                        context
-                            .read<FavoriteCubit>()
-                            .storeOrDeleteFavorite(isFavorite, product);
+                        if (SharedPrefs().getAccessToken() == null) {
+                          nonAuthorizeModal(context);
+                        } else {
+                          context
+                              .read<FavoriteCubit>()
+                              .storeOrDeleteFavorite(isFavorite, product);
+                        }
                       },
                       icon: SvgPicture.asset(
                           isFavorite ? AppAssets.favoriteFill : AppAssets.favorite),
@@ -148,38 +154,38 @@ class ProductCardView extends StatelessWidget {
                             color: AppColors.textGray,
                           ),
                         ),
-                        const Divider(
-                          height: 24,
-                          color: AppColors.gray,
-                        ),
-                        Text(
-                          S.of(context).brand,
-                          style: AppTextStyle.bodyLarge
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          product.brand?.name ?? '',
-                          style: AppTextStyle.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textGray,
-                          ),
-                        ),
-                        const Divider(
-                          height: 24,
-                          color: AppColors.gray,
-                        ),
-                        Text(
-                          S.of(context).maker,
-                          style: AppTextStyle.bodyLarge
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          product.country?.name ?? '',
-                          style: AppTextStyle.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textGray,
-                          ),
-                        ),
+                        // const Divider(
+                        //   height: 24,
+                        //   color: AppColors.gray,
+                        // ),
+                        // Text(
+                        //   S.of(context).brand,
+                        //   style: AppTextStyle.bodyLarge
+                        //       .copyWith(fontWeight: FontWeight.w600),
+                        // ),
+                        // Text(
+                        //   product.brand?.name ?? '',
+                        //   style: AppTextStyle.bodyMedium.copyWith(
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.textGray,
+                        //   ),
+                        // ),
+                        // const Divider(
+                        //   height: 24,
+                        //   color: AppColors.gray,
+                        // ),
+                        // Text(
+                        //   S.of(context).maker,
+                        //   style: AppTextStyle.bodyLarge
+                        //       .copyWith(fontWeight: FontWeight.w600),
+                        // ),
+                        // Text(
+                        //   product.country?.name ?? '',
+                        //   style: AppTextStyle.bodyMedium.copyWith(
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.textGray,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

@@ -23,8 +23,6 @@ class ProductModel extends ProductEntity {
     super.proteins,
     super.fats,
     super.carbohydrates,
-    super.brand,
-    super.country,
     super.productQuantity,
   });
 
@@ -59,12 +57,6 @@ class ProductModel extends ProductEntity {
       proteins: json['proteins']?.toDouble(),
       fats: json['fats']?.toDouble(),
       carbohydrates: json['carbohydrates']?.toDouble(),
-      brand: json['brand'] != null
-          ? BrandModel.fromJson(json['brand'])
-          : json['brand'],
-      country: json['country'] != null
-          ? CountryModel.fromJson(json['country'])
-          : json['country'],
     );
   }
 
@@ -95,8 +87,6 @@ class ProductModel extends ProductEntity {
       'proteins': proteins,
       'fats': fats,
       'carbohydrates': carbohydrates,
-      'country': country,
-      'brand': brand,
     };
   }
 }

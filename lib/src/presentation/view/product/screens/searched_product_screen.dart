@@ -72,14 +72,13 @@ class SearchedProductView extends StatelessWidget {
               if (productState.status.isSuccess) {
                 return BlocBuilder<FavoriteCubit, FavoriteState>(
                   builder: (context, state) {
-                    bool isFavorite = state.entity
-                        ?.any((element) => element.id == productState.entity.id) ??
+                    bool isFavorite = state.entity?.any((element) =>
+                            element.id == productState.entity.id) ??
                         false;
                     return IconButton(
                       onPressed: () {
-                        context
-                            .read<FavoriteCubit>()
-                            .storeOrDeleteFavorite(isFavorite, productState.entity);
+                        context.read<FavoriteCubit>().storeOrDeleteFavorite(
+                            isFavorite, productState.entity);
                       },
                       icon: SvgPicture.asset(isFavorite
                           ? AppAssets.favoriteFill
@@ -132,7 +131,7 @@ class SearchedProductView extends StatelessWidget {
                                   height: photoHeight,
                                 ),
                                 errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+                                    const SizedBox(),
                               )
                             : Container(
                                 width: double.infinity,
@@ -184,38 +183,38 @@ class SearchedProductView extends StatelessWidget {
                             color: AppColors.textGray,
                           ),
                         ),
-                        const Divider(
-                          height: 24,
-                          color: AppColors.gray,
-                        ),
-                        Text(
-                          S.of(context).brand,
-                          style: AppTextStyle.bodyLarge
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          product.brand?.name ?? '',
-                          style: AppTextStyle.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textGray,
-                          ),
-                        ),
-                        const Divider(
-                          height: 24,
-                          color: AppColors.gray,
-                        ),
-                        Text(
-                          S.of(context).maker,
-                          style: AppTextStyle.bodyLarge
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          product.country?.name ?? '',
-                          style: AppTextStyle.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textGray,
-                          ),
-                        ),
+                        // const Divider(
+                        //   height: 24,
+                        //   color: AppColors.gray,
+                        // ),
+                        // Text(
+                        //   S.of(context).brand,
+                        //   style: AppTextStyle.bodyLarge
+                        //       .copyWith(fontWeight: FontWeight.w600),
+                        // ),
+                        // Text(
+                        //   product.brand?.name ?? '',
+                        //   style: AppTextStyle.bodyMedium.copyWith(
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.textGray,
+                        //   ),
+                        // ),
+                        // const Divider(
+                        //   height: 24,
+                        //   color: AppColors.gray,
+                        // ),
+                        // Text(
+                        //   S.of(context).maker,
+                        //   style: AppTextStyle.bodyLarge
+                        //       .copyWith(fontWeight: FontWeight.w600),
+                        // ),
+                        // Text(
+                        //   product.country?.name ?? '',
+                        //   style: AppTextStyle.bodyMedium.copyWith(
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.textGray,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

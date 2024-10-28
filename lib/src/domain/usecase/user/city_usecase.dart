@@ -1,6 +1,8 @@
 
 
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
+import 'package:abricoz_app/src/domain/entity/user/location_entity.dart';
+import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/error/failure.dart';
@@ -13,6 +15,10 @@ class CityUseCase {
 
   Future<Either<Failure, List<CityEntity>>> getCity() async {
     return await repository.getCityList();
+  }
+
+  Future<Either<Failure, List<LocationEntity>>> getCityPolygon(PathParams params) async {
+    return await repository.getCityPolygon(params);
   }
 }
 

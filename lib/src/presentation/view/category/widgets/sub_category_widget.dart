@@ -56,10 +56,7 @@ class SubCategoryWidget extends StatelessWidget {
                           width: double.infinity,
                           height: 60,
                         ),
-                        errorWidget: (context, url, error) => const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.error),
-                        ),
+                        errorWidget: (context, url, error) => const SizedBox(),
                       ),
               )
           ],

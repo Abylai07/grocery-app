@@ -22,8 +22,6 @@ class ProductEntity extends Equatable {
   final num? proteins;
   final num? fats;
   final num? carbohydrates;
-  final BrandEntity? brand;
-  final CountryEntity? country;
 
   const ProductEntity({
     required this.id,
@@ -47,8 +45,6 @@ class ProductEntity extends Equatable {
     this.proteins,
     this.fats,
     this.carbohydrates,
-    this.brand,
-    this.country,
   });
 
   @override
@@ -74,8 +70,6 @@ class ProductEntity extends Equatable {
         proteins,
         fats,
         carbohydrates,
-        brand,
-        country,
       ];
 }
 

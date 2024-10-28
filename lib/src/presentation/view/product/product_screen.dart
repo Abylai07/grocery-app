@@ -88,10 +88,13 @@ class ProductView extends StatelessWidget {
         child: BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
             if (state.isShowWidgets) {
-              return const CustomScrollView(
-                slivers: [
-                  SearchProductsView(),
-                ],
+              return const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: CustomScrollView(
+                  slivers: [
+                    SearchProductsView(),
+                  ],
+                ),
               );
             }
             return BlocBuilder<ProductsCubit, BaseState>(

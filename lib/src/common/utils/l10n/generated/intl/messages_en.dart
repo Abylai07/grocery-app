@@ -148,6 +148,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notActive": MessageLookupByLibrary.simpleMessage("Not active"),
         "notAvailableNow": MessageLookupByLibrary.simpleMessage(
             "No available time slots at the moment"),
+        "notDeliverPlace": MessageLookupByLibrary.simpleMessage(
+            "Delivery to this region is not carried out"),
         "notFound": MessageLookupByLibrary.simpleMessage("Nothing found"),
         "office": MessageLookupByLibrary.simpleMessage("Apt/office"),
         "order": MessageLookupByLibrary.simpleMessage("Order"),

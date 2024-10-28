@@ -155,6 +155,8 @@
   "name": "Есім",
   "surname": "Тегі",
   "deleteAccountSure": "Сіз аккаунтты жою керектігіне сенімдісізбе?",
-  "deleteAccount": "Аккаунт жою?"
+  "deleteAccount": "Аккаунт жою?",
+  "notDeliverPlace": "Бұл аймаққа жеткізу қазір мүмкін емес"
+
 }
 

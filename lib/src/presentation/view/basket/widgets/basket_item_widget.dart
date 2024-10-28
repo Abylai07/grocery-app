@@ -46,7 +46,7 @@ class BasketItemWidget extends StatelessWidget {
                     width: 70,
                     height: 70,
                   ),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) => const SizedBox(),
                 )
               : const SizedBox(),
         ),

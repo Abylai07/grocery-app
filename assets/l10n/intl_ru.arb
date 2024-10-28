@@ -155,5 +155,6 @@
   "name": "Имя",
   "surname": "Фамилия",
   "deleteAccountSure": "Вы точно хотите удалить аккаунт?",
-  "deleteAccount": "Удалить аккаунт?"
+  "deleteAccount": "Удалить аккаунт?",
+  "notDeliverPlace": "Доставка в этот регион не осуществляется"
 }

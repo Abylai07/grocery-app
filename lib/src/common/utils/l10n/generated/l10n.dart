@@ -1419,6 +1419,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Доставка в этот регион не осуществляется`
+  String get notDeliverPlace {
+    return Intl.message(
+      'Доставка в этот регион не осуществляется',
+      name: 'notDeliverPlace',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

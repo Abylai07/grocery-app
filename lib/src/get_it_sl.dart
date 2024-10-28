@@ -24,7 +24,6 @@ import 'domain/usecase/product/category_usecase.dart';
 import 'domain/usecase/product/product_usecase.dart';
 import 'domain/usecase/user/address_usecase.dart';
 import 'domain/usecase/user/city_usecase.dart';
-import 'domain/usecase/user/district_usecase.dart';
 import 'domain/usecase/user/user_usercase.dart';
 
 
@@ -47,7 +46,6 @@ Future<void> init() async {
   sl.registerLazySingleton(() => BannerUseCase(sl()));
   sl.registerLazySingleton(() => CheckBasketUseCase(sl()));
   sl.registerLazySingleton(() => AddressUseCase(sl()));
-  sl.registerLazySingleton(() => DistrictUseCase(sl()));
   sl.registerLazySingleton(() => DeliveryTimeUseCase(sl()));
   sl.registerLazySingleton(() => OrderUseCase(sl()));
   sl.registerLazySingleton(() => FavoriteUseCase(sl()));

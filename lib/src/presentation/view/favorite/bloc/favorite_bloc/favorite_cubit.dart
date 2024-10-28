@@ -57,4 +57,8 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       fetchFavorites();
     }
   }
+
+  setInitState(){
+    emit(const FavoriteState());
+  }
 }

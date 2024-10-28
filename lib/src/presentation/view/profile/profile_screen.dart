@@ -3,6 +3,7 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/user_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/widgets/change_language_widget.dart';
 import 'package:abricoz_app/src/presentation/view/profile/widgets/profile_element_widget.dart';
@@ -46,9 +47,7 @@ class ProfileScreen extends StatelessWidget {
                         context
                             .read<UserSessionBloc>()
                             .add(LogoutUserSession());
-                        context.router.replaceAll([
-                          const IndexRoute(children: [HomeNestedRoute()])
-                        ]);
+                        context.router.replaceAll([const IndexRoute()]);
                       });
                     },
                     icon: SvgPicture.asset(
@@ -76,7 +75,12 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  BlocBuilder<UserSessionBloc, UserSessionState>(
+                  BlocConsumer<UserSessionBloc, UserSessionState>(
+                    listener: (BuildContext context, UserSessionState state) {
+                      if(state is UserSessionLoggedOut){
+                        context.read<FavoriteCubit>().setInitState();
+                      }
+                    },
                     builder: (context, state) {
                       if (state is UserSessionLoaded) {
                         return Column(
@@ -100,10 +104,8 @@ class ProfileScreen extends StatelessWidget {
                                     context
                                         .read<UserSessionBloc>()
                                         .add(LogoutUserSession());
-                                    context.router.replaceAll([
-                                      const IndexRoute(
-                                          children: [HomeNestedRoute()])
-                                    ]);
+                                    context.router
+                                        .replaceAll([const IndexRoute()]);
                                   },
                                 );
                               },

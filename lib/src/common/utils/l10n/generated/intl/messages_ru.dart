@@ -149,6 +149,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notActive": MessageLookupByLibrary.simpleMessage("Неактивен"),
         "notAvailableNow": MessageLookupByLibrary.simpleMessage(
             "Сейчас нет доступного времени"),
+        "notDeliverPlace": MessageLookupByLibrary.simpleMessage(
+            "Доставка в этот регион не осуществляется"),
         "notFound": MessageLookupByLibrary.simpleMessage("Ничего не найдено"),
         "office": MessageLookupByLibrary.simpleMessage("Кв/офис"),
         "order": MessageLookupByLibrary.simpleMessage("Заказ"),
