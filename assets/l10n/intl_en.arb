@@ -164,6 +164,11 @@
   "surname": "Last name",
   "deleteAccountSure": "Are you sure you want to delete your account?",
   "deleteAccount": "Delete an account?",
-  "notDeliverPlace": "Delivery to this region is not carried out"
+  "notDeliverPlace": "Delivery to this region is not carried out",
+  "privacyPol": "Privacy Policy",
+  "userAgre": "User Agreement",
+  "info": "Information",
+  "consent_to_personal_data_processing": "Consent to Personal Data Processing",
+  "public_offer": "Public Offer"
 }
 

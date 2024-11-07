@@ -70,6 +70,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Comment to address"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "confirmPay": m0,
+        "consent_to_personal_data_processing":
+            MessageLookupByLibrary.simpleMessage(
+                "Consent to Personal Data Processing"),
         "continueAgree": MessageLookupByLibrary.simpleMessage(
             "By continuing, you agree to the "),
         "createDate": MessageLookupByLibrary.simpleMessage("Registration date"),
@@ -127,6 +130,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "in100gr": MessageLookupByLibrary.simpleMessage("In 100 grams"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Invalid phone number"),
+        "info": MessageLookupByLibrary.simpleMessage("Information"),
         "itemList": MessageLookupByLibrary.simpleMessage("Item list"),
         "lastOrderWillHere": MessageLookupByLibrary.simpleMessage(
             "Your last orders will be displayed here"),
@@ -178,6 +182,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "pinError": MessageLookupByLibrary.simpleMessage(
             "The PIN code is incorrect or expired."),
+        "privacyPol": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
         "processCancel":
             MessageLookupByLibrary.simpleMessage("In process of cancellation"),
@@ -185,6 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "products": MessageLookupByLibrary.simpleMessage("Products"),
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "proteins": MessageLookupByLibrary.simpleMessage("proteins"),
+        "public_offer": MessageLookupByLibrary.simpleMessage("Public Offer"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Search for item"),
         "select": MessageLookupByLibrary.simpleMessage("Select address"),
@@ -210,6 +216,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Thank you for your purchase! We will contact you with delivery details"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Add to basket"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Total sum"),
+        "userAgre": MessageLookupByLibrary.simpleMessage("User Agreement"),
         "userAgreement": MessageLookupByLibrary.simpleMessage("User Agreement"),
         "version": MessageLookupByLibrary.simpleMessage("Version"),
         "wait": MessageLookupByLibrary.simpleMessage("Waiting"),

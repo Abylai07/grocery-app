@@ -2,6 +2,7 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
 import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
+import 'package:abricoz_app/src/presentation/widgets/main_functions.dart';
 import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../common/app_styles/colors.dart';
+import '../../../common/constants.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../common/utils/parsers/date_parser.dart';
 import '../../../get_it_sl.dart';
@@ -105,7 +107,10 @@ class SignInView extends StatelessWidget {
                       TextSpan(
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print('Privacy Policy Tapped');
+                            context.router.push(WebViewRoute(
+                                title: S.of(context).privacyPolicy,
+                                url: privacyPolicy));
+                            //  launchUrlFunc(privacyPolicy);
                           },
                         text: S.of(context).privacyPolicy,
                         style: AppTextStyle.bodyMedium
@@ -118,9 +123,28 @@ class SignInView extends StatelessWidget {
                       TextSpan(
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print('userAgreement Tapped');
+                            context.router.push(WebViewRoute(
+                                title: S.of(context).public_offer,
+                                url: publicOffer));
                           },
-                        text: S.of(context).userAgreement,
+                        text: S.of(context).public_offer,
+                        style: AppTextStyle.bodyMedium
+                            .copyWith(color: AppColors.blue),
+                      ),
+                      TextSpan(
+                        text: ',  ',
+                        style: AppTextStyle.bodyMedium,
+                      ),
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.router.push(WebViewRoute(
+                                title: S
+                                    .of(context)
+                                    .consent_to_personal_data_processing,
+                                url: consentData));
+                          },
+                        text: S.of(context).consent_to_personal_data_processing,
                         style: AppTextStyle.bodyMedium
                             .copyWith(color: AppColors.blue),
                       ),
@@ -135,9 +159,9 @@ class SignInView extends StatelessWidget {
       bottomNavigationBar: PaddingForNavButtons(
         child: BlocConsumer<SingInCubit, SignInState>(
           listener: (context, state) {
-            if(state.status.isSuccessPhone){
+            if (state.status.isSuccessPhone) {
               context.router.push(const CodeEnterRoute());
-            } else if(state.status.isError){
+            } else if (state.status.isError) {
               showErrorSnackBar(context, S.of(context).somethingError);
             }
           },
@@ -149,7 +173,8 @@ class SignInView extends StatelessWidget {
                   isLoading: state.status.isLoading,
                   text: S.of(context).getSms,
                   onTap: () {
-                    context.read<SingInCubit>().signInPhone(AppUtils.phoneMaskFormatter.getUnmaskedText());
+                    context.read<SingInCubit>().signInPhone(
+                        AppUtils.phoneMaskFormatter.getUnmaskedText());
                   },
                 );
               },

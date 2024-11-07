@@ -44,4 +44,5 @@ class AppAssets {
   static const String warning = 'assets/icons/warning.svg';
   static const String time = 'assets/icons/time.svg';
   static const String myLocation = 'assets/icons/my_location.svg';
+  static const String info = 'assets/icons/info.svg';
 }

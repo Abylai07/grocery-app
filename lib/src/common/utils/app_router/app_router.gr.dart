@@ -68,6 +68,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const IndexScreen(),
       );
     },
+    InformationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const InformationScreen(),
+      );
+    },
     MakeOrderRoute.name: (routeData) {
       final args = routeData.argsAs<MakeOrderRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -162,6 +168,17 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const UserInfoScreen(),
+      );
+    },
+    WebViewRoute.name: (routeData) {
+      final args = routeData.argsAs<WebViewRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WebViewScreen(
+          key: args.key,
+          title: args.title,
+          url: args.url,
+        ),
       );
     },
   };
@@ -305,6 +322,20 @@ class IndexRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'IndexRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [InformationScreen]
+class InformationRoute extends PageRouteInfo<void> {
+  const InformationRoute({List<PageRouteInfo>? children})
+      : super(
+          InformationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'InformationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -634,4 +665,47 @@ class UserInfoRoute extends PageRouteInfo<void> {
   static const String name = 'UserInfoRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [WebViewScreen]
+class WebViewRoute extends PageRouteInfo<WebViewRouteArgs> {
+  WebViewRoute({
+    Key? key,
+    required String title,
+    required String url,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WebViewRoute.name,
+          args: WebViewRouteArgs(
+            key: key,
+            title: title,
+            url: url,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'WebViewRoute';
+
+  static const PageInfo<WebViewRouteArgs> page =
+      PageInfo<WebViewRouteArgs>(name);
+}
+
+class WebViewRouteArgs {
+  const WebViewRouteArgs({
+    this.key,
+    required this.title,
+    required this.url,
+  });
+
+  final Key? key;
+
+  final String title;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'WebViewRouteArgs{key: $key, title: $title, url: $url}';
+  }
 }

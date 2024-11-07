@@ -71,6 +71,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Мекенжайға түсініктеме"),
         "confirm": MessageLookupByLibrary.simpleMessage("Растау"),
         "confirmPay": m0,
+        "consent_to_personal_data_processing":
+            MessageLookupByLibrary.simpleMessage(
+                "Дербес деректерді өңдеуге келісім"),
         "continueAgree": MessageLookupByLibrary.simpleMessage(
             "Жалғастыра отырып, сіз келісесіз "),
         "createDate": MessageLookupByLibrary.simpleMessage("Ресімдеу күні"),
@@ -128,6 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "in100gr": MessageLookupByLibrary.simpleMessage("100 граммда"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Телефон нөмірі қате"),
+        "info": MessageLookupByLibrary.simpleMessage("Ақпарат"),
         "itemList": MessageLookupByLibrary.simpleMessage("Тауарлар тізімі"),
         "lastOrderWillHere": MessageLookupByLibrary.simpleMessage(
             "Мұнда сіздің соңғы тапсырыстарыңыз көрсетіледі"),
@@ -181,6 +185,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Телефон нөмірі"),
         "pinError": MessageLookupByLibrary.simpleMessage(
             "PIN-код қате немесе уақыты өтіп кетті."),
+        "privacyPol":
+            MessageLookupByLibrary.simpleMessage("Құпиялылық саясаты"),
         "privacyPolicy":
             MessageLookupByLibrary.simpleMessage("Құпиялылық саясаты"),
         "processCancel":
@@ -189,6 +195,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "products": MessageLookupByLibrary.simpleMessage("Өнімдер"),
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
         "proteins": MessageLookupByLibrary.simpleMessage("ақуыздар"),
+        "public_offer": MessageLookupByLibrary.simpleMessage("Жария ұсыныс"),
         "save": MessageLookupByLibrary.simpleMessage("Сақтау"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Тауарды іздеу"),
         "select": MessageLookupByLibrary.simpleMessage("Мекенжайды таңдау"),
@@ -214,6 +221,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Сатып алғаныңыз үшін рахмет! Жеткізу туралы мәліметтермен сізге хабарласамыз"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Себетке қосу"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Жалпы сома"),
+        "userAgre":
+            MessageLookupByLibrary.simpleMessage("Пайдаланушы келісімі"),
         "userAgreement":
             MessageLookupByLibrary.simpleMessage("Пайдаланушы келісімі"),
         "version": MessageLookupByLibrary.simpleMessage("Нұсқа"),

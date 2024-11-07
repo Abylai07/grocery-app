@@ -187,27 +187,13 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  // ProfileElementWidget(
-                  //   title: S.of(context).deleteAccount,
-                  //   icon: AppAssets.remove,
-                  //   logout: true,
-                  //   onPressed: () {
-                  //     confirmAlertDialog(
-                  //       context,
-                  //       title: S.of(context).deleteAccountSure,
-                  //       onYesTap: () {
-                  //         context.read<UserCubit>().deleteAccount();
-                  //         Navigator.pop(context);
-                  //         context
-                  //             .read<UserSessionBloc>()
-                  //             .add(LogoutUserSession());
-                  //         context.router.replaceAll([
-                  //           const IndexRoute(children: [HomeNestedRoute()])
-                  //         ]);
-                  //       },
-                  //     );
-                  //   },
-                  // ),
+                  ProfileElementWidget(
+                    title: S.of(context).info,
+                    icon: AppAssets.info,
+                    onPressed: () {
+                      context.router.push(const InformationRoute());
+                    },
+                  ),
                 ],
               ),
             ),

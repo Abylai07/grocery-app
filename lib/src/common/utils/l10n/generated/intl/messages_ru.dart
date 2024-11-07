@@ -71,6 +71,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Комментарий к адресу"),
         "confirm": MessageLookupByLibrary.simpleMessage("Подтвердить"),
         "confirmPay": m0,
+        "consent_to_personal_data_processing":
+            MessageLookupByLibrary.simpleMessage(
+                "Согласие на обработку персональных данных"),
         "continueAgree": MessageLookupByLibrary.simpleMessage(
             "Продолжая, вы соглашаетесь с "),
         "createDate": MessageLookupByLibrary.simpleMessage("Дата оформления"),
@@ -130,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "in100gr": MessageLookupByLibrary.simpleMessage("В 100 граммах"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Некорректный номер телефона"),
+        "info": MessageLookupByLibrary.simpleMessage("Информация"),
         "itemList": MessageLookupByLibrary.simpleMessage("Список товаров"),
         "lastOrderWillHere": MessageLookupByLibrary.simpleMessage(
             "Здесь будут отображаться ваши\nпоследние заказы"),
@@ -179,6 +183,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Номер телефона"),
         "pinError": MessageLookupByLibrary.simpleMessage(
             "PIN-код не верен, либо истёк."),
+        "privacyPol":
+            MessageLookupByLibrary.simpleMessage("Политика конфиденциальности"),
         "privacyPolicy": MessageLookupByLibrary.simpleMessage(
             "Политикой конфиденциальности"),
         "processCancel":
@@ -187,6 +193,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "products": MessageLookupByLibrary.simpleMessage("Продукты"),
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
         "proteins": MessageLookupByLibrary.simpleMessage("белки"),
+        "public_offer":
+            MessageLookupByLibrary.simpleMessage("Публичная оферта"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Поиск товара"),
         "select": MessageLookupByLibrary.simpleMessage("Выбрать адрес"),
@@ -212,6 +220,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки"),
         "toBasket": MessageLookupByLibrary.simpleMessage("В корзину"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Итоговая сумма"),
+        "userAgre":
+            MessageLookupByLibrary.simpleMessage("Пользовательское соглашение"),
         "userAgreement": MessageLookupByLibrary.simpleMessage(
             "Пользовательским соглашением"),
         "version": MessageLookupByLibrary.simpleMessage("Версия"),

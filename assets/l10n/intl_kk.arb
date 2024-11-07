@@ -156,7 +156,11 @@
   "surname": "Тегі",
   "deleteAccountSure": "Сіз аккаунтты жою керектігіне сенімдісізбе?",
   "deleteAccount": "Аккаунт жою?",
-  "notDeliverPlace": "Бұл аймаққа жеткізу қазір мүмкін емес"
-
+  "notDeliverPlace": "Бұл аймаққа жеткізу қазір мүмкін емес",
+  "privacyPol": "Құпиялылық саясаты",
+  "userAgre": "Пайдаланушы келісімі",
+  "info": "Ақпарат",
+  "consent_to_personal_data_processing": "Дербес деректерді өңдеуге келісім",
+  "public_offer": "Жария ұсыныс"
 }
 

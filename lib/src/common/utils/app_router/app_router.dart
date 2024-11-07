@@ -27,7 +27,9 @@ import '../../../presentation/view/profile/profile_screen.dart';
 import '../../../presentation/view/profile/screens/address/add_change_address_screen.dart';
 import '../../../presentation/view/profile/screens/address/address_screen.dart';
 import '../../../presentation/view/profile/screens/address/map_address_screen.dart';
+import '../../../presentation/view/profile/screens/information_screen.dart';
 import '../../../presentation/view/profile/screens/orders/order_detail_screen.dart';
+import '../../../presentation/widgets/web_view_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -56,5 +58,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: OrderDetailRoute.page),
         AutoRoute(page: UserInfoRoute.page),
         AutoRoute(page: MapAddressRoute.page),
+        AutoRoute(page: InformationRoute.page),
+        AutoRoute(page: WebViewRoute.page),
       ];
 }
