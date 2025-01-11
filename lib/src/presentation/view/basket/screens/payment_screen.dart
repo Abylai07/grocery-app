@@ -9,7 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../widgets/alert_dialog/text_alert_dialog.dart';
+import '../../../widgets/buttons/main_button.dart';
 import '../../../widgets/main_functions.dart';
+import '../../../widgets/padding_nav_buttons.dart';
 import '../../../widgets/shimmer_widget.dart';
 import '../../profile/bloc/order_history_cubit.dart';
 
@@ -20,51 +23,63 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<OrderHistoryCubit>().fetchOrderHistory();
     return Scaffold(
       appBar: CustomAppBar(
-        title: S.of(context).paymentOrder,
+        title: S.of(context).order_info,
       ),
       backgroundColor: AppColors.background,
-      // bottomNavigationBar: PaddingForNavButtons(
-      //   child: Column(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       CustomMainButton(
-      //         text: S.of(context).paymentOrder,
-      //         onTap: () {},
-      //       ),
-      //       12.height,
-      //       CustomGrayButton(
-      //         text: S.of(context).cancelOrder,
-      //         onTap: () {},
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      body: SingleChildScrollView(
+      bottomNavigationBar: PaddingForNavButtons(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            buildOrderInfo(context),
-            // No Online Payment
-            // Container(
-            //   margin: const EdgeInsets.symmetric(vertical: 12),
-            //   padding: const EdgeInsets.all(16.0),
-            //   decoration: BoxDecoration(
-            //     color: AppColors.white,
-            //     borderRadius: BorderRadius.circular(10),
-            //   ),
-            //   child: Row(
-            //     children: [
-            //       SvgPicture.asset(AppAssets.time),
-            //       12.width,
-            //       Expanded(child: Text(S.of(context).payTime(223))),
-            //     ],
-            //   ),
+            CustomMainButton(
+              text: S.of(context).cancelOrder,
+              onTap: () {
+                confirmAlertDialog(
+                  context,
+                  title: S.of(context).cancel_order_confirmation,
+                  onYesTap: () {
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            ),
+            // 12.height,
+            // CustomGrayButton(
+            //   text: S.of(context).cancelOrder,
+            //   onTap: () {},
             // ),
-            12.height,
-            buildOrderProducts(context),
           ],
+        ),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+         // context.read<OrderHistoryCubit>().fetchOrderHistory();
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildOrderInfo(context),
+              // No Online Payment
+              // Container(
+              //   margin: const EdgeInsets.symmetric(vertical: 12),
+              //   padding: const EdgeInsets.all(16.0),
+              //   decoration: BoxDecoration(
+              //     color: AppColors.white,
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       SvgPicture.asset(AppAssets.time),
+              //       12.width,
+              //       Expanded(child: Text(S.of(context).payTime(223))),
+              //     ],
+              //   ),
+              // ),
+              12.height,
+              buildOrderProducts(context),
+            ],
+          ),
         ),
       ),
     );
@@ -219,7 +234,7 @@ class PaymentScreen extends StatelessWidget {
               color: AppColors.divider,
             ),
             Text(
-              S.of(context).payOrder,
+              S.of(context).totalSum,
               style:
                   AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
@@ -232,7 +247,7 @@ class PaymentScreen extends StatelessWidget {
               color: AppColors.divider,
             ),
             Text(
-              S.of(context).paymentStatus,
+              S.of(context).order_status,
               style:
                   AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),

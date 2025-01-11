@@ -68,15 +68,15 @@ class AddOrChangeAddressView extends StatelessWidget {
     ExpandableController cityController = ExpandableController();
 
     TextEditingController streetController =
-        TextEditingController(text: selectAddress.street);
+    TextEditingController(text: selectAddress.street);
     TextEditingController houseController =
-        TextEditingController(text: address?.apartment);
+    TextEditingController(text: address?.apartment);
     TextEditingController entranceController =
-        TextEditingController(text: address?.entrance);
+    TextEditingController(text: address?.entrance);
     TextEditingController floorController =
-        TextEditingController(text: address?.floor);
+    TextEditingController(text: address?.floor);
     TextEditingController commentController =
-        TextEditingController(text: address?.addressComment);
+    TextEditingController(text: address?.addressComment);
     bool isChangeAddress = address != null;
 
     checkFillField() {
@@ -125,10 +125,10 @@ class AddOrChangeAddressView extends StatelessWidget {
                 onPressed: () {
                   confirmAlertDialog(context,
                       title: S.of(context).deleteAddress, onYesTap: () {
-                    context.router.popUntil(
-                        (route) => route.settings.name == AddressRoute.name);
-                    context.read<AddressCubit>().deleteAddress(address?.id);
-                  });
+                        context.router.popUntil(
+                                (route) => route.settings.name == AddressRoute.name);
+                        context.read<AddressCubit>().deleteAddress(address?.id);
+                      });
                 },
                 icon: SvgPicture.asset(AppAssets.remove),
               ),
@@ -176,7 +176,7 @@ class AddOrChangeAddressView extends StatelessWidget {
                               },
                               child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     state.entity?[i].name ?? '',

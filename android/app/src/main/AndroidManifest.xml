@@ -1,10 +1,11 @@
 <manifest xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:label="Abricoz"
-        android:name="${applicationName}"
+        android:name=".MainApplication"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/launcher_icon">
         <activity

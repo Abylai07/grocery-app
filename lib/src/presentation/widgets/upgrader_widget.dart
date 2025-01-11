@@ -1,10 +1,18 @@
 /*
  * Copyright (c) 2021-2024 Larry Aasen. All rights reserved.
  */
+import 'dart:io';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:upgrader/upgrader.dart';
+
+import '../../common/utils/shared_preference.dart';
+import '../bloc/base_state.dart';
+import '../bloc/remote_config_cubit.dart';
 
 class UpgradeWidget extends StatefulWidget {
   UpgradeWidget({
@@ -62,11 +70,19 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
   /// Is the alert dialog being displayed right now?
   bool displayed = false;
   bool called = false;
+  String criticalMinVersion = '1.0.4';
+  String? storeVersion;
 
-  callInit() async {
-    if(called) return;
-    called = true;
-    widget.upgrader.initialize();
+  @override
+  void initState() {
+    getAppVersionWithBuild();
+    super.initState();
+  }
+
+  Future<String> getAppVersionWithBuild() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    SharedPrefs().setAppVersion(packageInfo.version);
+    return '${packageInfo.version} (${packageInfo.buildNumber})';
   }
 
   @override
@@ -74,37 +90,68 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
     if (widget.upgrader.state.debugLogging) {
       print('upgrader: build UpgradeAlert');
     }
-    callInit();
+    if (storeVersion == null) {
+      widget.upgrader.initialize();
+    }
+    return BlocBuilder<RemoteConfigCubit, BaseState<Map>>(
+        builder: (context, state) {
+      if (state.entity != null && !called) {
+        called = true;
+        final RemoteConfigValue? criticalVersion = state.entity?[
+            Platform.isAndroid
+                ? RemoteKeys.criticalMinAndroidVersion.name
+                : RemoteKeys.criticalMinIosVersion.name];
 
-    return StreamBuilder(
-      initialData: widget.upgrader.state,
-      stream: widget.upgrader.stateStream,
-      builder: (BuildContext context, AsyncSnapshot<UpgraderState> snapshot) {
-        if ((snapshot.connectionState == ConnectionState.waiting ||
-                snapshot.connectionState == ConnectionState.active) &&
-            snapshot.data != null) {
-          final upgraderState = snapshot.data!;
-          print('upgraderState ${upgraderState.versionInfo?.appStoreVersion.toString() }');
-
-          if (upgraderState.versionInfo != null) {
-
-            widget.upgrader.minAppVersion = upgraderState.versionInfo?.appStoreVersion.toString() ?? '1.0.1';
+        criticalMinVersion = criticalVersion?.asString() ?? '1.0.4';
+        widget.upgrader.initialize();
+      }
+      return StreamBuilder(
+        initialData: widget.upgrader.state,
+        stream: widget.upgrader.stateStream,
+        builder: (BuildContext context, AsyncSnapshot<UpgraderState> snapshot) {
+          if ((snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.connectionState == ConnectionState.active) &&
+              snapshot.data != null) {
+            storeVersion =
+                snapshot.data?.versionInfo?.appStoreVersion.toString();
             if (widget.upgrader.state.debugLogging) {
-              print("upgrader: need to evaluate version");
+              print('upgrader: build UpgradeAlert');
             }
 
-            if (!displayed) {
-              final checkContext = widget.navigatorKey != null &&
-                      widget.navigatorKey!.currentContext != null
-                  ? widget.navigatorKey!.currentContext!
-                  : context;
-              checkVersion(context: checkContext);
+            if (storeVersion != null) {
+              if (widget.upgrader.state.debugLogging) {
+                print("upgrader: need to evaluate version");
+              }
+
+              if (!displayed) {
+                if (isVersionGreater(criticalMinVersion,
+                    SharedPrefs().getAppVersion() ?? '1.0.1')) {
+                  widget.upgrader.minAppVersion = criticalMinVersion;
+                }
+                final checkContext = widget.navigatorKey != null &&
+                        widget.navigatorKey!.currentContext != null
+                    ? widget.navigatorKey!.currentContext!
+                    : context;
+                checkVersion(context: checkContext);
+              }
             }
           }
-        }
-        return widget.child ?? const SizedBox.shrink();
-      },
-    );
+          return widget.child ?? const SizedBox.shrink();
+        },
+      );
+    });
+  }
+
+  bool isVersionGreater(String version1, String version2) {
+    List<int> parts1 = version1.split('.').map(int.parse).toList();
+    List<int> parts2 = version2.split('.').map(int.parse).toList();
+
+    for (int i = 0; i < parts1.length; i++) {
+      if (parts1[i] > parts2[i]) return true;
+      if (parts1[i] < parts2[i]) return false;
+    }
+
+    return false; // Если версии равны
   }
 
   /// Will show the alert dialog when it should be dispalyed.

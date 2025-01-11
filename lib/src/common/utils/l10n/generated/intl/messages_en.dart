@@ -55,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "calories": MessageLookupByLibrary.simpleMessage("calories"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelOrder": MessageLookupByLibrary.simpleMessage("Cancel order"),
+        "cancel_order_confirmation": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to cancel the order?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Canceled"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("carbohydrates"),
         "carts": MessageLookupByLibrary.simpleMessage("Cards"),
@@ -166,6 +168,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Order list is empty"),
         "orderHistory": MessageLookupByLibrary.simpleMessage("Order History"),
         "orderNumber": MessageLookupByLibrary.simpleMessage("Order number"),
+        "order_info": MessageLookupByLibrary.simpleMessage("Order Information"),
+        "order_status": MessageLookupByLibrary.simpleMessage("Order Status"),
         "orders": MessageLookupByLibrary.simpleMessage("Orders"),
         "otherCategory":
             MessageLookupByLibrary.simpleMessage("Try other categories"),
@@ -216,6 +220,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Thank you for your purchase! We will contact you with delivery details"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Add to basket"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Total sum"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
         "userAgre": MessageLookupByLibrary.simpleMessage("User Agreement"),
         "userAgreement": MessageLookupByLibrary.simpleMessage("User Agreement"),
         "version": MessageLookupByLibrary.simpleMessage("Version"),

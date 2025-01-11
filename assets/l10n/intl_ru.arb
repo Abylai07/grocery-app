@@ -161,7 +161,11 @@
   "userAgre" : "Пользовательское соглашение",
   "info" : "Информация",
   "consent_to_personal_data_processing": "Согласие на обработку персональных данных",
-  "public_offer": "Публичная оферта"
+  "public_offer": "Публичная оферта",
+  "order_info": "Информация о заказе",
+  "order_status": "Статус заказа",
+  "cancel_order_confirmation": "Вы уверены, что хотите отменить заказ?",
+  "try_again": "Попробуйте снова"
 }
 
 

@@ -22,7 +22,7 @@ class SharedPrefs {
   static const _cityName = '_cityName';
   static const _cityId = '_cityId';
   static const _email = '_email';
-  static const _password = '_password';
+  static const _appVersion = '_appVersion';
   static const _lightTheme = '_lightTheme';
   static const _setThemeAuto = '_setThemeAuto';
 
@@ -102,13 +102,13 @@ class SharedPrefs {
     return _getValue(_fullName);
   }
 
-
-  String? getPassword() {
-    return _getValue(_password);
+  void setAppVersion(String? value) {
+    if (value == null) return;
+    _setValue(_appVersion, value);
   }
 
-  void setPassword(String? value) {
-    _setValue(_password, value);
+  String? getAppVersion() {
+    return _getValue(_appVersion);
   }
 
   void setCityName(String? value) {
@@ -133,14 +133,6 @@ class SharedPrefs {
 
   String? getEmail() {
     return _getValue(_email);
-  }
-
-  void setCode(String? value) {
-    _setValue(_password, value);
-  }
-
-  String? getCode() {
-    return _getValue(_password);
   }
 
   void setLightTheme([bool v = true]) => _setValue(_lightTheme, v);

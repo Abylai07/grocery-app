@@ -1,4 +1,5 @@
 import 'package:abricoz_app/src/presentation/bloc/nav_bar_bloc.dart';
+import 'package:abricoz_app/src/presentation/bloc/remote_config_cubit.dart';
 import 'package:abricoz_app/src/presentation/bloc/search_bloc/search_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/category/bloc/category_cubit.dart';
@@ -71,7 +72,10 @@ class _ApplicationState extends State<Application> {
         ),
         BlocProvider(
           create: (context) => OrderHistoryCubit(sl())..fetchOrderHistory(),
-        )
+        ),
+        BlocProvider<RemoteConfigCubit>(
+          create: (_) => RemoteConfigCubit()..startWork(),
+        ),
       ],
       child: ScreenUtilInit(
         useInheritedMediaQuery: true,

@@ -123,7 +123,7 @@ class ProductView extends StatelessWidget {
                             crossAxisCount: 2,
                             mainAxisSpacing: 8.0,
                             crossAxisSpacing: 8.0,
-                            mainAxisExtent: 334,
+                            mainAxisExtent: 350,
                           ),
                           builderDelegate:
                               PagedChildBuilderDelegate<ProductEntity>(

@@ -21,6 +21,21 @@ extension BorderRadiusExtension on int {
   BorderRadius get r => BorderRadius.circular(toDouble());
 }
 
+extension NullOrEmptyExtension<T> on T? {
+
+  bool get isNotNullEmpty {
+    if (this == null) return false;
+
+    if (this is String) {
+      return (this as String).isNotEmpty;
+    } else if (this is Iterable) {
+      return (this as Iterable).isNotEmpty;
+    } else if (this is Map) {
+      return (this as Map).isNotEmpty;
+    }
+    return true;
+  }
+}
 enum OrderStatus {
   processing,
   beingAssembled,

@@ -161,6 +161,10 @@
   "userAgre": "Пайдаланушы келісімі",
   "info": "Ақпарат",
   "consent_to_personal_data_processing": "Дербес деректерді өңдеуге келісім",
-  "public_offer": "Жария ұсыныс"
+  "public_offer": "Жария ұсыныс",
+  "cancel_order_confirmation": "Тапсырысты тоқтатқыңыз келетініне сенімдісіз бе?",
+  "order_info": "Тапсырыс туралы ақпарат",
+  "order_status": "Тапсырыс мәртебесі",
+  "try_again": "Қайтадан көріңіз"
 }
 

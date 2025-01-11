@@ -20,6 +20,7 @@ import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../get_it_sl.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../profile/bloc/address_bloc/address_cubit.dart';
+import '../../profile/bloc/order_history_cubit.dart';
 import '../widgets/select_payment_type.dart';
 
 @RoutePage()
@@ -68,6 +69,7 @@ class DeliveryTimeView extends StatelessWidget {
           listener: (context, state) {
             if (state.status.isSuccess && state.entity != null) {
               context.read<BasketBloc>().add(const DeleteAllBasket());
+              context.read<OrderHistoryCubit>().fetchOrderHistory();
               context.router.popAndPush(PaymentRoute(orderInfo: state.entity!));
             } else if (state.status.isError) {
               showErrorSnackBar(context, S.of(context).somethingError);

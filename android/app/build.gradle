@@ -81,6 +81,7 @@ flutter {
 }
 
 dependencies {
+
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:33.3.0"))
     implementation 'com.yandex.android:maps.mobile:4.6.1-lite'

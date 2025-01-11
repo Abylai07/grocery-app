@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:shorebird_code_push/shorebird_code_push.dart';
 
 import '../../common/app_styles/assets.dart';
 import '../../common/app_styles/colors.dart';
@@ -59,13 +60,6 @@ class _IndexScreenState extends State<IndexScreen> {
       builder: (context, child) {
         final tabsRouter = AutoTabsRouter.of(context);
 
-        // dialogStyle: UpgradeDialogStyle.cupertino,
-        // showIgnore: false,
-        // showLater: false,
-        // upgrader: Upgrader(
-        // durationUntilAlertAgain: const Duration(days: 1),
-        // debugLogging: true,
-        // ),
         return Scaffold(
           resizeToAvoidBottomInset: false,
           body: child,
@@ -162,18 +156,4 @@ class _IndexScreenState extends State<IndexScreen> {
   }
 }
 
-class Solution {
-  int removeDuplicates(List<int> nums) {
-    List<int> result = [];
-    for(final item in nums){
-      if(!result.contains(item)){
-        print('will add $item');
-        result.add(item);
 
-      }
-    }
-    print('result $result');
-    nums = result;
-    return result.length;
-  }
-}

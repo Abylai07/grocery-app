@@ -169,6 +169,10 @@
   "userAgre": "User Agreement",
   "info": "Information",
   "consent_to_personal_data_processing": "Consent to Personal Data Processing",
-  "public_offer": "Public Offer"
+  "public_offer": "Public Offer",
+  "order_info": "Order Information",
+  "order_status": "Order Status",
+  "cancel_order_confirmation": "Are you sure you want to cancel the order?",
+  "try_again": "Try again"
 }
 

@@ -23,6 +23,7 @@ class ProductCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double photoHeight = MediaQuery.of(context).size.height * 0.4;
+
     return DraggableScrollableSheet(
       expand: false,
       initialChildSize: 0.9,
@@ -40,9 +41,9 @@ class ProductCardView extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 8.0),
                 child: BlocBuilder<FavoriteCubit, FavoriteState>(
                   builder: (context, state) {
-                    bool isFavorite =
-                        state.entity?.any((element) => element.id == product.id) ??
-                            false;
+                    bool isFavorite = state.entity
+                            ?.any((element) => element.id == product.id) ??
+                        false;
                     return IconButton(
                       onPressed: () {
                         if (SharedPrefs().getAccessToken() == null) {
@@ -53,8 +54,9 @@ class ProductCardView extends StatelessWidget {
                               .storeOrDeleteFavorite(isFavorite, product);
                         }
                       },
-                      icon: SvgPicture.asset(
-                          isFavorite ? AppAssets.favoriteFill : AppAssets.favorite),
+                      icon: SvgPicture.asset(isFavorite
+                          ? AppAssets.favoriteFill
+                          : AppAssets.favorite),
                     );
                   },
                 ),
@@ -90,24 +92,24 @@ class ProductCardView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           child: product.photoUrl?.isNotEmpty == true
                               ? CachedNetworkImage(
-                            height: photoHeight,
-                            width: double.infinity,
-                            imageUrl: product.photoUrl!,
-                            fit: BoxFit.cover,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                ShimmerWidget(
+                                  height: photoHeight,
+                                  width: double.infinity,
+                                  imageUrl: product.photoUrl!,
+                                  fit: BoxFit.contain,
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          ShimmerWidget(
+                                    width: double.infinity,
+                                    height: photoHeight,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                )
+                              : Container(
                                   width: double.infinity,
                                   height: photoHeight,
+                                  color: AppColors.shimmer,
                                 ),
-                            errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                          )
-                              : Container(
-                            width: double.infinity,
-                            height: photoHeight,
-                            color: AppColors.shimmer,
-                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 12.0),

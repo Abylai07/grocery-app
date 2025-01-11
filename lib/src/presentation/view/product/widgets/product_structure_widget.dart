@@ -17,42 +17,45 @@ class ProductStructureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-          color: AppColors.background, borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).in100gr,
-            style: AppTextStyle.bodyLarge,
-          ),
-          12.height,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              RichTextInfoWidget(
-                count: product.calories ?? 0,
-                name: S.of(context).calories,
-              ),
-              RichTextInfoWidget(
-                count: product.proteins ?? 0,
-                name: S.of(context).proteins,
-              ),
-              RichTextInfoWidget(
-                count: product.fats ?? 0,
-                name: S.of(context).fats,
-              ),
-              RichTextInfoWidget(
-                count: product.carbohydrates ?? 0,
-                name: S.of(context).carbohydrates,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+    return product.calories == null && product.proteins == null
+        ? const SizedBox()
+        : Container(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+                color: AppColors.background,
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  S.of(context).in100gr,
+                  style: AppTextStyle.bodyLarge,
+                ),
+                12.height,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    RichTextInfoWidget(
+                      count: product.calories ?? 0,
+                      name: S.of(context).calories,
+                    ),
+                    RichTextInfoWidget(
+                      count: product.proteins ?? 0,
+                      name: S.of(context).proteins,
+                    ),
+                    RichTextInfoWidget(
+                      count: product.fats ?? 0,
+                      name: S.of(context).fats,
+                    ),
+                    RichTextInfoWidget(
+                      count: product.carbohydrates ?? 0,
+                      name: S.of(context).carbohydrates,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
   }
 }

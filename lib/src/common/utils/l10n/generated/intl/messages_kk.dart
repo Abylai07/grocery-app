@@ -56,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel": MessageLookupByLibrary.simpleMessage("Болдырмау"),
         "cancelOrder":
             MessageLookupByLibrary.simpleMessage("Тапсырысты болдырмау"),
+        "cancel_order_confirmation": MessageLookupByLibrary.simpleMessage(
+            "Тапсырысты тоқтатқыңыз келетініне сенімдісіз бе?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Болдырылмады"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("көмірсулар"),
         "carts": MessageLookupByLibrary.simpleMessage("Карталар"),
@@ -168,6 +170,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "orderHistory":
             MessageLookupByLibrary.simpleMessage("Тапсырыстар тарихы"),
         "orderNumber": MessageLookupByLibrary.simpleMessage("Тапсырыс нөмірі"),
+        "order_info":
+            MessageLookupByLibrary.simpleMessage("Тапсырыс туралы ақпарат"),
+        "order_status":
+            MessageLookupByLibrary.simpleMessage("Тапсырыс мәртебесі"),
         "orders": MessageLookupByLibrary.simpleMessage("Тапсырыстар"),
         "otherCategory": MessageLookupByLibrary.simpleMessage(
             "Басқа категорияларды қолданып көріңіз"),
@@ -221,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Сатып алғаныңыз үшін рахмет! Жеткізу туралы мәліметтермен сізге хабарласамыз"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Себетке қосу"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Жалпы сома"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Қайтадан көріңіз"),
         "userAgre":
             MessageLookupByLibrary.simpleMessage("Пайдаланушы келісімі"),
         "userAgreement":

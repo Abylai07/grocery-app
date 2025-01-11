@@ -1479,6 +1479,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Информация о заказе`
+  String get order_info {
+    return Intl.message(
+      'Информация о заказе',
+      name: 'order_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Статус заказа`
+  String get order_status {
+    return Intl.message(
+      'Статус заказа',
+      name: 'order_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Вы уверены, что хотите отменить заказ?`
+  String get cancel_order_confirmation {
+    return Intl.message(
+      'Вы уверены, что хотите отменить заказ?',
+      name: 'cancel_order_confirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Попробуйте снова`
+  String get try_again {
+    return Intl.message(
+      'Попробуйте снова',
+      name: 'try_again',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

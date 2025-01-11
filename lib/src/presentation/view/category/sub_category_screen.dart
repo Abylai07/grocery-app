@@ -10,6 +10,7 @@ import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../domain/entity/product/sub_category_entity.dart';
 import '../../../get_it_sl.dart';
 import '../../bloc/search_bloc/search_bloc.dart';
+import '../../widgets/content_error_widget.dart';
 import '../../widgets/empty_answer_widget.dart';
 import '../../widgets/main_functions.dart';
 import '../../widgets/search_app_bar.dart';
@@ -124,6 +125,13 @@ class SubCategoryView extends StatelessWidget {
                                   children: [
                                     CategoryLoadingWidget(),
                                   ],
+                                );
+                              } else if (state.status.isError){
+                                return ContentErrorWidget(
+                                  message: state.message,
+                                  onTryAgain: () {
+                                    context.read<SubCategoryCubit>().fetchSubCategory(category.id);
+                                  },
                                 );
                               } else {
                                 return const SizedBox();

@@ -125,6 +125,7 @@ class ProductWidget extends StatelessWidget {
                   getLocaleText(product.name),
                   style: AppTextStyle.bodyMedium,
                   maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 // Padding(
                 //   padding: const EdgeInsets.only(top: 6.0),

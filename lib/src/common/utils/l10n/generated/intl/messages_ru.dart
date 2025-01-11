@@ -56,6 +56,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "calories": MessageLookupByLibrary.simpleMessage("ккал"),
         "cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
         "cancelOrder": MessageLookupByLibrary.simpleMessage("Отменить заказ"),
+        "cancel_order_confirmation": MessageLookupByLibrary.simpleMessage(
+            "Вы уверены, что хотите отменить заказ?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Отменён"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("углеводы"),
         "carts": MessageLookupByLibrary.simpleMessage("Карты"),
@@ -167,6 +169,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Список заказов пуст"),
         "orderHistory": MessageLookupByLibrary.simpleMessage("История заказов"),
         "orderNumber": MessageLookupByLibrary.simpleMessage("Номер заказа"),
+        "order_info":
+            MessageLookupByLibrary.simpleMessage("Информация о заказе"),
+        "order_status": MessageLookupByLibrary.simpleMessage("Статус заказа"),
         "orders": MessageLookupByLibrary.simpleMessage("Заказы"),
         "otherCategory":
             MessageLookupByLibrary.simpleMessage("Попробуйте другие категории"),
@@ -220,6 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки"),
         "toBasket": MessageLookupByLibrary.simpleMessage("В корзину"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Итоговая сумма"),
+        "try_again": MessageLookupByLibrary.simpleMessage("Попробуйте снова"),
         "userAgre":
             MessageLookupByLibrary.simpleMessage("Пользовательское соглашение"),
         "userAgreement": MessageLookupByLibrary.simpleMessage(
