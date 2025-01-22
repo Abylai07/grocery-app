@@ -173,6 +173,16 @@
   "order_info": "Order Information",
   "order_status": "Order Status",
   "cancel_order_confirmation": "Are you sure you want to cancel the order?",
-  "try_again": "Try again"
+  "try_again": "Try again",
+  "error_message": "Sorry, an error occurred. We are already working to fix it. Please try again later.",
+  "minimum_order_amount": "Minimum order amount: 5000 KZT",
+  "today": "Today",
+  "tomorrow": "Tomorrow",
+  "out_of_stock": "Product is out of stock",
+  "cart_update": "Cart Update",
+  "inactive_products": "Inactive Products:",
+  "removed_products": "Removed Products:",
+  "remaining": "Remaining:",
+  "changed_quantity": "Changed Quantity:"
 }
 

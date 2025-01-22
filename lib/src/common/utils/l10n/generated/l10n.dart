@@ -1519,6 +1519,106 @@ class S {
       args: [],
     );
   }
+
+  /// `Извините, произошла ошибка. Мы уже работаем над её исправлением. Попробуйте ещё раз позже.`
+  String get error_message {
+    return Intl.message(
+      'Извините, произошла ошибка. Мы уже работаем над её исправлением. Попробуйте ещё раз позже.',
+      name: 'error_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Минимальная сумма заказа: 5000 тг`
+  String get minimum_order_amount {
+    return Intl.message(
+      'Минимальная сумма заказа: 5000 тг',
+      name: 'minimum_order_amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сегодня`
+  String get today {
+    return Intl.message(
+      'Сегодня',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Завтра`
+  String get tomorrow {
+    return Intl.message(
+      'Завтра',
+      name: 'tomorrow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Товара нет в наличии`
+  String get out_of_stock {
+    return Intl.message(
+      'Товара нет в наличии',
+      name: 'out_of_stock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Обновление корзины`
+  String get cart_update {
+    return Intl.message(
+      'Обновление корзины',
+      name: 'cart_update',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Неактивные товары:`
+  String get inactive_products {
+    return Intl.message(
+      'Неактивные товары:',
+      name: 'inactive_products',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Удалённые товары:`
+  String get removed_products {
+    return Intl.message(
+      'Удалённые товары:',
+      name: 'removed_products',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Осталось:`
+  String get remaining {
+    return Intl.message(
+      'Осталось:',
+      name: 'remaining',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Изменено количество:`
+  String get changed_quantity {
+    return Intl.message(
+      'Изменено количество:',
+      name: 'changed_quantity',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

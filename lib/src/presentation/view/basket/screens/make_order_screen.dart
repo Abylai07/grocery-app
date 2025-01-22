@@ -20,7 +20,6 @@ import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../get_it_sl.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../profile/bloc/address_bloc/address_cubit.dart';
-import '../../profile/bloc/order_history_cubit.dart';
 import '../widgets/select_payment_type.dart';
 
 @RoutePage()
@@ -60,6 +59,23 @@ class DeliveryTimeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String getFormattedDate(DateTime? dateTime) {
+      if (dateTime == null) return '';
+
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final tomorrow = today.add(const Duration(days: 1));
+      final inputDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+      if (inputDate == today) {
+        return S.of(context).today;
+      } else if (inputDate == tomorrow) {
+        return  S.of(context).tomorrow;
+      } else {
+        return '${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}';
+      }
+    }
+
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).makeOrder,
@@ -69,10 +85,9 @@ class DeliveryTimeView extends StatelessWidget {
           listener: (context, state) {
             if (state.status.isSuccess && state.entity != null) {
               context.read<BasketBloc>().add(const DeleteAllBasket());
-              context.read<OrderHistoryCubit>().fetchOrderHistory();
               context.router.popAndPush(PaymentRoute(orderInfo: state.entity!));
             } else if (state.status.isError) {
-              showErrorSnackBar(context, S.of(context).somethingError);
+              showErrorSnackBar(context, state.message);
             }
           },
           builder: (context, state) {
@@ -177,7 +192,7 @@ class DeliveryTimeView extends StatelessWidget {
             BlocBuilder<DeliveryTimeCubit, DeliveryTimeState>(
               builder: (context, state) {
                 return Container(
-                  height: 40,
+                  height: 56,
                   margin: const EdgeInsets.only(top: 8, bottom: 24),
                   child: state.status.isSuccess
                       ? state.entity?.isEmpty == true
@@ -212,12 +227,27 @@ class DeliveryTimeView extends StatelessWidget {
                                           : AppColors.grayContainer,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: Text(
-                                      state.entity?[index].name ?? '',
-                                      style: AppTextStyle.bodyMedium.copyWith(
-                                          color: isSelected
-                                              ? AppColors.main
-                                              : AppColors.black),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          state.entity?[index].name ?? '',
+                                          style: AppTextStyle.bodyMedium
+                                              .copyWith(
+                                                  color: isSelected
+                                                      ? AppColors.main
+                                                      : AppColors.black),
+                                        ),
+                                        Text(
+                                          getFormattedDate(
+                                              state.entity?[index].date),
+                                          style: AppTextStyle.bodyMedium
+                                              .copyWith(
+                                                  color: isSelected
+                                                      ? AppColors.main
+                                                      : AppColors.black),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 );

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/app_styles/colors.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';

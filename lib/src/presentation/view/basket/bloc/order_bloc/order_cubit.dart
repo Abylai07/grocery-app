@@ -1,5 +1,6 @@
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
 import 'package:abricoz_app/src/domain/usecase/order/order_usecase.dart';
+import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +48,26 @@ class OrderCubit extends Cubit<OrderState> {
         (r) => OrderState(
           status: CubitStatus.success,
           entity: r,
+        ),
+      ),
+    );
+  }
+
+  void cancelOrder({
+    required String orderId,
+  }) async {
+    emit(const OrderState(status: CubitStatus.loading));
+
+    final failureOrAuth = await orderUseCase.cancelOrder(PathParams(orderId));
+
+    emit(
+      failureOrAuth.fold(
+        (l) => OrderState(
+          status: CubitStatus.error,
+          message: l.message,
+        ),
+        (r) => const OrderState(
+          status: CubitStatus.success,
         ),
       ),
     );

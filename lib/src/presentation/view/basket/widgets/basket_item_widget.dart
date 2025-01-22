@@ -63,58 +63,66 @@ class BasketItemWidget extends StatelessWidget {
                   style: AppTextStyle.labelMedium,
                 ),
                 4.height,
-                (product.isActive ?? false) ?
-                Row(
-                  children: [
-                    if (isDiscount)
-                      Text(
-                        '${product.priceWithDiscount} ₸  ',
-                        style: AppTextStyle.labelMedium.copyWith(
-                          color: AppColors.main,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    Text(
-                      '${product.price.toInt()} ₸',
-                      style: isDiscount
-                          ? AppTextStyle.labelMedium.copyWith(
-                              decoration: TextDecoration.lineThrough,
-                              decorationColor: AppColors.gray,
-                              color: AppColors.gray)
-                          : AppTextStyle.labelMedium,
-                    ),
-                    if(product.weight != null)
-                    Text(
-                      ' ∙ ${product.weight}',
-                      style: AppTextStyle.labelMedium.copyWith(
-                        color: AppColors.gray,
-                      ),
-                    ),
-                  ],
-                ) : Row(
-                  children: [
-                    Text(
-                      '0 ₸ ',
-                      style: AppTextStyle.labelMedium.copyWith(
-                        color: const Color(0XFF7B7B7B),
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      '∙ ${S.of(context).notActive}',
-                      style: AppTextStyle.labelMedium.copyWith(
-                        color: AppColors.gray,
-                      ),
-                    ),
-                  ],
-                ),
+                (product.isActive == false)
+                    ? Row(
+                        children: [
+                          Text(
+                            '0 ₸ ',
+                            style: AppTextStyle.labelMedium.copyWith(
+                              color: const Color(0XFF7B7B7B),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            '∙ ${S.of(context).notActive}',
+                            style: AppTextStyle.labelMedium.copyWith(
+                              color: AppColors.gray,
+                            ),
+                          ),
+                        ],
+                      )
+                    : (product.basketCount < 1)
+                        ? Text(
+                            S.of(context).out_of_stock,
+                            style: AppTextStyle.labelMedium.copyWith(
+                              color: AppColors.gray,
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              if (isDiscount)
+                                Text(
+                                  '${product.priceWithDiscount} ₸  ',
+                                  style: AppTextStyle.labelMedium.copyWith(
+                                    color: AppColors.main,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              Text(
+                                '${product.price.toInt()} ₸',
+                                style: isDiscount
+                                    ? AppTextStyle.labelMedium.copyWith(
+                                        decoration: TextDecoration.lineThrough,
+                                        decorationColor: AppColors.gray,
+                                        color: AppColors.gray)
+                                    : AppTextStyle.labelMedium,
+                              ),
+                              if (product.weight != null)
+                                Text(
+                                  ' ∙ ${product.weight}',
+                                  style: AppTextStyle.labelMedium.copyWith(
+                                    color: AppColors.gray,
+                                  ),
+                                ),
+                            ],
+                          ),
               ],
             ),
           ),
         ),
         BlocBuilder<BasketButtonBloc, BasketButtonState>(
           builder: (context, state) {
-            return (product.isActive ?? false)
+            return ((product.isActive ?? false) && (product.basketCount > 0))
                 ? Container(
                     height: 40,
                     width: 120,
@@ -171,6 +179,9 @@ class BasketItemWidget extends StatelessWidget {
                       context
                           .read<BasketButtonBloc>()
                           .add(DeleteAtBasket(product.id));
+                      context
+                          .read<BasketBloc>()
+                          .add(const RefreshBasket());
                     },
                     child: Container(
                       height: 36,

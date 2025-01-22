@@ -60,6 +60,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Тапсырысты тоқтатқыңыз келетініне сенімдісіз бе?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Болдырылмады"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("көмірсулар"),
+        "cart_update": MessageLookupByLibrary.simpleMessage("Себетті жаңарту"),
         "carts": MessageLookupByLibrary.simpleMessage("Карталар"),
         "cashToCourier":
             MessageLookupByLibrary.simpleMessage("Курьерге қолма-қол"),
@@ -67,6 +68,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "category": MessageLookupByLibrary.simpleMessage("Категориялар"),
         "changeAddress":
             MessageLookupByLibrary.simpleMessage("Мекенжай тізімін өзгерту"),
+        "changed_quantity":
+            MessageLookupByLibrary.simpleMessage("Саны өзгертілді:"),
         "city": MessageLookupByLibrary.simpleMessage("Қала"),
         "close": MessageLookupByLibrary.simpleMessage("Жабу"),
         "commentToAddress":
@@ -111,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Жалғастыру үшін телефон нөмірін енгізіңіз"),
         "entrance": MessageLookupByLibrary.simpleMessage("Кіреберіс"),
+        "error_message": MessageLookupByLibrary.simpleMessage(
+            "Кешіріңіз, қате орын алды. Біз оны түзету үшін жұмыс істеп жатырмыз. Кейінірек тағы да қайталап көріңіз."),
         "fats": MessageLookupByLibrary.simpleMessage("майлар"),
         "favorite": MessageLookupByLibrary.simpleMessage("Таңдаулы"),
         "favoriteEmpty":
@@ -131,6 +136,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "hereWillProduct": MessageLookupByLibrary.simpleMessage(
             "Мұнда сатып алуға арналған тауарлар болады"),
         "in100gr": MessageLookupByLibrary.simpleMessage("100 граммда"),
+        "inactive_products":
+            MessageLookupByLibrary.simpleMessage("Белсенді емес тауарлар:"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Телефон нөмірі қате"),
         "info": MessageLookupByLibrary.simpleMessage("Ақпарат"),
@@ -143,6 +150,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "main": MessageLookupByLibrary.simpleMessage("Басты бет"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Тапсырыс жасау"),
         "maker": MessageLookupByLibrary.simpleMessage("Өндіруші"),
+        "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
+            "Тапсырыстың ең аз сомасы: 5000 тг"),
         "mustFill": MessageLookupByLibrary.simpleMessage(
             "Бұл орын міндетті түрде толтырылуы керек"),
         "myOrders": MessageLookupByLibrary.simpleMessage("Менің тапсарыстарым"),
@@ -179,6 +188,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Басқа категорияларды қолданып көріңіз"),
         "ourProduct":
             MessageLookupByLibrary.simpleMessage("Біздің өнімдеріміз"),
+        "out_of_stock": MessageLookupByLibrary.simpleMessage("Өнім жоқ"),
         "payOrder": MessageLookupByLibrary.simpleMessage("Тапсырысты төлеу"),
         "paySum": MessageLookupByLibrary.simpleMessage("Төлем сомасы"),
         "payTime": m2,
@@ -202,6 +212,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("Профиль"),
         "proteins": MessageLookupByLibrary.simpleMessage("ақуыздар"),
         "public_offer": MessageLookupByLibrary.simpleMessage("Жария ұсыныс"),
+        "remaining": MessageLookupByLibrary.simpleMessage("Қалды:"),
+        "removed_products":
+            MessageLookupByLibrary.simpleMessage("Жойылған тауарлар:"),
         "save": MessageLookupByLibrary.simpleMessage("Сақтау"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Тауарды іздеу"),
         "select": MessageLookupByLibrary.simpleMessage("Мекенжайды таңдау"),
@@ -226,6 +239,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Сатып алғаныңыз үшін рахмет! Жеткізу туралы мәліметтермен сізге хабарласамыз"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Себетке қосу"),
+        "today": MessageLookupByLibrary.simpleMessage("Бүгін"),
+        "tomorrow": MessageLookupByLibrary.simpleMessage("Ертең"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Жалпы сома"),
         "try_again": MessageLookupByLibrary.simpleMessage("Қайтадан көріңіз"),
         "userAgre":

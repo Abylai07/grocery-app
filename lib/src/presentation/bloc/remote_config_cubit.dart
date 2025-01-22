@@ -1,5 +1,6 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'base_state.dart';
 
 class RemoteConfigCubit extends Cubit<BaseState<Map>> {

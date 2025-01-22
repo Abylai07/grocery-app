@@ -27,8 +27,12 @@ class FavoriteScreen extends StatelessWidget {
       ),
       body: BlocBuilder<BasketBloc, BasketState>(
         builder: (context, basketState) {
+          if (basketState.status.isClearedBasket || basketState.isCartChanged) {
+            context.read<FavoriteCubit>().fetchFavorites();
+          }
           return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
               child: BlocBuilder<FavoriteCubit, FavoriteState>(
                 builder: (context, state) {
                   if (state.status.isSuccess &&

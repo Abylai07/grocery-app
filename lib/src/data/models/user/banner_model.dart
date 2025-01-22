@@ -19,7 +19,7 @@ class BannerModel extends BannerEntity {
       title: {
         'ru': json['title_ru'],
         'kz': json['title_kz'],
-        'en': json['title_en'],
+      //  'en': json['title_en'],
       },
       number: json['number'],
       createdAt: DateTime.parse(json['created_at']),
@@ -33,7 +33,7 @@ class BannerModel extends BannerEntity {
       'id': id,
       'image_url': imageUrl,
       'title_ru': title['ru'],
-      'title_en': title['en'],
+     // 'title_en': title['en'],
       'title_kz': title['kz'],
       'number': number,
       'created_at': createdAt.toIso8601String(),

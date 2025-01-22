@@ -3,6 +3,9 @@
 const host = 'https://api.abricoz.kz/api/'; // prod
 // const host = 'http://195.210.47.45/api/'; // dev
 
+
+const devKey = 'GKbLmNxd9QpGbgPMBZikLa'; // dev
+
 const privacyPolicy = 'https://docs.google.com/document/d/1qi7tbnpQrdaM6A6tGljKVz3dBcRIMp2cRTCVTLVrMzI/edit?usp=sharing';
 const userAgreement = 'https://docs.google.com/document/d/13Ut_RBBGSrwVhFzE2jQwuROemSk9KgFyvhoyH3pIKTU/edit?usp=sharing';
 const publicOffer = 'https://docs.google.com/document/d/1JYmmZX5GUYuAoRFynRXJx7_8VzspiA51ztw2b_JlgzI/edit?usp=sharing';

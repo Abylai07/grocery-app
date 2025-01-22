@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../../../../main.dart';
@@ -64,8 +63,10 @@ class BasketDatabase {
   //   }
   // }
 
-  Future<void> addProduct(ProductHiveModel product) async {
-    await hiveBox?.add(product);
+  Future<void> addProducts(List<ProductHiveModel> products) async {
+    for(final item in products){
+      await hiveBox?.put(item.id.toString(), item);
+    }
   }
 
   Future<void> clearBasket() async => hiveBox?.clear();

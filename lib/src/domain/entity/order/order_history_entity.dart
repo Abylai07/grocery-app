@@ -9,7 +9,7 @@ class OrderHistoryEntity extends Equatable {
   final int deliveryIntervalId;
   final int paymentTypeId;
   final int cityId;
-    final String addressStreetAndHouse;
+  final String addressStreetAndHouse;
   final String addressApartment;
   final String? addressEntrance;
   final String? addressFloor;
@@ -92,14 +92,14 @@ class OrderStatusEntity extends Equatable {
 class DeliveryIntervalEntity extends Equatable {
   final int id;
   final String name;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const DeliveryIntervalEntity({
     required this.id,
     required this.name,
-    required this.createdAt,
-    required this.updatedAt,
+     this.createdAt,
+     this.updatedAt,
   });
 
   @override

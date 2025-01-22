@@ -1,6 +1,7 @@
 import 'package:abricoz_app/src/core/error/failure.dart';
 import 'package:abricoz_app/src/domain/entity/order/delivery_time_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
+import 'package:abricoz_app/src/domain/entity/product/pagination_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/check_error_type.dart';
@@ -33,8 +34,26 @@ class OrderServiceRepositoryImpl extends AbstractOrderServiceRepository {
   }
 
   @override
-  Future<Either<Failure, List<OrderHistoryEntity>>> fetchOrderHistory() {
+  Future<Either<Failure, OrderPaginationEntity>> fetchOrderHistory(params) {
     return _networkOperationHelper
-        .performNetworkOperation(() => dataSource.fetchOrderHistory());
+        .performNetworkOperation(() => dataSource.fetchOrderHistory(params));
+  }
+
+  @override
+  Future<Either<Failure, bool>> cancelOrder(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.cancelOrder(params));
+  }
+
+  @override
+  Future<Either<Failure, List<OrderHistoryEntity>>> fetchActiveOrders() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchActiveOrders());
+  }
+
+  @override
+  Future<Either<Failure, OrderHistoryEntity>> fetchOrderById(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchOrderById(params));
   }
 }

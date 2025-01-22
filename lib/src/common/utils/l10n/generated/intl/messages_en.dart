@@ -59,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to cancel the order?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Canceled"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("carbohydrates"),
+        "cart_update": MessageLookupByLibrary.simpleMessage("Cart Update"),
         "carts": MessageLookupByLibrary.simpleMessage("Cards"),
         "cashToCourier":
             MessageLookupByLibrary.simpleMessage("Cash to courier"),
@@ -66,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "category": MessageLookupByLibrary.simpleMessage("Categories"),
         "changeAddress":
             MessageLookupByLibrary.simpleMessage("Change address list"),
+        "changed_quantity":
+            MessageLookupByLibrary.simpleMessage("Changed Quantity:"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "commentToAddress":
@@ -110,6 +113,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Enter your phone number to continue"),
         "entrance": MessageLookupByLibrary.simpleMessage("Entrance"),
+        "error_message": MessageLookupByLibrary.simpleMessage(
+            "Sorry, an error occurred. We are already working to fix it. Please try again later."),
         "fats": MessageLookupByLibrary.simpleMessage("fats"),
         "favorite": MessageLookupByLibrary.simpleMessage("Favorite"),
         "favoriteEmpty": MessageLookupByLibrary.simpleMessage(
@@ -130,6 +135,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "hereWillProduct": MessageLookupByLibrary.simpleMessage(
             "Items for purchase will be here"),
         "in100gr": MessageLookupByLibrary.simpleMessage("In 100 grams"),
+        "inactive_products":
+            MessageLookupByLibrary.simpleMessage("Inactive Products:"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Invalid phone number"),
         "info": MessageLookupByLibrary.simpleMessage("Information"),
@@ -143,6 +150,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "main": MessageLookupByLibrary.simpleMessage("Home"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Place order"),
         "maker": MessageLookupByLibrary.simpleMessage("Manufacturer"),
+        "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
+            "Minimum order amount: 5000 KZT"),
         "mustFill":
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "myOrders": MessageLookupByLibrary.simpleMessage("My orders"),
@@ -174,6 +183,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "otherCategory":
             MessageLookupByLibrary.simpleMessage("Try other categories"),
         "ourProduct": MessageLookupByLibrary.simpleMessage("Our products"),
+        "out_of_stock":
+            MessageLookupByLibrary.simpleMessage("Product is out of stock"),
         "payOrder": MessageLookupByLibrary.simpleMessage("Pay order"),
         "paySum": MessageLookupByLibrary.simpleMessage("Amount to pay"),
         "payTime": m2,
@@ -195,6 +206,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "proteins": MessageLookupByLibrary.simpleMessage("proteins"),
         "public_offer": MessageLookupByLibrary.simpleMessage("Public Offer"),
+        "remaining": MessageLookupByLibrary.simpleMessage("Remaining:"),
+        "removed_products":
+            MessageLookupByLibrary.simpleMessage("Removed Products:"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Search for item"),
         "select": MessageLookupByLibrary.simpleMessage("Select address"),
@@ -219,6 +233,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Thank you for your purchase! We will contact you with delivery details"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Add to basket"),
+        "today": MessageLookupByLibrary.simpleMessage("Today"),
+        "tomorrow": MessageLookupByLibrary.simpleMessage("Tomorrow"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Total sum"),
         "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
         "userAgre": MessageLookupByLibrary.simpleMessage("User Agreement"),

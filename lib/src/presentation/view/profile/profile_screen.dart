@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../common/app_styles/colors.dart';
+import '../../../common/utils/firebase_api/notifications.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../common/utils/parsers/date_parser.dart';
 import '../../widgets/alert_dialog/text_alert_dialog.dart';
@@ -79,6 +80,8 @@ class ProfileScreen extends StatelessWidget {
                     listener: (BuildContext context, UserSessionState state) {
                       if(state is UserSessionLoggedOut){
                         context.read<FavoriteCubit>().setInitState();
+                      } else if (state is UserSessionLoaded) {
+                        Notifications().init(context);
                       }
                     },
                     builder: (context, state) {

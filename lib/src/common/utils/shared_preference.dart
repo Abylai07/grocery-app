@@ -152,9 +152,11 @@ class SharedPrefs {
 
     if (filteredLocale == 'kk') {
       locale = 'kk';
-    } else if (filteredLocale == 'en') {
-      locale = 'en';
-    } else {
+    }
+    // else if (filteredLocale == 'en') {
+    //   locale = 'en';
+    // }
+    else {
       locale = 'ru';
     }
     return locale;

@@ -19,7 +19,7 @@ class SubCategoryModel extends SubCategoryEntity {
       name: {
         'ru': json['name_ru'],
         'kz': json['name_kz'],
-        'en': json['name_en'],
+       // 'en': json['name_en'],
       },
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
@@ -33,7 +33,7 @@ class SubCategoryModel extends SubCategoryEntity {
       'category_id': categoryId,
       'name_ru': name['ru'],
       'name_kz': name['kz'],
-      'name_en': name['en'],
+     // 'name_en': name['en'],
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       'image_url': photoUrl,

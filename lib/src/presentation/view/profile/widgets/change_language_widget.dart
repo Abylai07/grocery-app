@@ -89,27 +89,27 @@ class ChangeLanguageWidget extends StatelessWidget {
                 height: 32,
                 color: AppColors.grayContainer,
               ),
-              InkWell(
-                onTap: () {
-                  changeLanguage('en');
-                },
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'English',
-                        style: AppTextStyle.bodyLarge,
-                      ),
-                    ),
-                    if(localLan == 'en')
-                      SvgPicture.asset(AppAssets.selected),
-                  ],
-                ),
-              ),
-              const Divider(
-                height: 32,
-                color: AppColors.grayContainer,
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     changeLanguage('en');
+              //   },
+              //   child: Row(
+              //     children: [
+              //       Expanded(
+              //         child: Text(
+              //           'English',
+              //           style: AppTextStyle.bodyLarge,
+              //         ),
+              //       ),
+              //       if(localLan == 'en')
+              //         SvgPicture.asset(AppAssets.selected),
+              //     ],
+              //   ),
+              // ),
+              // const Divider(
+              //   height: 32,
+              //   color: AppColors.grayContainer,
+              // ),
             ],
           ),
         ),

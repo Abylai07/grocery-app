@@ -1,18 +1,25 @@
 import 'package:abricoz_app/src/common/enums.dart';
+import 'package:abricoz_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/app_styles/colors.dart';
 import '../../../../../common/app_styles/text_styles.dart';
 import '../../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../../domain/entity/order/order_history_entity.dart';
 import '../../../../../domain/entity/product/product_entity.dart';
+import '../../../../../get_it_sl.dart';
+import '../../../../bloc/base_state.dart';
+import '../../../../widgets/alert_dialog/text_alert_dialog.dart';
 import '../../../../widgets/buttons/main_button.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../../widgets/main_functions.dart';
 import '../../../../widgets/padding_nav_buttons.dart';
 import '../../../../widgets/shimmer_widget.dart';
+import '../../bloc/order/order_history_cubit.dart';
 
 @RoutePage()
 class OrderDetailScreen extends StatelessWidget {
@@ -21,31 +28,83 @@ class OrderDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: '${S.of(context).order} №${orderInfo.id}',
-      ),
-      backgroundColor: AppColors.background,
-      bottomNavigationBar: PaddingForNavButtons(
-        child: CustomMainButton(
-          text: S.of(context).orderAgain,
-          isActive: false,
-          onTap: () {},
+    OrderHistoryEntity order = orderInfo;
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => OrderCubit(sl()),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildOrderInfo(context),
-            12.height,
-            buildOrderProducts(context),
-          ],
+        BlocProvider(
+          create: (context) => OrderHistoryCubit(sl()),
         ),
+      ],
+      child: BlocBuilder<OrderHistoryCubit, BaseState>(
+        builder: (context, state) {
+          if (state.status.isSuccess) {
+            order = state.entity;
+          }
+          return Scaffold(
+            appBar: CustomAppBar(
+              title: '${S.of(context).order} №${orderInfo.id}',
+            ),
+            backgroundColor: AppColors.background,
+            bottomNavigationBar: BlocConsumer<OrderCubit, OrderState>(
+              listener: (context, state) {
+                if (state.status.isSuccess) {
+                  Navigator.pop(context);
+                  context.read<ActiveOrdersCubit>().fetchActiveOrders();
+                }
+              },
+              builder: (context, state) {
+                return PaddingForNavButtons(
+                  child: CustomMainButton(
+                    text: canCancelOrder(order)
+                        ? S.of(context).cancelOrder
+                        : S.of(context).orderAgain,
+                    isLoading: state.status.isLoading,
+                    isActive: order.orderStatus.id == 1,
+                    onTap: () {
+                      if(canCancelOrder(order)){
+                        confirmAlertDialog(
+                          context,
+                          title: S.of(context).cancel_order_confirmation,
+                          onYesTap: () {
+                            Navigator.pop(context);
+                            context
+                                .read<OrderCubit>()
+                                .cancelOrder(orderId: order.id.toString());
+                          },
+                        );
+                      }
+                    },
+                  ),
+                );
+              },
+            ),
+            body: RefreshIndicator(
+              onRefresh: () async {
+                await context.read<OrderHistoryCubit>().fetchOrderById(orderInfo.id);
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    buildOrderInfo(context, order),
+                    12.height,
+                    buildOrderProducts(context, order),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Container buildOrderProducts(BuildContext context) {
+  Container buildOrderProducts(
+      BuildContext context, OrderHistoryEntity orderInfo) {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -79,19 +138,19 @@ class OrderDetailScreen extends StatelessWidget {
                     ),
                     child: product.photoUrl != null
                         ? CachedNetworkImage(
-                      imageUrl: product.photoUrl!,
-                      fit: BoxFit.cover,
-                      height: 70,
-                      width: 70,
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                      const ShimmerWidget(
-                        width: 70,
-                        height: 70,
-                      ),
-                      errorWidget: (context, url, error) =>
-                      const Icon(Icons.error),
-                    )
+                            imageUrl: product.photoUrl!,
+                            fit: BoxFit.cover,
+                            height: 70,
+                            width: 70,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    const ShimmerWidget(
+                              width: 70,
+                              height: 70,
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          )
                         : const SizedBox(),
                   ),
                   Expanded(
@@ -120,9 +179,9 @@ class OrderDetailScreen extends StatelessWidget {
                                 '${product.price.toInt()} ₸',
                                 style: isDiscount
                                     ? AppTextStyle.labelMedium.copyWith(
-                                    decoration: TextDecoration.lineThrough,
-                                    decorationColor: AppColors.gray,
-                                    color: AppColors.gray)
+                                        decoration: TextDecoration.lineThrough,
+                                        decorationColor: AppColors.gray,
+                                        color: AppColors.gray)
                                     : AppTextStyle.labelMedium,
                               ),
                               if (product.weight != null)
@@ -150,7 +209,7 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 
-  Container buildOrderInfo(BuildContext context) {
+  Container buildOrderInfo(BuildContext context, OrderHistoryEntity orderInfo) {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
@@ -170,7 +229,7 @@ class OrderDetailScreen extends StatelessWidget {
             Text(
               S.of(context).createDate,
               style:
-              AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
+                  AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
               formatDate(orderInfo.createdAt),
@@ -183,7 +242,7 @@ class OrderDetailScreen extends StatelessWidget {
             Text(
               S.of(context).deliveryDate,
               style:
-              AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
+                  AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
               '${formatDate(orderInfo.deliveryDate)}, ${orderInfo.deliveryInterval.name}',
@@ -196,7 +255,7 @@ class OrderDetailScreen extends StatelessWidget {
             Text(
               S.of(context).deliveryAddress,
               style:
-              AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
+                  AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
               '${orderInfo.addressStreetAndHouse}, ${orderInfo.addressApartment}',
@@ -209,7 +268,7 @@ class OrderDetailScreen extends StatelessWidget {
             Text(
               S.of(context).status,
               style:
-              AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
+                  AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
               orderInfo.orderStatus.name,
@@ -222,7 +281,7 @@ class OrderDetailScreen extends StatelessWidget {
             Text(
               S.of(context).totalSum,
               style:
-              AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
+                  AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
               '${orderInfo.totalPrice.toInt()} ₸',

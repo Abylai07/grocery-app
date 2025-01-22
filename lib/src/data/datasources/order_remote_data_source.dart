@@ -1,9 +1,9 @@
-import 'dart:convert';
-
 import 'package:abricoz_app/src/data/models/order/delivery_time_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/delivery_time_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
+import 'package:abricoz_app/src/domain/entity/product/pagination_entity.dart';
+import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dio/dio.dart';
 
@@ -22,7 +22,13 @@ abstract class OrderRemoteDataSource {
 
   Future<List<DeliveryTimeEntity>> getDeliveryTime();
 
-  Future<List<OrderHistoryEntity>> fetchOrderHistory();
+  Future<OrderPaginationEntity> fetchOrderHistory(MapParams params);
+
+  Future<List<OrderHistoryEntity>> fetchActiveOrders();
+
+  Future<OrderHistoryEntity> fetchOrderById(PathParams params);
+
+  Future<bool> cancelOrder(PathParams params);
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -56,9 +62,15 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return (response.data['data']['delivery_intervals'] as List)
-            .map((e) => DeliveryTimeModel.fromJson(e))
+        final deliveryIntervals = response.data['data']['delivery_intervals'] as Map<String, dynamic>;
+
+        // Explicitly map and cast to the correct type
+        List<DeliveryTimeEntity> models = deliveryIntervals.entries
+            .expand((entry) => (entry.value as List<dynamic>)
+            .map((intervalJson) => DeliveryTimeModel.fromJson(intervalJson, entry.key)))
             .toList();
+
+        return models;
       } else {
         throw ServerException();
       }
@@ -86,16 +98,86 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<List<OrderHistoryEntity>> fetchOrderHistory() async {
+  Future<OrderPaginationEntity> fetchOrderHistory(MapParams params) async {
+    try {
+      final response = await api.dio
+          .get('${host}order/index', queryParameters: params.data);
+
+      if (response.statusCode == 200) {
+        return OrderPaginationEntity(
+            currentPage: response.data['data']['current_page'] ?? 1,
+            totalItems: response.data['data']['total_pages'] ?? 1,
+            orders: (response.data['data']['orders'] as List)
+                .map((e) => OrderHistoryModel.fromJson(e))
+                .toList());
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+    // try {
+    //   final response = await api.dio.get(
+    //     '${host}order/index',
+    //   );
+    //
+    //   if (response.statusCode == 200) {
+    //     return (response.data['data'] as List)
+    //         .map((e) => OrderHistoryModel.fromJson(e))
+    //         .toList();
+    //   } else {
+    //     throw ServerException();
+    //   }
+    // } on DioException catch (e) {
+    //   return api.handleDioException(e);
+    // }
+  }
+
+  @override
+  Future<bool> cancelOrder(PathParams params) async {
     try {
       final response = await api.dio.get(
-        '${host}order/index',
+        '${host}order/cancel/${params.path}',
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<List<OrderHistoryEntity>> fetchActiveOrders() async {
+    try {
+      final response = await api.dio.get(
+        '${host}order/active-orders',
       );
 
       if (response.statusCode == 200) {
         return (response.data['data'] as List)
             .map((e) => OrderHistoryModel.fromJson(e))
             .toList();
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<OrderHistoryEntity> fetchOrderById(PathParams params) async {
+    try {
+      final response = await api.dio.get(
+        '${host}order/show/${params.path}',
+      );
+
+      if (response.statusCode == 200) {
+        return OrderHistoryModel.fromJson(response.data['data']);
       } else {
         throw ServerException();
       }

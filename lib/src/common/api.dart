@@ -10,8 +10,6 @@ import '../core/error/error_response_model.dart';
 import '../core/error/exception.dart';
 import 'constants.dart';
 
-
-
 class API {
   final String _endpoint = '';
 
@@ -26,27 +24,30 @@ class API {
       headers: {
         "Accept": "application/json",
       },
-      connectTimeout:
-          Duration(milliseconds: httpStatusCode.connectTimeout),
-      receiveTimeout:
-          Duration(milliseconds: httpStatusCode.receiveTimeout),
+      connectTimeout: Duration(milliseconds: httpStatusCode.connectTimeout),
+      receiveTimeout: Duration(milliseconds: httpStatusCode.receiveTimeout),
     );
     dio.interceptors.add(_TokenInterceptor());
   }
 
   handleDioException(DioException e) {
-    try{
+    try {
       if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
-        throw ServerException(messageError: e.response?.data['detail'] ?? e.error.toString());
+        throw ServerException(
+            messageError: e.response?.data['detail'] ??
+                e.response?.data['message'] ??
+                e.error.toString());
       } else {
         final err = ErrorResponseModel.fromJson(e.response?.data);
         throw CacheException(messageError: err.details);
       }
-    }catch (exe){
-      throw CacheException(messageError: e.response?.data.toString());
+    } catch (exe) {
+      throw CacheException(
+          messageError: e.response?.data['detail'] ??
+              e.response?.data['message'] ??
+              e.error.toString());
     }
   }
-
 }
 
 class _TokenInterceptor extends Interceptor {
@@ -62,7 +63,9 @@ class _TokenInterceptor extends Interceptor {
     String defaultConfig = '${options.method} ${options.path}';
 
     String? authToken = SharedPrefs().getAccessToken();
-    if (authToken != null && authToken != '' && options.extra['skipAuth'] != true) {
+    if (authToken != null &&
+        authToken != '' &&
+        options.extra['skipAuth'] != true) {
       options.headers['Authorization'] = 'Bearer $authToken';
     }
 
@@ -88,7 +91,7 @@ class _TokenInterceptor extends Interceptor {
       );
     }
 
-  //  debugPrint('--- $defaultConfig');
+    //  debugPrint('--- $defaultConfig');
     return super.onRequest(options, handler);
   }
 
@@ -97,16 +100,25 @@ class _TokenInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    if(response.data.toString().contains('<!DOCTYPE html>')){
-      debugPrint(
-        '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode}',
-      );
-    } else {
-      debugPrint(
-        '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode} ${response.data}',
-      );
-    }
-    return super.onResponse(response, handler);
+    // final responseData = response.data;
+    // if (responseData is String && responseData.startsWith('{')) {
+    //   // Проверяем, содержит ли ответ тело запроса вместе с ответом
+    //   final regex = RegExp(r'^\{.*\}\{.*\}$');
+    //   if (regex.hasMatch(responseData)) {
+    //     // Разделяем строку на две части
+    //     final parts = responseData.split(RegExp(r'(?<=\})\{'));
+    //     if (parts.length > 1) {
+    //       // Берем только часть с ответом сервера (последняя часть)
+    //       final validPart = '{${parts.last}';
+    //       response.data = validPart;
+    //     }
+    //   }
+    // }
+    debugPrint(
+      '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode} ${response.data}',
+    );
+
+    super.onResponse(response, handler);
   }
 
   @override
@@ -119,11 +131,13 @@ class _TokenInterceptor extends Interceptor {
     debugPrint(error.response?.data.toString());
     debugPrint('Error -->');
     String? refresh = SharedPrefs().getRefreshToken();
-    try{
-      if(error.response?.statusCode == 401){
+    try {
+      if (error.response?.statusCode == 401) {
         SharedPrefs().deleteTokens();
         return super.onError(error, handler);
-      } else if (error.response?.statusCode == 401 && refresh != null && tryRefreshCount < 3) {
+      } else if (error.response?.statusCode == 401 &&
+          refresh != null &&
+          tryRefreshCount < 3) {
         tryRefreshCount++;
         if (kDebugMode) {
           log('first step of refresh');
@@ -145,28 +159,34 @@ class _TokenInterceptor extends Interceptor {
         if (response.statusCode == 200) {
           log('refreshToken', name: 'RefreshToken SUCCESS');
           SharedPrefs().setAccessToken(jsonDecode(response.body)['access']);
-        }else{
+        } else {
           log('refreshToken', name: 'RefreshToken failed');
           SharedPrefs().deleteTokens();
         }
-        return handler.resolve(await retry(requestOptions: error.requestOptions));
+        return handler
+            .resolve(await retry(requestOptions: error.requestOptions));
       } else {
         return super.onError(error, handler);
       }
-    } catch (e){
+    } catch (e) {
       return super.onError(error, handler);
     }
   }
+
   Future<Response> retry({required RequestOptions requestOptions}) {
     String? authToken = SharedPrefs().getRefreshToken();
-    Options options = Options(method: requestOptions.method, headers: authToken != null && authToken != '' ? {
-      'Authorization': 'Bearer $authToken',
-    } : {});
+    Options options = Options(
+        method: requestOptions.method,
+        headers: authToken != null && authToken != ''
+            ? {
+                'Authorization': 'Bearer $authToken',
+              }
+            : {});
     return API().dio.request(
-      requestOptions.path,
-      data: requestOptions.data,
-      queryParameters: requestOptions.queryParameters,
-      options: options,
-    );
+          requestOptions.path,
+          data: requestOptions.data,
+          queryParameters: requestOptions.queryParameters,
+          options: options,
+        );
   }
 }

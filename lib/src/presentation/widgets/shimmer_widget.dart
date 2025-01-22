@@ -25,7 +25,7 @@ class ShimmerWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: isCircle ? null : BorderRadius.circular(12),
+            borderRadius: isCircle ? null : BorderRadius.circular(8),
             shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
           ),
         ),

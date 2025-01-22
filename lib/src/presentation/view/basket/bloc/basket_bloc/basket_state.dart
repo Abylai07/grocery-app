@@ -1,6 +1,6 @@
 part of 'basket_bloc.dart';
 
-enum BasketStatus { initial, success, clearedBasket,  error, loading}
+enum BasketStatus { initial, success,  readyToOrder, clearedBasket,  error, loading, orderLoading}
 
 extension BasketStatusX on BasketStatus {
   bool get isInitial => this == BasketStatus.initial;
@@ -8,6 +8,8 @@ extension BasketStatusX on BasketStatus {
   bool get isError => this == BasketStatus.error;
   bool get isLoading => this == BasketStatus.loading;
   bool get isClearedBasket => this == BasketStatus.clearedBasket;
+  bool get isReadyToOrder => this == BasketStatus.readyToOrder;
+  bool get isOrderLoading => this == BasketStatus.orderLoading;
 }
 class BasketState extends Equatable {
   final num basketSum;
@@ -16,11 +18,13 @@ class BasketState extends Equatable {
   final BasketStatus status;
   final CheckCardEntity? entity;
   final String? message;
+  final bool isCartChanged;
   final int? errorCode;
 
   const BasketState({
     this.allProducts,
     this.basketSum = 0,
+    this.isCartChanged = false,
     this.product,
     this.status = BasketStatus.initial,
     this.entity,
@@ -33,6 +37,7 @@ class BasketState extends Equatable {
     ProductHiveModel? product,
     List<ProductHiveModel>? allProducts,
     BasketStatus? status,
+    bool? isCartChanged,
     CheckCardEntity? entity,
     String? message,
     int? errorCode,
@@ -42,6 +47,7 @@ class BasketState extends Equatable {
       product: product ?? this.product,
       allProducts: allProducts ?? this.allProducts,
       status: status ?? this.status,
+      isCartChanged: isCartChanged ?? this.isCartChanged,
       entity: entity ?? this.entity,
       message: message ?? this.message,
       errorCode: errorCode ?? this.errorCode,
@@ -54,6 +60,7 @@ class BasketState extends Equatable {
     product,
     allProducts,
     status,
+    isCartChanged,
     entity,
     message,
     errorCode,

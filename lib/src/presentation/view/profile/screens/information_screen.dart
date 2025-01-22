@@ -1,8 +1,6 @@
 import 'package:abricoz_app/src/common/app_styles/colors.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
-import 'package:abricoz_app/src/presentation/widgets/main_functions.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -86,11 +84,12 @@ class InformationScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 8.0, bottom: 8, top: 4),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      S.of(context).consent_to_personal_data_processing,
-                      style: AppTextStyle.bodyLarge,
+                    Expanded(
+                      child: Text(
+                        S.of(context).consent_to_personal_data_processing,
+                        style: AppTextStyle.bodyLarge,
+                      ),
                     ),
                     SvgPicture.asset(AppAssets.arrowNext),
                   ],

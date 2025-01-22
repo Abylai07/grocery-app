@@ -4,9 +4,9 @@
 import 'dart:io';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:upgrader/upgrader.dart';
 
@@ -103,8 +103,10 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
                 : RemoteKeys.criticalMinIosVersion.name];
 
         criticalMinVersion = criticalVersion?.asString() ?? '1.0.4';
+        debugPrint('criticalMinVersion = $criticalMinVersion');
         widget.upgrader.initialize();
       }
+
       return StreamBuilder(
         initialData: widget.upgrader.state,
         stream: widget.upgrader.stateStream,

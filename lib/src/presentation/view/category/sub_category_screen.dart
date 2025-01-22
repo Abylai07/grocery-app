@@ -128,7 +128,7 @@ class SubCategoryView extends StatelessWidget {
                                 );
                               } else if (state.status.isError){
                                 return ContentErrorWidget(
-                                  message: state.message,
+                                  message: S.of(context).error_message,
                                   onTryAgain: () {
                                     context.read<SubCategoryCubit>().fetchSubCategory(category.id);
                                   },

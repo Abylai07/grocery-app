@@ -25,26 +25,18 @@
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Viewer</string>
-				<key>CFBundleURLName</key>
-				<string>com.abricoz.app</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>www</string>
-				</array>
-			</dict>
-			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Viewer</string>
-				<key>CFBundleURLName</key>
-				<string>com.abricoz.app</string>
-				<key>CFBundleURLSchemes</key>
-				<array>
-					<string>http</string>
-				</array>
+			<key>CFBundleTypeRole</key>
+            	<string>Editor</string>
+            <key>CFBundleURLName</key>
+                <string>abricoz.onelink.me</string>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                <string>https</string>
+                </array>
 			</dict>
 		</array>
+	    <key>FlutterDeepLinkingEnabled</key>
+        <true/>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
 		<key>LSRequiresIPhoneOS</key>
@@ -92,9 +84,9 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
-		<key>com.apple.developer.associated-domains</key>
-		<array>
-			<string>applinks:www.abricoz.kz</string>
-		</array>
+		 <key>com.apple.developer.associated-domains</key>
+          <array>
+                <string>applinks:abricoz.onelink.me</string>
+          </array>
 	</dict>
 </plist>

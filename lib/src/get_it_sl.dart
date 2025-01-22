@@ -19,6 +19,7 @@ import 'data/repository/order_service_repository.dart';
 import 'data/repository/user_service_repository.dart';
 import 'domain/repository/abstract_order_service_profile.dart';
 import 'domain/usecase/order/delivery_time_usecase.dart';
+import 'domain/usecase/order/order_history_usecase.dart';
 import 'domain/usecase/order/order_usecase.dart';
 import 'domain/usecase/product/category_usecase.dart';
 import 'domain/usecase/product/product_usecase.dart';
@@ -50,6 +51,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => OrderUseCase(sl()));
   sl.registerLazySingleton(() => FavoriteUseCase(sl()));
   sl.registerLazySingleton(() => UserUseCase(sl()));
+  sl.registerLazySingleton(() => OrderHistoryUseCase(sl()));
 
 
  // Remote Repositories

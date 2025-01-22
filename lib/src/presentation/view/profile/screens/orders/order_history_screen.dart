@@ -7,13 +7,14 @@ import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../../../common/app_styles/assets.dart';
 import '../../../../../common/app_styles/colors.dart';
 import '../../../../../common/app_styles/text_styles.dart';
 import '../../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../widgets/main_functions.dart';
-import '../../bloc/order_history_cubit.dart';
+import '../../bloc/order/order_history_cubit.dart';
 
 @RoutePage()
 class OrderHistoryScreen extends StatelessWidget {
@@ -21,8 +22,6 @@ class OrderHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<OrderHistoryCubit>().fetchOrderHistory();
-
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).myOrders,
@@ -30,80 +29,80 @@ class OrderHistoryScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: RefreshIndicator(
         onRefresh: () {
-          context.read<OrderHistoryCubit>().fetchOrderHistory();
-          return Future.delayed(const Duration(seconds: 2));
+          context.read<OrderHistoryCubit>().pagingController.refresh();
+          return Future.delayed(const Duration(seconds: 1));
         },
         child: BlocBuilder<OrderHistoryCubit, BaseState>(
           builder: (context, state) {
-            List<OrderHistoryEntity> orders = state.entity ?? [];
-            if (state.status.isSuccess && orders.isNotEmpty) {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: orders.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        context.router.push(OrderDetailRoute(orderInfo: orders[index]));
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(16),
-                        margin: const EdgeInsets.only(top: 8),
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  '${S.of(context).order} №${orders[index].id}',
-                                  style: AppTextStyle.bodyMedium,
-                                ),
-                                Text(
-                                  '${orders[index].totalPrice.toInt()} ₸',
-                                  style: AppTextStyle.bodyMedium
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                ),
-                              ],
-                            ),
-                            12.height,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  formatDate(orders[index].createdAt),
-                                  style: AppTextStyle.bodyMedium
-                                      .copyWith(color: AppColors.gray),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                      color: AppColors.grayContainer,
-                                      borderRadius: BorderRadius.circular(18),
-                                    ),
-                                    child: Text(
-                                  orders[index].orderStatus.name,
-                                  style: AppTextStyle.bodyMedium,
-                                )),
-                              ],
-                            ),
-                          ],
-                        ),
+            final cubit = context.read<OrderHistoryCubit>();
+            return PagedListView<int, OrderHistoryEntity>(
+              pagingController: cubit.pagingController,
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(bottom: 16),
+              builderDelegate: PagedChildBuilderDelegate<OrderHistoryEntity>(
+                noItemsFoundIndicatorBuilder: (context) {
+                  return buildEmptyHistory(context);
+                },
+
+                itemBuilder: (context, item, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      context.router
+                          .push(OrderDetailRoute(orderInfo: item));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.only(top: 8),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    );
-                  });
-            } else if (state.status.isSuccess && orders.isEmpty) {
-              return buildEmptyHistory(context);
-            } else if (state.status.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator.adaptive(),
-              );
-            } else {
-              return const SizedBox();
-            }
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${S.of(context).order} №${item.id}',
+                                style: AppTextStyle.bodyMedium,
+                              ),
+                              Text(
+                                '${item.totalPrice.toInt()} ₸',
+                                style: AppTextStyle.bodyMedium
+                                    .copyWith(fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                          12.height,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                formatDate(item.createdAt),
+                                style: AppTextStyle.bodyMedium
+                                    .copyWith(color: AppColors.gray),
+                              ),
+                              Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 10),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.grayContainer,
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Text(
+                                    item.orderStatus.name,
+                                    style: AppTextStyle.bodyMedium,
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+
           },
         ),
       ),
@@ -124,8 +123,8 @@ class OrderHistoryScreen extends StatelessWidget {
             padding: const EdgeInsets.only(top: 18.0, bottom: 12),
             child: Text(
               S.of(context).orderEmpty,
-              style:
-                  AppTextStyle.titleMedium.copyWith(fontWeight: FontWeight.w600),
+              style: AppTextStyle.titleMedium
+                  .copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           Text(
@@ -137,7 +136,13 @@ class OrderHistoryScreen extends StatelessWidget {
           InkWell(
             onTap: () async {
               final list = context.read<BasketBloc>().state.allProducts ?? [];
-              context.router.replaceAll([IndexRoute(children: [list.isNotEmpty ? const BasketRoute() : const HomeNestedRoute()])]);
+              context.router.replaceAll([
+                IndexRoute(children: [
+                  list.isNotEmpty
+                      ? const BasketRoute()
+                      : const HomeNestedRoute()
+                ])
+              ]);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),

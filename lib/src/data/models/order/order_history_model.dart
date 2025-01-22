@@ -111,16 +111,16 @@ class DeliveryIntervalModel extends DeliveryIntervalEntity {
   const DeliveryIntervalModel({
     required super.id,
     required super.name,
-    required super.createdAt,
-    required super.updatedAt,
+     super.createdAt,
+     super.updatedAt,
   });
 
   factory DeliveryIntervalModel.fromJson(Map<String, dynamic> json) {
     return DeliveryIntervalModel(
       id: json['id'],
       name: json['name'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ?  DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -128,8 +128,8 @@ class DeliveryIntervalModel extends DeliveryIntervalEntity {
     return {
       'id': id,
       'name': name,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 }

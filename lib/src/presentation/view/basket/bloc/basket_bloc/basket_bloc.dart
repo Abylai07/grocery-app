@@ -19,42 +19,83 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
     on<DeleteAllBasket>((event, emit) {
       BasketDatabase().clearBasket();
-      emit(const BasketState(status: BasketStatus.clearedBasket));
+      emit(const BasketState(
+          status: BasketStatus.clearedBasket, allProducts: []));
     });
 
     on<CheckBasketItems>(_onCheckBasket);
   }
   final CheckBasketUseCase useCase;
 
-  Future<void> _onCheckBasket(CheckBasketItems event, Emitter<BasketState> emit) async {
-    emit(const BasketState(status: BasketStatus.loading));
+  Future<void> _onCheckBasket(
+      CheckBasketItems event, Emitter<BasketState> emit) async {
+    emit(state.copyWith(status: event.readyToOrder ? BasketStatus.orderLoading : BasketStatus.loading));
 
     List<ProductHiveModel> list = BasketDatabase().getAllProducts();
-    if(list.isEmpty) {
+    if (list.isEmpty) {
       emit(state.copyWith(status: BasketStatus.initial));
       return;
     }
-    final data = list.map((item) => {
-      'product_id': item.id,
-      'product_quantity': item.basketCount,
-    }).toList();
+    list.removeWhere((item) => item.basketCount < 1 ||  item.isActive != true);
+
+    final data = list
+        .map((item) => {
+              'product_id': item.id,
+              'product_quantity': item.basketCount,
+            })
+        .toList();
 
     final failureOrAuth = await useCase(MapParams({"products": data}));
 
     emit(
-      failureOrAuth.fold(
-            (l) => BasketState(
+      await failureOrAuth.fold(
+        (l) => BasketState(
           status: BasketStatus.error,
           message: l.message,
-              allProducts: list,
-              basketSum: _calculatePrice(list),
-        ),
-            (r) => BasketState(
-          status: BasketStatus.success,
-          entity: r,
           allProducts: list,
-          basketSum: r.totalPrice,
+          basketSum: _calculatePrice(list),
         ),
+        (r) async {
+          list.removeWhere((element) =>
+              r.products.any((item) => item.id == element.id) == false);
+
+          // Обновляем локальный список на основе данных от бэка
+          final updatedList = list.map((localItem) {
+            try {
+              final newProduct = r.products.firstWhere(
+                (product) => product.id == localItem.id,
+              );
+
+              // Возвращаем обновленный элемент с новыми данными от бэка
+              return localItem.copyWith(
+                basketCount:
+                    newProduct.productQuantity ?? localItem.basketCount,
+                price: newProduct.price.toDouble(),
+                discount: newProduct.discount?.toDouble(),
+                priceWithDiscount: newProduct.priceWithDiscount?.toDouble(),
+                photoUrl: newProduct.photoUrl,
+                weight: newProduct.weight,
+                isActive: newProduct.isActive,
+              );
+            } catch (e) {
+              print('Error in basket_bloc.dart: $e');
+              return localItem;
+            }
+          }).toList();
+
+          updatedList.removeWhere((item) => item.basketCount < 1);
+
+          await BasketDatabase().clearBasket();
+          await BasketDatabase().addProducts(updatedList);
+
+          return BasketState(
+            status: event.readyToOrder ? BasketStatus.readyToOrder : BasketStatus.success,
+            entity: r,
+            allProducts: updatedList,
+            basketSum: r.totalPrice,
+            isCartChanged: r.inactivatedProducts.isNotEmpty || r.shortagedProducts.isNotEmpty
+          );
+        },
       ),
     );
   }

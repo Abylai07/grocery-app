@@ -8,10 +8,11 @@ import 'package:abricoz_app/src/presentation/view/home/bloc/banner_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/product/bloc/search_bloc/search_product_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
-import 'package:abricoz_app/src/presentation/view/profile/bloc/map_address_bloc/map_address_cubit.dart';
-import 'package:abricoz_app/src/presentation/view/profile/bloc/order_history_cubit.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/order/order_history_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/user_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/user_session_bloc.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -71,7 +72,10 @@ class _ApplicationState extends State<Application> {
           create: (context) => SearchProductCubit(sl()),
         ),
         BlocProvider(
-          create: (context) => OrderHistoryCubit(sl())..fetchOrderHistory(),
+          create: (context) => ActiveOrdersCubit(sl())..fetchActiveOrders(),
+        ),
+        BlocProvider(
+          create: (context) => OrderHistoryCubit(sl()),
         ),
         BlocProvider<RemoteConfigCubit>(
           create: (_) => RemoteConfigCubit()..startWork(),
@@ -81,7 +85,11 @@ class _ApplicationState extends State<Application> {
         useInheritedMediaQuery: true,
         builder: (context, child) => LocaleBuilder(builder: (context, locale) {
           return MaterialApp.router(
-            routerConfig: appRouter.config(),
+            routerConfig: appRouter.config(
+              deepLinkBuilder: (deepLink) {
+                return DeepLink.defaultPath;
+              },
+            ),
             localizationsDelegates: const [
               S.delegate,
               GlobalMaterialLocalizations.delegate,

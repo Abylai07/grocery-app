@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../common/app_styles/colors.dart';
 import '../../common/constants.dart';
+import '../../domain/entity/order/order_history_entity.dart';
 
 void launchUrlFunc(String link, {bool browser = false}) async {
   Uri uri = Uri.parse(link);
@@ -50,4 +51,8 @@ String formatDate(DateTime dateTime) {
   String formattedDate = formatter.format(dateTime);
 
   return formattedDate;
+}
+
+bool canCancelOrder(OrderHistoryEntity order) {
+  return order.orderStatus.id == 1 && order.paymentTypeId == 1;
 }

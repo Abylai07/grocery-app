@@ -1,7 +1,7 @@
-import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
 import 'dart:ui' as ui;
 
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 mixin YandexMapMixin {

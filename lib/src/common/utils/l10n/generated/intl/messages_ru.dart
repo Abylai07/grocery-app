@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Вы уверены, что хотите отменить заказ?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Отменён"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("углеводы"),
+        "cart_update":
+            MessageLookupByLibrary.simpleMessage("Обновление корзины"),
         "carts": MessageLookupByLibrary.simpleMessage("Карты"),
         "cashToCourier":
             MessageLookupByLibrary.simpleMessage("Наличными курьеру"),
@@ -67,6 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "category": MessageLookupByLibrary.simpleMessage("Категории"),
         "changeAddress":
             MessageLookupByLibrary.simpleMessage("Изменить список адресов"),
+        "changed_quantity":
+            MessageLookupByLibrary.simpleMessage("Изменено количество:"),
         "city": MessageLookupByLibrary.simpleMessage("Город"),
         "close": MessageLookupByLibrary.simpleMessage("Закрыть"),
         "commentToAddress":
@@ -112,6 +116,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Введите номер телефона для продолжения"),
         "entrance": MessageLookupByLibrary.simpleMessage("Подъезд"),
+        "error_message": MessageLookupByLibrary.simpleMessage(
+            "Извините, произошла ошибка. Мы уже работаем над её исправлением. Попробуйте ещё раз позже."),
         "fats": MessageLookupByLibrary.simpleMessage("жиры"),
         "favorite": MessageLookupByLibrary.simpleMessage("Избранное"),
         "favoriteEmpty": MessageLookupByLibrary.simpleMessage(
@@ -133,6 +139,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "hereWillProduct": MessageLookupByLibrary.simpleMessage(
             "Здесь будут лежать товары для покупки"),
         "in100gr": MessageLookupByLibrary.simpleMessage("В 100 граммах"),
+        "inactive_products":
+            MessageLookupByLibrary.simpleMessage("Неактивные товары:"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Некорректный номер телефона"),
         "info": MessageLookupByLibrary.simpleMessage("Информация"),
@@ -145,6 +153,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "main": MessageLookupByLibrary.simpleMessage("Главная"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Оформление заказа"),
         "maker": MessageLookupByLibrary.simpleMessage("Производитель"),
+        "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
+            "Минимальная сумма заказа: 5000 тг"),
         "mustFill": MessageLookupByLibrary.simpleMessage(
             "Поле обязательно для заполнения"),
         "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
@@ -176,6 +186,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "otherCategory":
             MessageLookupByLibrary.simpleMessage("Попробуйте другие категории"),
         "ourProduct": MessageLookupByLibrary.simpleMessage("Наши продукты"),
+        "out_of_stock":
+            MessageLookupByLibrary.simpleMessage("Товара нет в наличии"),
         "payOrder": MessageLookupByLibrary.simpleMessage("Оплатить заказ"),
         "paySum": MessageLookupByLibrary.simpleMessage("Сумма к оплате"),
         "payTime": m2,
@@ -200,6 +212,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteins": MessageLookupByLibrary.simpleMessage("белки"),
         "public_offer":
             MessageLookupByLibrary.simpleMessage("Публичная оферта"),
+        "remaining": MessageLookupByLibrary.simpleMessage("Осталось:"),
+        "removed_products":
+            MessageLookupByLibrary.simpleMessage("Удалённые товары:"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Поиск товара"),
         "select": MessageLookupByLibrary.simpleMessage("Выбрать адрес"),
@@ -224,6 +239,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки"),
         "toBasket": MessageLookupByLibrary.simpleMessage("В корзину"),
+        "today": MessageLookupByLibrary.simpleMessage("Сегодня"),
+        "tomorrow": MessageLookupByLibrary.simpleMessage("Завтра"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Итоговая сумма"),
         "try_again": MessageLookupByLibrary.simpleMessage("Попробуйте снова"),
         "userAgre":

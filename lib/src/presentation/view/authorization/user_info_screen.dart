@@ -5,21 +5,16 @@ import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../common/app_styles/colors.dart';
 import '../../../common/app_styles/text_styles.dart';
-import '../../../common/utils/firebase_api/notifications.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
-import '../../../common/utils/parsers/date_parser.dart';
 import '../../../get_it_sl.dart';
 import '../../widgets/buttons/main_button.dart';
 import '../../widgets/padding_nav_buttons.dart';
 import '../../widgets/show_error_snackbar.dart';
 import '../../widgets/text_fields/custom_text_field.dart';
-import '../profile/bloc/user_session_bloc.dart';
 import 'bloc/sign_in_bloc/sign_in_cubit.dart';
-import 'bloc/timer_bloc.dart';
 
 @RoutePage()
 class UserInfoScreen extends StatelessWidget {

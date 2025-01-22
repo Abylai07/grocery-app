@@ -81,7 +81,7 @@ class ProductView extends StatelessWidget {
       ),
       body: BlocListener<BasketBloc, BasketState>(
         listener: (context, state) {
-          if (state.status.isClearedBasket) {
+          if (state.status.isClearedBasket || state.isCartChanged) {
             context.read<ProductsCubit>().pagingController.refresh();
           }
         },
