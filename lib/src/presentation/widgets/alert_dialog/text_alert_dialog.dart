@@ -9,7 +9,7 @@ import '../../../common/app_styles/text_styles.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 
 void confirmAlertDialog(BuildContext context,
-    {required String title, Function()? onYesTap}) {
+    {required String title, Function()? onYesTap, String? buttonText}) {
   showDialog(
     barrierDismissible: true,
     context: context,
@@ -49,7 +49,7 @@ void confirmAlertDialog(BuildContext context,
                       color: AppColors.main,
                     ),
                     child: Text(
-                      S.of(context).confirm,
+                      buttonText ?? S.of(context).confirm,
                       style: AppTextStyle.bodyLarge
                           .copyWith(color: AppColors.white),
                     ),

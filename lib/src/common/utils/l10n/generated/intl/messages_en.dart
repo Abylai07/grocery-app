@@ -67,8 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "category": MessageLookupByLibrary.simpleMessage("Categories"),
         "changeAddress":
             MessageLookupByLibrary.simpleMessage("Change address list"),
-        "changed_quantity":
-            MessageLookupByLibrary.simpleMessage("Changed Quantity:"),
+        "changed_quantity": MessageLookupByLibrary.simpleMessage(
+            "The quantity of the product has been changed:"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "commentToAddress":
@@ -135,11 +135,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "hereWillProduct": MessageLookupByLibrary.simpleMessage(
             "Items for purchase will be here"),
         "in100gr": MessageLookupByLibrary.simpleMessage("In 100 grams"),
-        "inactive_products":
-            MessageLookupByLibrary.simpleMessage("Inactive Products:"),
+        "inactive_products": MessageLookupByLibrary.simpleMessage(
+            "Products that are unavailable:"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Invalid phone number"),
         "info": MessageLookupByLibrary.simpleMessage("Information"),
+        "insufficient_stock": MessageLookupByLibrary.simpleMessage(
+            "Insufficient stock available"),
         "itemList": MessageLookupByLibrary.simpleMessage("Item list"),
         "lastOrderWillHere": MessageLookupByLibrary.simpleMessage(
             "Your last orders will be displayed here"),
@@ -190,9 +192,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "payTime": m2,
         "payTimeFinish": MessageLookupByLibrary.simpleMessage(
             "Payment time is up, the order is being canceled"),
+        "payment": MessageLookupByLibrary.simpleMessage("Payment"),
         "paymentOrder": MessageLookupByLibrary.simpleMessage("Order payment"),
         "paymentStatus": MessageLookupByLibrary.simpleMessage("Payment status"),
         "paymentType": MessageLookupByLibrary.simpleMessage("Payment method"),
+        "pcs": MessageLookupByLibrary.simpleMessage("pcs"),
         "personalData": MessageLookupByLibrary.simpleMessage("Personal Data"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Phone Number"),
         "pinError": MessageLookupByLibrary.simpleMessage(
@@ -207,8 +211,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "proteins": MessageLookupByLibrary.simpleMessage("proteins"),
         "public_offer": MessageLookupByLibrary.simpleMessage("Public Offer"),
         "remaining": MessageLookupByLibrary.simpleMessage("Remaining:"),
-        "removed_products":
-            MessageLookupByLibrary.simpleMessage("Removed Products:"),
+        "removed_products": MessageLookupByLibrary.simpleMessage(
+            "Products that are out of stock:"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Search for item"),
         "select": MessageLookupByLibrary.simpleMessage("Select address"),
@@ -242,6 +246,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "version": MessageLookupByLibrary.simpleMessage("Version"),
         "wait": MessageLookupByLibrary.simpleMessage("Waiting"),
         "welcome": MessageLookupByLibrary.simpleMessage("Welcome to "),
+        "write": MessageLookupByLibrary.simpleMessage("Write"),
+        "write_message": MessageLookupByLibrary.simpleMessage(
+            "To delete your account, please contact us at info@abricoz.kz. Your request will be processed shortly."),
         "wrongCurrentPass": MessageLookupByLibrary.simpleMessage(
             "The current password is incorrect"),
         "yourAddress": MessageLookupByLibrary.simpleMessage("Your addresses")

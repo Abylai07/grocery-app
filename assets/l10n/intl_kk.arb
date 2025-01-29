@@ -172,9 +172,14 @@
   "tomorrow": "Ертең",
   "out_of_stock": "Өнім жоқ",
   "cart_update": "Себетті жаңарту",
-  "inactive_products": "Белсенді емес тауарлар:",
-  "removed_products": "Жойылған тауарлар:",
+  "inactive_products": "Қол жетімсіз тауарлар:",
+  "removed_products": "Қоймада жоқ тауарлар:",
   "remaining": "Қалды:",
-  "changed_quantity": "Саны өзгертілді:"
+  "changed_quantity": "Тауар саны өзгертілді:",
+  "insufficient_stock": "Қоймада тауарлар жеткіліксіз",
+  "payment": "Төлем",
+  "pcs": "дана",
+  "write" : "Жазу",
+  "write_message": "Аккаунтыңызды жою үшін бізге info@abricoz.kz поштасына хат жазыңыз. Сіздің өтінішіңіз жақын арада қарастырылады."
 }
 

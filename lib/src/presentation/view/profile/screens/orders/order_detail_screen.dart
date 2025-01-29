@@ -20,6 +20,7 @@ import '../../../../widgets/main_functions.dart';
 import '../../../../widgets/padding_nav_buttons.dart';
 import '../../../../widgets/shimmer_widget.dart';
 import '../../bloc/order/order_history_cubit.dart';
+import '../../widgets/order_products_widget.dart';
 
 @RoutePage()
 class OrderDetailScreen extends StatelessWidget {
@@ -65,7 +66,7 @@ class OrderDetailScreen extends StatelessWidget {
                     isLoading: state.status.isLoading,
                     isActive: order.orderStatus.id == 1,
                     onTap: () {
-                      if(canCancelOrder(order)){
+                      if (canCancelOrder(order)) {
                         confirmAlertDialog(
                           context,
                           title: S.of(context).cancel_order_confirmation,
@@ -84,7 +85,9 @@ class OrderDetailScreen extends StatelessWidget {
             ),
             body: RefreshIndicator(
               onRefresh: () async {
-                await context.read<OrderHistoryCubit>().fetchOrderById(orderInfo.id);
+                await context
+                    .read<OrderHistoryCubit>()
+                    .fetchOrderById(orderInfo.id);
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -92,119 +95,13 @@ class OrderDetailScreen extends StatelessWidget {
                   children: [
                     buildOrderInfo(context, order),
                     12.height,
-                    buildOrderProducts(context, order),
+                    OrderProductsWidget(orderInfo: order),
                   ],
                 ),
               ),
             ),
           );
         },
-      ),
-    );
-  }
-
-  Container buildOrderProducts(
-      BuildContext context, OrderHistoryEntity orderInfo) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).itemList,
-            style: AppTextStyle.titleBold,
-          ),
-          ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: orderInfo.products.length,
-            itemBuilder: (context, index) {
-              ProductEntity product = orderInfo.products[index];
-              bool isDiscount = product.priceWithDiscount != null &&
-                  product.priceWithDiscount! > 0;
-              return Row(
-                children: [
-                  Container(
-                    height: 70,
-                    width: 70,
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundGray,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: product.photoUrl != null
-                        ? CachedNetworkImage(
-                            imageUrl: product.photoUrl!,
-                            fit: BoxFit.cover,
-                            height: 70,
-                            width: 70,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    const ShimmerWidget(
-                              width: 70,
-                              height: 70,
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          )
-                        : const SizedBox(),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            getLocaleText(product.name),
-                            maxLines: 2,
-                            style: AppTextStyle.labelMedium,
-                          ),
-                          4.height,
-                          Row(
-                            children: [
-                              if (isDiscount)
-                                Text(
-                                  '${product.priceWithDiscount} ₸  ',
-                                  style: AppTextStyle.labelMedium.copyWith(
-                                    color: AppColors.main,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              Text(
-                                '${product.price.toInt()} ₸',
-                                style: isDiscount
-                                    ? AppTextStyle.labelMedium.copyWith(
-                                        decoration: TextDecoration.lineThrough,
-                                        decorationColor: AppColors.gray,
-                                        color: AppColors.gray)
-                                    : AppTextStyle.labelMedium,
-                              ),
-                              if (product.weight != null)
-                                Text(
-                                  ' ∙ ${product.weight}',
-                                  style: AppTextStyle.labelMedium.copyWith(
-                                    color: AppColors.gray,
-                                  ),
-                                ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: 8);
-            },
-          )
-        ],
       ),
     );
   }
@@ -293,3 +190,5 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 }
+
+

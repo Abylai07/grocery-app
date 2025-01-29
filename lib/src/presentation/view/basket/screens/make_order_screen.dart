@@ -95,11 +95,11 @@ class DeliveryTimeView extends StatelessWidget {
               isLoading: state.status.isLoading,
               text: S.of(context).confirmPay(productSum),
               onTap: () {
-                final timeId =
-                    context.read<DeliveryTimeCubit>().state.selectTime?.id;
+                final dateTime =
+                    context.read<DeliveryTimeCubit>().state.selectTime;
                 final addressId =
                     context.read<AddressCubit>().state.selectAddress?.id;
-                if (timeId == null || addressId == null) {
+                if (dateTime == null || addressId == null) {
                   showErrorSnackBar(
                       context,
                       addressId == null
@@ -107,7 +107,7 @@ class DeliveryTimeView extends StatelessWidget {
                           : S.of(context).selectTimePlease);
                 } else {
                   context.read<OrderCubit>().createOrder(
-                        timeId: timeId,
+                        time: dateTime,
                         addressId: addressId,
                         products: products,
                       );

@@ -1,5 +1,6 @@
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/enums.dart';
+import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import '../../../../common/app_styles/colors.dart';
 import '../../../../common/app_styles/text_styles.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../data/hive/adapter/product_adapter.dart';
+import '../../../../domain/entity/order/check_card_entity.dart';
 import '../../../widgets/main_functions.dart';
 import '../../../widgets/shimmer_widget.dart';
 import '../bloc/basket_bloc/basket_bloc.dart';
@@ -18,13 +20,15 @@ class BasketItemWidget extends StatelessWidget {
   const BasketItemWidget({
     super.key,
     required this.product,
+    this.changedProducts = const [],
   });
 
   final ProductHiveModel product;
+  final List<ShortagedProductEntity> changedProducts;
 
   @override
   Widget build(BuildContext context) {
-    bool isDiscount = product.discount != null && product.discount! > 0;
+    bool isDiscount = isDiscountFunc(product.priceWithDiscount, product.price);
 
     return Row(
       children: [
@@ -163,6 +167,33 @@ class BasketItemWidget extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.add),
                           onPressed: () {
+                            // if (changedProducts.any((item) => item.id == product.id)) {
+                            //   ShortagedProductEntity? changedProduct =
+                            //       changedProducts.firstWhere(
+                            //     (p) => p.id == product.id,
+                            //   );
+                            //
+                            //   if (state.count < changedProduct.availableQuantity) {
+                            //     // Increment if within range
+                            //     context
+                            //         .read<BasketButtonBloc>()
+                            //         .add(IncrementCount(product.id));
+                            //     context
+                            //         .read<BasketBloc>()
+                            //         .add(const RefreshBasket());
+                            //   } else {
+                            //     // Optionally, show a message when the limit is reached
+                            //     showErrorSnackBar(context, S.of(context).insufficient_stock);
+                            //   }
+                            // } else {
+                            //   // If the product is not in changedProducts, allow the increment
+                            //   context
+                            //       .read<BasketButtonBloc>()
+                            //       .add(IncrementCount(product.id));
+                            //   context
+                            //       .read<BasketBloc>()
+                            //       .add(const RefreshBasket());
+                            // }
                             context
                                 .read<BasketButtonBloc>()
                                 .add(IncrementCount(product.id));
@@ -179,9 +210,7 @@ class BasketItemWidget extends StatelessWidget {
                       context
                           .read<BasketButtonBloc>()
                           .add(DeleteAtBasket(product.id));
-                      context
-                          .read<BasketBloc>()
-                          .add(const RefreshBasket());
+                      context.read<BasketBloc>().add(const RefreshBasket());
                     },
                     child: Container(
                       height: 36,

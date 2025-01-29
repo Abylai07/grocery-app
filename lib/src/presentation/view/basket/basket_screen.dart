@@ -5,6 +5,7 @@ import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
 import 'package:abricoz_app/src/presentation/view/basket/widgets/basket_item_widget.dart';
 import 'package:abricoz_app/src/presentation/view/basket/widgets/product_changed_alert.dart';
+import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,16 +73,21 @@ class BasketScreen extends StatelessWidget {
                 },
               );
             } else if (state.status.isReadyToOrder) {
-              if (state.isCartChanged){
+              if (state.isCartChanged) {
                 productChangedAlert(
                   context,
                   entity: state.entity!,
                   onYesTap: () {
                     Navigator.pop(context);
-                    context.router.push(MakeOrderRoute(
-                      products: state.allProducts!,
-                      productSum: state.basketSum,
-                    ));
+                    if (state.basketSum >= 5000) {
+                      context.router.push(MakeOrderRoute(
+                        products: state.allProducts!,
+                        productSum: state.basketSum,
+                      ));
+                    } else {
+                      showErrorSnackBar(
+                          context, S.of(context).minimum_order_amount);
+                    }
                   },
                 );
               } else {
@@ -154,7 +160,10 @@ class BasketScreen extends StatelessWidget {
                                         '${product.id}:${product.basketCount}'),
                                     create: (context) =>
                                         BasketButtonBloc(product),
-                                    child: BasketItemWidget(product: product),
+                                    child: BasketItemWidget(
+                                      product: product,
+                                      changedProducts: state.entity?.shortagedProducts ?? [],
+                                    ),
                                   )
                                 : const SizedBox();
                           },

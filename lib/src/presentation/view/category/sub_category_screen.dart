@@ -93,8 +93,6 @@ class SubCategoryView extends StatelessWidget {
                                     state.entity;
                                 return subCategories.isNotEmpty
                                     ? GridView.builder(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         padding: const EdgeInsets.only(
                                             top: 12, bottom: 24),

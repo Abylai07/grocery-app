@@ -180,9 +180,14 @@
   "tomorrow": "Tomorrow",
   "out_of_stock": "Product is out of stock",
   "cart_update": "Cart Update",
-  "inactive_products": "Inactive Products:",
-  "removed_products": "Removed Products:",
+  "inactive_products": "Products that are unavailable:",
+  "removed_products": "Products that are out of stock:",
   "remaining": "Remaining:",
-  "changed_quantity": "Changed Quantity:"
+  "changed_quantity": "The quantity of the product has been changed:",
+  "insufficient_stock": "Insufficient stock available",
+  "payment": "Payment",
+  "pcs": "pcs",
+  "write": "Write",
+  "write_message": "To delete your account, please contact us at info@abricoz.kz. Your request will be processed shortly."
 }
 

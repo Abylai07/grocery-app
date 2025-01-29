@@ -22,6 +22,8 @@ class OrderHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<OrderHistoryCubit>().pagingController.refresh();
+
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).myOrders,

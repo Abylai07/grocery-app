@@ -5,6 +5,7 @@ import '../../../../common/app_styles/colors.dart';
 import '../../../../common/app_styles/text_styles.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../domain/entity/product/product_entity.dart';
+import '../../../widgets/main_functions.dart';
 import '../../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
 
 class ProductBottomBar extends StatelessWidget {
@@ -13,7 +14,7 @@ class ProductBottomBar extends StatelessWidget {
   final ProductEntity product;
   @override
   Widget build(BuildContext context) {
-    bool isDiscount = product.discount != null && product.discount! > 0;
+    bool isDiscount = isDiscountFunc(product.priceWithDiscount, product.price);
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),

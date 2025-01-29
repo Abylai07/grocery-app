@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/enums.dart';
 import '../../../../../data/hive/adapter/product_adapter.dart';
+import '../../../../../domain/entity/order/delivery_time_entity.dart';
+import '../../../../widgets/main_functions.dart';
 
 part 'order_state.dart';
 
@@ -16,7 +18,7 @@ class OrderCubit extends Cubit<OrderState> {
   final OrderUseCase orderUseCase;
 
   void createOrder({
-    required int? timeId,
+    required DeliveryTimeEntity? time,
     required int? addressId,
     required List<ProductHiveModel> products,
   }) async {
@@ -30,10 +32,10 @@ class OrderCubit extends Cubit<OrderState> {
         .toList();
 
     Map<String, dynamic> data = {
-      "delivery_interval_id": timeId,
+      "delivery_interval_id": time?.id,
       "payment_type_id": 1,
       "address_id": addressId,
-      "delivery_date": DateTime.now().toIso8601String(),
+      "delivery_date": getServerDate(time?.date),
       "products": productMap
     };
 

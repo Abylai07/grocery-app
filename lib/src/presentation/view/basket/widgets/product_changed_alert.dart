@@ -29,50 +29,84 @@ void productChangedAlert(BuildContext context,
             const EdgeInsets.only(top: 24, bottom: 14, left: 16, right: 16),
         actionsPadding: const EdgeInsets.all(16),
         content: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery.of(context).size.width * 0.95,
           child: Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                S.of(context).cart_update,
-                style: AppTextStyle.titleSmall,
-                textAlign: TextAlign.center,
+              Center(
+                child: Text(
+                  S.of(context).cart_update,
+                  style: AppTextStyle.titleSmall,
+                  textAlign: TextAlign.center,
+                ),
               ),
+              const SizedBox(height: 16),
               if (entity.inactivatedProducts.isNotNullEmpty) ...[
-                Text(
-                  S.of(context).inactive_products,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    S.of(context).inactive_products,
+                    style: AppTextStyle.bodyLarge
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ),
                 for (var item in entity.inactivatedProducts)
-                  Text(
-                    "- ${getLocaleText(item.name)}",
-                    style: const TextStyle(color: AppColors.errorRedColor),
-                    maxLines: 2,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 4),
+                    child: Text(
+                      "- ${getLocaleText(item.name)}",
+                      style: AppTextStyle.bodyMedium,
+                      maxLines: 2,
+                    ),
                   ),
+                const SizedBox(height: 4),
               ],
+              // if (removedProducts.isNotEmpty || changedProducts.isNotEmpty) ...[
+              //   Text(
+              //     S.of(context).insufficient_stock,
+              //     style: AppTextStyle.bodyLarge
+              //         .copyWith(fontWeight: FontWeight.bold),
+              //   ),
+              //   const SizedBox(height: 8),
+              // ],
               if (removedProducts.isNotEmpty) ...[
-                const SizedBox(height: 10),
-                Text(
-                  S.of(context).removed_products,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                for (var item in entity.shortagedProducts)
-                  Text(
-                    "- ${getLocaleText(item.name)} → ${S.of(context).remaining} ${item.availableQuantity}",
-                    style: const TextStyle(color: Colors.red),
-                    maxLines: 2,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    S.of(context).removed_products,
+                    style: AppTextStyle.bodyLarge
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
+                ),
+                for (var item in removedProducts)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 4),
+                    child: Text(
+                      "- ${getLocaleText(item.name)} → ${S.of(context).remaining} ${item.availableQuantity}",
+                      style: AppTextStyle.bodyMedium,
+                      maxLines: 2,
+                    ),
+                  ),
+                const SizedBox(height: 4),
               ],
               if (changedProducts.isNotEmpty) ...[
-                const SizedBox(height: 10),
-                Text(
-                  S.of(context).changed_quantity,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    S.of(context).changed_quantity,
+                    style: AppTextStyle.bodyLarge
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ),
-                for (var item in entity.shortagedProducts)
-                  Text(
-                    "- ${getLocaleText(item.name)}: ${item.requestedQuantity} → ${item.availableQuantity}",
-                    maxLines: 2,
+                for (var item in changedProducts)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 4),
+                    child: Text(
+                      "- ${getLocaleText(item.name)}: ${item.requestedQuantity} → ${item.availableQuantity}",
+                      style: AppTextStyle.bodyMedium,
+                      maxLines: 2,
+                    ),
                   ),
               ],
             ],
@@ -82,7 +116,7 @@ void productChangedAlert(BuildContext context,
           InkWell(
             onTap: onYesTap,
             child: Container(
-              height: 40,
+              height: 46,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),

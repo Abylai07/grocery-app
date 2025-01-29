@@ -69,8 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "category": MessageLookupByLibrary.simpleMessage("Категории"),
         "changeAddress":
             MessageLookupByLibrary.simpleMessage("Изменить список адресов"),
-        "changed_quantity":
-            MessageLookupByLibrary.simpleMessage("Изменено количество:"),
+        "changed_quantity": MessageLookupByLibrary.simpleMessage(
+            "Количество товара было изменено:"),
         "city": MessageLookupByLibrary.simpleMessage("Город"),
         "close": MessageLookupByLibrary.simpleMessage("Закрыть"),
         "commentToAddress":
@@ -140,10 +140,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Здесь будут лежать товары для покупки"),
         "in100gr": MessageLookupByLibrary.simpleMessage("В 100 граммах"),
         "inactive_products":
-            MessageLookupByLibrary.simpleMessage("Неактивные товары:"),
+            MessageLookupByLibrary.simpleMessage("Товары, которые недоступны:"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Некорректный номер телефона"),
         "info": MessageLookupByLibrary.simpleMessage("Информация"),
+        "insufficient_stock": MessageLookupByLibrary.simpleMessage(
+            "Недостаточно товаров на складе"),
         "itemList": MessageLookupByLibrary.simpleMessage("Список товаров"),
         "lastOrderWillHere": MessageLookupByLibrary.simpleMessage(
             "Здесь будут отображаться ваши\nпоследние заказы"),
@@ -193,9 +195,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "payTime": m2,
         "payTimeFinish": MessageLookupByLibrary.simpleMessage(
             "Время на оплату истекло, заказ в процессе отмены"),
+        "payment": MessageLookupByLibrary.simpleMessage("Оплата"),
         "paymentOrder": MessageLookupByLibrary.simpleMessage("Оплата заказа"),
         "paymentStatus": MessageLookupByLibrary.simpleMessage("Статус оплаты"),
         "paymentType": MessageLookupByLibrary.simpleMessage("Способ оплаты"),
+        "pcs": MessageLookupByLibrary.simpleMessage("шт"),
         "personalData": MessageLookupByLibrary.simpleMessage("Личные данные"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Номер телефона"),
         "pinError": MessageLookupByLibrary.simpleMessage(
@@ -213,8 +217,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "public_offer":
             MessageLookupByLibrary.simpleMessage("Публичная оферта"),
         "remaining": MessageLookupByLibrary.simpleMessage("Осталось:"),
-        "removed_products":
-            MessageLookupByLibrary.simpleMessage("Удалённые товары:"),
+        "removed_products": MessageLookupByLibrary.simpleMessage(
+            "Товары, которых нет на складе:"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Поиск товара"),
         "select": MessageLookupByLibrary.simpleMessage("Выбрать адрес"),
@@ -250,6 +254,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "version": MessageLookupByLibrary.simpleMessage("Версия"),
         "wait": MessageLookupByLibrary.simpleMessage("Ожидание"),
         "welcome": MessageLookupByLibrary.simpleMessage("Добро пожаловать в "),
+        "write": MessageLookupByLibrary.simpleMessage("Написать"),
+        "write_message": MessageLookupByLibrary.simpleMessage(
+            "Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время."),
         "wrongCurrentPass":
             MessageLookupByLibrary.simpleMessage("Текущий пароль неверен"),
         "yourAddress": MessageLookupByLibrary.simpleMessage("Ваши адреса")

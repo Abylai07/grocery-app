@@ -69,7 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "changeAddress":
             MessageLookupByLibrary.simpleMessage("Мекенжай тізімін өзгерту"),
         "changed_quantity":
-            MessageLookupByLibrary.simpleMessage("Саны өзгертілді:"),
+            MessageLookupByLibrary.simpleMessage("Тауар саны өзгертілді:"),
         "city": MessageLookupByLibrary.simpleMessage("Қала"),
         "close": MessageLookupByLibrary.simpleMessage("Жабу"),
         "commentToAddress":
@@ -137,10 +137,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "Мұнда сатып алуға арналған тауарлар болады"),
         "in100gr": MessageLookupByLibrary.simpleMessage("100 граммда"),
         "inactive_products":
-            MessageLookupByLibrary.simpleMessage("Белсенді емес тауарлар:"),
+            MessageLookupByLibrary.simpleMessage("Қол жетімсіз тауарлар:"),
         "incorrectNum":
             MessageLookupByLibrary.simpleMessage("Телефон нөмірі қате"),
         "info": MessageLookupByLibrary.simpleMessage("Ақпарат"),
+        "insufficient_stock": MessageLookupByLibrary.simpleMessage(
+            "Қоймада тауарлар жеткіліксіз"),
         "itemList": MessageLookupByLibrary.simpleMessage("Тауарлар тізімі"),
         "lastOrderWillHere": MessageLookupByLibrary.simpleMessage(
             "Мұнда сіздің соңғы тапсырыстарыңыз көрсетіледі"),
@@ -194,9 +196,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "payTime": m2,
         "payTimeFinish": MessageLookupByLibrary.simpleMessage(
             "Төлем уақыты аяқталды, тапсырыс жоюлуда"),
+        "payment": MessageLookupByLibrary.simpleMessage("Төлем"),
         "paymentOrder": MessageLookupByLibrary.simpleMessage("Тапсырыс төлемі"),
         "paymentStatus": MessageLookupByLibrary.simpleMessage("Төлем жағдайы"),
         "paymentType": MessageLookupByLibrary.simpleMessage("Төлем әдісі"),
+        "pcs": MessageLookupByLibrary.simpleMessage("дана"),
         "personalData": MessageLookupByLibrary.simpleMessage("Жеке деректер"),
         "phoneNumber": MessageLookupByLibrary.simpleMessage("Телефон нөмірі"),
         "pinError": MessageLookupByLibrary.simpleMessage(
@@ -214,7 +218,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "public_offer": MessageLookupByLibrary.simpleMessage("Жария ұсыныс"),
         "remaining": MessageLookupByLibrary.simpleMessage("Қалды:"),
         "removed_products":
-            MessageLookupByLibrary.simpleMessage("Жойылған тауарлар:"),
+            MessageLookupByLibrary.simpleMessage("Қоймада жоқ тауарлар:"),
         "save": MessageLookupByLibrary.simpleMessage("Сақтау"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Тауарды іздеу"),
         "select": MessageLookupByLibrary.simpleMessage("Мекенжайды таңдау"),
@@ -250,6 +254,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "version": MessageLookupByLibrary.simpleMessage("Нұсқа"),
         "wait": MessageLookupByLibrary.simpleMessage("Күтілуде"),
         "welcome": MessageLookupByLibrary.simpleMessage("Қош келдіңіз "),
+        "write": MessageLookupByLibrary.simpleMessage("Жазу"),
+        "write_message": MessageLookupByLibrary.simpleMessage(
+            "Аккаунтыңызды жою үшін бізге info@abricoz.kz поштасына хат жазыңыз. Сіздің өтінішіңіз жақын арада қарастырылады."),
         "wrongCurrentPass":
             MessageLookupByLibrary.simpleMessage("Құпия сөз қате"),
         "yourAddress":

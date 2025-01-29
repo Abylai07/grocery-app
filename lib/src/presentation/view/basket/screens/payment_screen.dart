@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../domain/entity/order/order_history_entity.dart';
+import '../../../../domain/entity/product/product_entity.dart';
 import '../../../../get_it_sl.dart';
 import '../../../widgets/alert_dialog/text_alert_dialog.dart';
 import '../../../widgets/buttons/main_button.dart';
@@ -19,6 +20,7 @@ import '../../../widgets/padding_nav_buttons.dart';
 import '../../../widgets/shimmer_widget.dart';
 import '../../profile/bloc/order/active_orders_cubit.dart';
 import '../../profile/bloc/order/order_history_cubit.dart';
+import '../../profile/widgets/order_products_widget.dart';
 import '../bloc/order_bloc/order_cubit.dart';
 
 @RoutePage()
@@ -29,6 +31,7 @@ class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<ActiveOrdersCubit>().fetchActiveOrders();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -130,118 +133,13 @@ class PaymentScreen extends StatelessWidget {
                           //   ),
                           // ),
                           12.height,
-                          buildOrderProducts(context),
+                          OrderProductsWidget(orderInfo: order),
                         ],
                       ),
                     ),
                   ),
           );
         },
-      ),
-    );
-  }
-
-  Container buildOrderProducts(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).itemList,
-            style: AppTextStyle.titleBold,
-          ),
-          ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: orderInfo.orderProducts.length,
-            itemBuilder: (context, index) {
-              OrderProductEntity product = orderInfo.orderProducts[index];
-              bool isDiscount = product.priceWithDiscount != null &&
-                  product.priceWithDiscount! > 0;
-              return Row(
-                children: [
-                  Container(
-                    height: 70,
-                    width: 70,
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundGray,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: product.photoUrl != null
-                        ? CachedNetworkImage(
-                            imageUrl: product.photoUrl!,
-                            fit: BoxFit.cover,
-                            height: 70,
-                            width: 70,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    const ShimmerWidget(
-                              width: 70,
-                              height: 70,
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          )
-                        : const SizedBox(),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            getLocaleText(product.name),
-                            maxLines: 2,
-                            style: AppTextStyle.labelMedium,
-                          ),
-                          4.height,
-                          Row(
-                            children: [
-                              if (isDiscount)
-                                Text(
-                                  '${product.priceWithDiscount} ₸  ',
-                                  style: AppTextStyle.labelMedium.copyWith(
-                                    color: AppColors.main,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              Text(
-                                '${product.price.toInt()} ₸',
-                                style: isDiscount
-                                    ? AppTextStyle.labelMedium.copyWith(
-                                        decoration: TextDecoration.lineThrough,
-                                        decorationColor: AppColors.gray,
-                                        color: AppColors.gray)
-                                    : AppTextStyle.labelMedium,
-                              ),
-                              if (product.weight != null)
-                                Text(
-                                  ' ∙ ${product.weight}',
-                                  style: AppTextStyle.labelMedium.copyWith(
-                                    color: AppColors.gray,
-                                  ),
-                                ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: 8);
-            },
-          )
-        ],
       ),
     );
   }

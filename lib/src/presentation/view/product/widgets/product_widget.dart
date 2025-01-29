@@ -23,7 +23,8 @@ class ProductWidget extends StatelessWidget {
   final ProductEntity product;
   @override
   Widget build(BuildContext context) {
-    bool isDiscount = product.discount != null && product.discount! > 0;
+    bool isDiscount = isDiscountFunc(product.priceWithDiscount, product.price);
+
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(

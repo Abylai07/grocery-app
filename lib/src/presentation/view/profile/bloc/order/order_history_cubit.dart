@@ -10,7 +10,7 @@ import '../../../../../domain/usecase/user/sign_in_usecase.dart';
 
 class OrderHistoryCubit extends Cubit<BaseState> {
   final PagingController<int, OrderHistoryEntity> pagingController =
-  PagingController(firstPageKey: 0);
+  PagingController(firstPageKey: 1);
   final OrderHistoryUseCase _useCase;
 
   OrderHistoryCubit(this._useCase) : super(const BaseState()) {

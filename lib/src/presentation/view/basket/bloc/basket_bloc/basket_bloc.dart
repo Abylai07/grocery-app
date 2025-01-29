@@ -92,7 +92,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
             status: event.readyToOrder ? BasketStatus.readyToOrder : BasketStatus.success,
             entity: r,
             allProducts: updatedList,
-            basketSum: r.totalPrice,
+            basketSum: r.totalPrice.toInt(),
             isCartChanged: r.inactivatedProducts.isNotEmpty || r.shortagedProducts.isNotEmpty
           );
         },
@@ -110,6 +110,6 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
               item.basketCount;
       totalSum = totalSum + itemSum;
     }
-    return totalSum;
+    return totalSum.toInt();
   }
 }

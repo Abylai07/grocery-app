@@ -14,7 +14,7 @@ class CategoryModel extends CategoryEntity{
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
       id: json['id'],
-      photoUrl: json['desktop_image_url'] != null ? convertFilePathToUrl(json['desktop_image_url']) : json['desktop_image_url'],
+      photoUrl: json['photo_url'],
       mobileUrl: json['mobile_image_url'] != null ? convertFilePathToUrl(json['mobile_image_url']) : json['mobile_image_url'],
       name: {
         'ru': json['name_ru'],

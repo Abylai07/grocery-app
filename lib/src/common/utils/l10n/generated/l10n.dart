@@ -1580,20 +1580,20 @@ class S {
     );
   }
 
-  /// `Неактивные товары:`
+  /// `Товары, которые недоступны:`
   String get inactive_products {
     return Intl.message(
-      'Неактивные товары:',
+      'Товары, которые недоступны:',
       name: 'inactive_products',
       desc: '',
       args: [],
     );
   }
 
-  /// `Удалённые товары:`
+  /// `Товары, которых нет на складе:`
   String get removed_products {
     return Intl.message(
-      'Удалённые товары:',
+      'Товары, которых нет на складе:',
       name: 'removed_products',
       desc: '',
       args: [],
@@ -1610,11 +1610,61 @@ class S {
     );
   }
 
-  /// `Изменено количество:`
+  /// `Количество товара было изменено:`
   String get changed_quantity {
     return Intl.message(
-      'Изменено количество:',
+      'Количество товара было изменено:',
       name: 'changed_quantity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Недостаточно товаров на складе`
+  String get insufficient_stock {
+    return Intl.message(
+      'Недостаточно товаров на складе',
+      name: 'insufficient_stock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Оплата`
+  String get payment {
+    return Intl.message(
+      'Оплата',
+      name: 'payment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `шт`
+  String get pcs {
+    return Intl.message(
+      'шт',
+      name: 'pcs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Написать`
+  String get write {
+    return Intl.message(
+      'Написать',
+      name: 'write',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время.`
+  String get write_message {
+    return Intl.message(
+      'Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время.',
+      name: 'write_message',
       desc: '',
       args: [],
     );
