@@ -162,7 +162,6 @@ class BasketScreen extends StatelessWidget {
                                         BasketButtonBloc(product),
                                     child: BasketItemWidget(
                                       product: product,
-                                      changedProducts: state.entity?.shortagedProducts ?? [],
                                     ),
                                   )
                                 : const SizedBox();
@@ -221,7 +220,7 @@ class ActiveOrderWidget extends StatelessWidget {
     return BlocBuilder<ActiveOrdersCubit, BaseState>(
       builder: (context, orderState) {
         List<OrderHistoryEntity> orders = [];
-        if (orderState.status.isSuccess) {
+        if (orderState.entity is List<OrderHistoryEntity>) {
           orders = orderState.entity;
         }
         return orders.isNotEmpty
@@ -291,7 +290,7 @@ class ActiveOrderWidget extends StatelessWidget {
                         TextButton(
                             onPressed: () {
                               context.router.push(
-                                  OrderDetailRoute(orderInfo: orders[index]));
+                                  OrderDetailRoute(orderId: orders[index].id));
                             },
                             child: Row(
                               children: [

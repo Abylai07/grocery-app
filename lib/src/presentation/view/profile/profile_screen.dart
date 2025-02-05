@@ -7,11 +7,13 @@ import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/fa
 import 'package:abricoz_app/src/presentation/view/profile/bloc/user_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/widgets/change_language_widget.dart';
 import 'package:abricoz_app/src/presentation/view/profile/widgets/profile_element_widget.dart';
+import 'package:abricoz_app/src/presentation/widgets/main_functions.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../common/app_styles/colors.dart';
 import '../../../common/utils/firebase_api/notifications.dart';
@@ -27,6 +29,24 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void sendEmail() async {
+      final String userNumber = SharedPrefs().getPhone() ?? '';
+      final Uri emailUri = Uri(
+        scheme: 'mailto',
+        path: 'info@abricoz.kz',
+        queryParameters: {
+          'subject': S.of(context).delete_account_email_subject,
+          'body': '${S.of(context).delete_account_email_body}+7$userNumber'
+        },
+      );
+
+      if (await canLaunchUrl(emailUri)) {
+        await launchUrl(emailUri);
+      } else {
+        debugPrint("Не удалось открыть почтовое приложение");
+      }
+    }
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -42,13 +62,10 @@ class ProfileScreen extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       confirmAlertDialog(context,
-                          title: S.of(context).deleteAccountSure, onYesTap: () {
-                        context.read<UserCubit>().deleteAccount();
+                          title: S.of(context).write_message,
+                          buttonText: S.of(context).write, onYesTap: () {
                         Navigator.pop(context);
-                        context
-                            .read<UserSessionBloc>()
-                            .add(LogoutUserSession());
-                        context.router.replaceAll([const IndexRoute()]);
+                        sendEmail();
                       });
                     },
                     icon: SvgPicture.asset(
@@ -78,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   BlocConsumer<UserSessionBloc, UserSessionState>(
                     listener: (BuildContext context, UserSessionState state) {
-                      if(state is UserSessionLoggedOut){
+                      if (state is UserSessionLoggedOut) {
                         context.read<FavoriteCubit>().setInitState();
                       } else if (state is UserSessionLoaded) {
                         Notifications().init(context);

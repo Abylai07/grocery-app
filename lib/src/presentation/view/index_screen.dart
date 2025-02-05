@@ -2,6 +2,7 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
 import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
@@ -43,7 +44,7 @@ class _IndexScreenState extends State<IndexScreen> {
       showLater: true,
       upgrader: Upgrader(
         durationUntilAlertAgain: const Duration(minutes: 1),
-        debugLogging: true,
+        debugLogging: false,
       ),
       child: AutoTabsRouter(
         routes: const [
@@ -79,9 +80,8 @@ class _IndexScreenState extends State<IndexScreen> {
                         onTap: (value)  {
                           String? token = SharedPrefs().getAccessToken();
                           if (value == 1 && token != null) {
-                            context
-                                .read<BasketBloc>()
-                                .add(const CheckBasketItems());
+                            context.read<BasketBloc>().add(const CheckBasketItems());
+                            context.read<ActiveOrdersCubit>().fetchActiveOrders();
                           } else if (value == 1 && token == null) {
                             context.read<BasketBloc>().add(const RefreshBasket());
                           } else if (value == 2 && token == null) {

@@ -1669,6 +1669,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Запрос на удаление аккаунта`
+  String get delete_account_email_subject {
+    return Intl.message(
+      'Запрос на удаление аккаунта',
+      name: 'delete_account_email_subject',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Здравствуйте, я хочу удалить свой аккаунт. Пожалуйста, удалите мой аккаунт.\n\nМой номер: `
+  String get delete_account_email_body {
+    return Intl.message(
+      'Здравствуйте, я хочу удалить свой аккаунт. Пожалуйста, удалите мой аккаунт.\n\nМой номер: ',
+      name: 'delete_account_email_body',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

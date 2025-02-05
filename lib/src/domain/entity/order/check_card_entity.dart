@@ -25,6 +25,7 @@ class CheckCardEntity extends Equatable {
 class ProductCardEntity extends Equatable {
   final int id;
   final int? productQuantity;
+  final int? availableQuantity;
   final String? photoUrl;
   final Map<String, String> name;
   final num price;
@@ -36,6 +37,7 @@ class ProductCardEntity extends Equatable {
   const ProductCardEntity({
     required this.id,
     this.productQuantity,
+    this.availableQuantity,
     this.photoUrl,
     required this.name,
     required this.price,
@@ -54,6 +56,7 @@ class ProductCardEntity extends Equatable {
     discount,
     productQuantity,
     priceWithDiscount,
+    availableQuantity,
     isActive,
     weight,
   ];

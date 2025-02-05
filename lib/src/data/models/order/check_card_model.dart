@@ -55,12 +55,14 @@ class ProductCardModel extends ProductCardEntity {
     super.priceWithDiscount,
     super.weight,
     super.productQuantity,
+    super.availableQuantity,
   });
 
   factory ProductCardModel.fromJson(Map<String, dynamic> json) {
     return ProductCardModel(
       id: json['id'],
       productQuantity: json['product_quantity'],
+      availableQuantity: json['available_quantity'],
       photoUrl: convertFilePathToUrl(json['photo_url']),
       name: {
         'ru': json['name_ru'],
@@ -82,6 +84,7 @@ class ProductCardModel extends ProductCardEntity {
       'name_kz': name['kz'],
       'price': price,
       'product_quantity': productQuantity,
+      'available_quantity': availableQuantity,
       'discount': discount,
       'price_with_discount': priceWithDiscount,
       'is_active': isActive ? 1 : 0,

@@ -10,20 +10,20 @@ import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../widgets/custom_app_bar.dart';
 
 @RoutePage()
-class PaymentWebView extends StatefulWidget {
+class PaymentRoute extends StatefulWidget {
   final String type;
   final String url;
-  const PaymentWebView({
+  const PaymentRoute({
     super.key,
     required this.url,
     required this.type,
   });
 
   @override
-  State<PaymentWebView> createState() => _PaymentWebViewState();
+  State<PaymentRoute> createState() => _PaymentRouteState();
 }
 
-class _PaymentWebViewState extends State<PaymentWebView> {
+class _PaymentRouteState extends State<PaymentRoute> {
   late InAppWebViewController webViewController;
   bool isLoading = true;
 

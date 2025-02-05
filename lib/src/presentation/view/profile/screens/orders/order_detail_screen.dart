@@ -2,7 +2,6 @@ import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
 import 'package:auto_route/annotations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +9,6 @@ import '../../../../../common/app_styles/colors.dart';
 import '../../../../../common/app_styles/text_styles.dart';
 import '../../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../../domain/entity/order/order_history_entity.dart';
-import '../../../../../domain/entity/product/product_entity.dart';
 import '../../../../../get_it_sl.dart';
 import '../../../../bloc/base_state.dart';
 import '../../../../widgets/alert_dialog/text_alert_dialog.dart';
@@ -18,90 +16,94 @@ import '../../../../widgets/buttons/main_button.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../../widgets/main_functions.dart';
 import '../../../../widgets/padding_nav_buttons.dart';
-import '../../../../widgets/shimmer_widget.dart';
 import '../../bloc/order/order_history_cubit.dart';
 import '../../widgets/order_products_widget.dart';
 
 @RoutePage()
 class OrderDetailScreen extends StatelessWidget {
-  const OrderDetailScreen({super.key, required this.orderInfo});
-  final OrderHistoryEntity orderInfo;
+  const OrderDetailScreen({super.key, required this.orderId});
+  final int orderId;
 
   @override
   Widget build(BuildContext context) {
-    OrderHistoryEntity order = orderInfo;
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => OrderCubit(sl()),
         ),
         BlocProvider(
-          create: (context) => OrderHistoryCubit(sl()),
+          create: (context) => OrderHistoryCubit(sl())..fetchOrderById(orderId),
         ),
       ],
-      child: BlocBuilder<OrderHistoryCubit, BaseState>(
-        builder: (context, state) {
-          if (state.status.isSuccess) {
-            order = state.entity;
-          }
-          return Scaffold(
-            appBar: CustomAppBar(
-              title: '${S.of(context).order} №${orderInfo.id}',
-            ),
-            backgroundColor: AppColors.background,
-            bottomNavigationBar: BlocConsumer<OrderCubit, OrderState>(
-              listener: (context, state) {
-                if (state.status.isSuccess) {
-                  Navigator.pop(context);
-                  context.read<ActiveOrdersCubit>().fetchActiveOrders();
-                }
-              },
-              builder: (context, state) {
-                return PaddingForNavButtons(
-                  child: CustomMainButton(
-                    text: canCancelOrder(order)
-                        ? S.of(context).cancelOrder
-                        : S.of(context).orderAgain,
-                    isLoading: state.status.isLoading,
-                    isActive: order.orderStatus.id == 1,
-                    onTap: () {
-                      if (canCancelOrder(order)) {
-                        confirmAlertDialog(
-                          context,
-                          title: S.of(context).cancel_order_confirmation,
-                          onYesTap: () {
-                            Navigator.pop(context);
-                            context
-                                .read<OrderCubit>()
-                                .cancelOrder(orderId: order.id.toString());
-                          },
-                        );
-                      }
-                    },
-                  ),
-                );
-              },
-            ),
-            body: RefreshIndicator(
-              onRefresh: () async {
-                await context
-                    .read<OrderHistoryCubit>()
-                    .fetchOrderById(orderInfo.id);
-              },
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    buildOrderInfo(context, order),
-                    12.height,
-                    OrderProductsWidget(orderInfo: order),
-                  ],
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: '${S.of(context).order} №$orderId',
+        ),
+        backgroundColor: AppColors.background,
+        body: BlocBuilder<OrderHistoryCubit, BaseState>(
+          builder: (context, state) {
+            if (state.status.isSuccess) {
+              OrderHistoryEntity order = state.entity;
+              return Scaffold(
+                backgroundColor: AppColors.background,
+                bottomNavigationBar: BlocConsumer<OrderCubit, OrderState>(
+                  listener: (context, state) {
+                    if (state.status.isSuccess) {
+                      Navigator.pop(context);
+                      context.read<ActiveOrdersCubit>().fetchActiveOrders();
+                    }
+                  },
+                  builder: (context, state) {
+                    return PaddingForNavButtons(
+                      child: CustomMainButton(
+                        text: canCancelOrder(order)
+                            ? S.of(context).cancelOrder
+                            : S.of(context).orderAgain,
+                        isLoading: state.status.isLoading,
+                        isActive: order.orderStatus.id == 1,
+                        onTap: () {
+                          if (canCancelOrder(order)) {
+                            confirmAlertDialog(
+                              context,
+                              title: S.of(context).cancel_order_confirmation,
+                              onYesTap: () {
+                                Navigator.pop(context);
+                                context
+                                    .read<OrderCubit>()
+                                    .cancelOrder(orderId: order.id.toString());
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
-              ),
-            ),
-          );
-        },
+                body: RefreshIndicator(
+                  onRefresh: () async {
+                    await context
+                        .read<OrderHistoryCubit>()
+                        .fetchOrderById(orderId);
+                  },
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        buildOrderInfo(context, order),
+                        12.height,
+                        OrderProductsWidget(orderInfo: order),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            } else if (state.status.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
@@ -190,5 +192,3 @@ class OrderDetailScreen extends StatelessWidget {
     );
   }
 }
-
-

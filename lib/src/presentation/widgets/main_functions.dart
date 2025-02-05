@@ -18,8 +18,10 @@ String getLocaleText(Map<String, String>? input) {
   return input?[locale == 'kk' ? 'kz' : locale] ?? '';
 }
 
-String convertFilePathToUrl(String filePath) {
-  if(filePath.contains('https')) {
+String convertFilePathToUrl(String? filePath) {
+  if(filePath == null) {
+    return '';
+  } else if(filePath.contains('https')) {
     return filePath;
   }
   return filePath.replaceFirst('/', host.replaceAll('api/', ''));

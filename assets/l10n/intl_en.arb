@@ -188,6 +188,8 @@
   "payment": "Payment",
   "pcs": "pcs",
   "write": "Write",
-  "write_message": "To delete your account, please contact us at info@abricoz.kz. Your request will be processed shortly."
+  "write_message": "To delete your account, please contact us at info@abricoz.kz. Your request will be processed shortly.",
+  "delete_account_email_subject": "Request for Account Deletion",
+  "delete_account_email_body": "Hello, I would like to delete my account. Please delete my account.\n\nMy number: "
 }
 

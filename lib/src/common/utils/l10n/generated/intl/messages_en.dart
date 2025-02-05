@@ -90,6 +90,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "No longer need this address? Saying goodbye is never easy."),
         "deleteAllBasket": MessageLookupByLibrary.simpleMessage(
             "Delete selected items from the basket?"),
+        "delete_account_email_body": MessageLookupByLibrary.simpleMessage(
+            "Hello, I would like to delete my account. Please delete my account.\n\nMy number: "),
+        "delete_account_email_subject": MessageLookupByLibrary.simpleMessage(
+            "Request for Account Deletion"),
         "delivered": MessageLookupByLibrary.simpleMessage("Delivered"),
         "delivery30min":
             MessageLookupByLibrary.simpleMessage("Delivery from 30 minutes"),

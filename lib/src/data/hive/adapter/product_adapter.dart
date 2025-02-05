@@ -38,6 +38,8 @@ class ProductHiveModel extends HiveObject {
   final int basketCount;
   @HiveField(16)
   final String? weight;
+  @HiveField(17)
+  final int? availableQuantity;
 
   ProductHiveModel({
     required this.id,
@@ -56,6 +58,7 @@ class ProductHiveModel extends HiveObject {
     this.weight,
      this.createdAt,
      this.updatedAt,
+     this.availableQuantity,
     this.basketCount = 1,
   });
 
@@ -66,6 +69,7 @@ class ProductHiveModel extends HiveObject {
       countryId: json['country_id'],
       brandId: json['brand_id'],
       photoUrl: json['photo_url'],
+      availableQuantity: json['available_quantity'],
       name: {
         'ru': json['name_ru'],
         'kz': json['name_kz'],
@@ -105,6 +109,7 @@ class ProductHiveModel extends HiveObject {
      // 'description_en': description['en'],
       'price': price,
       'discount': discount,
+      'available_quantity': availableQuantity,
       'price_with_discount': priceWithDiscount,
       'rating': rating,
       'total_sales': totalSales,
@@ -129,6 +134,7 @@ class ProductHiveModel extends HiveObject {
     double? priceWithDiscount,
     double? rating,
     int? totalSales,
+    int? availableQuantity,
     bool? isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -152,6 +158,7 @@ class ProductHiveModel extends HiveObject {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       basketCount: basketCount ?? this.basketCount,
+      availableQuantity: availableQuantity ?? this.availableQuantity,
     );
   }
 }

@@ -90,6 +90,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Бұл мекенжай енді қажет емес пе? Қоштасу әрқашан қиын."),
         "deleteAllBasket": MessageLookupByLibrary.simpleMessage(
             "Себеттегі таңдаулы заттарды жою?"),
+        "delete_account_email_body": MessageLookupByLibrary.simpleMessage(
+            "Сәлеметсіз бе, мен өз аккаунтымды жоюды қалаймын. Өтінемін, менің аккаунтымды жойыңыз.\n\nМенің нөмірім: "),
+        "delete_account_email_subject": MessageLookupByLibrary.simpleMessage(
+            "Аккаунтты жою туралы сұраныс"),
         "delivered": MessageLookupByLibrary.simpleMessage("Жеткізілді"),
         "delivery30min":
             MessageLookupByLibrary.simpleMessage("Жеткізу 30 минуттан бастап"),

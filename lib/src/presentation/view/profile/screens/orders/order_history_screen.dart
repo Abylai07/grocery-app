@@ -49,8 +49,7 @@ class OrderHistoryScreen extends StatelessWidget {
                 itemBuilder: (context, item, int index) {
                   return GestureDetector(
                     onTap: () {
-                      context.router
-                          .push(OrderDetailRoute(orderInfo: item));
+                      context.router.push(OrderDetailRoute(orderId: item.id));
                     },
                     child: Container(
                       padding: const EdgeInsets.all(16),

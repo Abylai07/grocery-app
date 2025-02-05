@@ -102,7 +102,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: OrderDetailScreen(
           key: args.key,
-          orderInfo: args.orderInfo,
+          orderId: args.orderId,
         ),
       );
     },
@@ -426,13 +426,13 @@ class MapAddressRouteArgs {
 class OrderDetailRoute extends PageRouteInfo<OrderDetailRouteArgs> {
   OrderDetailRoute({
     Key? key,
-    required OrderHistoryEntity orderInfo,
+    required int orderId,
     List<PageRouteInfo>? children,
   }) : super(
           OrderDetailRoute.name,
           args: OrderDetailRouteArgs(
             key: key,
-            orderInfo: orderInfo,
+            orderId: orderId,
           ),
           initialChildren: children,
         );
@@ -446,16 +446,16 @@ class OrderDetailRoute extends PageRouteInfo<OrderDetailRouteArgs> {
 class OrderDetailRouteArgs {
   const OrderDetailRouteArgs({
     this.key,
-    required this.orderInfo,
+    required this.orderId,
   });
 
   final Key? key;
 
-  final OrderHistoryEntity orderInfo;
+  final int orderId;
 
   @override
   String toString() {
-    return 'OrderDetailRouteArgs{key: $key, orderInfo: $orderInfo}';
+    return 'OrderDetailRouteArgs{key: $key, orderId: $orderId}';
   }
 }
 

@@ -11,7 +11,7 @@ class ActiveOrdersCubit extends Cubit<BaseState> {
   final OrderHistoryUseCase orderUseCase;
 
   Future fetchActiveOrders() async {
-    emit(const BaseState(status: CubitStatus.loading));
+    emit(state.copyWith(status: CubitStatus.loading));
 
     final failureOrAuth = await orderUseCase.fetchActiveOrders();
 
@@ -22,7 +22,7 @@ class ActiveOrdersCubit extends Cubit<BaseState> {
             message: l.message,
           ),
               (r) {
-            return BaseState(
+            return state.copyWith(
               status: CubitStatus.success,
               entity: r,
             );

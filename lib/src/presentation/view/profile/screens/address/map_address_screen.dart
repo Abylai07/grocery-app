@@ -102,14 +102,25 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
     }
   }
 
-  moveToAddress() async {
+  moveToAddress(YandexMapController controller) async {
     if (widget.address?.latitude == null || widget.address?.longitude == null) {
-      locatePosition();
+      controller.moveCamera(
+        CameraUpdate.newCameraPosition(
+          const CameraPosition(
+            zoom: 13,
+            target: Point(
+              latitude: 50.300377,
+              longitude: 57.154555,
+            ),
+          ),
+        ),
+        animation: animation,
+      );
     } else {
       double latitude = double.parse(widget.address!.latitude!);
       double longitude = double.parse(widget.address!.longitude!);
       await Future.delayed(const Duration(milliseconds: 200));
-      controller?.moveCamera(
+      controller.moveCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
             zoom: 18,
@@ -231,13 +242,15 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
                       if (isPointInPolygon(point, polygonPoints)) {
                         putMarker(point);
                       } else {
-                        showErrorSnackBar(context, S.of(context).notDeliverPlace);
+                        showErrorSnackBar(
+                            context, S.of(context).notDeliverPlace);
                       }
                     },
-                    onMapCreated:
-                        (YandexMapController yandexMapController) async {
+                    onMapCreated: (YandexMapController yandexMapController) async {
                       controller = yandexMapController;
-                      moveToAddress();
+
+                      await Future.delayed(const Duration(milliseconds: 500));
+                      moveToAddress(yandexMapController);
                     },
                   ),
                   Positioned(

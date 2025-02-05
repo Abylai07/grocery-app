@@ -92,6 +92,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Этот адрес больше не нужен? Прощаться всегда непросто."),
         "deleteAllBasket": MessageLookupByLibrary.simpleMessage(
             "Удалить выбранные товары из корзины?"),
+        "delete_account_email_body": MessageLookupByLibrary.simpleMessage(
+            "Здравствуйте, я хочу удалить свой аккаунт. Пожалуйста, удалите мой аккаунт.\n\nМой номер: "),
+        "delete_account_email_subject":
+            MessageLookupByLibrary.simpleMessage("Запрос на удаление аккаунта"),
         "delivered": MessageLookupByLibrary.simpleMessage("Доставлен"),
         "delivery30min":
             MessageLookupByLibrary.simpleMessage("Доставка от 30 минут"),

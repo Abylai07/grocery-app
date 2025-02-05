@@ -76,6 +76,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
                 photoUrl: newProduct.photoUrl,
                 weight: newProduct.weight,
                 isActive: newProduct.isActive,
+                availableQuantity: newProduct.availableQuantity,
               );
             } catch (e) {
               print('Error in basket_bloc.dart: $e');

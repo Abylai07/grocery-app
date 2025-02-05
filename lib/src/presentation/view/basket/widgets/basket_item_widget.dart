@@ -20,11 +20,9 @@ class BasketItemWidget extends StatelessWidget {
   const BasketItemWidget({
     super.key,
     required this.product,
-    this.changedProducts = const [],
   });
 
   final ProductHiveModel product;
-  final List<ShortagedProductEntity> changedProducts;
 
   @override
   Widget build(BuildContext context) {
@@ -167,39 +165,18 @@ class BasketItemWidget extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.add),
                           onPressed: () {
-                            // if (changedProducts.any((item) => item.id == product.id)) {
-                            //   ShortagedProductEntity? changedProduct =
-                            //       changedProducts.firstWhere(
-                            //     (p) => p.id == product.id,
-                            //   );
-                            //
-                            //   if (state.count < changedProduct.availableQuantity) {
-                            //     // Increment if within range
-                            //     context
-                            //         .read<BasketButtonBloc>()
-                            //         .add(IncrementCount(product.id));
-                            //     context
-                            //         .read<BasketBloc>()
-                            //         .add(const RefreshBasket());
-                            //   } else {
-                            //     // Optionally, show a message when the limit is reached
-                            //     showErrorSnackBar(context, S.of(context).insufficient_stock);
-                            //   }
-                            // } else {
-                            //   // If the product is not in changedProducts, allow the increment
-                            //   context
-                            //       .read<BasketButtonBloc>()
-                            //       .add(IncrementCount(product.id));
-                            //   context
-                            //       .read<BasketBloc>()
-                            //       .add(const RefreshBasket());
-                            // }
-                            context
-                                .read<BasketButtonBloc>()
-                                .add(IncrementCount(product.id));
-                            context
-                                .read<BasketBloc>()
-                                .add(const RefreshBasket());
+                            if (state.count < (product.availableQuantity ?? 0)) {
+                              // Increment if within range
+                              context
+                                  .read<BasketButtonBloc>()
+                                  .add(IncrementCount(product.id));
+                              context
+                                  .read<BasketBloc>()
+                                  .add(const RefreshBasket());
+                            } else {
+                              // Optionally, show a message when the limit is reached
+                              showErrorSnackBar(context, S.of(context).insufficient_stock);
+                            }
                           },
                         ),
                       ],

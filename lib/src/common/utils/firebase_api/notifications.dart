@@ -2,15 +2,22 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:abricoz_app/src/presentation/view/profile/screens/orders/order_detail_screen.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../../data/models/user/push_data_model.dart';
+import '../../../presentation/view/profile/bloc/order/active_orders_cubit.dart';
 import '../../app_styles/colors.dart';
 import '../../constants.dart';
+import '../../enums.dart';
 
 part 'show_notifications.dart';
 
@@ -30,7 +37,7 @@ class Notifications {
 
   String get firebaseToken => _firebaseToken;
 
-  Future init(BuildContext context) async {
+  Future  init(BuildContext context) async {
     final fcmToken = await messaging.getToken();
 
     if (fcmToken != null) {
@@ -70,7 +77,8 @@ class Notifications {
 
         final result = await dio.post('user-device/store', data: {
           "device_id": deviceId,
-          "fcm_token": _firebaseToken.toString()
+          "fcm_token": _firebaseToken.toString(),
+          "fcm_token_type_id": 1,
         });
 
         debugPrint('fcm send ${result.data}');
@@ -92,7 +100,8 @@ class Notifications {
     localNotifications.initialize(initializationSettings,
         onDidReceiveNotificationResponse: (details) async {
       log(details.payload.toString(), name: 'onNotificationPressed');
-      handlePushToNavigate(context, details.payload != null ? jsonDecode(details.payload!) : {});
+      handlePushToNavigate(
+          context, details.payload != null ? jsonDecode(details.payload!) : {});
     });
 
     await messaging.setForegroundNotificationPresentationOptions(
@@ -134,12 +143,19 @@ Future<String?> getId() async {
 void handlePushToNavigate(BuildContext context, Map<String, dynamic>? data) {
   log(data.toString(), name: 'handlePushToNavigate');
 
-  if (context.mounted) return;
 
-    pushToScreen(
-      context,);
+  if (data == null) return;
+
+  pushToScreen(
+    context,
+    data: PushDataModel.fromJson(data),
+  );
 }
 
-pushToScreen(BuildContext context) {
- // AutoRouter.of(context).push(const InformationRoute());
+pushToScreen(BuildContext context, {required PushDataModel data}) {
+  OrderStatus status = getStatusById(data.orderStatusId);
+  if(data.orderId > 0) {
+    context.read<ActiveOrdersCubit>().fetchActiveOrders();
+    AutoRouter.of(context).push(OrderDetailRoute(orderId: data.orderId));
+  }
 }

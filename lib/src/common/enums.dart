@@ -36,6 +36,7 @@ extension NullOrEmptyExtension<T> on T? {
     return true;
   }
 }
+
 enum OrderStatus {
   processing,
   beingAssembled,
