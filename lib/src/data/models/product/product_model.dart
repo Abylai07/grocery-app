@@ -44,8 +44,8 @@ class ProductModel extends ProductEntity {
         // 'en': json['name_en'],
       },
       description: {
-        'ru': json['description_ru'],
-        'kz': json['description_kz'],
+        'ru': json['description_ru'] ?? '',
+        'kz': json['description_kz'] ?? '',
         // 'en': json['description_en'],
       },
       price: json['price'],

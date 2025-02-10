@@ -4,7 +4,7 @@ description: "A new Flutter project."
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.8+11
+version: 1.0.9+13
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
@@ -39,8 +39,6 @@ dependencies:
   in_app_review: ^2.0.9
   sliding_up_panel: ^2.0.0+1
   badges: ^3.1.2
-  flutter_cache_manager: ^3.4.1
-  floating_menu_panel: ^0.0.2
   flutter_inappwebview: ^6.1.5
 
   #map

@@ -69,8 +69,6 @@ class UpgradeWidget extends StatefulWidget {
 class UpgradeWidgetState extends State<UpgradeWidget> {
   /// Is the alert dialog being displayed right now?
   bool displayed = false;
-  bool called = false;
-  String criticalMinVersion = '1.0.4';
   String? storeVersion;
 
   @override
@@ -93,55 +91,36 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
     if (storeVersion == null) {
       widget.upgrader.initialize();
     }
-    return BlocBuilder<RemoteConfigCubit, BaseState<Map>>(
-        builder: (context, state) {
-      if (state.entity != null && !called) {
-        called = true;
-        final RemoteConfigValue? criticalVersion = state.entity?[
-            Platform.isAndroid
-                ? RemoteKeys.criticalMinAndroidVersion.name
-                : RemoteKeys.criticalMinIosVersion.name];
+    return StreamBuilder(
+      initialData: widget.upgrader.state,
+      stream: widget.upgrader.stateStream,
+      builder: (BuildContext context, AsyncSnapshot<UpgraderState> snapshot) {
+        if ((snapshot.connectionState == ConnectionState.waiting ||
+            snapshot.connectionState == ConnectionState.active) &&
+            snapshot.data != null) {
+          storeVersion = snapshot.data?.versionInfo?.appStoreVersion.toString();
+          if (widget.upgrader.state.debugLogging) {
+            print('upgrader: build UpgradeAlert');
+          }
 
-        criticalMinVersion = criticalVersion?.asString() ?? '1.0.4';
-        debugPrint('criticalMinVersion = $criticalMinVersion');
-        widget.upgrader.initialize();
-      }
-
-      return StreamBuilder(
-        initialData: widget.upgrader.state,
-        stream: widget.upgrader.stateStream,
-        builder: (BuildContext context, AsyncSnapshot<UpgraderState> snapshot) {
-          if ((snapshot.connectionState == ConnectionState.waiting ||
-                  snapshot.connectionState == ConnectionState.active) &&
-              snapshot.data != null) {
-            storeVersion =
-                snapshot.data?.versionInfo?.appStoreVersion.toString();
+          if (storeVersion != null) {
             if (widget.upgrader.state.debugLogging) {
-              print('upgrader: build UpgradeAlert');
+              print("upgrader: need to evaluate version");
             }
 
-            if (storeVersion != null) {
-              if (widget.upgrader.state.debugLogging) {
-                print("upgrader: need to evaluate version");
-              }
-
-              if (!displayed) {
-                if (isVersionGreater(criticalMinVersion,
-                    SharedPrefs().getAppVersion() ?? '1.0.1')) {
-                  widget.upgrader.minAppVersion = criticalMinVersion;
-                }
-                final checkContext = widget.navigatorKey != null &&
-                        widget.navigatorKey!.currentContext != null
-                    ? widget.navigatorKey!.currentContext!
-                    : context;
-                checkVersion(context: checkContext);
-              }
+            if (!displayed) {
+              widget.upgrader.minAppVersion = storeVersion ?? '1.0.8';
+              final checkContext = widget.navigatorKey != null &&
+                  widget.navigatorKey!.currentContext != null
+                  ? widget.navigatorKey!.currentContext!
+                  : context;
+              checkVersion(context: checkContext);
             }
           }
-          return widget.child ?? const SizedBox.shrink();
-        },
-      );
-    });
+        }
+        return widget.child ?? const SizedBox.shrink();
+      },
+    );
   }
 
   bool isVersionGreater(String version1, String version2) {

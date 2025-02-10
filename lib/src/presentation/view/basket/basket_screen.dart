@@ -221,7 +221,8 @@ class ActiveOrderWidget extends StatelessWidget {
       builder: (context, orderState) {
         List<OrderHistoryEntity> orders = [];
         if (orderState.entity is List<OrderHistoryEntity>) {
-          orders = orderState.entity;
+          List<OrderHistoryEntity> allOrders = orderState.entity as List<OrderHistoryEntity>;
+          orders = allOrders.length > 3 ? allOrders.sublist(allOrders.length - 3) : allOrders;
         }
         return orders.isNotEmpty
             ? ListView.builder(

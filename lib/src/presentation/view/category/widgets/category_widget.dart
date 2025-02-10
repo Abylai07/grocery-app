@@ -19,64 +19,59 @@ class CategoryWidget extends StatelessWidget {
   });
 
   final CategoryEntity category;
-  final  PanelController controller;
+  final PanelController controller;
 
   @override
   Widget build(BuildContext context) {
-    // cachedSvgPhoto() async {
-    //   return await DefaultCacheManager().getSingleFile(category.mobileUrl!);
-    // }
-    // FutureBuilder(
-    //     future: cachedSvgPhoto(),
-    //     builder: (context, sn) {
-    //       return sn.data != null ? SvgPicture.file(
-    //         sn.data!,
-    //         height: 60,
-    //       ) : CircularProgressIndicator();
-    //     })
 
     return GestureDetector(
       onTap: () {
-        if(controller.isAttached && !controller.isPanelOpen){
+        if (controller.isAttached && !controller.isPanelOpen) {
           controller.open();
         }
         AutoRouter.of(context).push(SubCategoryRoute(category: category));
       },
       child: Container(
-        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: AppColors.background,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Text(
-              getLocaleText(category.name),
-              style: AppTextStyle.displayLarge
-                  .copyWith(fontWeight: FontWeight.w600),
-            ),
             if (category.mobileUrl != null)
-              Center(
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
                 child: category.mobileUrl?.contains('.svg') == true
                     ? SvgPicture.network(
                         category.mobileUrl!,
-                        height: 60,
+                        height: 80,
                       )
                     : CachedNetworkImage(
                         imageUrl: category.mobileUrl!,
-                        fit: BoxFit.fitWidth,
-                        height: 60,
+                        fit: BoxFit.contain,
+                        height: 80,
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
                                 const ShimmerWidget(
                           width: double.infinity,
-                          height: 60,
+                          height: 80,
                         ),
                         errorWidget: (context, url, error) => const SizedBox(),
                       ),
-              )
+              ),
+            Positioned(
+              top: 8,
+              right: 8,
+              left: 8,
+              child: Text(
+                getLocaleText(category.name),
+                style: AppTextStyle.displayLarge
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
           ],
         ),
       ),

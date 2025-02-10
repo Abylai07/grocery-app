@@ -41,7 +41,7 @@ class _IndexScreenState extends State<IndexScreen> {
     return UpgradeWidget(
       dialogStyle: UpgradeDialogStyle.cupertino,
       showIgnore: false,
-      showLater: true,
+      showLater: false,
       upgrader: Upgrader(
         durationUntilAlertAgain: const Duration(minutes: 1),
         debugLogging: false,
