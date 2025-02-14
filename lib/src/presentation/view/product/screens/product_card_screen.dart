@@ -80,7 +80,6 @@ class ProductCardView extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     decoration: BoxDecoration(
                       color: AppColors.background,
                       borderRadius: BorderRadius.circular(10),
@@ -88,31 +87,50 @@ class ProductCardView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: product.photoUrl?.isNotEmpty == true
-                              ? CachedNetworkImage(
-                                  height: photoHeight,
-                                  width: double.infinity,
-                                  imageUrl: product.photoUrl!,
-                                  fit: BoxFit.contain,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          ShimmerWidget(
-                                    width: double.infinity,
-                                    height: photoHeight,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: product.photoUrl?.isNotEmpty == true
+                                  ? CachedNetworkImage(
+                                      height: photoHeight,
+                                      width: double.infinity,
+                                      imageUrl: product.photoUrl!,
+                                      fit: BoxFit.contain,
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              ShimmerWidget(
+                                        width: double.infinity,
+                                        height: photoHeight,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                    )
+                                  : Container(
+                                      width: double.infinity,
+                                      height: photoHeight,
+                                      color: AppColors.shimmer,
+                                    ),
+                            ),
+                            Visibility(
+                              visible: (product.amount ?? 0) < 1,
+                              child: Container(
+                                color: AppColors.gray,
+                                width: double.infinity,
+                                child: Text(
+                                  S.of(context).out_stock,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyle.bodyLarge.copyWith(
+                                    color: const Color(0xFF606060),
                                   ),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                )
-                              : Container(
-                                  width: double.infinity,
-                                  height: photoHeight,
-                                  color: AppColors.shimmer,
                                 ),
+                              ),
+                            )
+                          ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16),
                           child: RichText(
                             text: TextSpan(
                               text: getLocaleText(product.name),

@@ -56,6 +56,14 @@ bool canCancelOrder(OrderHistoryEntity order) {
   return order.orderStatus.id == 1 && order.paymentTypeId == 1;
 }
 
+bool canOrderAgain(OrderHistoryEntity order) {
+  return order.orderStatus.id == 5;
+}
+
+bool canPayOrder(OrderHistoryEntity order) {
+  return order.orderStatus.id == 7 && order.paymentTypeId == 2;
+}
+
 bool isDiscountFunc(num? discount, price){
   return discount != null && discount > 0 && discount < price;
 }

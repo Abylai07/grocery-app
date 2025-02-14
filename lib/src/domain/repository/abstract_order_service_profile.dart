@@ -25,4 +25,6 @@ abstract class AbstractOrderServiceRepository {
   Future<Either<Failure, OrderHistoryEntity>> fetchOrderById(params);
 
   Future<Either<Failure, bool>> cancelOrder(params);
+
+  Future<Either<Failure, String>> getPaymentLink(params);
 }

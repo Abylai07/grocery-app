@@ -74,6 +74,17 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const InformationScreen(),
       );
     },
+    LinkPaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<LinkPaymentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: LinkPaymentScreen(
+          key: args.key,
+          url: args.url,
+          type: args.type,
+        ),
+      );
+    },
     MakeOrderRoute.name: (routeData) {
       final args = routeData.argsAs<MakeOrderRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -338,6 +349,49 @@ class InformationRoute extends PageRouteInfo<void> {
   static const String name = 'InformationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LinkPaymentScreen]
+class LinkPaymentRoute extends PageRouteInfo<LinkPaymentRouteArgs> {
+  LinkPaymentRoute({
+    Key? key,
+    required String url,
+    required String type,
+    List<PageRouteInfo>? children,
+  }) : super(
+          LinkPaymentRoute.name,
+          args: LinkPaymentRouteArgs(
+            key: key,
+            url: url,
+            type: type,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'LinkPaymentRoute';
+
+  static const PageInfo<LinkPaymentRouteArgs> page =
+      PageInfo<LinkPaymentRouteArgs>(name);
+}
+
+class LinkPaymentRouteArgs {
+  const LinkPaymentRouteArgs({
+    this.key,
+    required this.url,
+    required this.type,
+  });
+
+  final Key? key;
+
+  final String url;
+
+  final String type;
+
+  @override
+  String toString() {
+    return 'LinkPaymentRouteArgs{key: $key, url: $url, type: $type}';
+  }
 }
 
 /// generated route for

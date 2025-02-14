@@ -41,12 +41,12 @@ class CustomMainButton extends StatelessWidget {
         onPressed: isActive && isLoading == false ? onTap : () {},
         child: isLoading
             ? SizedBox(
-              height: height - 24,
-              width: height - 24,
-              child: const CircularProgressIndicator(
-                color: AppColors.white,
-              ),
-            )
+                height: height - 24,
+                width: height - 24,
+                child: const CircularProgressIndicator(
+                  color: AppColors.white,
+                ),
+              )
             : Text(
                 text,
                 style: AppTextStyle.bodyLarge.copyWith(
@@ -97,9 +97,8 @@ class CustomGrayButton extends StatelessWidget {
             ? const Padding(
                 padding: EdgeInsets.all(6),
                 child: Center(
-                    child: CircularProgressIndicator(
-                  color: AppColors.white,
-                )),
+                  child: CircularProgressIndicator(),
+                ),
               )
             : Text(
                 text,

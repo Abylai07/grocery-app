@@ -105,7 +105,8 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
 
           if (storeVersion != null) {
             if (widget.upgrader.state.debugLogging) {
-              print("upgrader: need to evaluate version");
+              print("upgrader: need to evaluate version" +
+                  " storeVersion: $storeVersion");
             }
 
             if (!displayed) {

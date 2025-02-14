@@ -1,5 +1,6 @@
 class AppAssets {
   static const String banner = 'assets/images/banner.png';
+  static const String logo = 'assets/images/logo/logo_fore.png';
   static const String basketEmpty = 'assets/images/basket_empty.png';
   static const String favoriteEmpty = 'assets/images/favorite_empty.png';
   static const String searchEmpty = 'assets/images/search_empty.png';
@@ -45,4 +46,7 @@ class AppAssets {
   static const String time = 'assets/icons/time.svg';
   static const String myLocation = 'assets/icons/my_location.svg';
   static const String info = 'assets/icons/info.svg';
+  static const String cancel = 'assets/icons/cancel.svg';
+  static const String success = 'assets/icons/success.svg';
+  static const String timeOut = 'assets/icons/time_out.svg';
 }

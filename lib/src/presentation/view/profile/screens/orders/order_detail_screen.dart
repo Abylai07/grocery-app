@@ -2,11 +2,13 @@ import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../common/app_styles/colors.dart';
 import '../../../../../common/app_styles/text_styles.dart';
+import '../../../../../common/utils/app_router/app_router.dart';
 import '../../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../../domain/entity/order/order_history_entity.dart';
 import '../../../../../get_it_sl.dart';
@@ -16,6 +18,8 @@ import '../../../../widgets/buttons/main_button.dart';
 import '../../../../widgets/custom_app_bar.dart';
 import '../../../../widgets/main_functions.dart';
 import '../../../../widgets/padding_nav_buttons.dart';
+import '../../../../widgets/show_error_snackbar.dart';
+import '../../../basket/bloc/payment_bloc/payment_cubit.dart';
 import '../../bloc/order/order_history_cubit.dart';
 import '../../widgets/order_products_widget.dart';
 
@@ -30,6 +34,9 @@ class OrderDetailScreen extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => OrderCubit(sl()),
+        ),
+        BlocProvider(
+          create: (context) => PaymentCubit(sl()),
         ),
         BlocProvider(
           create: (context) => OrderHistoryCubit(sl())..fetchOrderById(orderId),
@@ -55,26 +62,69 @@ class OrderDetailScreen extends StatelessWidget {
                   },
                   builder: (context, state) {
                     return PaddingForNavButtons(
-                      child: CustomMainButton(
-                        text: canCancelOrder(order)
-                            ? S.of(context).cancelOrder
-                            : S.of(context).orderAgain,
-                        isLoading: state.status.isLoading,
-                        isActive: order.orderStatus.id == 1,
-                        onTap: () {
-                          if (canCancelOrder(order)) {
-                            confirmAlertDialog(
-                              context,
-                              title: S.of(context).cancel_order_confirmation,
-                              onYesTap: () {
-                                Navigator.pop(context);
-                                context
-                                    .read<OrderCubit>()
-                                    .cancelOrder(orderId: order.id.toString());
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (canPayOrder(order)) ...[
+                            BlocConsumer<PaymentCubit, PaymentState>(
+                              listener: (context, state) async {
+                                if (state.status.isSuccess &&
+                                    state.paymentUrl != null) {
+                                  await AutoRouter.of(context).push(
+                                    LinkPaymentRoute(
+                                      url: state.paymentUrl!,
+                                      type: 'halyk',
+                                    ),
+                                  );
+                                  context
+                                      .read<OrderHistoryCubit>()
+                                      .fetchOrderById(orderId);
+                                } else if (state.status.isError) {
+                                  showErrorSnackBar(
+                                    context,
+                                    S.of(context).errorPlsAgain,
+                                  );
+                                }
                               },
-                            );
-                          }
-                        },
+                              builder: (context, state) {
+                                return CustomMainButton(
+                                  text: S.of(context).payOrder,
+                                  isLoading: state.status.isLoading,
+                                  isActive: canPayOrder(order),
+                                  onTap: () {
+                                    context
+                                        .read<PaymentCubit>()
+                                        .getPaymentLink(order.id);
+                                  },
+                                );
+                              },
+                            ),
+                            12.height,
+                          ],
+                          if (canCancelOrder(order) || canOrderAgain(order))
+                            CustomGrayButton(
+                              text: canCancelOrder(order)
+                                  ? S.of(context).cancelOrder
+                                  : S.of(context).orderAgain,
+                              isLoading: state.status.isLoading,
+                              isActive:
+                                  canCancelOrder(order) || canOrderAgain(order),
+                              onTap: () {
+                                if (canCancelOrder(order)) {
+                                  confirmAlertDialog(
+                                    context,
+                                    title:
+                                        S.of(context).cancel_order_confirmation,
+                                    onYesTap: () {
+                                      Navigator.pop(context);
+                                      context.read<OrderCubit>().cancelOrder(
+                                          orderId: order.id.toString());
+                                    },
+                                  );
+                                } else if (canOrderAgain(order)) {}
+                              },
+                            ),
+                        ],
                       ),
                     );
                   },

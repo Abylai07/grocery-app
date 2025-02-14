@@ -15,7 +15,7 @@ class ProductBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDiscount = isDiscountFunc(product.priceWithDiscount, product.price);
-
+    bool isActive = (product.amount ?? 0) > 0;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: const BoxDecoration(
@@ -50,7 +50,7 @@ class ProductBottomBar extends StatelessWidget {
             ),
             BlocBuilder<BasketButtonBloc, BasketButtonState>(
               builder: (context, state) {
-                return state.inBasket
+                return state.inBasket && isActive
                     ? Container(
                         height: 48,
                         width: 140,
@@ -91,24 +91,49 @@ class ProductBottomBar extends StatelessWidget {
                           ],
                         ),
                       )
-                    : InkWell(
-                        onTap: () {
-                          context.read<BasketButtonBloc>().add(AddToBasket(product));
-                        },
-                        child: Container(
-                          height: 48,
-                          width: 140,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: AppColors.main,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            S.of(context).toBasket,
-                            style: AppTextStyle.bodyMedium.copyWith(color: AppColors.white),
-                          ),
-                        ),
-                      );
+                    : isActive
+                        ? InkWell(
+                            onTap: () {
+                              context
+                                  .read<BasketButtonBloc>()
+                                  .add(AddToBasket(product));
+                            },
+                            child: Container(
+                              height: 48,
+                              width: 140,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: AppColors.main,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                S.of(context).toBasket,
+                                style: AppTextStyle.bodyMedium
+                                    .copyWith(color: AppColors.white),
+                              ),
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              context
+                                  .read<BasketButtonBloc>()
+                                  .add(AddToBasket(product));
+                            },
+                            child: Container(
+                              height: 48,
+                              width: 140,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: AppColors.notActiveColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                S.of(context).notActive,
+                                style: AppTextStyle.bodyMedium
+                                    .copyWith(color: AppColors.white),
+                              ),
+                            ),
+                          );
               },
             )
           ],

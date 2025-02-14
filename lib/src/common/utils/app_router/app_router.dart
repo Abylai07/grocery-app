@@ -14,6 +14,7 @@ import '../../../presentation/view/authorization/code_enter_screen.dart';
 import '../../../presentation/view/authorization/sign_in_screen.dart';
 import '../../../presentation/view/authorization/user_info_screen.dart';
 import '../../../presentation/view/basket/basket_screen.dart';
+import '../../../presentation/view/basket/screens/link_payment_screen.dart';
 import '../../../presentation/view/basket/screens/make_order_screen.dart';
 import '../../../presentation/view/basket/screens/payment_screen.dart';
 import '../../../presentation/view/category/sub_category_screen.dart';
@@ -59,6 +60,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: UserInfoRoute.page),
         AutoRoute(page: MapAddressRoute.page),
         AutoRoute(page: InformationRoute.page),
-        AutoRoute(page: WebViewRoute.page),
+        AutoRoute(page: LinkPaymentRoute.page),
       ];
 }

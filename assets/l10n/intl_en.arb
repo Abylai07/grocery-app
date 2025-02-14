@@ -188,8 +188,12 @@
   "payment": "Payment",
   "pcs": "pcs",
   "write": "Write",
+  "card_pay": "Payment by bank card",
   "write_message": "To delete your account, please contact us at info@abricoz.kz. Your request will be processed shortly.",
   "delete_account_email_subject": "Request for Account Deletion",
-  "delete_account_email_body": "Hello, I would like to delete my account. Please delete my account.\n\nMy number: "
+  "delete_account_email_body": "Hello, I would like to delete my account. Please delete my account.\n\nMy number: ",
+  "out_stock": "OUT OF STOCK",
+  "errorPlsAgain": "Something went wrong, try again",
+  "payFailed": "Payment failed or was canceled. Please try again."
 }
 

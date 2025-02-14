@@ -3,6 +3,7 @@ import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:abricoz_app/src/presentation/view/basket/widgets/active_orders_widget.dart';
 import 'package:abricoz_app/src/presentation/view/basket/widgets/basket_item_widget.dart';
 import 'package:abricoz_app/src/presentation/view/basket/widgets/product_changed_alert.dart';
 import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
@@ -210,111 +211,4 @@ class BasketScreen extends StatelessWidget {
   }
 }
 
-class ActiveOrderWidget extends StatelessWidget {
-  const ActiveOrderWidget({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<ActiveOrdersCubit, BaseState>(
-      builder: (context, orderState) {
-        List<OrderHistoryEntity> orders = [];
-        if (orderState.entity is List<OrderHistoryEntity>) {
-          List<OrderHistoryEntity> allOrders = orderState.entity as List<OrderHistoryEntity>;
-          orders = allOrders.length > 3 ? allOrders.sublist(allOrders.length - 3) : allOrders;
-        }
-        return orders.isNotEmpty
-            ? ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: orders.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8),
-                    decoration: const BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
-                        bottomRight: Radius.circular(16),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0XFFFCE8E5),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Text(
-                                      S.of(context).activeOrder,
-                                      style: AppTextStyle.labelSmall.copyWith(
-                                          color: AppColors.main,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0XFFE1F2FE),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Text(
-                                      orders[index].orderStatus.name,
-                                      style: AppTextStyle.labelSmall.copyWith(
-                                          color: AppColors.blue,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              4.height,
-                              Text(
-                                '${S.of(context).order} №${orders[index].id}',
-                                style: AppTextStyle.bodyLarge
-                                    .copyWith(fontWeight: FontWeight.w600),
-                              )
-                            ],
-                          ),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              context.router.push(
-                                  OrderDetailRoute(orderId: orders[index].id));
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  S.of(context).go,
-                                  style: AppTextStyle.bodyMedium
-                                      .copyWith(color: AppColors.main),
-                                ),
-                                4.width,
-                                SvgPicture.asset(
-                                  AppAssets.arrowNext,
-                                  colorFilter: const ColorFilter.mode(
-                                      AppColors.main, BlendMode.srcIn),
-                                ),
-                              ],
-                            ))
-                      ],
-                    ),
-                  );
-                },
-              )
-            : const SizedBox();
-      },
-    );
-  }
-}

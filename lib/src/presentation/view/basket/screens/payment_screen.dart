@@ -1,9 +1,11 @@
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
 import 'package:abricoz_app/src/common/enums.dart';
+import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
 import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
 import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,6 +24,7 @@ import '../../profile/bloc/order/active_orders_cubit.dart';
 import '../../profile/bloc/order/order_history_cubit.dart';
 import '../../profile/widgets/order_products_widget.dart';
 import '../bloc/order_bloc/order_cubit.dart';
+import '../bloc/payment_bloc/payment_cubit.dart';
 
 @RoutePage()
 class PaymentScreen extends StatelessWidget {
@@ -30,12 +33,13 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ActiveOrdersCubit>().fetchActiveOrders();
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => OrderCubit(sl()),
+        ),
+        BlocProvider(
+          create: (context) => PaymentCubit(sl()),
         ),
         BlocProvider(
           create: (context) =>
@@ -48,10 +52,15 @@ class PaymentScreen extends StatelessWidget {
           if (state.status.isSuccess) {
             order = state.entity;
           }
+          if (order?.paymentTypeId != 2) {
+            context.read<ActiveOrdersCubit>().fetchActiveOrders();
+          }
 
           return Scaffold(
             appBar: CustomAppBar(
-              title: S.of(context).order_info,
+              title: order?.paymentTypeId == 2
+                  ? S.of(context).paymentOrder
+                  : S.of(context).order_info,
             ),
             backgroundColor: AppColors.background,
             bottomNavigationBar: order != null
@@ -59,24 +68,57 @@ class PaymentScreen extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        BlocConsumer<OrderCubit, OrderState>(
-                          listener: (context, state) {
-                            if (state.status.isSuccess) {
-                              Navigator.pop(context);
-                              context
-                                  .read<ActiveOrdersCubit>()
-                                  .fetchActiveOrders();
-                            }
-                          },
-                          builder: (context, state) {
-                            return CustomMainButton(
-                              text: canCancelOrder(order!)
-                                  ? S.of(context).cancelOrder
-                                  : S.of(context).orderAgain,
-                              isLoading: state.status.isLoading,
-                              isActive: order.orderStatus.id == 1,
-                              onTap: () {
-                                if (canCancelOrder(order!)) {
+                        if (canPayOrder(order)) ...[
+                          BlocConsumer<PaymentCubit, PaymentState>(
+                            listener: (context, state) async {
+                              if (state.status.isSuccess &&
+                                  state.paymentUrl != null) {
+                                await AutoRouter.of(context).push(
+                                  LinkPaymentRoute(
+                                    url: state.paymentUrl!,
+                                    type: 'halyk',
+                                  ),
+                                );
+                                context
+                                    .read<OrderHistoryCubit>()
+                                    .fetchOrderById(orderInfo.orderId);
+                              } else if (state.status.isError) {
+                                showErrorSnackBar(
+                                  context,
+                                  S.of(context).errorPlsAgain,
+                                );
+                              }
+                            },
+                            builder: (context, state) {
+                              return CustomMainButton(
+                                text: S.of(context).payOrder,
+                                isLoading: state.status.isLoading,
+                                onTap: () {
+                                  context
+                                      .read<PaymentCubit>()
+                                      .getPaymentLink(order!.id);
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                        if (canPayOrder(order) && canCancelOrder(order))
+                          12.height,
+                        if (canCancelOrder(order))
+                          BlocConsumer<OrderCubit, OrderState>(
+                            listener: (context, state) {
+                              if (state.status.isSuccess) {
+                                Navigator.pop(context);
+                                context
+                                    .read<ActiveOrdersCubit>()
+                                    .fetchActiveOrders();
+                              }
+                            },
+                            builder: (context, state) {
+                              return CustomGrayButton(
+                                text: S.of(context).cancelOrder,
+                                isLoading: state.status.isLoading,
+                                onTap: () {
                                   confirmAlertDialog(
                                     context,
                                     title:
@@ -87,16 +129,10 @@ class PaymentScreen extends StatelessWidget {
                                           orderId: order!.id.toString());
                                     },
                                   );
-                                }
-                              },
-                            );
-                          },
-                        ),
-                        // 12.height,
-                        // CustomGrayButton(
-                        //   text: S.of(context).cancelOrder,
-                        //   onTap: () {},
-                        // ),
+                                },
+                              );
+                            },
+                          ),
                       ],
                     ),
                   )

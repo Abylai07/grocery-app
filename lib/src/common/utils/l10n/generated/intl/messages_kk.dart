@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Тапсырысты тоқтатқыңыз келетініне сенімдісіз бе?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Болдырылмады"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("көмірсулар"),
+        "card_pay":
+            MessageLookupByLibrary.simpleMessage("Банк картасымен төлеу"),
         "cart_update": MessageLookupByLibrary.simpleMessage("Себетті жаңарту"),
         "carts": MessageLookupByLibrary.simpleMessage("Карталар"),
         "cashToCourier":
@@ -118,6 +120,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Жалғастыру үшін телефон нөмірін енгізіңіз"),
         "entrance": MessageLookupByLibrary.simpleMessage("Кіреберіс"),
+        "errorPlsAgain": MessageLookupByLibrary.simpleMessage(
+            "Бірдеңе дұрыс болмады, қайталап көріңіз"),
         "error_message": MessageLookupByLibrary.simpleMessage(
             "Кешіріңіз, қате орын алды. Біз оны түзету үшін жұмыс істеп жатырмыз. Кейінірек тағы да қайталап көріңіз."),
         "fats": MessageLookupByLibrary.simpleMessage("майлар"),
@@ -195,6 +199,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "ourProduct":
             MessageLookupByLibrary.simpleMessage("Біздің өнімдеріміз"),
         "out_of_stock": MessageLookupByLibrary.simpleMessage("Өнім жоқ"),
+        "out_stock": MessageLookupByLibrary.simpleMessage("ҚОЙМАДА ЖОҚ"),
+        "payFailed": MessageLookupByLibrary.simpleMessage(
+            "Төлем орындалмады немесе жойылды. Қайта көріңіз."),
         "payOrder": MessageLookupByLibrary.simpleMessage("Тапсырысты төлеу"),
         "paySum": MessageLookupByLibrary.simpleMessage("Төлем сомасы"),
         "payTime": m2,

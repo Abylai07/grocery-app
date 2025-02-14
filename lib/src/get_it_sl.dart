@@ -3,6 +3,7 @@ import 'package:abricoz_app/src/data/repository/product_service_repository.dart'
 import 'package:abricoz_app/src/domain/repository/abstract_product_service_profile.dart';
 import 'package:abricoz_app/src/domain/repository/abstract_user_service_profile.dart';
 import 'package:abricoz_app/src/domain/usecase/order/check_basket_usecase.dart';
+import 'package:abricoz_app/src/domain/usecase/order/payment_use_case.dart';
 import 'package:abricoz_app/src/domain/usecase/user/banner_use_case.dart';
 import 'package:abricoz_app/src/domain/usecase/user/favorite_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
@@ -52,6 +53,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => FavoriteUseCase(sl()));
   sl.registerLazySingleton(() => UserUseCase(sl()));
   sl.registerLazySingleton(() => OrderHistoryUseCase(sl()));
+  sl.registerLazySingleton(() => PaymentUseCase(sl()));
 
 
  // Remote Repositories

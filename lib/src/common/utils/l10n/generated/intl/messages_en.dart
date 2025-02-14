@@ -59,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Are you sure you want to cancel the order?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Canceled"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("carbohydrates"),
+        "card_pay":
+            MessageLookupByLibrary.simpleMessage("Payment by bank card"),
         "cart_update": MessageLookupByLibrary.simpleMessage("Cart Update"),
         "carts": MessageLookupByLibrary.simpleMessage("Cards"),
         "cashToCourier":
@@ -117,6 +119,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Enter your phone number to continue"),
         "entrance": MessageLookupByLibrary.simpleMessage("Entrance"),
+        "errorPlsAgain": MessageLookupByLibrary.simpleMessage(
+            "Something went wrong, try again"),
         "error_message": MessageLookupByLibrary.simpleMessage(
             "Sorry, an error occurred. We are already working to fix it. Please try again later."),
         "fats": MessageLookupByLibrary.simpleMessage("fats"),
@@ -191,6 +195,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "ourProduct": MessageLookupByLibrary.simpleMessage("Our products"),
         "out_of_stock":
             MessageLookupByLibrary.simpleMessage("Product is out of stock"),
+        "out_stock": MessageLookupByLibrary.simpleMessage("OUT OF STOCK"),
+        "payFailed": MessageLookupByLibrary.simpleMessage(
+            "Payment failed or was canceled. Please try again."),
         "payOrder": MessageLookupByLibrary.simpleMessage("Pay order"),
         "paySum": MessageLookupByLibrary.simpleMessage("Amount to pay"),
         "payTime": m2,

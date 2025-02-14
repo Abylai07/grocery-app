@@ -43,7 +43,8 @@ enum OrderStatus {
   assembled,
   atTheCourier,
   delivered,
-  cancelled
+  cancelled,
+  waitingPayment,
 }
 
 extension OrderStatusX on OrderStatus {
@@ -58,6 +59,8 @@ extension OrderStatusX on OrderStatus {
   bool get isDelivered => this == OrderStatus.delivered;
 
   bool get isCancelled => this == OrderStatus.cancelled;
+
+  bool get isWaitingPayment => this == OrderStatus.waitingPayment;
 }
 
 OrderStatus getStatusById(int id) {
@@ -72,6 +75,8 @@ OrderStatus getStatusById(int id) {
       return OrderStatus.atTheCourier;
     case 5:
       return OrderStatus.delivered;
+    case 7:
+      return OrderStatus.waitingPayment;
     default:
       return OrderStatus.cancelled;
   }

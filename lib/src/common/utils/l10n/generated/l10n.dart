@@ -1660,6 +1660,16 @@ class S {
     );
   }
 
+  /// `Оплата банковской картой`
+  String get card_pay {
+    return Intl.message(
+      'Оплата банковской картой',
+      name: 'card_pay',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время.`
   String get write_message {
     return Intl.message(
@@ -1685,6 +1695,36 @@ class S {
     return Intl.message(
       'Здравствуйте, я хочу удалить свой аккаунт. Пожалуйста, удалите мой аккаунт.\n\nМой номер: ',
       name: 'delete_account_email_body',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `НЕТ В НАЛИЧИИ`
+  String get out_stock {
+    return Intl.message(
+      'НЕТ В НАЛИЧИИ',
+      name: 'out_stock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Что-то пошло не так, попробуйте еще раз`
+  String get errorPlsAgain {
+    return Intl.message(
+      'Что-то пошло не так, попробуйте еще раз',
+      name: 'errorPlsAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Оплата не прошла или была отменена. Попробуйте снова.`
+  String get payFailed {
+    return Intl.message(
+      'Оплата не прошла или была отменена. Попробуйте снова.',
+      name: 'payFailed',
       desc: '',
       args: [],
     );

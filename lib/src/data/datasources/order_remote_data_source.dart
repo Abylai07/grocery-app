@@ -3,6 +3,7 @@ import 'package:abricoz_app/src/domain/entity/order/delivery_time_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
 import 'package:abricoz_app/src/domain/entity/product/pagination_entity.dart';
+import 'package:abricoz_app/src/domain/usecase/order/payment_use_case.dart';
 import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dio/dio.dart';
@@ -29,6 +30,8 @@ abstract class OrderRemoteDataSource {
   Future<OrderHistoryEntity> fetchOrderById(PathParams params);
 
   Future<bool> cancelOrder(PathParams params);
+
+  Future<String> getPaymentLink(PaymentParams params);
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -178,6 +181,23 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
       if (response.statusCode == 200) {
         return OrderHistoryModel.fromJson(response.data['data']);
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<String> getPaymentLink(PaymentParams params) async {
+    try {
+      final response = await api.dio.get(
+        '${host}order/payment-link/${params.invoiceId}',
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['data']['invoice_url'];
       } else {
         throw ServerException();
       }

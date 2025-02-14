@@ -20,6 +20,7 @@ import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../get_it_sl.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../profile/bloc/address_bloc/address_cubit.dart';
+import '../bloc/payment_type_bloc.dart';
 import '../widgets/select_payment_type.dart';
 
 @RoutePage()
@@ -70,7 +71,7 @@ class DeliveryTimeView extends StatelessWidget {
       if (inputDate == today) {
         return S.of(context).today;
       } else if (inputDate == tomorrow) {
-        return  S.of(context).tomorrow;
+        return S.of(context).tomorrow;
       } else {
         return '${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}';
       }
@@ -106,10 +107,13 @@ class DeliveryTimeView extends StatelessWidget {
                           ? S.of(context).selectAddressPlease
                           : S.of(context).selectTimePlease);
                 } else {
+                  final paymentType =
+                      context.read<PaymentTypeBloc>().state.getPaymentTypeId();
                   context.read<OrderCubit>().createOrder(
                         time: dateTime,
                         addressId: addressId,
                         products: products,
+                        paymentTypeId: paymentType,
                       );
                 }
               },
@@ -207,8 +211,11 @@ class DeliveryTimeView extends StatelessWidget {
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                bool isSelected = state.entity?[index].id ==
-                                    state.selectTime?.id;
+                                bool isSelected = (state.entity?[index].id ==
+                                        state.selectTime?.id) &&
+                                    (state.entity?[index].date ==
+                                        state.selectTime?.date);
+
                                 return GestureDetector(
                                   onTap: () {
                                     context
@@ -228,7 +235,8 @@ class DeliveryTimeView extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           state.entity?[index].name ?? '',
@@ -277,31 +285,39 @@ class DeliveryTimeView extends StatelessWidget {
                       ),
                     ),
                     builder: (context) {
-                      return const SelectPaymentType();
+                      return const SelectPaymentWidget();
                     });
               },
-              child: Container(
-                margin: const EdgeInsets.only(top: 8, bottom: 24),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: AppColors.lightGrey,
-                    )),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(AppAssets.cash),
-                    12.width,
-                    Expanded(
-                      child: Text(
-                        S.of(context).cashToCourier,
-                        style: AppTextStyle.bodyMedium,
-                      ),
+              child: BlocBuilder<PaymentTypeBloc, PaymentTypeState>(
+                builder: (context, state) {
+                  return Container(
+                    margin: const EdgeInsets.only(top: 8, bottom: 24),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 16),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppColors.lightGrey,
+                        )),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(state.selectedPaymentType.isCash
+                            ? AppAssets.cash
+                            : AppAssets.card),
+                        12.width,
+                        Expanded(
+                          child: Text(
+                            state.selectedPaymentType.isCash
+                                ? S.of(context).cashToCourier
+                                : S.of(context).card_pay,
+                            style: AppTextStyle.bodyMedium,
+                          ),
+                        ),
+                        SvgPicture.asset(AppAssets.arrowNext)
+                      ],
                     ),
-                    SvgPicture.asset(AppAssets.arrowNext)
-                  ],
-                ),
+                  );
+                },
               ),
             ),
             Row(

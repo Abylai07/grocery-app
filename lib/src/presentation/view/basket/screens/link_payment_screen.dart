@@ -1,29 +1,31 @@
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
 import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
+import 'package:abricoz_app/src/presentation/widgets/snack_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import '../../../../common/app_styles/assets.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../widgets/custom_app_bar.dart';
 
 @RoutePage()
-class PaymentRoute extends StatefulWidget {
+class LinkPaymentScreen extends StatefulWidget {
   final String type;
   final String url;
-  const PaymentRoute({
+  const LinkPaymentScreen({
     super.key,
     required this.url,
     required this.type,
   });
 
   @override
-  State<PaymentRoute> createState() => _PaymentRouteState();
+  State<LinkPaymentScreen> createState() => _LinkPaymentScreenState();
 }
 
-class _PaymentRouteState extends State<PaymentRoute> {
+class _LinkPaymentScreenState extends State<LinkPaymentScreen> {
   late InAppWebViewController webViewController;
   bool isLoading = true;
 
@@ -49,18 +51,18 @@ class _PaymentRouteState extends State<PaymentRoute> {
               );
             },
             onLoadStart: (controller, url) {
-              if (url
-                  .toString()
-                  .contains('https://shymbulak-pay-success.kz/')) {
-                AutoRouter.of(context).replace(const HomeRoute());
+              if (url.toString().contains('abricos-success-pay.kz')) {
                 BlocProvider.of<BasketBloc>(context)
                     .add(const DeleteAllBasket());
-              } else if (url
-                  .toString()
-                  .contains('https://shymbulak-pay-error.kz/')) {
-                showErrorSnackBar(context, S.of(context).somethingError);
-                AutoRouter.of(context)
-                    .popUntil((route) => route.settings.name == HomeRoute.name);
+                AutoRouter.of(context).maybePop();
+                showSnackBar(context, S.of(context).thanksForOrder);
+              } else if (url.toString().contains('abricos-failure-pay.kz')) {
+                AutoRouter.of(context).maybePop();
+                showSnackBar(
+                  context,
+                  S.of(context).payFailed,
+                  image: AppAssets.cancel,
+                );
               }
             },
             onLoadStop: (controller, url) async {

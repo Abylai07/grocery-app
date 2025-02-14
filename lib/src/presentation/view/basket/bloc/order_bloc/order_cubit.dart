@@ -21,6 +21,7 @@ class OrderCubit extends Cubit<OrderState> {
     required DeliveryTimeEntity? time,
     required int? addressId,
     required List<ProductHiveModel> products,
+    required int paymentTypeId,
   }) async {
     emit(const OrderState(status: CubitStatus.loading));
 
@@ -33,7 +34,7 @@ class OrderCubit extends Cubit<OrderState> {
 
     Map<String, dynamic> data = {
       "delivery_interval_id": time?.id,
-      "payment_type_id": 1,
+      "payment_type_id": paymentTypeId,
       "address_id": addressId,
       "delivery_date": getServerDate(time?.date),
       "products": productMap

@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Вы уверены, что хотите отменить заказ?"),
         "canceled": MessageLookupByLibrary.simpleMessage("Отменён"),
         "carbohydrates": MessageLookupByLibrary.simpleMessage("углеводы"),
+        "card_pay":
+            MessageLookupByLibrary.simpleMessage("Оплата банковской картой"),
         "cart_update":
             MessageLookupByLibrary.simpleMessage("Обновление корзины"),
         "carts": MessageLookupByLibrary.simpleMessage("Карты"),
@@ -120,6 +122,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Введите номер телефона для продолжения"),
         "entrance": MessageLookupByLibrary.simpleMessage("Подъезд"),
+        "errorPlsAgain": MessageLookupByLibrary.simpleMessage(
+            "Что-то пошло не так, попробуйте еще раз"),
         "error_message": MessageLookupByLibrary.simpleMessage(
             "Извините, произошла ошибка. Мы уже работаем над её исправлением. Попробуйте ещё раз позже."),
         "fats": MessageLookupByLibrary.simpleMessage("жиры"),
@@ -194,6 +198,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "ourProduct": MessageLookupByLibrary.simpleMessage("Наши продукты"),
         "out_of_stock":
             MessageLookupByLibrary.simpleMessage("Товара нет в наличии"),
+        "out_stock": MessageLookupByLibrary.simpleMessage("НЕТ В НАЛИЧИИ"),
+        "payFailed": MessageLookupByLibrary.simpleMessage(
+            "Оплата не прошла или была отменена. Попробуйте снова."),
         "payOrder": MessageLookupByLibrary.simpleMessage("Оплатить заказ"),
         "paySum": MessageLookupByLibrary.simpleMessage("Сумма к оплате"),
         "payTime": m2,

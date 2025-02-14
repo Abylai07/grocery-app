@@ -24,6 +24,7 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDiscount = isDiscountFunc(product.priceWithDiscount, product.price);
+    bool isActive = (product.amount ?? 0) > 0;
 
     return GestureDetector(
       onTap: () {
@@ -59,29 +60,51 @@ class ProductWidget extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: product.photoUrl?.isNotEmpty == true
-                            ? CachedNetworkImage(
-                                imageUrl: product.photoUrl!,
-                                fit: BoxFit.cover,
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        const ShimmerWidget(
-                                  width: double.infinity,
-                                  height: 177,
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: product.photoUrl?.isNotEmpty == true
+                                ? CachedNetworkImage(
+                                    imageUrl: product.photoUrl!,
+                                    fit: BoxFit.cover,
+                                    progressIndicatorBuilder:
+                                        (context, url, downloadProgress) =>
+                                            const ShimmerWidget(
+                                      width: double.infinity,
+                                      height: 177,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  )
+                                : Image.asset(AppAssets.banner),
+                          ),
+                          Visibility(
+                            visible: !isActive,
+                            child: Container(
+                              color: AppColors.gray,
+                              width: double.infinity,
+                              child: Text(
+                                S.of(context).out_stock,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyle.labelSmall.copyWith(
+                                  color: const Color(0xFF606060),
+                                  fontWeight: FontWeight.w500,
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              )
-                            : Image.asset(AppAssets.banner),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                       Positioned(
                         top: 0,
                         right: 0,
                         child: BlocBuilder<FavoriteCubit, FavoriteState>(
                           builder: (context, state) {
-                            bool isFavorite = state.entity?.any((element) => element.id == product.id) ?? false;
+                            bool isFavorite = state.entity?.any(
+                                    (element) => element.id == product.id) ??
+                                false;
                             return IconButton(
                               onPressed: () {
                                 if (SharedPrefs().getAccessToken() == null) {
@@ -89,10 +112,13 @@ class ProductWidget extends StatelessWidget {
                                 } else {
                                   context
                                       .read<FavoriteCubit>()
-                                      .storeOrDeleteFavorite(isFavorite, product);
+                                      .storeOrDeleteFavorite(
+                                          isFavorite, product);
                                 }
                               },
-                              icon: SvgPicture.asset(isFavorite ? AppAssets.favoriteFill : AppAssets.favorite),
+                              icon: SvgPicture.asset(isFavorite
+                                  ? AppAssets.favoriteFill
+                                  : AppAssets.favorite),
                             );
                           },
                         ),
@@ -149,7 +175,7 @@ class ProductWidget extends StatelessWidget {
             ),
             BlocBuilder<BasketButtonBloc, BasketButtonState>(
               builder: (context, state) {
-                return state.inBasket
+                return state.inBasket && isActive
                     ? Container(
                         height: 40,
                         width: double.infinity,
@@ -172,7 +198,9 @@ class ProductWidget extends StatelessWidget {
                                   context
                                       .read<BasketButtonBloc>()
                                       .add(DeleteAtBasket(product.id));
-                                  context.read<BasketBloc>().add(const RefreshBasket());
+                                  context
+                                      .read<BasketBloc>()
+                                      .add(const RefreshBasket());
                                 }
                               },
                             ),
@@ -191,27 +219,43 @@ class ProductWidget extends StatelessWidget {
                           ],
                         ),
                       )
-                    : InkWell(
-                        onTap: () {
-                          context
-                              .read<BasketButtonBloc>()
-                              .add(AddToBasket(product));
-                          context.read<BasketBloc>().add(const RefreshBasket());
-                        },
-                        child: Container(
-                          height: 40,
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            S.of(context).toBasket,
-                            style: AppTextStyle.bodyMedium,
-                          ),
-                        ),
-                      );
+                    : isActive
+                        ? InkWell(
+                            onTap: () {
+                              context
+                                  .read<BasketButtonBloc>()
+                                  .add(AddToBasket(product));
+                              context
+                                  .read<BasketBloc>()
+                                  .add(const RefreshBasket());
+                            },
+                            child: Container(
+                              height: 40,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                S.of(context).toBasket,
+                                style: AppTextStyle.bodyMedium,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: 40,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: AppColors.grayContainer,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              S.of(context).notActive,
+                              style: AppTextStyle.bodyMedium,
+                            ),
+                          );
               },
             )
           ],
