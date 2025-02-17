@@ -149,6 +149,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfileScreen(),
       );
     },
+    SaveCardRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SaveCardScreen(),
+      );
+    },
     SearchedProductRoute.name: (routeData) {
       final args = routeData.argsAs<SearchedProductRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -613,6 +619,20 @@ class ProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SaveCardScreen]
+class SaveCardRoute extends PageRouteInfo<void> {
+  const SaveCardRoute({List<PageRouteInfo>? children})
+      : super(
+          SaveCardRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SaveCardRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

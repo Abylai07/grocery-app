@@ -23,7 +23,7 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> signInCode(params) {
+  Future<Either<Failure, UserEntity>> signInCode(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.signInCode(params));
   }

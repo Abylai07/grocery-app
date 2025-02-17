@@ -45,12 +45,19 @@ class SingInCubit extends Cubit<SignInState> {
           message: l.message,
         ),
         (r) {
-          final data = r['data'];
-          SharedPrefs().setAccessToken(data['token']);
+          final data = r;
+          SharedPrefs().setId(r.id.toString());
           SharedPrefs().setPhone(number.trim());
-          bool needName = data['user']['firstname'] == null || data['user']['lastname'] == null;
+          bool needName = data.firstname == null || data.lastname == null;
           if (!needName) {
-            SharedPrefs().setFullName('${data['user']['firstname']} ${data['user']['lastname']}');
+            SharedPrefs().setFullName('${data.firstname} ${data.lastname}');
+          }
+          if (r.roles?.isNotEmpty == true) {
+            List<String> roles = [];
+            for (final item in r.roles!) {
+              roles.add(item.name);
+            }
+            SharedPrefs().setRoles(roles);
           }
           return SignInState(
             status: needName

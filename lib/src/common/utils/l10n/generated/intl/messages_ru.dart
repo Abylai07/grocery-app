@@ -231,6 +231,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "removed_products": MessageLookupByLibrary.simpleMessage(
             "Товары, которых нет на складе:"),
         "save": MessageLookupByLibrary.simpleMessage("Сохранить"),
+        "saveCard": MessageLookupByLibrary.simpleMessage("Сохранение карты"),
+        "saveCardSuccess": MessageLookupByLibrary.simpleMessage(
+            "Данные карты успешно сохранены"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Поиск товара"),
         "select": MessageLookupByLibrary.simpleMessage("Выбрать адрес"),
         "selectAddress":
@@ -258,6 +261,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "tomorrow": MessageLookupByLibrary.simpleMessage("Завтра"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Итоговая сумма"),
         "try_again": MessageLookupByLibrary.simpleMessage("Попробуйте снова"),
+        "update_available":
+            MessageLookupByLibrary.simpleMessage("Доступно обновление"),
+        "update_button":
+            MessageLookupByLibrary.simpleMessage("Обновить приложение"),
+        "update_message": MessageLookupByLibrary.simpleMessage(
+            "В Abricoz новые функции и улучшения. Обновитесь, чтобы не пропустить важное!"),
         "userAgre":
             MessageLookupByLibrary.simpleMessage("Пользовательское соглашение"),
         "userAgreement": MessageLookupByLibrary.simpleMessage(

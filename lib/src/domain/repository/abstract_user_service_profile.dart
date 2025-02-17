@@ -12,7 +12,7 @@ abstract class AbstractUserServiceRepository {
 
   Future<Either<Failure, Map<String, dynamic>>> signInPhone(params);
 
-  Future<Either<Failure, Map<String, dynamic>>> signInCode(params);
+  Future<Either<Failure, UserEntity>> signInCode(params);
 
   Future<Either<Failure, UserEntity>> setName(params);
 

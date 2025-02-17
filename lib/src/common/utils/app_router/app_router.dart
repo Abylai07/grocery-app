@@ -17,6 +17,7 @@ import '../../../presentation/view/basket/basket_screen.dart';
 import '../../../presentation/view/basket/screens/link_payment_screen.dart';
 import '../../../presentation/view/basket/screens/make_order_screen.dart';
 import '../../../presentation/view/basket/screens/payment_screen.dart';
+import '../../../presentation/view/basket/screens/save_card_screen.dart';
 import '../../../presentation/view/category/sub_category_screen.dart';
 import '../../../presentation/view/favorite/favorite_screen.dart';
 import '../../../presentation/view/home/home_screen.dart';
@@ -61,5 +62,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: MapAddressRoute.page),
         AutoRoute(page: InformationRoute.page),
         AutoRoute(page: LinkPaymentRoute.page),
+        AutoRoute(page: SaveCardRoute.page),
       ];
 }

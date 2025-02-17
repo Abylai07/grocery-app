@@ -225,6 +225,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "removed_products": MessageLookupByLibrary.simpleMessage(
             "Products that are out of stock:"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "saveCard": MessageLookupByLibrary.simpleMessage("Saving the card"),
+        "saveCardSuccess": MessageLookupByLibrary.simpleMessage(
+            "The card data has been saved successfully"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Search for item"),
         "select": MessageLookupByLibrary.simpleMessage("Select address"),
         "selectAddress":
@@ -252,6 +255,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "tomorrow": MessageLookupByLibrary.simpleMessage("Tomorrow"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Total sum"),
         "try_again": MessageLookupByLibrary.simpleMessage("Try again"),
+        "update_available":
+            MessageLookupByLibrary.simpleMessage("Update available"),
+        "update_button": MessageLookupByLibrary.simpleMessage("Update the app"),
+        "update_message": MessageLookupByLibrary.simpleMessage(
+            "New features and improvements in Abricoz. Update now to stay up to date!"),
         "userAgre": MessageLookupByLibrary.simpleMessage("User Agreement"),
         "userAgreement": MessageLookupByLibrary.simpleMessage("User Agreement"),
         "version": MessageLookupByLibrary.simpleMessage("Version"),

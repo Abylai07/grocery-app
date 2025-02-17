@@ -21,7 +21,7 @@ class SharedPrefs {
   static const _fullName = '_fullName';
   static const _cityName = '_cityName';
   static const _cityId = '_cityId';
-  static const _email = '_email';
+  static const _roles = '_roles';
   static const _appVersion = '_appVersion';
   static const _lightTheme = '_lightTheme';
   static const _setThemeAuto = '_setThemeAuto';
@@ -127,12 +127,12 @@ class SharedPrefs {
     return _getValue(_cityId);
   }
 
-  void setEmail(String? value) {
-    _setValue(_email, value);
+  void setRoles(List<String>? value) {
+    _setValue(_roles, value);
   }
 
-  String? getEmail() {
-    return _getValue(_email);
+  List<String>? getRoles() {
+    return _getValue(_roles);
   }
 
   void setLightTheme([bool v = true]) => _setValue(_lightTheme, v);

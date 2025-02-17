@@ -231,6 +231,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "removed_products":
             MessageLookupByLibrary.simpleMessage("Қоймада жоқ тауарлар:"),
         "save": MessageLookupByLibrary.simpleMessage("Сақтау"),
+        "saveCard": MessageLookupByLibrary.simpleMessage("Картаны сақтау"),
+        "saveCardSuccess": MessageLookupByLibrary.simpleMessage(
+            "Карта деректері сәтті сақталды"),
         "searchItem": MessageLookupByLibrary.simpleMessage("Тауарды іздеу"),
         "select": MessageLookupByLibrary.simpleMessage("Мекенжайды таңдау"),
         "selectAddress": MessageLookupByLibrary.simpleMessage(
@@ -258,6 +261,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "tomorrow": MessageLookupByLibrary.simpleMessage("Ертең"),
         "totalSum": MessageLookupByLibrary.simpleMessage("Жалпы сома"),
         "try_again": MessageLookupByLibrary.simpleMessage("Қайтадан көріңіз"),
+        "update_available":
+            MessageLookupByLibrary.simpleMessage("Жаңарту қол жетімді"),
+        "update_button":
+            MessageLookupByLibrary.simpleMessage("Қосымшаны жаңарту"),
+        "update_message": MessageLookupByLibrary.simpleMessage(
+            "Abricoz-те жаңа мүмкіндіктер мен жетілдірулер. Маңызды нәрселерді жіберіп алмау үшін жаңартыңыз!"),
         "userAgre":
             MessageLookupByLibrary.simpleMessage("Пайдаланушы келісімі"),
         "userAgreement":

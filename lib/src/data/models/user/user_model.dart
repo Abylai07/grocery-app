@@ -8,7 +8,7 @@ class UserModel extends UserEntity {
     super.lastname,
     required super.phone,
     super.email,
-    required super.isEmailVerified,
+    super.roles,
     required super.createdAt,
     required super.updatedAt,
   });
@@ -20,7 +20,9 @@ class UserModel extends UserEntity {
       lastname: json['lastname'],
       phone: json['phone'],
       email: json['email'],
-      isEmailVerified: json['email_verified_at'] != null,
+      roles: (json['roles'] as List)
+          .map((role) => RoleEntity.fromJson(role))
+          .toList(),
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
     );
@@ -33,9 +35,9 @@ class UserModel extends UserEntity {
       'lastname': lastname,
       'phone': phone,
       'email': email,
-      'email_verified_at': isEmailVerified ? updatedAt.toIso8601String() : null,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
+      'roles': roles?.map((role) => role.toJson()).toList(),
     };
   }
 }

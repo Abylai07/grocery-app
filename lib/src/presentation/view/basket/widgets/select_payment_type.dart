@@ -1,4 +1,7 @@
 import 'package:abricoz_app/src/common/enums.dart';
+import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +19,7 @@ class SelectPaymentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> roles = SharedPrefs().getRoles() ?? [];
     return SingleChildScrollView(
       child: SafeArea(
         child: Padding(
@@ -41,34 +45,40 @@ class SelectPaymentWidget extends StatelessWidget {
                     ],
                   ),
                   16.height,
-                  InkWell(
-                    onTap: () {
-                      context.read<PaymentTypeBloc>().add(const SelectPaymentType(PaymentType.cash));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(AppAssets.cash),
-                          12.width,
-                          Expanded(
-                              child: Text(
-                            S.of(context).cashToCourier,
-                            style: AppTextStyle.bodyLarge,
-                          )),
-                          if(state.selectedPaymentType.isCash)
-                          SvgPicture.asset(AppAssets.selected),
-                        ],
+                  if (roles.contains('admin')) ...[
+                    InkWell(
+                      onTap: () {
+                        context
+                            .read<PaymentTypeBloc>()
+                            .add(const SelectPaymentType(PaymentType.cash));
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(AppAssets.cash),
+                            12.width,
+                            Expanded(
+                                child: Text(
+                              S.of(context).cashToCourier,
+                              style: AppTextStyle.bodyLarge,
+                            )),
+                            if (state.selectedPaymentType.isCash)
+                              SvgPicture.asset(AppAssets.selected),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const Divider(
-                    height: 16,
-                    color: AppColors.grayContainer,
-                  ),
+                    const Divider(
+                      height: 16,
+                      color: AppColors.grayContainer,
+                    ),
+                  ],
                   InkWell(
                     onTap: () {
-                      context.read<PaymentTypeBloc>().add(const SelectPaymentType(PaymentType.card));
+                      context
+                          .read<PaymentTypeBloc>()
+                          .add(const SelectPaymentType(PaymentType.card));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -82,7 +92,7 @@ class SelectPaymentWidget extends StatelessWidget {
                               style: AppTextStyle.bodyLarge,
                             ),
                           ),
-                          if(state.selectedPaymentType.isCard)
+                          if (state.selectedPaymentType.isCard)
                             SvgPicture.asset(AppAssets.selected),
                         ],
                       ),
@@ -92,29 +102,26 @@ class SelectPaymentWidget extends StatelessWidget {
                     height: 32,
                     color: AppColors.grayContainer,
                   ),
-                  // Opacity(
-                  //   opacity: 0.5,
-                  //   child: TextButton(
-                  //       onPressed: () {},
-                  //       child: Row(
-                  //         mainAxisAlignment:
-                  //         MainAxisAlignment.center,
-                  //         children: [
-                  //           Text(
-                  //             S.of(context).addNewCard,
-                  //             style:
-                  //             AppTextStyle.bodyMedium.copyWith(
-                  //               color: AppColors.main,
-                  //             ),
-                  //           ),
-                  //           4.width,
-                  //           const Icon(
-                  //             Icons.add,
-                  //             color: AppColors.main,
-                  //           )
-                  //         ],
-                  //       )),
-                  // )
+                  TextButton(
+                      onPressed: () {
+                        context.router.push(const SaveCardRoute());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            S.of(context).addNewCard,
+                            style: AppTextStyle.bodyMedium.copyWith(
+                              color: AppColors.main,
+                            ),
+                          ),
+                          4.width,
+                          const Icon(
+                            Icons.add,
+                            color: AppColors.main,
+                          )
+                        ],
+                      ))
                 ],
               );
             },

@@ -1729,6 +1729,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Сохранение карты`
+  String get saveCard {
+    return Intl.message(
+      'Сохранение карты',
+      name: 'saveCard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Данные карты успешно сохранены`
+  String get saveCardSuccess {
+    return Intl.message(
+      'Данные карты успешно сохранены',
+      name: 'saveCardSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Доступно обновление`
+  String get update_available {
+    return Intl.message(
+      'Доступно обновление',
+      name: 'update_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `В Abricoz новые функции и улучшения. Обновитесь, чтобы не пропустить важное!`
+  String get update_message {
+    return Intl.message(
+      'В Abricoz новые функции и улучшения. Обновитесь, чтобы не пропустить важное!',
+      name: 'update_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Обновить приложение`
+  String get update_button {
+    return Intl.message(
+      'Обновить приложение',
+      name: 'update_button',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -11,6 +11,7 @@ import 'package:dio/dio.dart';
 import '../../common/api.dart';
 import '../../common/constants.dart' as constants;
 import '../../common/constants.dart';
+import '../../common/utils/shared_preference.dart';
 import '../../core/error/exception.dart';
 import '../../domain/entity/product/product_entity.dart';
 import '../../domain/entity/user/user_entity.dart';
@@ -25,7 +26,7 @@ import '../models/user/user_model.dart';
 abstract class UserRemoteDataSource {
   Future<Map<String, dynamic>> signInPhone(MapParams params);
 
-  Future<Map<String, dynamic>> signInCode(MapParams params);
+  Future<UserEntity> signInCode(MapParams params);
 
   Future<UserEntity> setName(MapParams params);
 
@@ -78,7 +79,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<Map<String, dynamic>> signInCode(MapParams params) async {
+  Future<UserEntity> signInCode(MapParams params) async {
     try {
       final response = await api.dio.post(
         '${constants.host}auth/login',
@@ -94,7 +95,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         Map<String, dynamic> result = response.data is Map
             ? response.data
             : deleteNotNeedPart(response.data);
-        return result;
+        SharedPrefs().setAccessToken(result['data']['token']);
+        return UserModel.fromJson(result['data']['user']);
       } else {
         throw ServerException();
       }

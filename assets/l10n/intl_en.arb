@@ -194,6 +194,11 @@
   "delete_account_email_body": "Hello, I would like to delete my account. Please delete my account.\n\nMy number: ",
   "out_stock": "OUT OF STOCK",
   "errorPlsAgain": "Something went wrong, try again",
-  "payFailed": "Payment failed or was canceled. Please try again."
+  "payFailed": "Payment failed or was canceled. Please try again.",
+  "saveCard": "Saving the card",
+  "saveCardSuccess": "The card data has been saved successfully",
+  "update_available": "Update available",
+  "update_message": "New features and improvements in Abricoz. Update now to stay up to date!",
+  "update_button": "Update the app"
 }
 

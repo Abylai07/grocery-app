@@ -40,7 +40,7 @@ class PaymentTypeState extends Equatable {
 
 // Bloc Implementation
 class PaymentTypeBloc extends Bloc<PaymentEvent, PaymentTypeState> {
-  PaymentTypeBloc() : super(const PaymentTypeState(selectedPaymentType: PaymentType.cash)) {
+  PaymentTypeBloc() : super(const PaymentTypeState(selectedPaymentType: PaymentType.card)) {
     on<SelectPaymentType>((event, emit) {
       emit(PaymentTypeState(selectedPaymentType: event.paymentType));
     });
