@@ -10,7 +10,8 @@ import '../../../../common/app_styles/assets.dart';
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/app_styles/text_styles.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
-import '../bloc/payment_type_bloc.dart';
+import '../../../../domain/entity/user/card_entity.dart';
+import '../../profile/bloc/my_cards/cards_cubit.dart';
 
 class SelectPaymentWidget extends StatelessWidget {
   const SelectPaymentWidget({
@@ -19,112 +20,166 @@ class SelectPaymentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> roles = SharedPrefs().getRoles() ?? [];
+    List roles = SharedPrefs().getRoles() ?? [];
     return SingleChildScrollView(
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: BlocBuilder<PaymentTypeBloc, PaymentTypeState>(
-            builder: (context, state) {
-              return Column(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        S.of(context).paymentType,
-                        style: AppTextStyle.titleBold,
-                      ),
-                      InkWell(
-                        onTap: () => Navigator.pop(context),
-                        child: const Icon(
-                          Icons.close,
-                          color: AppColors.textGray,
-                        ),
-                      )
-                    ],
+                  Text(
+                    S.of(context).paymentType,
+                    style: AppTextStyle.titleBold,
                   ),
-                  16.height,
-                  if (roles.contains('admin')) ...[
-                    InkWell(
-                      onTap: () {
-                        context
-                            .read<PaymentTypeBloc>()
-                            .add(const SelectPaymentType(PaymentType.cash));
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(AppAssets.cash),
-                            12.width,
-                            Expanded(
-                                child: Text(
-                              S.of(context).cashToCourier,
-                              style: AppTextStyle.bodyLarge,
-                            )),
-                            if (state.selectedPaymentType.isCash)
-                              SvgPicture.asset(AppAssets.selected),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Divider(
-                      height: 16,
-                      color: AppColors.grayContainer,
-                    ),
-                  ],
                   InkWell(
-                    onTap: () {
-                      context
-                          .read<PaymentTypeBloc>()
-                          .add(const SelectPaymentType(PaymentType.card));
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(AppAssets.card),
-                          12.width,
-                          Expanded(
-                            child: Text(
-                              S.of(context).card_pay,
-                              style: AppTextStyle.bodyLarge,
-                            ),
-                          ),
-                          if (state.selectedPaymentType.isCard)
-                            SvgPicture.asset(AppAssets.selected),
-                        ],
-                      ),
+                    onTap: () => Navigator.pop(context),
+                    child: const Icon(
+                      Icons.close,
+                      color: AppColors.textGray,
                     ),
-                  ),
-                  const Divider(
-                    height: 32,
-                    color: AppColors.grayContainer,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        context.router.push(const SaveCardRoute());
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            S.of(context).addNewCard,
-                            style: AppTextStyle.bodyMedium.copyWith(
-                              color: AppColors.main,
+                  )
+                ],
+              ),
+              16.height,
+              BlocBuilder<CardsCubit, CardsState>(
+                builder: (context, state) {
+                  if (state.status.isSuccess) {
+                    List<CardEntity> cards = state.entity ?? [];
+                    return Column(
+                      children: [
+                        if (roles.contains('admin')) ...[
+                          InkWell(
+                            onTap: () {
+                              context
+                                  .read<CardsCubit>()
+                                  .selectPaymentType(PaymentType.cash);
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(AppAssets.cash),
+                                  12.width,
+                                  Expanded(
+                                      child: Text(
+                                    S.of(context).cashToCourier,
+                                    style: AppTextStyle.bodyLarge,
+                                  )),
+                                  if (state.paymentType.isCash)
+                                    SvgPicture.asset(AppAssets.selected),
+                                ],
+                              ),
                             ),
                           ),
-                          4.width,
-                          const Icon(
-                            Icons.add,
-                            color: AppColors.main,
-                          )
+                          const Divider(
+                            height: 16,
+                            color: AppColors.grayContainer,
+                          ),
                         ],
-                      ))
-                ],
-              );
-            },
+                        cards.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: cards.length,
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  bool isSelected = state.paymentType.isCard &&
+                                      state.selectCard?.id == cards[index].id;
+                                  return Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          context
+                                              .read<CardsCubit>()
+                                              .selectCard(cards[index]);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0),
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(AppAssets.card),
+                                              12.width,
+                                              Expanded(
+                                                  child: RichText(
+                                                text: TextSpan(
+                                                  text: cards[index].issuer,
+                                                  style: AppTextStyle.bodyLarge,
+                                                  children: [
+                                                    TextSpan(
+                                                      text: ' ~ ${cards[index].lastNumbers}',
+                                                      style: AppTextStyle.bodyLarge
+                                                          .copyWith(
+                                                              color:
+                                                                  AppColors.gray),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
+                                              if (isSelected)
+                                                SvgPicture.asset(
+                                                    AppAssets.selected),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const Divider(
+                                        height: 16,
+                                        color: AppColors.grayContainer,
+                                      ),
+                                    ],
+                                  );
+                                })
+                            : Column(
+                                children: [
+                                  Image.asset(
+                                    AppAssets.noCard,
+                                    height: 100,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(top: 8.0, bottom: 12),
+                                    child: Text(
+                                      S.of(context).no_saved_cards,
+                                      style: AppTextStyle.titleMedium
+                                          .copyWith(fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        TextButton(
+                            onPressed: () {
+                              context.router.push(const MyCardsRoute());
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  S.of(context).addNewCard,
+                                  style: AppTextStyle.bodyMedium.copyWith(
+                                    color: AppColors.main,
+                                  ),
+                                ),
+                                4.width,
+                                const Icon(
+                                  Icons.add,
+                                  color: AppColors.main,
+                                )
+                              ],
+                            ))
+                      ],
+                    );
+                  } else if (state.status.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),

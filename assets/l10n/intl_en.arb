@@ -199,6 +199,12 @@
   "saveCardSuccess": "The card data has been saved successfully",
   "update_available": "Update available",
   "update_message": "New features and improvements in Abricoz. Update now to stay up to date!",
-  "update_button": "Update the app"
+  "update_button": "Update the app",
+  "your_cards": "Your cards",
+  "add_new_card": "Add a new card",
+  "max_number_of_cards": "Maximum number of cards",
+  "no_saved_cards": "You have no saved cards",
+  "cards_will_be_stored_here": "Your cards will be stored here",
+  "select_payment_method": "Select payment method"
 }
 

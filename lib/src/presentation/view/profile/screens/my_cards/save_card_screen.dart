@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import '../../../../common/app_styles/assets.dart';
-import '../../../../common/utils/l10n/generated/l10n.dart';
-import '../../../widgets/custom_app_bar.dart';
+import '../../../../../common/app_styles/assets.dart';
+import '../../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../../widgets/custom_app_bar.dart';
 
 @RoutePage()
 class SaveCardScreen extends StatefulWidget {

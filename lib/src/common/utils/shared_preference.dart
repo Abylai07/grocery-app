@@ -41,6 +41,7 @@ class SharedPrefs {
     _box.remove(_id);
     _box.remove(_fullName);
     _box.remove(_cityName);
+    _box.remove(_roles);
   }
 
   void setAccessToken(String? value) {
@@ -131,7 +132,7 @@ class SharedPrefs {
     _setValue(_roles, value);
   }
 
-  List<String>? getRoles() {
+  List? getRoles() {
     return _getValue(_roles);
   }
 

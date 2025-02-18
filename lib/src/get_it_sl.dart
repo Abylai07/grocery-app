@@ -25,6 +25,7 @@ import 'domain/usecase/order/order_usecase.dart';
 import 'domain/usecase/product/category_usecase.dart';
 import 'domain/usecase/product/product_usecase.dart';
 import 'domain/usecase/user/address_usecase.dart';
+import 'domain/usecase/user/cards_usecase.dart';
 import 'domain/usecase/user/city_usecase.dart';
 import 'domain/usecase/user/user_usercase.dart';
 
@@ -54,6 +55,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UserUseCase(sl()));
   sl.registerLazySingleton(() => OrderHistoryUseCase(sl()));
   sl.registerLazySingleton(() => PaymentUseCase(sl()));
+  sl.registerLazySingleton(() => CardsUseCase(sl()));
 
 
  // Remote Repositories

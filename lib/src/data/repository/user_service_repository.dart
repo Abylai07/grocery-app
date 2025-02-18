@@ -1,5 +1,6 @@
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/card_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
 import 'package:abricoz_app/src/domain/entity/user/location_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/user_entity.dart';
@@ -92,5 +93,17 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   Future<Either<Failure, List<LocationEntity>>> getCityPolygon(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.getCityPolygon(params));
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteCard(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.deleteCard(params));
+  }
+
+  @override
+  Future<Either<Failure, List<CardEntity>>> fetchMyCards() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchMyCards());
   }
 }

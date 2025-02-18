@@ -14,11 +14,13 @@ import '../../common/constants.dart';
 import '../../common/utils/shared_preference.dart';
 import '../../core/error/exception.dart';
 import '../../domain/entity/product/product_entity.dart';
+import '../../domain/entity/user/card_entity.dart';
 import '../../domain/entity/user/user_entity.dart';
 import '../../domain/usecase/product/category_usecase.dart';
 import '../models/product/product_model.dart';
 import '../models/user/address_model.dart';
 import '../models/user/banner_model.dart';
+import '../models/user/card_model.dart';
 import '../models/user/city_model.dart';
 import '../models/user/location_model.dart';
 import '../models/user/user_model.dart';
@@ -49,6 +51,10 @@ abstract class UserRemoteDataSource {
   Future<Map<String, dynamic>> deleteFavorite(PathParams params);
 
   Future<bool> deleteUser();
+
+  Future<bool> deleteCard(PathParams params);
+
+  Future<List<CardEntity>> fetchMyCards();
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -288,6 +294,42 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       if (response.statusCode == 200) {
         return (response.data['data'] as List)
             .map((e) => LocationModel.fromJson(e))
+            .toList();
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<bool> deleteCard(PathParams params) async {
+    try {
+      final response = await api.dio.delete(
+        '${host}order/user-card/delete/${params.path}',
+      );
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<List<CardEntity>> fetchMyCards() async {
+    try {
+      final response = await api.dio.get(
+        '${host}user-card/index',
+      );
+
+      if (response.statusCode == 200) {
+        return (response.data['data'] as List)
+            .map((e) => CardModel.fromJson(e))
             .toList();
       } else {
         throw ServerException();

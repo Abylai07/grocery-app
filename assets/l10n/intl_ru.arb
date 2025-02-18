@@ -191,7 +191,13 @@
   "saveCardSuccess": "Данные карты успешно сохранены",
   "update_available": "Доступно обновление",
   "update_message": "В Abricoz новые функции и улучшения. Обновитесь, чтобы не пропустить важное!",
-  "update_button": "Обновить приложение"
+  "update_button": "Обновить приложение",
+  "your_cards": "Ваши карты",
+  "add_new_card": "Добавить новую карту",
+  "max_number_of_cards": "Максимальное количество карт",
+  "no_saved_cards": "У вас нет сохранённых карт",
+  "cards_will_be_stored_here": "Ваши карты будут храниться здесь",
+  "select_payment_method": "Выберите способ оплаты"
 }
 
 

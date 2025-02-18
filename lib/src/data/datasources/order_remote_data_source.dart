@@ -3,6 +3,7 @@ import 'package:abricoz_app/src/domain/entity/order/delivery_time_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
 import 'package:abricoz_app/src/domain/entity/product/pagination_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/card_entity.dart';
 import 'package:abricoz_app/src/domain/usecase/order/payment_use_case.dart';
 import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
@@ -15,6 +16,7 @@ import '../../domain/entity/order/check_card_entity.dart';
 import '../models/order/check_card_model.dart';
 import '../models/order/order_history_model.dart';
 import '../models/order/order_model.dart';
+import '../models/user/card_model.dart';
 
 abstract class OrderRemoteDataSource {
   Future<CheckCardEntity> checkBasketItems(MapParams params);
@@ -30,6 +32,7 @@ abstract class OrderRemoteDataSource {
   Future<OrderHistoryEntity> fetchOrderById(PathParams params);
 
   Future<bool> cancelOrder(PathParams params);
+
 
   Future<String> getPaymentLink(PaymentParams params);
 }

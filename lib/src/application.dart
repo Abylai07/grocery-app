@@ -2,14 +2,13 @@ import 'package:abricoz_app/src/presentation/bloc/nav_bar_bloc.dart';
 import 'package:abricoz_app/src/presentation/bloc/remote_config_cubit.dart';
 import 'package:abricoz_app/src/presentation/bloc/search_bloc/search_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/payment_bloc/payment_cubit.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/payment_type_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/category/bloc/category_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/home/bloc/banner_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/product/bloc/search_bloc/search_product_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/my_cards/cards_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/order/order_history_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/profile/bloc/user_cubit.dart';
@@ -64,6 +63,9 @@ class _ApplicationState extends State<Application> {
         BlocProvider<FavoriteCubit>(
           create: (_) => FavoriteCubit(sl())..fetchFavorites(),
         ),
+        BlocProvider<CardsCubit>(
+          create: (_) => CardsCubit(sl())..fetchMyCards(),
+        ),
         BlocProvider<UserCubit>(
           create: (_) => UserCubit(sl()),
         ),
@@ -78,9 +80,6 @@ class _ApplicationState extends State<Application> {
         ),
         BlocProvider(
           create: (context) => OrderHistoryCubit(sl()),
-        ),
-        BlocProvider(
-          create: (context) => PaymentTypeBloc(),
         ),
         BlocProvider<RemoteConfigCubit>(
           create: (_) => RemoteConfigCubit()..startWork(),

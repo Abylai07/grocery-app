@@ -3,6 +3,8 @@
  */
 import 'dart:io';
 
+import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -88,15 +90,15 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
     if (widget.upgrader.state.debugLogging) {
       print('upgrader: build UpgradeAlert');
     }
-    if (storeVersion == null) {
-      widget.upgrader.initialize();
-    }
+    // if (storeVersion == null && !displayed) {
+    //   widget.upgrader.initialize();
+    // }
     return StreamBuilder(
       initialData: widget.upgrader.state,
       stream: widget.upgrader.stateStream,
       builder: (BuildContext context, AsyncSnapshot<UpgraderState> snapshot) {
         if ((snapshot.connectionState == ConnectionState.waiting ||
-            snapshot.connectionState == ConnectionState.active) &&
+                snapshot.connectionState == ConnectionState.active) &&
             snapshot.data != null) {
           storeVersion = snapshot.data?.versionInfo?.appStoreVersion.toString();
           if (widget.upgrader.state.debugLogging) {
@@ -112,7 +114,7 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
             if (!displayed) {
               widget.upgrader.minAppVersion = storeVersion ?? '1.0.8';
               final checkContext = widget.navigatorKey != null &&
-                  widget.navigatorKey!.currentContext != null
+                      widget.navigatorKey!.currentContext != null
                   ? widget.navigatorKey!.currentContext!
                   : context;
               checkVersion(context: checkContext);
@@ -144,19 +146,14 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
     }
     if (shouldDisplay) {
       displayed = true;
-      final appMessages = widget.upgrader.determineMessages(context);
+      // final appMessages = widget.upgrader.determineMessages(context);
 
       Future.delayed(const Duration(milliseconds: 0), () {
-        showTheDialog(
-          key: widget.dialogKey ?? const Key('upgrader_alert_dialog'),
-          context: context,
-          title: appMessages.message(UpgraderMessage.title),
-          message: widget.upgrader.body(appMessages),
-          releaseNotes:
-              shouldDisplayReleaseNotes ? widget.upgrader.releaseNotes : null,
-          barrierDismissible: widget.barrierDismissible,
-          messages: appMessages,
-        );
+        context.router.replaceAll([
+          UpgradeAppRoute(
+            onUpdate: () => onUserUpdated(context, false),
+          ),
+        ]);
       });
     }
   }

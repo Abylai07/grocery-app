@@ -17,11 +17,13 @@ import '../../../presentation/view/basket/basket_screen.dart';
 import '../../../presentation/view/basket/screens/link_payment_screen.dart';
 import '../../../presentation/view/basket/screens/make_order_screen.dart';
 import '../../../presentation/view/basket/screens/payment_screen.dart';
-import '../../../presentation/view/basket/screens/save_card_screen.dart';
+import '../../../presentation/view/profile/screens/my_cards/my_cards_screen.dart';
+import '../../../presentation/view/profile/screens/my_cards/save_card_screen.dart';
 import '../../../presentation/view/category/sub_category_screen.dart';
 import '../../../presentation/view/favorite/favorite_screen.dart';
 import '../../../presentation/view/home/home_screen.dart';
-import '../../../presentation/view/home/widgets/home_nested_screen.dart';
+import '../../../presentation/view/home/screens/home_nested_screen.dart';
+import '../../../presentation/view/home/screens/upgrade_app_screen.dart';
 import '../../../presentation/view/index_screen.dart';
 import '../../../presentation/view/product/product_screen.dart';
 import '../../../presentation/view/product/screens/searched_product_screen.dart';
@@ -63,5 +65,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: InformationRoute.page),
         AutoRoute(page: LinkPaymentRoute.page),
         AutoRoute(page: SaveCardRoute.page),
+        AutoRoute(page: UpgradeAppRoute.page),
+        AutoRoute(page: MyCardsRoute.page),
       ];
 }

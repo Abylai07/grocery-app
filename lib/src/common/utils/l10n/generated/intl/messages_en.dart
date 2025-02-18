@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNewAddress":
             MessageLookupByLibrary.simpleMessage("Add new address"),
         "addNewCard": MessageLookupByLibrary.simpleMessage("Add new card"),
+        "add_new_card": MessageLookupByLibrary.simpleMessage("Add a new card"),
         "address": MessageLookupByLibrary.simpleMessage("Addresses"),
         "addressSaveHere": MessageLookupByLibrary.simpleMessage(
             "Your addresses will be saved here"),
@@ -61,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "carbohydrates": MessageLookupByLibrary.simpleMessage("carbohydrates"),
         "card_pay":
             MessageLookupByLibrary.simpleMessage("Payment by bank card"),
+        "cards_will_be_stored_here": MessageLookupByLibrary.simpleMessage(
+            "Your cards will be stored here"),
         "cart_update": MessageLookupByLibrary.simpleMessage("Cart Update"),
         "carts": MessageLookupByLibrary.simpleMessage("Cards"),
         "cashToCourier":
@@ -160,6 +163,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "main": MessageLookupByLibrary.simpleMessage("Home"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Place order"),
         "maker": MessageLookupByLibrary.simpleMessage("Manufacturer"),
+        "max_number_of_cards":
+            MessageLookupByLibrary.simpleMessage("Maximum number of cards"),
         "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
             "Minimum order amount: 5000 KZT"),
         "mustFill":
@@ -168,6 +173,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("First name"),
         "noAddress":
             MessageLookupByLibrary.simpleMessage("You have no addresses"),
+        "no_saved_cards":
+            MessageLookupByLibrary.simpleMessage("You have no saved cards"),
         "nonAuthorizedText": MessageLookupByLibrary.simpleMessage(
             "This option is available to authorized users only"),
         "notActive": MessageLookupByLibrary.simpleMessage("Not active"),
@@ -239,6 +246,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please select a payment method"),
         "selectTimePlease": MessageLookupByLibrary.simpleMessage(
             "Please select a delivery time"),
+        "select_payment_method":
+            MessageLookupByLibrary.simpleMessage("Select payment method"),
         "sentTo": m3,
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in to account"),
         "somethingError":
@@ -270,6 +279,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "To delete your account, please contact us at info@abricoz.kz. Your request will be processed shortly."),
         "wrongCurrentPass": MessageLookupByLibrary.simpleMessage(
             "The current password is incorrect"),
-        "yourAddress": MessageLookupByLibrary.simpleMessage("Your addresses")
+        "yourAddress": MessageLookupByLibrary.simpleMessage("Your addresses"),
+        "your_cards": MessageLookupByLibrary.simpleMessage("Your cards")
       };
 }

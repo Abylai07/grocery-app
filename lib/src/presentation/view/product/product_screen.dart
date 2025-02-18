@@ -60,6 +60,7 @@ class ProductView extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
       appBar: SearchAppBar(
         title: getLocaleText(subCategory.name),
         controller: searchController,

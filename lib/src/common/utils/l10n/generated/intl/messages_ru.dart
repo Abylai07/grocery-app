@@ -38,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Добавить новый адрес"),
         "addNewCard":
             MessageLookupByLibrary.simpleMessage("Добавить новую карту"),
+        "add_new_card":
+            MessageLookupByLibrary.simpleMessage("Добавить новую карту"),
         "address": MessageLookupByLibrary.simpleMessage("Адреса"),
         "addressSaveHere": MessageLookupByLibrary.simpleMessage(
             "Ваши адреса будут храниться здесь"),
@@ -62,6 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "carbohydrates": MessageLookupByLibrary.simpleMessage("углеводы"),
         "card_pay":
             MessageLookupByLibrary.simpleMessage("Оплата банковской картой"),
+        "cards_will_be_stored_here": MessageLookupByLibrary.simpleMessage(
+            "Ваши карты будут храниться здесь"),
         "cart_update":
             MessageLookupByLibrary.simpleMessage("Обновление корзины"),
         "carts": MessageLookupByLibrary.simpleMessage("Карты"),
@@ -163,6 +167,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "main": MessageLookupByLibrary.simpleMessage("Главная"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Оформление заказа"),
         "maker": MessageLookupByLibrary.simpleMessage("Производитель"),
+        "max_number_of_cards": MessageLookupByLibrary.simpleMessage(
+            "Максимальное количество карт"),
         "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
             "Минимальная сумма заказа: 5000 тг"),
         "mustFill": MessageLookupByLibrary.simpleMessage(
@@ -170,6 +176,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
         "name": MessageLookupByLibrary.simpleMessage("Имя"),
         "noAddress": MessageLookupByLibrary.simpleMessage("У вас нет адресов"),
+        "no_saved_cards":
+            MessageLookupByLibrary.simpleMessage("У вас нет сохранённых карт"),
         "nonAuthorizedText": MessageLookupByLibrary.simpleMessage(
             "Эта опция доступна для авторизованных пользователей"),
         "notActive": MessageLookupByLibrary.simpleMessage("Неактивен"),
@@ -245,6 +253,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Выберите способ оплаты"),
         "selectTimePlease":
             MessageLookupByLibrary.simpleMessage("Выберите время доставки"),
+        "select_payment_method":
+            MessageLookupByLibrary.simpleMessage("Выберите способ оплаты"),
         "sentTo": m3,
         "signIn": MessageLookupByLibrary.simpleMessage("Вход в аккаунт"),
         "somethingError":
@@ -279,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время."),
         "wrongCurrentPass":
             MessageLookupByLibrary.simpleMessage("Текущий пароль неверен"),
-        "yourAddress": MessageLookupByLibrary.simpleMessage("Ваши адреса")
+        "yourAddress": MessageLookupByLibrary.simpleMessage("Ваши адреса"),
+        "your_cards": MessageLookupByLibrary.simpleMessage("Ваши карты")
       };
 }

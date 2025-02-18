@@ -107,6 +107,12 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    MyCardsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyCardsScreen(),
+      );
+    },
     OrderDetailRoute.name: (routeData) {
       final args = routeData.argsAs<OrderDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -178,6 +184,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: SubCategoryScreen(
           key: args.key,
           category: args.category,
+        ),
+      );
+    },
+    UpgradeAppRoute.name: (routeData) {
+      final args = routeData.argsAs<UpgradeAppRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: UpgradeAppScreen(
+          key: args.key,
+          onUpdate: args.onUpdate,
         ),
       );
     },
@@ -482,6 +498,20 @@ class MapAddressRouteArgs {
 }
 
 /// generated route for
+/// [MyCardsScreen]
+class MyCardsRoute extends PageRouteInfo<void> {
+  const MyCardsRoute({List<PageRouteInfo>? children})
+      : super(
+          MyCardsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyCardsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [OrderDetailScreen]
 class OrderDetailRoute extends PageRouteInfo<OrderDetailRouteArgs> {
   OrderDetailRoute({
@@ -724,6 +754,44 @@ class SubCategoryRouteArgs {
   @override
   String toString() {
     return 'SubCategoryRouteArgs{key: $key, category: $category}';
+  }
+}
+
+/// generated route for
+/// [UpgradeAppScreen]
+class UpgradeAppRoute extends PageRouteInfo<UpgradeAppRouteArgs> {
+  UpgradeAppRoute({
+    Key? key,
+    required dynamic Function() onUpdate,
+    List<PageRouteInfo>? children,
+  }) : super(
+          UpgradeAppRoute.name,
+          args: UpgradeAppRouteArgs(
+            key: key,
+            onUpdate: onUpdate,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'UpgradeAppRoute';
+
+  static const PageInfo<UpgradeAppRouteArgs> page =
+      PageInfo<UpgradeAppRouteArgs>(name);
+}
+
+class UpgradeAppRouteArgs {
+  const UpgradeAppRouteArgs({
+    this.key,
+    required this.onUpdate,
+  });
+
+  final Key? key;
+
+  final dynamic Function() onUpdate;
+
+  @override
+  String toString() {
+    return 'UpgradeAppRouteArgs{key: $key, onUpdate: $onUpdate}';
   }
 }
 

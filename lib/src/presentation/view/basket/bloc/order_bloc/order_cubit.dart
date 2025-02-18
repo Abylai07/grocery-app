@@ -20,6 +20,7 @@ class OrderCubit extends Cubit<OrderState> {
   void createOrder({
     required DeliveryTimeEntity? time,
     required int? addressId,
+    required int? cardId,
     required List<ProductHiveModel> products,
     required int paymentTypeId,
   }) async {
@@ -39,6 +40,10 @@ class OrderCubit extends Cubit<OrderState> {
       "delivery_date": getServerDate(time?.date),
       "products": productMap
     };
+
+    if (cardId != null) {
+      data.addAll({"card_id": cardId});
+    }
 
     final failureOrAuth = await orderUseCase.createOrder(MapParams(data));
 

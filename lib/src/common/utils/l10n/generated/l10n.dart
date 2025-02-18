@@ -1779,6 +1779,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Ваши карты`
+  String get your_cards {
+    return Intl.message(
+      'Ваши карты',
+      name: 'your_cards',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Добавить новую карту`
+  String get add_new_card {
+    return Intl.message(
+      'Добавить новую карту',
+      name: 'add_new_card',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Максимальное количество карт`
+  String get max_number_of_cards {
+    return Intl.message(
+      'Максимальное количество карт',
+      name: 'max_number_of_cards',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `У вас нет сохранённых карт`
+  String get no_saved_cards {
+    return Intl.message(
+      'У вас нет сохранённых карт',
+      name: 'no_saved_cards',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ваши карты будут храниться здесь`
+  String get cards_will_be_stored_here {
+    return Intl.message(
+      'Ваши карты будут храниться здесь',
+      name: 'cards_will_be_stored_here',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выберите способ оплаты`
+  String get select_payment_method {
+    return Intl.message(
+      'Выберите способ оплаты',
+      name: 'select_payment_method',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

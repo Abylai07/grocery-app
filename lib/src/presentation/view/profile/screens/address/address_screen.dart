@@ -145,7 +145,7 @@ class AddressScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               color: AppColors.main,
             ),
             child: Text(

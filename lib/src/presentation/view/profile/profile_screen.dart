@@ -166,6 +166,17 @@ class ProfileScreen extends StatelessWidget {
                     },
                   ),
                   ProfileElementWidget(
+                    title: S.of(context).carts,
+                    icon: AppAssets.cards,
+                    onPressed: () {
+                      if (SharedPrefs().getAccessToken() == null) {
+                        nonAuthorizeModal(context);
+                      } else {
+                        context.router.push(const MyCardsRoute());
+                      }
+                    },
+                  ),
+                  ProfileElementWidget(
                     title: S.of(context).orders,
                     icon: AppAssets.orders,
                     onPressed: () {

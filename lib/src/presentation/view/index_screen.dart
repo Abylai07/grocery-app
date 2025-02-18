@@ -45,7 +45,7 @@ class _IndexScreenState extends State<IndexScreen> {
       showLater: false,
       upgrader: Upgrader(
         durationUntilAlertAgain: const Duration(minutes: 1),
-        debugLogging: false,
+        debugLogging: true,
       ),
       child: AutoTabsRouter(
         routes: const [

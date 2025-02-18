@@ -8,6 +8,8 @@ class AppAssets {
   static const String historyEmpty = 'assets/images/history_empty.png';
   static const String location = 'assets/images/location.png';
   static const String findLocation = 'assets/images/find_location.png';
+  static const String upgradeApp = 'assets/images/upgrade_app.png';
+  static const String noCard = 'assets/images/no_card.png';
 
 
   //svg

@@ -7,6 +7,7 @@ import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket
 import 'package:abricoz_app/src/presentation/view/basket/bloc/delivery_time_bloc/delivery_time_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/basket/widgets/select_address_widget.dart';
+import 'package:abricoz_app/src/presentation/view/profile/bloc/my_cards/cards_cubit.dart';
 import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
 import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
 import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
@@ -20,7 +21,6 @@ import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../get_it_sl.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../profile/bloc/address_bloc/address_cubit.dart';
-import '../bloc/payment_type_bloc.dart';
 import '../widgets/select_payment_type.dart';
 
 @RoutePage()
@@ -100,20 +100,27 @@ class DeliveryTimeView extends StatelessWidget {
                     context.read<DeliveryTimeCubit>().state.selectTime;
                 final addressId =
                     context.read<AddressCubit>().state.selectAddress?.id;
-                if (dateTime == null || addressId == null) {
+                final isCard =
+                    context.read<CardsCubit>().state.paymentType.isCard;
+                final cardId = context.read<CardsCubit>().state.selectCard?.id;
+                if (dateTime == null ||
+                    addressId == null ||
+                    (cardId == null && isCard)) {
                   showErrorSnackBar(
-                      context,
-                      addressId == null
-                          ? S.of(context).selectAddressPlease
-                          : S.of(context).selectTimePlease);
+                    context,
+                    addressId == null
+                        ? S.of(context).selectAddressPlease
+                        : dateTime == null
+                            ? S.of(context).selectTimePlease
+                            : S.of(context).select_payment_method,
+                  );
                 } else {
-                  final paymentType =
-                      context.read<PaymentTypeBloc>().state.getPaymentTypeId();
                   context.read<OrderCubit>().createOrder(
                         time: dateTime,
                         addressId: addressId,
                         products: products,
-                        paymentTypeId: paymentType,
+                        paymentTypeId: isCard ? 2 : 1,
+                        cardId: cardId,
                       );
                 }
               },
@@ -288,9 +295,10 @@ class DeliveryTimeView extends StatelessWidget {
                       return const SelectPaymentWidget();
                     });
               },
-              child: BlocBuilder<PaymentTypeBloc, PaymentTypeState>(
+              child: BlocBuilder<CardsCubit, CardsState>(
                 builder: (context, state) {
                   return Container(
+                    width: double.infinity,
                     margin: const EdgeInsets.only(top: 8, bottom: 24),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 16),
@@ -299,23 +307,29 @@ class DeliveryTimeView extends StatelessWidget {
                         border: Border.all(
                           color: AppColors.lightGrey,
                         )),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(state.selectedPaymentType.isCash
-                            ? AppAssets.cash
-                            : AppAssets.card),
-                        12.width,
-                        Expanded(
-                          child: Text(
-                            state.selectedPaymentType.isCash
-                                ? S.of(context).cashToCourier
-                                : S.of(context).card_pay,
-                            style: AppTextStyle.bodyMedium,
-                          ),
+                    child: state.status.isSuccess
+                        ? Row(
+                            children: [
+                              SvgPicture.asset(state.paymentType.isCash
+                                  ? AppAssets.cash
+                                  : AppAssets.card),
+                              12.width,
+                              Expanded(
+                                child: Text(
+                                  state.paymentType.isCash
+                                      ? S.of(context).cashToCourier
+                                      : state.selectCard == null
+                                          ? S.of(context).card_pay
+                                          : '${state.selectCard?.issuer} ~ ${state.selectCard?.lastNumbers}',
+                                  style: AppTextStyle.bodyMedium,
+                                ),
+                              ),
+                              SvgPicture.asset(AppAssets.arrowNext)
+                            ],
+                          )
+                        : const Center(
+                          child: CircularProgressIndicator.adaptive(),
                         ),
-                        SvgPicture.asset(AppAssets.arrowNext)
-                      ],
-                    ),
                   );
                 },
               ),

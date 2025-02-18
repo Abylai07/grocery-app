@@ -8,6 +8,7 @@ class CustomMainButton extends StatelessWidget {
   final Function()? onTap;
   final bool isLoading;
   final double height;
+  final double radius;
   final Color buttonColor;
   final bool isActive;
 
@@ -17,6 +18,7 @@ class CustomMainButton extends StatelessWidget {
     required this.onTap,
     this.isLoading = false,
     this.height = 48,
+    this.radius = 12,
     this.buttonColor = AppColors.main,
     this.isActive = true,
   });
@@ -34,7 +36,7 @@ class CustomMainButton extends StatelessWidget {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(radius),
           ),
           backgroundColor: isActive ? buttonColor : AppColors.buttonGrey,
         ),

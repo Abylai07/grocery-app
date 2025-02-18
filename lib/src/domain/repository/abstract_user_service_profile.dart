@@ -1,5 +1,6 @@
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/card_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
 import 'package:abricoz_app/src/domain/entity/user/location_entity.dart';
 import 'package:dartz/dartz.dart';
@@ -33,6 +34,10 @@ abstract class AbstractUserServiceRepository {
   Future<Either<Failure, Map<String, dynamic>>> deleteFavorite(params);
 
   Future<Either<Failure, List<ProductEntity>>> fetchFavorite();
+
+  Future<Either<Failure, List<CardEntity>>> fetchMyCards();
+
+  Future<Either<Failure, bool>> deleteCard(params);
 
   Future<Either<Failure, bool>> deleteUser();
 }

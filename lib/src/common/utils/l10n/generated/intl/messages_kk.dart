@@ -38,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addNewAddress":
             MessageLookupByLibrary.simpleMessage("Жаңа мекенжай қосу"),
         "addNewCard": MessageLookupByLibrary.simpleMessage("Жаңа картаны қосу"),
+        "add_new_card":
+            MessageLookupByLibrary.simpleMessage("Жаңа картаны қосу"),
         "address": MessageLookupByLibrary.simpleMessage("Мекенжайлар"),
         "addressSaveHere": MessageLookupByLibrary.simpleMessage(
             "Сіздің мекенжайларыңыз осында сақталады"),
@@ -62,6 +64,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "carbohydrates": MessageLookupByLibrary.simpleMessage("көмірсулар"),
         "card_pay":
             MessageLookupByLibrary.simpleMessage("Банк картасымен төлеу"),
+        "cards_will_be_stored_here": MessageLookupByLibrary.simpleMessage(
+            "Сіздің карталарыңыз осында сақталады"),
         "cart_update": MessageLookupByLibrary.simpleMessage("Себетті жаңарту"),
         "carts": MessageLookupByLibrary.simpleMessage("Карталар"),
         "cashToCourier":
@@ -160,6 +164,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "main": MessageLookupByLibrary.simpleMessage("Басты бет"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Тапсырыс жасау"),
         "maker": MessageLookupByLibrary.simpleMessage("Өндіруші"),
+        "max_number_of_cards":
+            MessageLookupByLibrary.simpleMessage("Карталардың ең көп саны"),
         "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
             "Тапсырыстың ең аз сомасы: 5000 тг"),
         "mustFill": MessageLookupByLibrary.simpleMessage(
@@ -168,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Есім"),
         "noAddress": MessageLookupByLibrary.simpleMessage(
             "Сізде қосылған мекенжайлар жоқ"),
+        "no_saved_cards":
+            MessageLookupByLibrary.simpleMessage("Сақталған карталарыңыз жоқ"),
         "nonAuthorizedText": MessageLookupByLibrary.simpleMessage(
             "Бұл мүмкіндік тек авторизацияланған пайдаланушылар үшін қолжетімді"),
         "notActive": MessageLookupByLibrary.simpleMessage("Белсенді емес"),
@@ -245,6 +253,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Төлем әдісін таңдаңыз"),
         "selectTimePlease":
             MessageLookupByLibrary.simpleMessage("Жеткізу уақытын таңдаңыз"),
+        "select_payment_method":
+            MessageLookupByLibrary.simpleMessage("Выберите способ оплаты"),
         "sentTo": m3,
         "signIn": MessageLookupByLibrary.simpleMessage("Аккаунтқа кіру"),
         "somethingError":
@@ -280,6 +290,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "wrongCurrentPass":
             MessageLookupByLibrary.simpleMessage("Құпия сөз қате"),
         "yourAddress":
-            MessageLookupByLibrary.simpleMessage("Сіздің мекенжайларыңыз")
+            MessageLookupByLibrary.simpleMessage("Сіздің мекенжайларыңыз"),
+        "your_cards":
+            MessageLookupByLibrary.simpleMessage("Сіздің карталарыңыз")
       };
 }
