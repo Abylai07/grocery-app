@@ -21,5 +21,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         emit(state.copyWith(isShowWidgets: true));
       }
     });
+    on<CloseSearch>((event, emit) {
+      emit(state.copyWith(isShowWidgets: false, isVisible: false));
+    });
   }
 }

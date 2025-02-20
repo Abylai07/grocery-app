@@ -16,7 +16,7 @@ abstract class AbstractOrderServiceRepository {
 
   Future<Either<Failure, List<DeliveryTimeEntity>>> getDeliveryTime();
 
-  Future<Either<Failure, OrderEntity>> createOrder(params);
+  Future<Either<Failure, int>> createOrder(params);
 
   Future<Either<Failure, OrderPaginationEntity>> fetchOrderHistory(params);
 

@@ -19,8 +19,8 @@ class CardModel extends CardEntity {
     return CardModel(
       id: json['id'] as int,
       userId: json['user_id'] as int,
-      lastNumbers: lastNumbers,
       invoiceID: json['invoiceID'] as String,
+      lastNumbers: lastNumbers,
       cardMask: cardMask,
       issuer: json['issuer'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),

@@ -30,51 +30,57 @@ class FavoriteScreen extends StatelessWidget {
           if (basketState.status.isClearedBasket || basketState.isCartChanged) {
             context.read<FavoriteCubit>().fetchFavorites();
           }
-          return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-              child: BlocBuilder<FavoriteCubit, FavoriteState>(
-                builder: (context, state) {
-                  if (state.status.isSuccess &&
-                      state.entity?.isNotEmpty == true) {
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(top: 12, bottom: 24),
-                      itemCount: state.entity?.length,
-                      itemBuilder: (context, index) {
-                        ProductHiveModel? itemInBasket =
-                            basketState.allProducts?.firstWhere(
-                          (element) => element.id == state.entity?[index].id,
-                          orElse: () => ProductHiveModel(
-                            id: -1,
-                            name: {},
-                            description: {},
-                            price: 0,
-                          ),
-                        );
-                        return BlocProvider(
-                          create: (context) => BasketButtonBloc(itemInBasket),
-                          child: ProductWidget(product: state.entity![index]),
-                        );
-                      },
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 8.0,
-                        mainAxisExtent: 350,
-                      ),
-                    );
-                  } else if (state.status.isSuccess &&
-                      state.entity?.isEmpty == true) {
-                    return buildEmptyFavorite(context);
-                  } else if (state.status.isLoading) {
-                    return const ProductLoadingWidget();
-                  } else {
-                    return buildEmptyFavorite(context);
-                  }
-                },
-              ));
+          return RefreshIndicator(
+            onRefresh: (){
+              context.read<FavoriteCubit>().fetchFavorites();
+              return Future.value();
+            },
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                child: BlocBuilder<FavoriteCubit, FavoriteState>(
+                  builder: (context, state) {
+                    if (state.status.isSuccess &&
+                        state.entity?.isNotEmpty == true) {
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 12, bottom: 24),
+                        itemCount: state.entity?.length,
+                        itemBuilder: (context, index) {
+                          ProductHiveModel? itemInBasket =
+                              basketState.allProducts?.firstWhere(
+                            (element) => element.id == state.entity?[index].id,
+                            orElse: () => ProductHiveModel(
+                              id: -1,
+                              name: {},
+                              description: {},
+                              price: 0,
+                            ),
+                          );
+                          return BlocProvider(
+                            create: (context) => BasketButtonBloc(itemInBasket),
+                            child: ProductWidget(product: state.entity![index]),
+                          );
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8.0,
+                          crossAxisSpacing: 8.0,
+                          mainAxisExtent: 350,
+                        ),
+                      );
+                    } else if (state.status.isSuccess &&
+                        state.entity?.isEmpty == true) {
+                      return buildEmptyFavorite(context);
+                    } else if (state.status.isLoading) {
+                      return const ProductLoadingWidget();
+                    } else {
+                      return buildEmptyFavorite(context);
+                    }
+                  },
+                )),
+          );
         },
       ),
     );

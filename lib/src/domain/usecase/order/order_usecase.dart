@@ -12,7 +12,7 @@ class OrderUseCase {
 
   final AbstractOrderServiceRepository repository;
 
-  Future<Either<Failure, OrderEntity>> createOrder(MapParams? params) async {
+  Future<Either<Failure, int>> createOrder(MapParams? params) async {
     return await repository.createOrder(params);
   }
 

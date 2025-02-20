@@ -70,7 +70,7 @@ class _ApplicationState extends State<Application> {
           create: (_) => UserCubit(sl()),
         ),
         BlocProvider(
-          create: (context) => BasketBloc(sl())..add(const RefreshBasket()),
+          create: (context) => BasketBloc(sl()),
         ),
         BlocProvider(
           create: (context) => SearchProductCubit(sl()),

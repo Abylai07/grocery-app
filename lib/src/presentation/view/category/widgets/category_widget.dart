@@ -96,15 +96,15 @@ class CategoryLoadingWidget extends StatelessWidget {
         children: [
           ShimmerWidget(
             width: width,
-            height: 120,
+            height: 130,
           ),
           ShimmerWidget(
             width: width,
-            height: 120,
+            height: 130,
           ),
           ShimmerWidget(
             width: width,
-            height: 120,
+            height: 130,
           ),
         ],
       ),

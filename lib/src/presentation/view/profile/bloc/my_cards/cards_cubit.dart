@@ -36,26 +36,33 @@ class CardsCubit extends Cubit<CardsState> {
     );
   }
 
-  void deleteCard(int? addressId) async {
-    emit(const CardsState(status: CubitStatus.loading));
+  void deleteCard(int? cardId) async {
+    emit(state.copyWith(status: CubitStatus.loading));
 
-    final failureOrAuth = await _useCase.deleteCard(PathParams(addressId.toString()));
+    final failureOrAuth =
+        await _useCase.deleteCard(PathParams(cardId.toString()));
 
     emit(
       failureOrAuth.fold(
-            (l) => CardsState(
+        (l) => state.copyWith(
           status: CubitStatus.error,
           message: l.message,
         ),
-            (r) => const CardsState(
-          status: CubitStatus.success,
-        ),
+        (r) {
+          final List<CardEntity> cards = state.entity ?? [];
+          cards.removeWhere((element) => element.id == cardId);
+          return CardsState(
+            status: CubitStatus.success,
+            entity: cards,
+            selectCard: cards.isNotEmpty ? cards.first : null,
+          );
+        },
       ),
     );
   }
 
-  checkMyCards(){
-    if(!state.status.isSuccess){
+  checkMyCards() {
+    if (!state.status.isLoading && !state.status.isSuccess) {
       fetchMyCards();
     }
   }

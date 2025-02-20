@@ -60,6 +60,8 @@ class DeliveryTimeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    context.read<CardsCubit>().checkMyCards();
     String getFormattedDate(DateTime? dateTime) {
       if (dateTime == null) return '';
 
@@ -86,7 +88,7 @@ class DeliveryTimeView extends StatelessWidget {
           listener: (context, state) {
             if (state.status.isSuccess && state.entity != null) {
               context.read<BasketBloc>().add(const DeleteAllBasket());
-              context.router.popAndPush(PaymentRoute(orderInfo: state.entity!));
+              context.router.popAndPush(PaymentRoute(orderId: state.entity!));
             } else if (state.status.isError) {
               showErrorSnackBar(context, state.message);
             }
@@ -319,7 +321,7 @@ class DeliveryTimeView extends StatelessWidget {
                                   state.paymentType.isCash
                                       ? S.of(context).cashToCourier
                                       : state.selectCard == null
-                                          ? S.of(context).card_pay
+                                          ? S.of(context).select_payment_method
                                           : '${state.selectCard?.issuer} ~ ${state.selectCard?.lastNumbers}',
                                   style: AppTextStyle.bodyMedium,
                                 ),

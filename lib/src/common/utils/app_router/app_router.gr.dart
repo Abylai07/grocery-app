@@ -135,7 +135,7 @@ abstract class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: PaymentScreen(
           key: args.key,
-          orderInfo: args.orderInfo,
+          orderId: args.orderId,
         ),
       );
     },
@@ -568,13 +568,13 @@ class OrderHistoryRoute extends PageRouteInfo<void> {
 class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
   PaymentRoute({
     Key? key,
-    required OrderEntity orderInfo,
+    required int orderId,
     List<PageRouteInfo>? children,
   }) : super(
           PaymentRoute.name,
           args: PaymentRouteArgs(
             key: key,
-            orderInfo: orderInfo,
+            orderId: orderId,
           ),
           initialChildren: children,
         );
@@ -588,16 +588,16 @@ class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
 class PaymentRouteArgs {
   const PaymentRouteArgs({
     this.key,
-    required this.orderInfo,
+    required this.orderId,
   });
 
   final Key? key;
 
-  final OrderEntity orderInfo;
+  final int orderId;
 
   @override
   String toString() {
-    return 'PaymentRouteArgs{key: $key, orderInfo: $orderInfo}';
+    return 'PaymentRouteArgs{key: $key, orderId: $orderId}';
   }
 }
 

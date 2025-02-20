@@ -21,7 +21,7 @@ import '../models/user/card_model.dart';
 abstract class OrderRemoteDataSource {
   Future<CheckCardEntity> checkBasketItems(MapParams params);
 
-  Future<OrderEntity> createOrder(MapParams params);
+  Future<int> createOrder(MapParams params);
 
   Future<List<DeliveryTimeEntity>> getDeliveryTime();
 
@@ -86,15 +86,15 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }
 
   @override
-  Future<OrderEntity> createOrder(MapParams params) async {
+  Future<int> createOrder(MapParams params) async {
     try {
       final response = await api.dio.post(
         '${host}order/store',
         data: params.data,
       );
 
-      if (response.statusCode == 200) {
-        return OrderModel.fromJson(response.data['data']);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data['order_id'];
       } else {
         throw ServerException();
       }

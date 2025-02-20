@@ -19,7 +19,7 @@ Future<void> main() async {
   AppsFlyerFunctions.initAppsFlyer();
   await sl.init();
   await GetStorage.init();
-  BasketDatabase().initHive();
+  await BasketDatabase().initHive();
   await Firebase.initializeApp(
     name: 'Abricoz-App',
     options: DefaultFirebaseOptions.currentPlatform,

@@ -14,6 +14,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   BasketBloc(this.useCase) : super(const BasketState()) {
     on<RefreshBasket>((event, emit) {
       List<ProductHiveModel> list = BasketDatabase().getAllProducts();
+      print('list: $list');
       emit(BasketState(basketSum: _calculatePrice(list), allProducts: list));
     });
 
@@ -32,6 +33,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
     emit(state.copyWith(status: event.readyToOrder ? BasketStatus.orderLoading : BasketStatus.loading));
 
     List<ProductHiveModel> list = BasketDatabase().getAllProducts();
+
     if (list.isEmpty) {
       emit(state.copyWith(status: BasketStatus.initial));
       return;

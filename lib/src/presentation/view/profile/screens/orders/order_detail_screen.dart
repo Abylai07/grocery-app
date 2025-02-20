@@ -53,7 +53,8 @@ class OrderDetailScreen extends StatelessWidget {
               OrderHistoryEntity order = state.entity;
               return Scaffold(
                 backgroundColor: AppColors.background,
-                bottomNavigationBar: BlocConsumer<OrderCubit, OrderState>(
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                floatingActionButton: BlocConsumer<OrderCubit, OrderState>(
                   listener: (context, state) {
                     if (state.status.isSuccess) {
                       Navigator.pop(context);
@@ -101,14 +102,14 @@ class OrderDetailScreen extends StatelessWidget {
                             ),
                             12.height,
                           ],
-                          if (canCancelOrder(order) || canOrderAgain(order))
+                          //  if (canCancelOrder(order) || canOrderAgain(order))
+                          if (canCancelOrder(order))
                             CustomGrayButton(
                               text: canCancelOrder(order)
                                   ? S.of(context).cancelOrder
                                   : S.of(context).orderAgain,
                               isLoading: state.status.isLoading,
-                              isActive:
-                                  canCancelOrder(order) || canOrderAgain(order),
+                              isActive: canCancelOrder(order),
                               onTap: () {
                                 if (canCancelOrder(order)) {
                                   confirmAlertDialog(
@@ -234,6 +235,23 @@ class OrderDetailScreen extends StatelessWidget {
             ),
             Text(
               '${orderInfo.totalPrice.toInt()} ₸',
+              style: AppTextStyle.bodyMedium,
+            ),
+            const Divider(
+              height: 32,
+              color: AppColors.divider,
+            ),
+            Text(
+              S.of(context).paymentType,
+              style:
+                  AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
+            ),
+            Text(
+              orderInfo.paymentTypeId == 2
+                  ? orderInfo.lastNumbers != null
+                      ? '${orderInfo.issuer} ~ ${orderInfo.lastNumbers}'
+                      : S.of(context).card_pay
+                  : S.of(context).cashToCourier,
               style: AppTextStyle.bodyMedium,
             ),
           ],

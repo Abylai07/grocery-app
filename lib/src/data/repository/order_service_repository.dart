@@ -28,7 +28,7 @@ class OrderServiceRepositoryImpl extends AbstractOrderServiceRepository {
   }
 
   @override
-  Future<Either<Failure, OrderEntity>> createOrder(params) {
+  Future<Either<Failure, int>> createOrder(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.createOrder(params));
   }

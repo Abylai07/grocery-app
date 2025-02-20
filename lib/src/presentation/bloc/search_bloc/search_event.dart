@@ -6,3 +6,6 @@ abstract class SearchEvent {}
 class ToggleSearchVisibility extends SearchEvent {}
 
 class ToggleWidgetsVisibility extends SearchEvent {}
+
+class CloseSearch extends SearchEvent {}
+

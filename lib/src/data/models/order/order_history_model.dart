@@ -1,7 +1,6 @@
 import '../../../domain/entity/order/order_history_entity.dart';
 import '../product/product_model.dart';
 
-
 class OrderHistoryModel extends OrderHistoryEntity {
   const OrderHistoryModel({
     required super.id,
@@ -12,9 +11,9 @@ class OrderHistoryModel extends OrderHistoryEntity {
     required super.cityId,
     required super.addressStreetAndHouse,
     required super.addressApartment,
-     super.addressEntrance,
-     super.addressFloor,
-     super.addressComment,
+    super.addressEntrance,
+    super.addressFloor,
+    super.addressComment,
     required super.deliveryDate,
     required super.productsPrice,
     required super.deliveryPrice,
@@ -24,9 +23,14 @@ class OrderHistoryModel extends OrderHistoryEntity {
     required super.orderStatus,
     required super.deliveryInterval,
     required List<ProductModel> super.products,
+     super.cardMask,
+     super.issuer,
+     super.lastNumbers,
   });
 
   factory OrderHistoryModel.fromJson(Map<String, dynamic> json) {
+    String? cardMask = json['cardMask'];
+    String lastNumbers = cardMask != null ? cardMask.substring(cardMask.length - 4) : '';
     return OrderHistoryModel(
       id: json['id'],
       userId: json['user_id'],
@@ -34,6 +38,9 @@ class OrderHistoryModel extends OrderHistoryEntity {
       deliveryIntervalId: json['delivery_interval_id'],
       paymentTypeId: json['payment_type_id'],
       cityId: json['city_id'],
+      lastNumbers: lastNumbers,
+      cardMask: cardMask,
+      issuer: json['issuer'],
       addressStreetAndHouse: json['address_street_and_house'],
       addressApartment: json['address_apartment'],
       addressEntrance: json['address_entrance'],
@@ -46,7 +53,8 @@ class OrderHistoryModel extends OrderHistoryEntity {
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
       orderStatus: OrderStatusModel.fromJson(json['order_status']),
-      deliveryInterval: DeliveryIntervalModel.fromJson(json['delivery_interval']),
+      deliveryInterval:
+          DeliveryIntervalModel.fromJson(json['delivery_interval']),
       products: (json['products'] as List)
           .map((productJson) => ProductModel.fromJson(productJson))
           .toList(),
@@ -66,6 +74,8 @@ class OrderHistoryModel extends OrderHistoryEntity {
       'address_entrance': addressEntrance,
       'address_floor': addressFloor,
       'address_comment': addressComment,
+      "cardMask": cardMask,
+      "issuer": issuer,
       'delivery_date': deliveryDate.toIso8601String(),
       'products_price': productsPrice,
       'delivery_price': deliveryPrice,
@@ -74,11 +84,12 @@ class OrderHistoryModel extends OrderHistoryEntity {
       'updated_at': updatedAt.toIso8601String(),
       'order_status': (orderStatus as OrderStatusModel).toJson(),
       'delivery_interval': (deliveryInterval as DeliveryIntervalModel).toJson(),
-      'products': products.map((product) => (product as ProductModel).toJson()).toList(),
+      'products': products
+          .map((product) => (product as ProductModel).toJson())
+          .toList(),
     };
   }
 }
-
 
 class OrderStatusModel extends OrderStatusEntity {
   const OrderStatusModel({
@@ -111,16 +122,20 @@ class DeliveryIntervalModel extends DeliveryIntervalEntity {
   const DeliveryIntervalModel({
     required super.id,
     required super.name,
-     super.createdAt,
-     super.updatedAt,
+    super.createdAt,
+    super.updatedAt,
   });
 
   factory DeliveryIntervalModel.fromJson(Map<String, dynamic> json) {
     return DeliveryIntervalModel(
       id: json['id'],
       name: json['name'],
-      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
-      updatedAt: json['updated_at'] != null ?  DateTime.parse(json['updated_at']) : null,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
 
@@ -133,4 +148,3 @@ class DeliveryIntervalModel extends DeliveryIntervalEntity {
     };
   }
 }
-

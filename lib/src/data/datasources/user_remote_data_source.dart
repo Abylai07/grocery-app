@@ -307,7 +307,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<bool> deleteCard(PathParams params) async {
     try {
       final response = await api.dio.delete(
-        '${host}order/user-card/delete/${params.path}',
+        '${host}user-card/delete/${params.path}',
       );
 
       if (response.statusCode == 200) {

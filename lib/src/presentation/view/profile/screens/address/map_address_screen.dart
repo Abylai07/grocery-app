@@ -60,6 +60,8 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
   Position? myPosition;
   Uint8List? markerIcon;
   List<Point> polygonPoints = [];
+  double markerOffset = 0.0;
+
   Future<void> setCustomMarker() async {
     markerIcon = await getBytesFromAsset(AppAssets.location, 140);
   }
@@ -157,10 +159,10 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
       zIndex: 1,
     );
     context.read<MapAddressCubit>().addMapObject(placeMark);
-    final res = await YandexGeo.searchByCoords(point.latitude, point.longitude);
-    if (res != null) {
-      context.read<MapAddressCubit>().selectAddress(res);
-    }
+    // final res = await YandexGeo.searchByCoords(point.latitude, point.longitude);
+    // if (res != null) {
+    //   context.read<MapAddressCubit>().selectAddress(res);
+    // }
   }
 
   setPolygons(List<LocationEntity> polygons) async {
@@ -234,6 +236,7 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
                     )
                   : const SizedBox(),
               body: Stack(
+                alignment: Alignment.center,
                 children: [
                   YandexMap(
                     zoomGesturesEnabled: true,
@@ -252,6 +255,34 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
                       await Future.delayed(const Duration(milliseconds: 500));
                       moveToAddress(yandexMapController);
                     },
+                    onCameraPositionChanged: (CameraPosition position, CameraUpdateReason reason, bool finished) async {
+                      // When the camera starts moving, animate the marker upward by 10px
+                      if (!finished) {
+                        if (markerOffset != -10.0) {
+                          setState(() {
+                            markerOffset = -10.0;
+                          });
+                        }
+                      }
+                      // When movement finishes, animate the marker back to its original position
+                      if (finished) {
+                        setState(() {
+                          markerOffset = 0.0;
+                        });
+                        final centerPoint = position.target;
+                      }
+                    },
+                  ),
+                  IgnorePointer(
+                    child: AnimatedContainer(
+                      duration: const Duration(seconds: 1),
+                      curve: Curves.elasticOut,
+                      transform: Matrix4.translationValues(0, markerOffset - 14, 0),
+                      child: Image.asset(
+                        AppAssets.location, // Your marker icon
+                        height: 50,
+                      ),
+                    ),
                   ),
                   Positioned(
                     left: 12,

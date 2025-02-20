@@ -19,6 +19,8 @@ class MyCardsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CardsCubit>().checkMyCards();
+
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).your_cards,
@@ -66,7 +68,7 @@ class MyCardsScreen extends StatelessWidget {
                                             children: [
                                               TextSpan(
                                                 text: ' ~ ${cards[index].lastNumbers}',
-                                                style: AppTextStyle.bodyLarge.copyWith(color: AppColors.gray),
+                                                style: AppTextStyle.bodyLarge,
                                               ),
                                             ],
                                           ),
@@ -79,9 +81,9 @@ class MyCardsScreen extends StatelessWidget {
                                           width: 20,
                                         ),
                                         onPressed: () async {
-                                          // context
-                                          //     .read<CardsCubit>()
-                                          //     .deleteCard(cards[index].id);
+                                          context
+                                              .read<CardsCubit>()
+                                              .deleteCard(cards[index].id);
                                         },
                                       )
                                     ],

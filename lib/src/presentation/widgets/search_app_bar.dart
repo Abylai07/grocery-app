@@ -15,7 +15,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.controller,
       this.onSent,
       this.onBackPressed,
-        this.title});
+      this.title});
   final TextEditingController? controller;
   final String? title;
   final Function()? onBackPressed;
@@ -36,7 +36,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
                   IconButton(
                     icon: SvgPicture.asset(AppAssets.back),
                     onPressed: onBackPressed ??
-                            () {
+                        () {
                           context.router.maybePop();
                         },
                   ),
@@ -47,6 +47,15 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
                       hintText: S.of(context).searchItem,
                       onChanged: onChanged,
                       onSent: onSent,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          controller?.clear();
+                          context
+                              .read<SearchBloc>()
+                              .add(CloseSearch());
+                        },
+                        icon: SvgPicture.asset(AppAssets.close, height: 14,),
+                      ),
                     ),
                   ),
                 ],

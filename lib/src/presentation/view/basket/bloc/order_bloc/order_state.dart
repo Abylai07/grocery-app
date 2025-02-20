@@ -11,7 +11,7 @@ class OrderState<T> extends Equatable {
   }) : message = message ?? '';
 
   final CubitStatus status;
-  final OrderEntity? entity;
+  final int? entity;
   final String message;
   final int count;
   final int? errorCode;
@@ -26,7 +26,7 @@ class OrderState<T> extends Equatable {
   ];
 
   OrderState copyWith({
-    OrderEntity? entity,
+    int? entity,
     CubitStatus? status,
     String? message,
     int? count,

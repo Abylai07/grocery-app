@@ -110,7 +110,7 @@ class SubCategoryView extends StatelessWidget {
                                               8.0, // spacing between rows
                                           crossAxisSpacing:
                                               8.0, // spacing between columns
-                                          mainAxisExtent: 124,
+                                          mainAxisExtent: 136,
                                         ),
                                       )
                                     : EmptyAnswerWidget(

@@ -111,10 +111,7 @@ class SelectPaymentWidget extends StatelessWidget {
                                                   children: [
                                                     TextSpan(
                                                       text: ' ~ ${cards[index].lastNumbers}',
-                                                      style: AppTextStyle.bodyLarge
-                                                          .copyWith(
-                                                              color:
-                                                                  AppColors.gray),
+                                                      style: AppTextStyle.bodyLarge,
                                                     ),
                                                   ],
                                                 ),

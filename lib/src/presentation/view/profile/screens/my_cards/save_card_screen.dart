@@ -29,6 +29,7 @@ class _SaveCardScreenState extends State<SaveCardScreen> {
   @override
   Widget build(BuildContext context) {
     String? userId = SharedPrefs().getId();
+
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).saveCard,
@@ -67,6 +68,10 @@ class _SaveCardScreenState extends State<SaveCardScreen> {
               setState(() {
                 isLoading = false;
               });
+              if(userId == null) {
+                showSnackBar(context, 'Ваш идентификатор отсутствует, пожалуйста, снова войдите в свою учетную запись', image: AppAssets.cancel);
+                context.router.replace(const SignInRoute());
+              }
             },
             shouldOverrideUrlLoading: (controller, navigationAction) async {
               var uri = navigationAction.request.url!;

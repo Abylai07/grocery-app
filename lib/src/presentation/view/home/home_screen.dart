@@ -109,6 +109,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           panelController.open();
                         },
                         hintText: S.of(context).searchItem,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            searchController.clear();
+                          },
+                          icon: SvgPicture.asset(AppAssets.close, height: 14,),
+                        ),
                       ),
                       16.height,
                     ],

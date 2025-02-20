@@ -25,40 +25,46 @@ class SubCategoryWidget extends StatelessWidget {
         context.router.push(ProductRoute(subCategory: subCategory));
       },
       child: Container(
-        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: AppColors.backgroundBlue,
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Text(
-              getLocaleText(subCategory.name),
-              style: AppTextStyle.displayLarge
-                  .copyWith(fontWeight: FontWeight.w600),
-            ),
             if (subCategory.photoUrl != null)
-              Center(
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
                 child: subCategory.photoUrl?.contains('.svg') == true
                     ? SvgPicture.network(
                         subCategory.photoUrl!,
-                        height: 60,
+                        height: 80,
                       )
                     : CachedNetworkImage(
                         imageUrl: subCategory.photoUrl!,
-                        fit: BoxFit.fitWidth,
-                        height: 60,
+                        fit: BoxFit.contain,
+                        height: 80,
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
                                 const ShimmerWidget(
                           width: double.infinity,
-                          height: 60,
+                          height: 80,
                         ),
                         errorWidget: (context, url, error) => const SizedBox(),
                       ),
-              )
+              ),
+            Positioned(
+              top: 8,
+              right: 8,
+              left: 8,
+              child: Text(
+                getLocaleText(subCategory.name),
+                style: AppTextStyle.displayLarge
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
           ],
         ),
       ),

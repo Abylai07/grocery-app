@@ -17,6 +17,9 @@ class OrderHistoryEntity extends Equatable {
   final DateTime deliveryDate;
   final double productsPrice;
   final double deliveryPrice;
+  final String? cardMask;
+  final String? issuer;
+  final String? lastNumbers;
   final double totalPrice;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -33,9 +36,12 @@ class OrderHistoryEntity extends Equatable {
     required this.cityId,
     required this.addressStreetAndHouse,
     required this.addressApartment,
-     this.addressEntrance,
-     this.addressFloor,
-     this.addressComment,
+    this.addressEntrance,
+    this.addressFloor,
+    this.addressComment,
+     this.cardMask,
+     this.issuer,
+     this.lastNumbers,
     required this.deliveryDate,
     required this.productsPrice,
     required this.deliveryPrice,
@@ -49,27 +55,30 @@ class OrderHistoryEntity extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    userId,
-    orderStatusId,
-    deliveryIntervalId,
-    paymentTypeId,
-    cityId,
-    addressStreetAndHouse,
-    addressApartment,
-    addressEntrance,
-    addressFloor,
-    addressComment,
-    deliveryDate,
-    productsPrice,
-    deliveryPrice,
-    totalPrice,
-    createdAt,
-    updatedAt,
-    orderStatus,
-    deliveryInterval,
-    products,
-  ];
+        id,
+        userId,
+        orderStatusId,
+        deliveryIntervalId,
+        paymentTypeId,
+        cityId,
+        addressStreetAndHouse,
+        addressApartment,
+        addressEntrance,
+        addressFloor,
+        addressComment,
+        deliveryDate,
+        productsPrice,
+        deliveryPrice,
+        totalPrice,
+        createdAt,
+        updatedAt,
+        orderStatus,
+        deliveryInterval,
+        products,
+        cardMask,
+        lastNumbers,
+        issuer,
+      ];
 }
 
 class OrderStatusEntity extends Equatable {
@@ -98,11 +107,10 @@ class DeliveryIntervalEntity extends Equatable {
   const DeliveryIntervalEntity({
     required this.id,
     required this.name,
-     this.createdAt,
-     this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   @override
   List<Object?> get props => [id, name, createdAt, updatedAt];
 }
-

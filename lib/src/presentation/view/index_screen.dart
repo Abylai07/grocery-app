@@ -34,6 +34,10 @@ class _IndexScreenState extends State<IndexScreen> {
   @override
   void initState() {
     Notifications().init(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<BasketBloc>().add(const RefreshBasket());
+    });
     super.initState();
   }
 
@@ -137,6 +141,7 @@ class _IndexScreenState extends State<IndexScreen> {
   Widget getBadgeIcon(bool active) {
     return BlocBuilder<BasketBloc, BasketState>(
       builder: (context, state) {
+        print('BasketBloc: ${state.allProducts?.length}');
         int count = state.allProducts?.length ?? 0;
         return count < 1
             ? SvgPicture.asset(active ? AppAssets.iconActive3 : AppAssets.icon3)

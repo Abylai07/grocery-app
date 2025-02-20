@@ -42,7 +42,7 @@ class OrderCubit extends Cubit<OrderState> {
     };
 
     if (cardId != null) {
-      data.addAll({"card_id": cardId});
+      data.addAll({"user_card_id": cardId});
     }
 
     final failureOrAuth = await orderUseCase.createOrder(MapParams(data));
