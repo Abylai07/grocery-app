@@ -19,6 +19,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../common/app_styles/assets.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../get_it_sl.dart';
+import '../../../bloc/status_cubit.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../profile/bloc/address_bloc/address_cubit.dart';
 import '../widgets/select_payment_type.dart';
@@ -32,6 +33,9 @@ class MakeOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AppSettingsCubit>().fetchAppStatus();
+    context.read<CardsCubit>().fetchMyCards();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(

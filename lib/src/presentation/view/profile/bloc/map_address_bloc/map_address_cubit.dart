@@ -38,6 +38,14 @@ class MapAddressCubit extends Cubit<MapAddressState> {
     emit(state.copyWith(selectAddress: address));
   }
 
+  notDeliveryAddress() {
+    emit(state.copyWith(selectAddress: const YandexAddress(), notDeliveryPlace: true));
+  }
+
+  setMarkerOffset(double offset) {
+    emit(state.copyWith(markerOffset: offset));
+  }
+
   addMapObject(MapObject object) {
     List<MapObject> mapObjects = List.from(state.mapObjects);
     mapObjects.add(object);

@@ -1,3 +1,4 @@
+import 'package:abricoz_app/src/domain/entity/user/user_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/error/failure.dart';
@@ -10,5 +11,9 @@ class UserUseCase {
 
   Future<Either<Failure, bool>> deleteUser() async {
     return await repository.deleteUser();
+  }
+
+  Future<Either<Failure, UserEntity>> fetchUser() async {
+    return await repository.fetchUser();
   }
 }

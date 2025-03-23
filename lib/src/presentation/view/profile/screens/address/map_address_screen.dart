@@ -26,7 +26,10 @@ import '../../../../widgets/mixins/yandex_map.dart';
 
 @RoutePage()
 class MapAddressScreen extends StatelessWidget {
-  const MapAddressScreen({super.key, this.address});
+  const MapAddressScreen({
+    super.key,
+    this.address,
+  });
   final AddressEntity? address;
 
   @override
@@ -61,6 +64,7 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
   Uint8List? markerIcon;
   List<Point> polygonPoints = [];
   double markerOffset = 0.0;
+  bool isFirstOpen = true;
 
   Future<void> setCustomMarker() async {
     markerIcon = await getBytesFromAsset(AppAssets.location, 140);
@@ -69,7 +73,7 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
   Future<void> locatePosition({double zoom = 16}) async {
     try {
       await checkPermission();
-      myPosition ??= await Geolocator.getCurrentPosition();
+      myPosition = await Geolocator.getCurrentPosition();
 
       controller?.moveCamera(
         CameraUpdate.newCameraPosition(
@@ -84,7 +88,7 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
         animation: animation,
       );
       if (myPosition == null) return;
-      putMarker(Point(
+      getAddressByPoint(Point(
         latitude: myPosition!.latitude,
         longitude: myPosition!.longitude,
       ));
@@ -105,6 +109,8 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
   }
 
   moveToAddress(YandexMapController controller) async {
+    isFirstOpen = false;
+
     if (widget.address?.latitude == null || widget.address?.longitude == null) {
       controller.moveCamera(
         CameraUpdate.newCameraPosition(
@@ -134,35 +140,19 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
         ),
         animation: animation,
       );
-      putMarker(Point(
+      getAddressByPoint(Point(
         latitude: latitude,
         longitude: longitude,
       ));
     }
   }
 
-  Future<void> putMarker(Point point) async {
-    PlacemarkMapObject? placeMark = PlacemarkMapObject(
-      icon: PlacemarkIcon.single(
-        PlacemarkIconStyle(
-          image: BitmapDescriptor.fromBytes(markerIcon!),
-          anchor: const Offset(0.5, 1),
-        ),
-      ),
-      mapId: const MapObjectId('normal_icon_placemark'),
-      point: Point(
-        latitude: point.latitude,
-        longitude: point.longitude,
-      ),
-      opacity: 1,
-      isDraggable: true,
-      zIndex: 1,
-    );
-    context.read<MapAddressCubit>().addMapObject(placeMark);
-    // final res = await YandexGeo.searchByCoords(point.latitude, point.longitude);
-    // if (res != null) {
-    //   context.read<MapAddressCubit>().selectAddress(res);
-    // }
+  Future<void> getAddressByPoint(Point point) async {
+    final res = await YandexGeo.searchByCoords(point.latitude, point.longitude);
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    if (res != null) {
+      context.read<MapAddressCubit>().selectAddress(res);
+    }
   }
 
   setPolygons(List<LocationEntity> polygons) async {
@@ -197,137 +187,144 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PolygonCubit, BaseState>(
+    return BlocConsumer<PolygonCubit, BaseState>(
       listener: (context, state) {
         if (state.status.isSuccess) {
-          setPolygons(state.entity ?? []);
+          PointsEntity entity = state.entity;
+          YandexGeo.setApiKey(entity.apiKey);
+          setPolygons(entity.data);
         }
       },
-      child: PopScope(
-        onPopInvoked: (can) {
-          context.read<MapAddressCubit>().setInitState();
-        },
-        child: BlocBuilder<MapAddressCubit, MapAddressState>(
-          builder: (context, state) {
-            return Scaffold(
-              bottomNavigationBar: state.selectAddress?.street != null
-                  ? PaddingForNavButtons(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
+      builder: (context, polygonState) {
+        return PopScope(
+          onPopInvoked: (can) {
+            context.read<MapAddressCubit>().setInitState();
+          },
+          child: BlocBuilder<MapAddressCubit, MapAddressState>(
+            builder: (context, state) {
+              bool isActive = state.selectAddress != null &&
+                  state.selectAddress!.street.isNotNullEmpty;
+              return Scaffold(
+                bottomNavigationBar: PaddingForNavButtons(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (isActive)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            '${state.selectAddress?.street}',
+                            style: AppTextStyle.bodyLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      CustomMainButton(
+                        text: S.of(context).select,
+                        isActive: isActive,
+                        onTap: () {
+                          context.router.push(AddOrChangeAddressRoute(
+                            address: widget.address,
+                            selectAddress: state.selectAddress!,
+                          ));
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                body: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    YandexMap(
+                      zoomGesturesEnabled: true,
+                      mapObjects: state.mapObjects,
+                      onMapCreated:
+                          (YandexMapController yandexMapController) async {
+                        controller = yandexMapController;
+
+                        await Future.delayed(const Duration(milliseconds: 500));
+                        moveToAddress(yandexMapController);
+                      },
+                      onCameraPositionChanged: (CameraPosition position,
+                          CameraUpdateReason reason, bool finished) async {
+                        // When the camera starts moving, animate the marker upward by 10px
+                        if (!finished && state.markerOffset != -10.0) {
+                          context.read<MapAddressCubit>().setMarkerOffset(-10.0);
+                        }
+                        // When movement finishes, animate the marker back to its original position
+                        if (finished) {
+                          context.read<MapAddressCubit>().setMarkerOffset(0.0);
+                          if (isPointInPolygon(position.target, polygonPoints)) {
+                            getAddressByPoint(position.target);
+                          } else if (!isFirstOpen) {
+                            context.read<MapAddressCubit>().notDeliveryAddress();
+                            showErrorSnackBar(
+                                context, S.of(context).notDeliverPlace);
+                          }
+                        }
+                      },
+                    ),
+                    IgnorePointer(
+                      child: AnimatedContainer(
+                        duration: Duration(
+                            milliseconds: state.markerOffset == 0 ? 1200 : 500),
+                        curve: Curves.elasticOut,
+                        transform: Matrix4.translationValues(
+                            0, state.markerOffset - 14, 0),
+                        child: Image.asset(
+                          AppAssets.location, // Your marker icon
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 12,
+                      right: 12,
+                      top: kToolbarHeight,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text(
-                              '${state.selectAddress?.street}',
-                              style: AppTextStyle.bodyLarge,
+                          InkWell(
+                            onTap: () => context.router.maybePop(),
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              height: 56,
+                              width: 56,
+                              decoration: const BoxDecoration(
+                                  color: AppColors.white, shape: BoxShape.circle),
+                              child: SvgPicture.asset(
+                                AppAssets.back,
+                                height: 26,
+                              ),
                             ),
                           ),
-                          CustomMainButton(
-                            text: S.of(context).select,
-                            onTap: () {
-                              context.router.push(AddOrChangeAddressRoute(
-                                address: widget.address,
-                                selectAddress: state.selectAddress!,
-                              ));
-                            },
+                          InkWell(
+                            onTap: () => locatePosition(zoom: 18),
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              height: 56,
+                              width: 56,
+                              decoration: const BoxDecoration(
+                                  color: AppColors.white, shape: BoxShape.circle),
+                              child: SvgPicture.asset(
+                                AppAssets.myLocation,
+                                height: 16,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    )
-                  : const SizedBox(),
-              body: Stack(
-                alignment: Alignment.center,
-                children: [
-                  YandexMap(
-                    zoomGesturesEnabled: true,
-                    mapObjects: state.mapObjects,
-                    onMapTap: (Point point) async {
-                      if (isPointInPolygon(point, polygonPoints)) {
-                        putMarker(point);
-                      } else {
-                        showErrorSnackBar(
-                            context, S.of(context).notDeliverPlace);
-                      }
-                    },
-                    onMapCreated: (YandexMapController yandexMapController) async {
-                      controller = yandexMapController;
-
-                      await Future.delayed(const Duration(milliseconds: 500));
-                      moveToAddress(yandexMapController);
-                    },
-                    onCameraPositionChanged: (CameraPosition position, CameraUpdateReason reason, bool finished) async {
-                      // When the camera starts moving, animate the marker upward by 10px
-                      if (!finished) {
-                        if (markerOffset != -10.0) {
-                          setState(() {
-                            markerOffset = -10.0;
-                          });
-                        }
-                      }
-                      // When movement finishes, animate the marker back to its original position
-                      if (finished) {
-                        setState(() {
-                          markerOffset = 0.0;
-                        });
-                        final centerPoint = position.target;
-                      }
-                    },
-                  ),
-                  IgnorePointer(
-                    child: AnimatedContainer(
-                      duration: const Duration(seconds: 1),
-                      curve: Curves.elasticOut,
-                      transform: Matrix4.translationValues(0, markerOffset - 14, 0),
-                      child: Image.asset(
-                        AppAssets.location, // Your marker icon
-                        height: 50,
+                    ),
+                    if(polygonState.status.isLoading)
+                      const Center(
+                        child: CircularProgressIndicator(),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 12,
-                    right: 12,
-                    top: kToolbarHeight,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () => context.router.maybePop(),
-                          child: Container(
-                            padding: const EdgeInsets.all(12),
-                            height: 56,
-                            width: 56,
-                            decoration: const BoxDecoration(
-                                color: AppColors.white, shape: BoxShape.circle),
-                            child: SvgPicture.asset(
-                              AppAssets.back,
-                              height: 26,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => locatePosition(zoom: 18),
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            height: 56,
-                            width: 56,
-                            decoration: const BoxDecoration(
-                                color: AppColors.white, shape: BoxShape.circle),
-                            child: SvgPicture.asset(
-                              AppAssets.myLocation,
-                              height: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

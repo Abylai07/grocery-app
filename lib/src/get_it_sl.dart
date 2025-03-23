@@ -4,6 +4,7 @@ import 'package:abricoz_app/src/domain/repository/abstract_product_service_profi
 import 'package:abricoz_app/src/domain/repository/abstract_user_service_profile.dart';
 import 'package:abricoz_app/src/domain/usecase/order/check_basket_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/order/payment_use_case.dart';
+import 'package:abricoz_app/src/domain/usecase/user/app_status_use_case.dart';
 import 'package:abricoz_app/src/domain/usecase/user/banner_use_case.dart';
 import 'package:abricoz_app/src/domain/usecase/user/favorite_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
@@ -20,6 +21,7 @@ import 'data/repository/order_service_repository.dart';
 import 'data/repository/user_service_repository.dart';
 import 'domain/repository/abstract_order_service_profile.dart';
 import 'domain/usecase/order/delivery_time_usecase.dart';
+import 'domain/usecase/order/min_price_usecase.dart';
 import 'domain/usecase/order/order_history_usecase.dart';
 import 'domain/usecase/order/order_usecase.dart';
 import 'domain/usecase/product/category_usecase.dart';
@@ -56,6 +58,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => OrderHistoryUseCase(sl()));
   sl.registerLazySingleton(() => PaymentUseCase(sl()));
   sl.registerLazySingleton(() => CardsUseCase(sl()));
+  sl.registerLazySingleton(() => AppStatusUseCase(sl()));
+  sl.registerLazySingleton(() => MinPriceUsecase(sl()));
 
 
  // Remote Repositories

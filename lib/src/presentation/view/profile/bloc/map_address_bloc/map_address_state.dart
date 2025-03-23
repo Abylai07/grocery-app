@@ -6,7 +6,8 @@ class MapAddressState<T> extends Equatable {
     this.status = CubitStatus.initial,
     this.entity,
     this.selectAddress,
-    this.markerIcon,
+    this.markerOffset = 0,
+    this.notDeliveryPlace = false,
     this.mapObjects = const [],
     this.count = 0,
     this.errorCode,
@@ -17,7 +18,8 @@ class MapAddressState<T> extends Equatable {
   final List<AddressEntity>? entity;
   final YandexAddress? selectAddress;
   final List<MapObject> mapObjects;
-  final Uint8List? markerIcon;
+  final double markerOffset;
+  final bool notDeliveryPlace;
   final String message;
   final int count;
   final int? errorCode;
@@ -27,8 +29,9 @@ class MapAddressState<T> extends Equatable {
     status,
     entity,
     selectAddress,
-    markerIcon,
+    markerOffset,
     mapObjects,
+    notDeliveryPlace,
     message,
     count,
     errorCode,
@@ -39,6 +42,8 @@ class MapAddressState<T> extends Equatable {
     YandexAddress? selectAddress,
     List<MapObject>? mapObjects,
     Uint8List? markerIcon,
+    double? markerOffset,
+    bool? notDeliveryPlace,
     CubitStatus? status,
     String? message,
     int? count,
@@ -49,8 +54,9 @@ class MapAddressState<T> extends Equatable {
       entity: entity ?? this.entity,
       mapObjects: mapObjects ?? this.mapObjects,
       selectAddress: selectAddress ?? this.selectAddress,
-      markerIcon: markerIcon ?? this.markerIcon,
       status: status ?? this.status,
+      notDeliveryPlace: notDeliveryPlace ?? this.notDeliveryPlace,
+      markerOffset: markerOffset ?? this.markerOffset,
       message: message ?? this.message,
       count: count ?? this.count,
     );

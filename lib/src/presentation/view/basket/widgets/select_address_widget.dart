@@ -94,8 +94,13 @@ class SelectAddressWidget extends StatelessWidget {
                                   );
                                 }),
                         TextButton(
-                            onPressed: () {
-                              context.router.push(const AddressRoute());
+                            onPressed: () async {
+                              if(addresses.isEmpty){
+                                await context.router.push(MapAddressRoute());
+                                context.read<AddressCubit>().fetchAddress();
+                              } else {
+                                context.router.push(const AddressRoute());
+                              }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

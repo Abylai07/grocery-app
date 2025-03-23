@@ -24,10 +24,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(sum) => "Перейти к оформлению: ${sum} ₸";
 
-  static String m2(time) =>
+  static String m2(price) => "Минимальная сумма заказа: ${price} тг";
+
+  static String m3(time) =>
       "Завершите оплату в течение ${time} или заказ будет отменён";
 
-  static String m3(num) => "Код выслан на ${num}";
+  static String m4(num) => "Код выслан на ${num}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -77,6 +79,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Изменить список адресов"),
         "changed_quantity": MessageLookupByLibrary.simpleMessage(
             "Количество товара было изменено:"),
+        "check_status":
+            MessageLookupByLibrary.simpleMessage("Проверить статус"),
         "city": MessageLookupByLibrary.simpleMessage("Город"),
         "close": MessageLookupByLibrary.simpleMessage("Закрыть"),
         "commentToAddress":
@@ -118,6 +122,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "district": MessageLookupByLibrary.simpleMessage("Район"),
         "editAddress":
             MessageLookupByLibrary.simpleMessage("Редактировать адрес"),
+        "email": MessageLookupByLibrary.simpleMessage("Электронная почта"),
+        "email_invalid": MessageLookupByLibrary.simpleMessage(
+            "Неверный формат электронной почты. Пример: example@mail.com"),
         "empty": MessageLookupByLibrary.simpleMessage("Пусто"),
         "enterCode":
             MessageLookupByLibrary.simpleMessage("Введите код подтверждения"),
@@ -125,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Введите имя и фамилию"),
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Введите номер телефона для продолжения"),
+        "enter_name_surname_email": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, укажите ваше имя, фамилию и email. Эти данные необходимы для оформления заказа и отправки чеков."),
         "entrance": MessageLookupByLibrary.simpleMessage("Подъезд"),
         "errorPlsAgain": MessageLookupByLibrary.simpleMessage(
             "Что-то пошло не так, попробуйте еще раз"),
@@ -134,6 +143,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorite": MessageLookupByLibrary.simpleMessage("Избранное"),
         "favoriteEmpty": MessageLookupByLibrary.simpleMessage(
             "Список избранных товаров пуст"),
+        "fillEntrance": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, заполните поле подъезда"),
+        "fillFloor": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, заполните поле этажа"),
+        "fillHouse": MessageLookupByLibrary.simpleMessage(
+            "Пожалуйста, заполните поле кв/офис"),
         "fillName": MessageLookupByLibrary.simpleMessage(
             "Заполните поля \"Имя\" и \"Фамилия\""),
         "floor": MessageLookupByLibrary.simpleMessage("Этаж"),
@@ -165,12 +180,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginAccount": MessageLookupByLibrary.simpleMessage("Войти в аккаунт"),
         "logout": MessageLookupByLibrary.simpleMessage("Выйти"),
         "main": MessageLookupByLibrary.simpleMessage("Главная"),
+        "maintenance_description": MessageLookupByLibrary.simpleMessage(
+            "Мы проводим обновление системы для улучшения работы сервиса. Пожалуйста, попробуйте зайти позже. Спасибо за понимание!"),
+        "maintenance_title":
+            MessageLookupByLibrary.simpleMessage("🔧 Технические работы"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Оформление заказа"),
         "maker": MessageLookupByLibrary.simpleMessage("Производитель"),
         "max_number_of_cards": MessageLookupByLibrary.simpleMessage(
             "Максимальное количество карт"),
-        "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
-            "Минимальная сумма заказа: 5000 тг"),
+        "minimum_order_amount": m2,
         "mustFill": MessageLookupByLibrary.simpleMessage(
             "Поле обязательно для заполнения"),
         "myOrders": MessageLookupByLibrary.simpleMessage("Мои заказы"),
@@ -211,7 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Оплата не прошла или была отменена. Попробуйте снова."),
         "payOrder": MessageLookupByLibrary.simpleMessage("Оплатить заказ"),
         "paySum": MessageLookupByLibrary.simpleMessage("Сумма к оплате"),
-        "payTime": m2,
+        "payTime": m3,
         "payTimeFinish": MessageLookupByLibrary.simpleMessage(
             "Время на оплату истекло, заказ в процессе отмены"),
         "payment": MessageLookupByLibrary.simpleMessage("Оплата"),
@@ -255,7 +273,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Выберите время доставки"),
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("Выберите способ оплаты"),
-        "sentTo": m3,
+        "sentTo": m4,
         "signIn": MessageLookupByLibrary.simpleMessage("Вход в аккаунт"),
         "somethingError":
             MessageLookupByLibrary.simpleMessage("Что-то пошло не так"),
@@ -264,6 +282,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sureLogout": MessageLookupByLibrary.simpleMessage(
             "Вы точно хотите выйти? Мы будем скучать."),
         "surname": MessageLookupByLibrary.simpleMessage("Фамилия"),
+        "technicalStill": MessageLookupByLibrary.simpleMessage(
+            "Технические работы все еще продолжаются"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки"),
         "toBasket": MessageLookupByLibrary.simpleMessage("В корзину"),

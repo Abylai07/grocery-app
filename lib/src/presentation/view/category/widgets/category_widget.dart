@@ -8,6 +8,7 @@ import 'package:sliding_up_panel/src/panel.dart';
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/app_router/app_router.dart';
 import '../../../../domain/entity/product/category_entity.dart';
+import '../../../../domain/entity/product/sub_category_entity.dart';
 import '../../../widgets/main_functions.dart';
 import '../../../widgets/shimmer_widget.dart';
 
@@ -23,13 +24,26 @@ class CategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         if (controller.isAttached && !controller.isPanelOpen) {
           controller.open();
         }
-        AutoRouter.of(context).push(SubCategoryRoute(category: category));
+
+        if (category.forwardSubcategoryId != null) {
+          AutoRouter.of(context).push(ProductRoute(
+              subCategory: SubCategoryEntity(
+            id: category.forwardSubcategoryId ?? 1,
+            name: category.name,
+            categoryId: category.id,
+            photoUrl: category.mobileUrl,
+            isDiscount: false,
+          )));
+        } else {
+          AutoRouter.of(context).push(SubCategoryRoute(
+            category: category,
+          ));
+        }
       },
       child: Container(
         decoration: BoxDecoration(

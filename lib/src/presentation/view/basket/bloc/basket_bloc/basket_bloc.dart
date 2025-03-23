@@ -14,8 +14,10 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
   BasketBloc(this.useCase) : super(const BasketState()) {
     on<RefreshBasket>((event, emit) {
       List<ProductHiveModel> list = BasketDatabase().getAllProducts();
-      print('list: $list');
-      emit(BasketState(basketSum: _calculatePrice(list), allProducts: list));
+      emit(BasketState(
+        basketSum: _calculatePrice(list),
+        allProducts: list,
+      ));
     });
 
     on<DeleteAllBasket>((event, emit) {
@@ -30,7 +32,10 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
 
   Future<void> _onCheckBasket(
       CheckBasketItems event, Emitter<BasketState> emit) async {
-    emit(state.copyWith(status: event.readyToOrder ? BasketStatus.orderLoading : BasketStatus.loading));
+    emit(state.copyWith(
+        status: event.readyToOrder
+            ? BasketStatus.orderLoading
+            : BasketStatus.loading));
 
     List<ProductHiveModel> list = BasketDatabase().getAllProducts();
 
@@ -38,7 +43,7 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
       emit(state.copyWith(status: BasketStatus.initial));
       return;
     }
-    list.removeWhere((item) => item.basketCount < 1 ||  item.isActive != true);
+    list.removeWhere((item) => item.basketCount < 1 || item.isActive != true);
 
     final data = list
         .map((item) => {
@@ -92,12 +97,14 @@ class BasketBloc extends Bloc<BasketEvent, BasketState> {
           await BasketDatabase().addProducts(updatedList);
 
           return BasketState(
-            status: event.readyToOrder ? BasketStatus.readyToOrder : BasketStatus.success,
-            entity: r,
-            allProducts: updatedList,
-            basketSum: r.totalPrice.toInt(),
-            isCartChanged: r.inactivatedProducts.isNotEmpty || r.shortagedProducts.isNotEmpty
-          );
+              status: event.readyToOrder
+                  ? BasketStatus.readyToOrder
+                  : BasketStatus.success,
+              entity: r,
+              allProducts: updatedList,
+              basketSum: r.totalPrice.toInt(),
+              isCartChanged: r.inactivatedProducts.isNotEmpty ||
+                  r.shortagedProducts.isNotEmpty);
         },
       ),
     );

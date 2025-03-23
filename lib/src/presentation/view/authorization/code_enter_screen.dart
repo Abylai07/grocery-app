@@ -40,6 +40,11 @@ class CodeEnterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String number = AppUtils.phoneMaskFormatter.getUnmaskedText();
+    FocusNode focusNode = FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNode.requestFocus();
+    });
     return Scaffold(
       appBar: CustomAppBar(
         onBackPressed: (){
@@ -83,7 +88,7 @@ class CodeEnterView extends StatelessWidget {
                     context.read<TimerBloc>().add(ResetTimer());
                     context.read<UserSessionBloc>().add(LoadUserSession());
                     if(state.status.isNeedName){
-                      context.router.replace(const UserInfoRoute());
+                      context.router.replace(UserInfoRoute());
                     } else {
                       context.router.replaceAll([const IndexRoute(children: [HomeNestedRoute()])]);
                     }
@@ -94,6 +99,8 @@ class CodeEnterView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       PinCodeTextField(
+                        autoFocus: true,
+                        focusNode: focusNode,
                         appContext: context,
                         length: 6,
                         animationType: AnimationType.fade,

@@ -27,4 +27,6 @@ abstract class AbstractOrderServiceRepository {
   Future<Either<Failure, bool>> cancelOrder(params);
 
   Future<Either<Failure, String>> getPaymentLink(params);
+
+  Future<Either<Failure, num>> getMinPrice();
 }

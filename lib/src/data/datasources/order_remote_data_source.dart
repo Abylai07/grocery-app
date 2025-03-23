@@ -1,9 +1,7 @@
 import 'package:abricoz_app/src/data/models/order/delivery_time_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/delivery_time_entity.dart';
-import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
 import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
 import 'package:abricoz_app/src/domain/entity/product/pagination_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/card_entity.dart';
 import 'package:abricoz_app/src/domain/usecase/order/payment_use_case.dart';
 import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
@@ -33,6 +31,7 @@ abstract class OrderRemoteDataSource {
 
   Future<bool> cancelOrder(PathParams params);
 
+  Future<num> getMinPrice();
 
   Future<String> getPaymentLink(PaymentParams params);
 }
@@ -201,6 +200,23 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
       if (response.statusCode == 200) {
         return response.data['data']['invoice_url'];
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<num> getMinPrice() async {
+    try {
+      final response = await api.dio.get(
+        '${host}app/get-min-cart-price',
+      );
+
+      if (response.statusCode == 200) {
+        return int.parse(response.data);
       } else {
         throw ServerException();
       }

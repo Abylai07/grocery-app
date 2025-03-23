@@ -62,4 +62,10 @@ class OrderServiceRepositoryImpl extends AbstractOrderServiceRepository {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.getPaymentLink(params));
   }
+
+  @override
+  Future<Either<Failure, num>> getMinPrice() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.getMinPrice());
+  }
 }

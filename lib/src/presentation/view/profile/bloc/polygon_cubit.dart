@@ -12,7 +12,7 @@ class PolygonCubit extends Cubit<BaseState> {
   final CityUseCase cityUseCase;
 
   void getCityPolygon() async {
-  //  emit(const BaseState(status: CubitStatus.loading));
+    emit(const BaseState(status: CubitStatus.loading));
 
     int? id = SharedPrefs().getCityId();
     final failureOrAuth =

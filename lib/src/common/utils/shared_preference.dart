@@ -22,6 +22,7 @@ class SharedPrefs {
   static const _cityName = '_cityName';
   static const _cityId = '_cityId';
   static const _roles = '_roles';
+  static const _email = '_email';
   static const _appVersion = '_appVersion';
   static const _lightTheme = '_lightTheme';
   static const _setThemeAuto = '_setThemeAuto';
@@ -42,6 +43,7 @@ class SharedPrefs {
     _box.remove(_fullName);
     _box.remove(_cityName);
     _box.remove(_roles);
+    _box.remove(_email);
   }
 
   void setAccessToken(String? value) {
@@ -93,6 +95,14 @@ class SharedPrefs {
 
   String? getId() {
     return _getValue(_id);
+  }
+
+  void setEmail(String? email) {
+    _setValue(_email, email);
+  }
+
+  String? getEmail() {
+    return _getValue(_email);
   }
 
   void setFullName(String? name) {

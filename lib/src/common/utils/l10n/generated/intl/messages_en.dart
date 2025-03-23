@@ -24,10 +24,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(sum) => "Proceed to checkout: ${sum} ₸";
 
-  static String m2(time) =>
+  static String m2(price) => "Minimum order amount: ${price} KZT";
+
+  static String m3(time) =>
       "Complete payment within ${time} or the order will be canceled";
 
-  static String m3(num) => "Code sent to ${num}";
+  static String m4(num) => "Code sent to ${num}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -74,6 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Change address list"),
         "changed_quantity": MessageLookupByLibrary.simpleMessage(
             "The quantity of the product has been changed:"),
+        "check_status": MessageLookupByLibrary.simpleMessage("Check status"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "commentToAddress":
@@ -114,6 +117,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "district": MessageLookupByLibrary.simpleMessage("District"),
         "editAddress": MessageLookupByLibrary.simpleMessage("Edit address"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "email_invalid": MessageLookupByLibrary.simpleMessage(
+            "Invalid email format. Example: example@mail.com"),
         "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "enterCode":
             MessageLookupByLibrary.simpleMessage("Enter the verification code"),
@@ -121,6 +127,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Enter your first and last name"),
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Enter your phone number to continue"),
+        "enter_name_surname_email": MessageLookupByLibrary.simpleMessage(
+            "Please enter your name, surname, and email. These details are required for order processing and receipt delivery."),
         "entrance": MessageLookupByLibrary.simpleMessage("Entrance"),
         "errorPlsAgain": MessageLookupByLibrary.simpleMessage(
             "Something went wrong, try again"),
@@ -130,6 +138,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorite": MessageLookupByLibrary.simpleMessage("Favorite"),
         "favoriteEmpty": MessageLookupByLibrary.simpleMessage(
             "Favorite items list is empty"),
+        "fillEntrance": MessageLookupByLibrary.simpleMessage(
+            "Please fill in the entrance field"),
+        "fillFloor": MessageLookupByLibrary.simpleMessage(
+            "Please fill in the floor field"),
+        "fillHouse": MessageLookupByLibrary.simpleMessage(
+            "Please fill in the apt/office field"),
         "fillName": MessageLookupByLibrary.simpleMessage(
             "Fill in the first and last name fields"),
         "floor": MessageLookupByLibrary.simpleMessage("Floor"),
@@ -161,12 +175,15 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Log in to account"),
         "logout": MessageLookupByLibrary.simpleMessage("Log out"),
         "main": MessageLookupByLibrary.simpleMessage("Home"),
+        "maintenance_description": MessageLookupByLibrary.simpleMessage(
+            "We are updating our system to improve service quality. Please try again later. Thank you for your patience!"),
+        "maintenance_title":
+            MessageLookupByLibrary.simpleMessage("🔧 Maintenance Work"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Place order"),
         "maker": MessageLookupByLibrary.simpleMessage("Manufacturer"),
         "max_number_of_cards":
             MessageLookupByLibrary.simpleMessage("Maximum number of cards"),
-        "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
-            "Minimum order amount: 5000 KZT"),
+        "minimum_order_amount": m2,
         "mustFill":
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "myOrders": MessageLookupByLibrary.simpleMessage("My orders"),
@@ -207,7 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Payment failed or was canceled. Please try again."),
         "payOrder": MessageLookupByLibrary.simpleMessage("Pay order"),
         "paySum": MessageLookupByLibrary.simpleMessage("Amount to pay"),
-        "payTime": m2,
+        "payTime": m3,
         "payTimeFinish": MessageLookupByLibrary.simpleMessage(
             "Payment time is up, the order is being canceled"),
         "payment": MessageLookupByLibrary.simpleMessage("Payment"),
@@ -248,7 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please select a delivery time"),
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("Select payment method"),
-        "sentTo": m3,
+        "sentTo": m4,
         "signIn": MessageLookupByLibrary.simpleMessage("Sign in to account"),
         "somethingError":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
@@ -257,6 +274,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sureLogout": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to log out? We will miss you."),
         "surname": MessageLookupByLibrary.simpleMessage("Last name"),
+        "technicalStill": MessageLookupByLibrary.simpleMessage(
+            "Technical work is still underway"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Thank you for your purchase! We will contact you with delivery details"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Add to basket"),

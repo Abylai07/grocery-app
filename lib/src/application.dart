@@ -1,6 +1,7 @@
 import 'package:abricoz_app/src/presentation/bloc/nav_bar_bloc.dart';
 import 'package:abricoz_app/src/presentation/bloc/remote_config_cubit.dart';
 import 'package:abricoz_app/src/presentation/bloc/search_bloc/search_bloc.dart';
+import 'package:abricoz_app/src/presentation/bloc/status_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
 import 'package:abricoz_app/src/presentation/view/category/bloc/category_cubit.dart';
 import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
@@ -66,8 +67,11 @@ class _ApplicationState extends State<Application> {
         BlocProvider<CardsCubit>(
           create: (_) => CardsCubit(sl())..fetchMyCards(),
         ),
+        BlocProvider<AppSettingsCubit>(
+          create: (_) => AppSettingsCubit(sl())..fetchAppStatus(),
+        ),
         BlocProvider<UserCubit>(
-          create: (_) => UserCubit(sl()),
+          create: (_) => UserCubit(sl())..fetchUser(),
         ),
         BlocProvider(
           create: (context) => BasketBloc(sl()),

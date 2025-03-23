@@ -24,10 +24,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(sum) => "Тапсырысты рәсімдеу: ${sum} ₸";
 
-  static String m2(time) =>
+  static String m2(price) => "Тапсырыстың ең аз сомасы: ${price} тг";
+
+  static String m3(time) =>
       "Төлемді ${time} ішінде аяқтаңыз, әйтпесе тапсырыс жойылады";
 
-  static String m3(num) => "Код осы нөмірге жіберілді: ${num}";
+  static String m4(num) => "Код осы нөмірге жіберілді: ${num}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -76,6 +78,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Мекенжай тізімін өзгерту"),
         "changed_quantity":
             MessageLookupByLibrary.simpleMessage("Тауар саны өзгертілді:"),
+        "check_status":
+            MessageLookupByLibrary.simpleMessage("Жұмыс біткенін тексеру"),
         "city": MessageLookupByLibrary.simpleMessage("Қала"),
         "close": MessageLookupByLibrary.simpleMessage("Жабу"),
         "commentToAddress":
@@ -116,6 +120,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "district": MessageLookupByLibrary.simpleMessage("Аудан"),
         "editAddress":
             MessageLookupByLibrary.simpleMessage("Мекенжайды өзгерту"),
+        "email": MessageLookupByLibrary.simpleMessage("Электрондық пошта"),
+        "email_invalid": MessageLookupByLibrary.simpleMessage(
+            "Электрондық пошта дұрыс емес. Мысал: example@mail.com"),
         "empty": MessageLookupByLibrary.simpleMessage("Бос"),
         "enterCode":
             MessageLookupByLibrary.simpleMessage("Растау кодын енгізіңіз"),
@@ -123,6 +130,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Аты мен тегіңізді енгізіңіз"),
         "enterNum": MessageLookupByLibrary.simpleMessage(
             "Жалғастыру үшін телефон нөмірін енгізіңіз"),
+        "enter_name_surname_email": MessageLookupByLibrary.simpleMessage(
+            "Тапсырыс рәсімдеу және чек алу үшін аты-жөніңіз бен email енгізіңіз."),
         "entrance": MessageLookupByLibrary.simpleMessage("Кіреберіс"),
         "errorPlsAgain": MessageLookupByLibrary.simpleMessage(
             "Бірдеңе дұрыс болмады, қайталап көріңіз"),
@@ -132,6 +141,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "favorite": MessageLookupByLibrary.simpleMessage("Таңдаулы"),
         "favoriteEmpty":
             MessageLookupByLibrary.simpleMessage("Таңдаулы өнімдер тізімі бос"),
+        "fillEntrance":
+            MessageLookupByLibrary.simpleMessage("Кіреберіс санын енгізіңіз"),
+        "fillFloor": MessageLookupByLibrary.simpleMessage("Қабатты енгізіңіз"),
+        "fillHouse":
+            MessageLookupByLibrary.simpleMessage("Пәтер/кеңсені енгізіңіз"),
         "fillName": MessageLookupByLibrary.simpleMessage(
             "Есіміңізді және Тегіңізді толтырыңыз"),
         "floor": MessageLookupByLibrary.simpleMessage("Қабат"),
@@ -162,12 +176,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginAccount": MessageLookupByLibrary.simpleMessage("Аккаунтқа кіру"),
         "logout": MessageLookupByLibrary.simpleMessage("Шығу"),
         "main": MessageLookupByLibrary.simpleMessage("Басты бет"),
+        "maintenance_description": MessageLookupByLibrary.simpleMessage(
+            "Біз қызмет сапасын жақсарту үшін жүйені жаңартудамыз. Кейінірек қайта кіріп көріңіз. Түсіністік танытқаныңызға рақмет!"),
+        "maintenance_title":
+            MessageLookupByLibrary.simpleMessage("🔧 Техникалық жұмыстар"),
         "makeOrder": MessageLookupByLibrary.simpleMessage("Тапсырыс жасау"),
         "maker": MessageLookupByLibrary.simpleMessage("Өндіруші"),
         "max_number_of_cards":
             MessageLookupByLibrary.simpleMessage("Карталардың ең көп саны"),
-        "minimum_order_amount": MessageLookupByLibrary.simpleMessage(
-            "Тапсырыстың ең аз сомасы: 5000 тг"),
+        "minimum_order_amount": m2,
         "mustFill": MessageLookupByLibrary.simpleMessage(
             "Бұл орын міндетті түрде толтырылуы керек"),
         "myOrders": MessageLookupByLibrary.simpleMessage("Менің тапсарыстарым"),
@@ -212,7 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Төлем орындалмады немесе жойылды. Қайта көріңіз."),
         "payOrder": MessageLookupByLibrary.simpleMessage("Тапсырысты төлеу"),
         "paySum": MessageLookupByLibrary.simpleMessage("Төлем сомасы"),
-        "payTime": m2,
+        "payTime": m3,
         "payTimeFinish": MessageLookupByLibrary.simpleMessage(
             "Төлем уақыты аяқталды, тапсырыс жоюлуда"),
         "payment": MessageLookupByLibrary.simpleMessage("Төлем"),
@@ -255,7 +272,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Жеткізу уақытын таңдаңыз"),
         "select_payment_method":
             MessageLookupByLibrary.simpleMessage("Выберите способ оплаты"),
-        "sentTo": m3,
+        "sentTo": m4,
         "signIn": MessageLookupByLibrary.simpleMessage("Аккаунтқа кіру"),
         "somethingError":
             MessageLookupByLibrary.simpleMessage("Бір нәрсе дұрыс емес"),
@@ -264,6 +281,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "sureLogout": MessageLookupByLibrary.simpleMessage(
             "Шығуға сенімдісіз бе? Біз сізді сағынамыз."),
         "surname": MessageLookupByLibrary.simpleMessage("Тегі"),
+        "technicalStill": MessageLookupByLibrary.simpleMessage(
+            "Техникалық жұмыстар әлі де жалғасуда"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Сатып алғаныңыз үшін рахмет! Жеткізу туралы мәліметтермен сізге хабарласамыз"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Себетке қосу"),

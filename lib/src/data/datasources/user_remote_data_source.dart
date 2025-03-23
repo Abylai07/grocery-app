@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:abricoz_app/src/data/models/user/app_config_model.dart';
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/app_config_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
 import 'package:abricoz_app/src/domain/entity/user/location_entity.dart';
@@ -34,7 +36,7 @@ abstract class UserRemoteDataSource {
 
   Future<List<CityEntity>> getCityList();
 
-  Future<List<LocationEntity>> getCityPolygon(PathParams params);
+  Future<PointsEntity> getCityPolygon(PathParams params);
 
   Future<List<BannerEntity>> fetchBanners();
 
@@ -54,7 +56,11 @@ abstract class UserRemoteDataSource {
 
   Future<bool> deleteCard(PathParams params);
 
+  Future<AppConfigEntity> fetchAppSettings();
+
   Future<List<CardEntity>> fetchMyCards();
+
+  Future<UserEntity> fetchUser();
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -286,15 +292,13 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
-  Future<List<LocationEntity>> getCityPolygon(PathParams params) async {
+  Future<PointsEntity> getCityPolygon(PathParams params) async {
     try {
       final response = await api.dio.get(
         '${constants.host}point/index?city_id=${params.path}',
       );
       if (response.statusCode == 200) {
-        return (response.data['data'] as List)
-            .map((e) => LocationModel.fromJson(e))
-            .toList();
+        return PointsModel.fromJson(response.data);
       } else {
         throw ServerException();
       }
@@ -331,6 +335,40 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
         return (response.data['data'] as List)
             .map((e) => CardModel.fromJson(e))
             .toList();
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<AppConfigEntity> fetchAppSettings() async {
+    try {
+      final response = await api.dio.get(
+        '${host}app/get-settings',
+      );
+
+      if (response.statusCode == 200) {
+        return AppConfigModel.fromJson(response.data);
+      } else {
+        throw ServerException();
+      }
+    } on DioException catch (e) {
+      return api.handleDioException(e);
+    }
+  }
+
+  @override
+  Future<UserEntity> fetchUser() async {
+    try {
+      final response = await api.dio.get(
+        '${host}user/me',
+      );
+
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(response.data);
       } else {
         throw ServerException();
       }

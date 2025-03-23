@@ -5,6 +5,7 @@ class CategoryEntity extends Equatable {
   final String? photoUrl;
   final String? mobileUrl;
   final Map<String, String> name;
+  final int? forwardSubcategoryId;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -12,6 +13,7 @@ class CategoryEntity extends Equatable {
     required this.id,
     required this.photoUrl,
     this.mobileUrl,
+    this.forwardSubcategoryId,
     required this.name,
     required this.createdAt,
     required this.updatedAt,
@@ -22,6 +24,7 @@ class CategoryEntity extends Equatable {
     id,
     photoUrl,
     mobileUrl,
+    forwardSubcategoryId,
     name,
     createdAt,
     updatedAt,

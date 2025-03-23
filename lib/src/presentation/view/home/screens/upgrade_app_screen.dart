@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:abricoz_app/src/common/app_styles/assets.dart';
 import 'package:abricoz_app/src/common/app_styles/colors.dart';
 import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
@@ -5,18 +7,39 @@ import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
 import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/utils/l10n/generated/l10n.dart';
 
 @RoutePage()
 class UpgradeAppScreen extends StatelessWidget {
-  const UpgradeAppScreen({super.key, required this.onUpdate});
+  const UpgradeAppScreen({super.key, required this.storeUrl});
 
-  final Function() onUpdate;
+  final String storeUrl;
 
   @override
   Widget build(BuildContext context) {
     final appBarHeight = AppBar().preferredSize.height;
+
+    void sendUserToAppStore() async {
+      if (storeUrl.isEmpty) {
+        print('upgrader: empty appStoreListingURL');
+        return;
+      }
+
+      print('upgrader: launching: $storeUrl');
+
+      if (await canLaunchUrl(Uri.parse(storeUrl))) {
+        try {
+          await launchUrl(Uri.parse(storeUrl),
+              mode: Platform.isAndroid
+                  ? LaunchMode.externalNonBrowserApplication
+                  : LaunchMode.platformDefault);
+        } catch (e) {
+          print('upgrader: launch to app store failed: $e');
+        }
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -27,7 +50,7 @@ class UpgradeAppScreen extends StatelessWidget {
         child: CustomMainButton(
           height: 52,
           text: S.of(context).update_button,
-          onTap: onUpdate,
+          onTap: sendUserToAppStore,
         ),
       ),
       body: LayoutBuilder(

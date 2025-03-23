@@ -17,7 +17,7 @@ class CityUseCase {
     return await repository.getCityList();
   }
 
-  Future<Either<Failure, List<LocationEntity>>> getCityPolygon(PathParams params) async {
+  Future<Either<Failure, PointsEntity>> getCityPolygon(PathParams params) async {
     return await repository.getCityPolygon(params);
   }
 }

@@ -11,6 +11,7 @@ import '../../../common/app_styles/colors.dart';
 import '../../../common/app_styles/text_styles.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../data/hive/adapter/product_adapter.dart';
+import '../../../data/hive/hive_database.dart';
 import '../product/widgets/product_loading_widget.dart';
 import '../product/widgets/product_widget.dart';
 
@@ -20,6 +21,7 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<ProductHiveModel> basketList = [];
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,9 +29,8 @@ class FavoriteScreen extends StatelessWidget {
       ),
       body: BlocBuilder<BasketBloc, BasketState>(
         builder: (context, basketState) {
-          if (basketState.status.isClearedBasket || basketState.isCartChanged) {
-            context.read<FavoriteCubit>().fetchFavorites();
-          }
+          basketList = basketState.allProducts ?? BasketDatabase().getAllProducts();
+
           return RefreshIndicator(
             onRefresh: (){
               context.read<FavoriteCubit>().fetchFavorites();
@@ -42,13 +43,14 @@ class FavoriteScreen extends StatelessWidget {
                   builder: (context, state) {
                     if (state.status.isSuccess &&
                         state.entity?.isNotEmpty == true) {
+                      basketList = BasketDatabase().getAllProducts();
+
                       return GridView.builder(
                         shrinkWrap: true,
                         padding: const EdgeInsets.only(top: 12, bottom: 24),
                         itemCount: state.entity?.length,
                         itemBuilder: (context, index) {
-                          ProductHiveModel? itemInBasket =
-                              basketState.allProducts?.firstWhere(
+                          ProductHiveModel? itemInBasket = basketList.firstWhere(
                             (element) => element.id == state.entity?[index].id,
                             orElse: () => ProductHiveModel(
                               id: -1,
@@ -58,6 +60,7 @@ class FavoriteScreen extends StatelessWidget {
                             ),
                           );
                           return BlocProvider(
+                            key: ValueKey('${itemInBasket.id}=${itemInBasket.basketCount}'),
                             create: (context) => BasketButtonBloc(itemInBasket),
                             child: ProductWidget(product: state.entity![index]),
                           );

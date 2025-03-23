@@ -21,6 +21,7 @@ import '../../widgets/main_functions.dart';
 import '../../widgets/search_app_bar.dart';
 import '../basket/bloc/basket_bloc/basket_bloc.dart';
 import '../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
+import '../basket/widgets/make_order_button.dart';
 import 'bloc/search_bloc/search_product_cubit.dart';
 
 @RoutePage()
@@ -33,8 +34,11 @@ class ProductScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              ProductsCubit(sl())..setCategoryId(subCategory.id),
+          create: (context) => ProductsCubit(sl())
+            ..setCategory(
+              subCategory.id,
+              isDiscount: subCategory.isDiscount,
+            ),
         ),
         BlocProvider(
           create: (context) => SearchProductCubit(sl()),
@@ -60,7 +64,7 @@ class ProductView extends StatelessWidget {
     TextEditingController searchController = TextEditingController();
 
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       appBar: SearchAppBar(
         title: getLocaleText(subCategory.name),
         controller: searchController,
@@ -80,98 +84,104 @@ class ProductView extends StatelessWidget {
           }
         },
       ),
-      body: BlocListener<BasketBloc, BasketState>(
-        listener: (context, state) {
-          if (state.status.isClearedBasket || state.isCartChanged) {
-            context.read<ProductsCubit>().pagingController.refresh();
-          }
-        },
-        child: BlocBuilder<SearchBloc, SearchState>(
-          builder: (context, state) {
-            if (state.isShowWidgets) {
-              return const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: CustomScrollView(
-                  slivers: [
-                    SearchProductsView(),
-                  ],
-                ),
-              );
-            }
-            return BlocBuilder<ProductsCubit, BaseState>(
-              builder: (context, state) {
-                final cubit = context.read<ProductsCubit>();
-                if (state.status.isSuccess) {
-                  basketList = BasketDatabase().getAllProducts();
-                }
-                return RefreshIndicator(
-                  onRefresh: () => Future.sync(
-                    () {
-                      context.read<ProductsCubit>().pagingController.refresh();
-                      basketList = BasketDatabase().getAllProducts();
-                    },
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 12),
-                    child: CustomScrollView(
-                      slivers: [
-                        PagedSliverGrid<int, ProductEntity>(
-                          pagingController: cubit.pagingController,
-                          showNewPageProgressIndicatorAsGridChild: false,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 8.0,
-                            crossAxisSpacing: 8.0,
-                            mainAxisExtent: 350,
-                          ),
-                          builderDelegate:
-                              PagedChildBuilderDelegate<ProductEntity>(
-                            firstPageProgressIndicatorBuilder: (context) {
-                              return const Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ProductLoadingWidget(),
-                                ],
-                              );
-                            },
-                            noItemsFoundIndicatorBuilder: (context) {
-                              return EmptyAnswerWidget(
-                                description: S.of(context).otherCategory,
-                              );
-                            },
-                            itemBuilder: (context, item, index) {
-                              ProductHiveModel itemInBasket =
-                                  basketList.firstWhere(
-                                (element) => element.id == item.id,
-                                orElse: () => ProductHiveModel(
-                                  id: -1,
-                                  name: {},
-                                  description: {},
-                                  price: 0,
-                                ),
-                              );
+      // bottomNavigationBar: const MakeOrderButton(
+      //   showWhenUpMinPrice: true,
+      // ),
+      body: BlocBuilder<BasketBloc, BasketState>(
+        builder: (context, state) {
+          basketList = state.allProducts ?? BasketDatabase().getAllProducts();
 
-                              return BlocProvider(
-                                create: (context) =>
-                                    BasketButtonBloc(itemInBasket),
-                                child: ProductWidget(product: item),
-                              );
-                            },
-                          ),
-                        ),
-                        const SliverToBoxAdapter(
-                          child: SizedBox(height: 40),
-                        ),
-                      ],
-                    ),
+          return BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              if (state.isShowWidgets) {
+                return const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CustomScrollView(
+                    slivers: [
+                      SearchProductsView(),
+                    ],
                   ),
                 );
-              },
-            );
-          },
-        ),
+              }
+              return BlocBuilder<ProductsCubit, BaseState>(
+                builder: (context, state) {
+                  final cubit = context.read<ProductsCubit>();
+                  if (state.status.isSuccess) {
+                    basketList = BasketDatabase().getAllProducts();
+                  }
+                  return RefreshIndicator(
+                    onRefresh: () => Future.sync(
+                      () {
+                        context
+                            .read<ProductsCubit>()
+                            .pagingController
+                            .refresh();
+                      },
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 4),
+                      child: CustomScrollView(
+                        slivers: [
+                          PagedSliverGrid<int, ProductEntity>(
+                            pagingController: cubit.pagingController,
+                            showNewPageProgressIndicatorAsGridChild: false,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 8.0,
+                              crossAxisSpacing: 8.0,
+                              mainAxisExtent: 350,
+                            ),
+                            builderDelegate:
+                                PagedChildBuilderDelegate<ProductEntity>(
+                              firstPageProgressIndicatorBuilder: (context) {
+                                return const Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ProductLoadingWidget(),
+                                  ],
+                                );
+                              },
+                              noItemsFoundIndicatorBuilder: (context) {
+                                return EmptyAnswerWidget(
+                                  description: S.of(context).otherCategory,
+                                );
+                              },
+                              itemBuilder: (context, item, index) {
+                                ProductHiveModel itemInBasket =
+                                    basketList.firstWhere(
+                                  (element) => element.id == item.id,
+                                  orElse: () => ProductHiveModel(
+                                    id: -1,
+                                    name: {},
+                                    description: {},
+                                    price: 0,
+                                  ),
+                                );
+
+                                return BlocProvider(
+                                  key: ValueKey(
+                                      '${itemInBasket.id}=${itemInBasket.basketCount}'),
+                                  create: (context) =>
+                                      BasketButtonBloc(itemInBasket),
+                                  child: ProductWidget(product: item),
+                                );
+                              },
+                            ),
+                          ),
+                          const SliverToBoxAdapter(
+                            child: SizedBox(height: 40),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
       ),
     );
   }

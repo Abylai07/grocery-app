@@ -31,6 +31,7 @@ class ProductWidget extends StatelessWidget {
         showModalBottomSheet(
           isScrollControlled: true,
           context: context,
+          useRootNavigator: true,
           backgroundColor: AppColors.white,
           builder: (cxt) {
             return BlocProvider.value(

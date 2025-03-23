@@ -76,6 +76,9 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
   @override
   void initState() {
     getAppVersionWithBuild();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      widget.upgrader.initialize();
+    });
     super.initState();
   }
 
@@ -86,17 +89,29 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
   }
 
   @override
+  void dispose() {
+    widget.upgrader.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.upgrader.state.debugLogging) {
       print('upgrader: build UpgradeAlert');
     }
-    // if (storeVersion == null && !displayed) {
-    //   widget.upgrader.initialize();
-    // }
+
+    if (storeVersion == null) {
+      widget.upgrader.initialize();
+    }
+
     return StreamBuilder(
       initialData: widget.upgrader.state,
       stream: widget.upgrader.stateStream,
       builder: (BuildContext context, AsyncSnapshot<UpgraderState> snapshot) {
+        if (storeVersion != null) {
+          return widget.child ?? const SizedBox.shrink();
+        }
+
         if ((snapshot.connectionState == ConnectionState.waiting ||
                 snapshot.connectionState == ConnectionState.active) &&
             snapshot.data != null) {
@@ -106,6 +121,9 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
           }
 
           if (storeVersion != null) {
+            print(
+                'upgrader storeVersion: $storeVersion  ${widget.upgrader.versionInfo?.appStoreListingURL}');
+
             if (widget.upgrader.state.debugLogging) {
               print("upgrader: need to evaluate version" +
                   " storeVersion: $storeVersion");
@@ -126,18 +144,6 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
     );
   }
 
-  bool isVersionGreater(String version1, String version2) {
-    List<int> parts1 = version1.split('.').map(int.parse).toList();
-    List<int> parts2 = version2.split('.').map(int.parse).toList();
-
-    for (int i = 0; i < parts1.length; i++) {
-      if (parts1[i] > parts2[i]) return true;
-      if (parts1[i] < parts2[i]) return false;
-    }
-
-    return false; // Если версии равны
-  }
-
   /// Will show the alert dialog when it should be dispalyed.
   void checkVersion({required BuildContext context}) {
     final shouldDisplay = widget.upgrader.shouldDisplayUpgrade();
@@ -148,10 +154,10 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
       displayed = true;
       // final appMessages = widget.upgrader.determineMessages(context);
 
-      Future.delayed(const Duration(milliseconds: 0), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         context.router.replaceAll([
           UpgradeAppRoute(
-            onUpdate: () => onUserUpdated(context, false),
+            storeUrl: widget.upgrader.versionInfo?.appStoreListingURL ?? '',
           ),
         ]);
       });

@@ -1,4 +1,5 @@
 import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
+import 'package:abricoz_app/src/domain/entity/user/app_config_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/card_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
@@ -19,7 +20,7 @@ abstract class AbstractUserServiceRepository {
 
   Future<Either<Failure, List<CityEntity>>> getCityList();
 
-  Future<Either<Failure, List<LocationEntity>>> getCityPolygon(params);
+  Future<Either<Failure, PointsEntity>> getCityPolygon(params);
 
   Future<Either<Failure, List<BannerEntity>>> fetchBanners();
 
@@ -40,4 +41,8 @@ abstract class AbstractUserServiceRepository {
   Future<Either<Failure, bool>> deleteCard(params);
 
   Future<Either<Failure, bool>> deleteUser();
+
+  Future<Either<Failure, AppConfigEntity>> fetchAppSettings();
+
+  Future<Either<Failure, UserEntity>> fetchUser();
 }

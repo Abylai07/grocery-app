@@ -5,6 +5,7 @@ import '../../../../../common/utils/shared_preference.dart';
 import '../../../../../domain/usecase/user/sign_in_usecase.dart';
 
 part 'sign_in_state.dart';
+
 class SingInCubit extends Cubit<SignInState> {
   SingInCubit(this.signInUseCase) : super(const SignInState());
 
@@ -48,8 +49,9 @@ class SingInCubit extends Cubit<SignInState> {
           final data = r;
           SharedPrefs().setId(r.id.toString());
           SharedPrefs().setPhone(number.trim());
-          bool needName = data.firstname == null || data.lastname == null;
+          bool needName = data.firstname == null || data.email == null;
           if (!needName) {
+            SharedPrefs().setEmail(r.email);
             SharedPrefs().setFullName('${data.firstname} ${data.lastname}');
           }
           if (r.roles?.isNotEmpty == true) {
@@ -70,12 +72,13 @@ class SingInCubit extends Cubit<SignInState> {
     );
   }
 
-  void setName(String name, String surname) async {
+  void setName(String name, String surname, String email) async {
     emit(const SignInState(status: SignInStatus.loading));
 
     final failureOrAuth = await signInUseCase.setName(MapParams({
       'firstname': name,
       'lastname': surname,
+      'email': email,
     }));
 
     emit(
@@ -86,6 +89,7 @@ class SingInCubit extends Cubit<SignInState> {
         ),
             (r) {
           SharedPrefs().setFullName('${r.firstname} ${r.lastname}');
+          SharedPrefs().setEmail(r.email);
           return SignInState(
             status: SignInStatus.successName,
             entity: r,

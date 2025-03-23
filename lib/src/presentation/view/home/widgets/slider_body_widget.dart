@@ -7,6 +7,7 @@ import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
 import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
 import 'package:abricoz_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
 import 'package:abricoz_app/src/presentation/widgets/main_functions.dart';
+import 'package:abricoz_app/src/presentation/widgets/shimmer_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +33,8 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> with RouteAware {
   @override
   void initState() {
     super.initState();
-    controller = PageController(viewportFraction: 1, keepPage: true);
+    controller =
+        PageController(viewportFraction: 1, keepPage: true, initialPage: 10);
   }
 
   @override
@@ -77,7 +79,6 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> with RouteAware {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -99,7 +100,6 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> with RouteAware {
             children: [
               PageView.builder(
                 controller: controller,
-                allowImplicitScrolling: true,
                 // onPageChanged: (page){
                 //   _timer.cancel();
                 // },
@@ -111,83 +111,95 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> with RouteAware {
                       banners.isEmpty
                           ? buildLocalImage()
                           : CachedNetworkImage(
-                              imageUrl: banners[index % banners.length].imageUrl,
+                              imageUrl:
+                                  banners[index % banners.length].imageUrl,
                               fit: BoxFit.cover,
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) =>
-                                      buildLocalImage(),
+                                      const ShimmerWidget(
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
                               errorWidget: (context, url, error) =>
                                   buildLocalImage(),
                             ),
-                      Positioned(
-                        left: 16,
-                        bottom: 56,
-                        right: 16,
-                        child: Text(
-                          banners.isEmpty
-                              ? S.of(context).bannerLocal
-                              : getLocaleText(
-                                  banners[index % banners.length].title),
-                          style: AppTextStyle.titleMedium
-                              .copyWith(fontWeight: FontWeight.w700),
+                      if (banners.isNotEmpty)
+                        Positioned(
+                          left: 16,
+                          bottom: 56,
+                          right: 16,
+                          child: Text(
+                            getLocaleText(
+                                banners[index % banners.length].title),
+                            style: AppTextStyle.titleMedium
+                                .copyWith(fontWeight: FontWeight.w700),
+                          ),
                         ),
-                      ),
                     ],
                   );
                 },
               ),
               SafeArea(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Column(
-                      children: [
-                        6.height,
-                        Text(
-                          S.of(context).selectCity,
-                          style: AppTextStyle.displayLarge.copyWith(
-                            color: AppColors.black.withOpacity(0.5),
-                          ),
-                        ),
-                        BlocBuilder<CityCubit, CityState>(
-                          builder: (context, state) {
-                            return DropdownButton<String>(
-                              value: state.selectCity?.name,
-                              isDense: true,
-                              icon: SvgPicture.asset(AppAssets.arrowDown),
-                              underline: const SizedBox(),
-                              style: AppTextStyle.bodyLarge
-                                  .copyWith(fontWeight: FontWeight.w600),
-                              onChanged: (String? value) {},
-                              borderRadius: BorderRadius.circular(16),
-                              items: state.entity
-                                  ?.map<DropdownMenuItem<String>>(
-                                      (CityEntity city) {
-                                return DropdownMenuItem<String>(
-                                  value: city.name,
-                                  child: Text(city.name),
-                                  onTap: () {
-                                    context.read<CityCubit>().selectCity(city);
-                                  },
-                                );
-                              }).toList(),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                    // Column(
+                    //   children: [
+                    //     6.height,
+                    //     Text(
+                    //       S.of(context).selectCity,
+                    //       style: AppTextStyle.displayLarge.copyWith(
+                    //         color: AppColors.black.withOpacity(0.5),
+                    //       ),
+                    //     ),
+                    //     BlocBuilder<CityCubit, CityState>(
+                    //       builder: (context, state) {
+                    //         return DropdownButton<String>(
+                    //           value: state.selectCity?.name,
+                    //           isDense: true,
+                    //           icon: SvgPicture.asset(AppAssets.arrowDown),
+                    //           underline: const SizedBox(),
+                    //           style: AppTextStyle.bodyLarge
+                    //               .copyWith(fontWeight: FontWeight.w600),
+                    //           onChanged: (String? value) {},
+                    //           borderRadius: BorderRadius.circular(16),
+                    //           items: state.entity
+                    //               ?.map<DropdownMenuItem<String>>(
+                    //                   (CityEntity city) {
+                    //             return DropdownMenuItem<String>(
+                    //               value: city.name,
+                    //               child: Text(city.name),
+                    //               onTap: () {
+                    //                 context.read<CityCubit>().selectCity(city);
+                    //               },
+                    //             );
+                    //           }).toList(),
+                    //         );
+                    //       },
+                    //     ),
+                    //   ],
+                    // ),
                     if (banners.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 32.0),
                         child: SmoothPageIndicator(
                           controller: controller,
                           count: banners.length,
-                          effect: WormEffect(
-                              dotHeight: 8,
-                              dotWidth: 8,
-                              activeDotColor: AppColors.white,
-                              dotColor: AppColors.white
-                                  .withOpacity(0.4)), // your preferred effect
+                          effect: CustomizableEffect(
+                            activeDotDecoration: DotDecoration(
+                              width: 16,
+                              height: 6,
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            dotDecoration: DotDecoration(
+                              width: 6,
+                              height: 6,
+                              color: AppColors.white.withValues(alpha: 0.4),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            spacing: 6.0,
+                          ),
                           onDotClicked: (index) {
                             controller.jumpToPage(index);
                           },
@@ -203,10 +215,7 @@ class _SliderBodyWidgetState extends State<SliderBodyWidget> with RouteAware {
     );
   }
 
-  Image buildLocalImage() {
-    return Image.asset(
-      AppAssets.banner,
-      fit: BoxFit.cover,
-    );
+  Widget buildLocalImage() {
+    return const SizedBox();
   }
 }

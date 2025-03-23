@@ -187,20 +187,31 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    TechnicalWorkRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TechnicalWorkScreen(),
+      );
+    },
     UpgradeAppRoute.name: (routeData) {
       final args = routeData.argsAs<UpgradeAppRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: UpgradeAppScreen(
           key: args.key,
-          onUpdate: args.onUpdate,
+          storeUrl: args.storeUrl,
         ),
       );
     },
     UserInfoRoute.name: (routeData) {
+      final args = routeData.argsAs<UserInfoRouteArgs>(
+          orElse: () => const UserInfoRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const UserInfoScreen(),
+        child: UserInfoScreen(
+          key: args.key,
+          isSignIn: args.isSignIn,
+        ),
       );
     },
     WebViewRoute.name: (routeData) {
@@ -758,17 +769,31 @@ class SubCategoryRouteArgs {
 }
 
 /// generated route for
+/// [TechnicalWorkScreen]
+class TechnicalWorkRoute extends PageRouteInfo<void> {
+  const TechnicalWorkRoute({List<PageRouteInfo>? children})
+      : super(
+          TechnicalWorkRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TechnicalWorkRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [UpgradeAppScreen]
 class UpgradeAppRoute extends PageRouteInfo<UpgradeAppRouteArgs> {
   UpgradeAppRoute({
     Key? key,
-    required dynamic Function() onUpdate,
+    required String storeUrl,
     List<PageRouteInfo>? children,
   }) : super(
           UpgradeAppRoute.name,
           args: UpgradeAppRouteArgs(
             key: key,
-            onUpdate: onUpdate,
+            storeUrl: storeUrl,
           ),
           initialChildren: children,
         );
@@ -782,31 +807,55 @@ class UpgradeAppRoute extends PageRouteInfo<UpgradeAppRouteArgs> {
 class UpgradeAppRouteArgs {
   const UpgradeAppRouteArgs({
     this.key,
-    required this.onUpdate,
+    required this.storeUrl,
   });
 
   final Key? key;
 
-  final dynamic Function() onUpdate;
+  final String storeUrl;
 
   @override
   String toString() {
-    return 'UpgradeAppRouteArgs{key: $key, onUpdate: $onUpdate}';
+    return 'UpgradeAppRouteArgs{key: $key, storeUrl: $storeUrl}';
   }
 }
 
 /// generated route for
 /// [UserInfoScreen]
-class UserInfoRoute extends PageRouteInfo<void> {
-  const UserInfoRoute({List<PageRouteInfo>? children})
-      : super(
+class UserInfoRoute extends PageRouteInfo<UserInfoRouteArgs> {
+  UserInfoRoute({
+    Key? key,
+    bool isSignIn = true,
+    List<PageRouteInfo>? children,
+  }) : super(
           UserInfoRoute.name,
+          args: UserInfoRouteArgs(
+            key: key,
+            isSignIn: isSignIn,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'UserInfoRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<UserInfoRouteArgs> page =
+      PageInfo<UserInfoRouteArgs>(name);
+}
+
+class UserInfoRouteArgs {
+  const UserInfoRouteArgs({
+    this.key,
+    this.isSignIn = true,
+  });
+
+  final Key? key;
+
+  final bool isSignIn;
+
+  @override
+  String toString() {
+    return 'UserInfoRouteArgs{key: $key, isSignIn: $isSignIn}';
+  }
 }
 
 /// generated route for

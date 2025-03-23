@@ -21,6 +21,7 @@ import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../common/utils/parsers/date_parser.dart';
 import '../../widgets/alert_dialog/text_alert_dialog.dart';
 import '../../widgets/modal_bottoms/non_authorize_modal.dart';
+import '../home/bloc/city_bloc/city_cubit.dart';
 import 'bloc/user_session_bloc.dart';
 
 @RoutePage()
@@ -99,6 +100,7 @@ class ProfileScreen extends StatelessWidget {
                         context.read<FavoriteCubit>().setInitState();
                       } else if (state is UserSessionLoaded) {
                         Notifications().init(context);
+                        context.read<CityCubit>().fetchCityList();
                       }
                     },
                     builder: (context, state) {

@@ -10,6 +10,7 @@ import 'package:dartz/dartz.dart';
 import '../../core/check_error_type.dart';
 import '../../core/error/failure.dart';
 import '../../domain/entity/product/product_entity.dart';
+import '../../domain/entity/user/app_config_entity.dart';
 import '../datasources/user_remote_data_source.dart';
 
 class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
@@ -90,7 +91,7 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   }
 
   @override
-  Future<Either<Failure, List<LocationEntity>>> getCityPolygon(params) {
+  Future<Either<Failure, PointsEntity>> getCityPolygon(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.getCityPolygon(params));
   }
@@ -105,5 +106,17 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   Future<Either<Failure, List<CardEntity>>> fetchMyCards() {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.fetchMyCards());
+  }
+
+  @override
+  Future<Either<Failure, AppConfigEntity>> fetchAppSettings() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchAppSettings());
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> fetchUser() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchUser());
   }
 }

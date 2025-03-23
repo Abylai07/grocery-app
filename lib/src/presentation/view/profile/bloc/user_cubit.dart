@@ -10,6 +10,27 @@ class UserCubit extends Cubit<BaseState> {
 
   final UserUseCase userUseCase;
 
+  void fetchUser() async {
+    emit(const BaseState(status: CubitStatus.loading));
+
+    final failureOrAuth = await userUseCase.fetchUser();
+
+    emit(
+      failureOrAuth.fold(
+              (l) => BaseState(
+            status: CubitStatus.error,
+            message: l.message,
+          ),
+              (r) {
+            return BaseState(
+              status: CubitStatus.success,
+              entity: r,
+            );
+          }
+      ),
+    );
+  }
+
   void deleteAccount() async {
     emit(const BaseState(status: CubitStatus.loading));
 

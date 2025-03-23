@@ -55,7 +55,7 @@ class AddOrChangeAddressScreen extends StatelessWidget {
   }
 }
 
-class AddOrChangeAddressView extends StatelessWidget {
+class AddOrChangeAddressView extends StatefulWidget {
   const AddOrChangeAddressView({
     super.key,
     this.address,
@@ -63,54 +63,77 @@ class AddOrChangeAddressView extends StatelessWidget {
   });
   final AddressEntity? address;
   final YandexAddress selectAddress;
+
+  @override
+  State<AddOrChangeAddressView> createState() => _AddOrChangeAddressViewState();
+}
+
+class _AddOrChangeAddressViewState extends State<AddOrChangeAddressView> {
+  late ExpandableController cityController;
+  late TextEditingController streetController;
+  late TextEditingController houseController;
+  late TextEditingController entranceController;
+  late TextEditingController floorController;
+  late TextEditingController commentController;
+  late bool isChangeAddress;
+
+  @override
+  void initState() {
+    super.initState();
+
+    cityController = ExpandableController();
+    streetController = TextEditingController(text: widget.selectAddress.street);
+    houseController = TextEditingController(text: widget.address?.apartment);
+    entranceController = TextEditingController(text: widget.address?.entrance);
+    floorController = TextEditingController(text: widget.address?.floor);
+    commentController =
+        TextEditingController(text: widget.address?.addressComment);
+
+    isChangeAddress = widget.address != null;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkFillField();
+    });
+  }
+
+  @override
+  void dispose() {
+    cityController.dispose();
+    streetController.dispose();
+    houseController.dispose();
+    entranceController.dispose();
+    floorController.dispose();
+    commentController.dispose();
+    super.dispose();
+  }
+
+  checkFillField() {
+    final buttonBloc = context.read<ButtonBloc>();
+    bool buttonActive = buttonBloc.state is ButtonActive;
+    if (!buttonActive && streetController.text.isNotEmpty) {
+      buttonBloc.add(const ToggleButton(isActive: true));
+    } else if (buttonActive && streetController.text.isEmpty) {
+      buttonBloc.add(const ToggleButton(isActive: false));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    ExpandableController cityController = ExpandableController();
-
-    TextEditingController streetController =
-    TextEditingController(text: selectAddress.street);
-    TextEditingController houseController =
-    TextEditingController(text: address?.apartment);
-    TextEditingController entranceController =
-    TextEditingController(text: address?.entrance);
-    TextEditingController floorController =
-    TextEditingController(text: address?.floor);
-    TextEditingController commentController =
-    TextEditingController(text: address?.addressComment);
-    bool isChangeAddress = address != null;
-
-    checkFillField() {
-      final buttonBloc = context.read<ButtonBloc>();
-      bool buttonActive = buttonBloc.state is ButtonActive;
-      if (!buttonActive &&
-          streetController.text.isNotEmpty &&
-          houseController.text.isNotEmpty) {
-        buttonBloc.add(const ToggleButton(isActive: true));
-      } else if (buttonActive &&
-          (streetController.text.isEmpty || houseController.text.isEmpty)) {
-        buttonBloc.add(const ToggleButton(isActive: false));
-      }
-    }
-
     onSavePressed() {
       int? cityId = context.read<CityCubit>().state.selectCity?.id;
-      context.read<AddressCubit>().addAddress(addressId: address?.id, data: {
+      context
+          .read<AddressCubit>()
+          .addAddress(addressId: widget.address?.id, data: {
         "city_id": cityId,
         "address_street_and_house": streetController.text,
         "address_apartment": houseController.text,
         "address_entrance": entranceController.text,
         "address_floor": floorController.text,
         "address_comment": commentController.text,
-        "latitude": selectAddress.latitude.toString(),
-        "longitude": selectAddress.longitude.toString(),
+        "latitude": widget.selectAddress.latitude.toString(),
+        "longitude": widget.selectAddress.longitude.toString(),
       });
     }
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isChangeAddress) {
-        checkFillField();
-      }
-    });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -118,17 +141,19 @@ class AddOrChangeAddressView extends StatelessWidget {
             ? S.of(context).editAddress
             : S.of(context).addNewAddress,
         actions: [
-          if (address != null)
+          if (widget.address != null)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: IconButton(
                 onPressed: () {
                   confirmAlertDialog(context,
                       title: S.of(context).deleteAddress, onYesTap: () {
-                        context.router.popUntil(
-                                (route) => route.settings.name == AddressRoute.name);
-                        context.read<AddressCubit>().deleteAddress(address?.id);
-                      });
+                    context.router.popUntil(
+                        (route) => route.settings.name == AddressRoute.name);
+                    context
+                        .read<AddressCubit>()
+                        .deleteAddress(widget.address?.id);
+                  });
                 },
                 icon: SvgPicture.asset(AppAssets.remove),
               ),
@@ -149,51 +174,57 @@ class AddOrChangeAddressView extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 4, bottom: 12),
                 child: BlocBuilder<CityCubit, CityState>(
                   builder: (context, state) {
-                    return ExpandablePanel(
-                      controller: cityController,
-                      theme: buildExpandableThemeData(),
-                      header: Text(
-                        state.selectCity?.name ?? 'Select city',
-                        style: AppTextStyle.bodyMedium,
-                      ),
-                      collapsed: const SizedBox(),
-                      expanded: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.entity?.length,
-                        itemBuilder: (context, i) {
-                          bool select =
-                              state.entity?[i].id == state.selectCity?.id;
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: InkWell(
-                              onTap: () {
-                                context
-                                    .read<CityCubit>()
-                                    .selectCity(state.entity?[i]);
-                                cityController.value = false;
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    state.entity?[i].name ?? '',
-                                    style: AppTextStyle.labelLarge.copyWith(
-                                        color: select
-                                            ? AppColors.main
-                                            : AppColors.gray2),
-                                  ),
-                                  if (select)
-                                    SvgPicture.asset(AppAssets.selected),
-                                ],
+                    if (state.status.isSuccess) {
+                      return ExpandablePanel(
+                        controller: cityController,
+                        theme: buildExpandableThemeData(),
+                        header: Text(
+                          state.selectCity?.name ?? 'Select city',
+                          style: AppTextStyle.bodyMedium,
+                        ),
+                        collapsed: const SizedBox(),
+                        expanded: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: state.entity?.length,
+                          itemBuilder: (context, i) {
+                            bool select =
+                                state.entity?[i].id == state.selectCity?.id;
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: InkWell(
+                                onTap: () {
+                                  context
+                                      .read<CityCubit>()
+                                      .selectCity(state.entity?[i]);
+                                  cityController.value = false;
+                                },
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      state.entity?[i].name ?? '',
+                                      style: AppTextStyle.labelLarge.copyWith(
+                                          color: select
+                                              ? AppColors.main
+                                              : AppColors.gray2),
+                                    ),
+                                    if (select)
+                                      SvgPicture.asset(AppAssets.selected),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                            );
+                          },
+                        ),
+                      );
+                    } else if (state.status.isLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      return const SizedBox();
+                    }
                   },
                 ),
               ),
@@ -212,9 +243,7 @@ class AddOrChangeAddressView extends StatelessWidget {
                       child: CustomTextFieldWidget(
                         controller: houseController,
                         hintText: S.of(context).office,
-                        onChanged: (val) {
-                          checkFillField();
-                        },
+                        onChanged: (val) {},
                       ),
                     ),
                     Expanded(
@@ -251,8 +280,8 @@ class AddOrChangeAddressView extends StatelessWidget {
         child: BlocConsumer<AddressCubit, AddressState>(
           listener: (context, state) {
             if (state.status.isSuccess) {
-              context.router.popUntil(
-                      (route) => route.settings.name == AddressRoute.name);
+              Navigator.pop(context);
+              Navigator.pop(context);
             } else if (state.status.isError) {
               showErrorSnackBar(context, S.of(context).somethingError);
             }
@@ -261,7 +290,7 @@ class AddOrChangeAddressView extends StatelessWidget {
             return BlocBuilder<ButtonBloc, ButtonState>(
               builder: (context, buttonState) {
                 return CustomMainButton(
-                  isActive: true, // buttonState is ButtonActive,
+                  isActive: buttonState is ButtonActive,
                   text: isChangeAddress
                       ? S.of(context).save
                       : S.of(context).addAddress,

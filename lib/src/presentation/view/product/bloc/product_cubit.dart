@@ -14,19 +14,21 @@ class ProductsCubit extends Cubit<BaseState> {
 
   ProductsCubit(this.productUseCase) : super(const BaseState()) {
     pagingController.addPageRequestListener((pageKey) {
-      _fetchPage(pageKey, _currentId);
+      _fetchPage(pageKey, _currentId, _isDiscount);
     });
   }
 
   int _currentId = 1;
+  bool _isDiscount = false;
 
-  Future<void> _fetchPage(int pageKey, int id) async {
+  Future<void> _fetchPage(int pageKey, int id, bool isDiscount) async {
     emit(state.copyWith(status: CubitStatus.loading));
     final failureOrAuth = await productUseCase.fetchProducts(MapParams(
         {
           'perPage': 20,
           'page': pageKey,
           'subcategory_id[]': id,
+          'is_discount': isDiscount ? 1 : 0,
         }
       ),
     );
@@ -58,8 +60,9 @@ class ProductsCubit extends Cubit<BaseState> {
     );
   }
 
-  void setCategoryId(int id) {
+  void setCategory(int id, {bool isDiscount = false}) {
     _currentId = id;
+    _isDiscount = isDiscount;
   }
 
 

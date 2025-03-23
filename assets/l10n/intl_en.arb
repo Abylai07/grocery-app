@@ -100,6 +100,12 @@
       "time": {}
     }
   },
+  "minimum_order_amount": "Minimum order amount: {price} KZT",
+  "@minimum_order_amount": {
+    "placeholders": {
+      "price": {}
+    }
+  },
   "payTimeFinish": "Payment time is up, the order is being canceled",
   "orderCanceled": "The order was canceled at the user's request",
   "thanksForOrder": "Thank you for your purchase! We will contact you with delivery details",
@@ -175,7 +181,6 @@
   "cancel_order_confirmation": "Are you sure you want to cancel the order?",
   "try_again": "Try again",
   "error_message": "Sorry, an error occurred. We are already working to fix it. Please try again later.",
-  "minimum_order_amount": "Minimum order amount: 5000 KZT",
   "today": "Today",
   "tomorrow": "Tomorrow",
   "out_of_stock": "Product is out of stock",
@@ -205,6 +210,16 @@
   "max_number_of_cards": "Maximum number of cards",
   "no_saved_cards": "You have no saved cards",
   "cards_will_be_stored_here": "Your cards will be stored here",
-  "select_payment_method": "Select payment method"
+  "select_payment_method": "Select payment method",
+  "fillHouse": "Please fill in the apt/office field",
+  "fillEntrance": "Please fill in the entrance field",
+  "fillFloor": "Please fill in the floor field",
+  "email": "Email",
+  "enter_name_surname_email": "Please enter your name, surname, and email. These details are required for order processing and receipt delivery.",
+  "maintenance_title": "🔧 Maintenance Work",
+  "maintenance_description": "We are updating our system to improve service quality. Please try again later. Thank you for your patience!",
+  "check_status": "Check status",
+  "technicalStill" : "Technical work is still underway",
+  "email_invalid": "Invalid email format. Example: example@mail.com"
 }
 

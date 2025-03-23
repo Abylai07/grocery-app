@@ -94,7 +94,7 @@ class BasketItemWidget extends StatelessWidget {
                             children: [
                               if (isDiscount)
                                 Text(
-                                  '${product.priceWithDiscount} ₸  ',
+                                  '${product.priceWithDiscount?.toInt()} ₸  ',
                                   style: AppTextStyle.labelMedium.copyWith(
                                     color: AppColors.main,
                                     fontWeight: FontWeight.w500,
