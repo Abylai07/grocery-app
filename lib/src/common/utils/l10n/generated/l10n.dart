@@ -690,10 +690,10 @@ class S {
     );
   }
 
-  /// `Наличными курьеру`
+  /// `Наличными/Kaspi QR`
   String get cashToCourier {
     return Intl.message(
-      'Наличными курьеру',
+      'Наличными/Kaspi QR',
       name: 'cashToCourier',
       desc: '',
       args: [],
@@ -1935,6 +1935,36 @@ class S {
     return Intl.message(
       'Неверный формат электронной почты. Пример: example@mail.com',
       name: 'email_invalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Аккаунт заблокирован.`
+  String get account_blocked {
+    return Intl.message(
+      'Аккаунт заблокирован.',
+      name: 'account_blocked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Для выяснения причин свяжитесь с администрацией приложения.`
+  String get contact_admin {
+    return Intl.message(
+      'Для выяснения причин свяжитесь с администрацией приложения.',
+      name: 'contact_admin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Мы временно не принимаем заказы`
+  String get temporarily_not_accepting_orders {
+    return Intl.message(
+      'Мы временно не принимаем заказы',
+      name: 'temporarily_not_accepting_orders',
       desc: '',
       args: [],
     );

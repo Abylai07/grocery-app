@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "abricoz": MessageLookupByLibrary.simpleMessage("Abricoz"),
+        "account_blocked":
+            MessageLookupByLibrary.simpleMessage("Аккаунт заблокирован."),
         "activeOrder": MessageLookupByLibrary.simpleMessage("Активный заказ"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Добавить адрес"),
         "addNewAddress":
@@ -72,7 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Обновление корзины"),
         "carts": MessageLookupByLibrary.simpleMessage("Карты"),
         "cashToCourier":
-            MessageLookupByLibrary.simpleMessage("Наличными курьеру"),
+            MessageLookupByLibrary.simpleMessage("Наличными/Kaspi QR"),
         "catalog": MessageLookupByLibrary.simpleMessage("Каталог"),
         "category": MessageLookupByLibrary.simpleMessage("Категории"),
         "changeAddress":
@@ -90,6 +92,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "consent_to_personal_data_processing":
             MessageLookupByLibrary.simpleMessage(
                 "Согласие на обработку персональных данных"),
+        "contact_admin": MessageLookupByLibrary.simpleMessage(
+            "Для выяснения причин свяжитесь с администрацией приложения."),
         "continueAgree": MessageLookupByLibrary.simpleMessage(
             "Продолжая, вы соглашаетесь с "),
         "createDate": MessageLookupByLibrary.simpleMessage("Дата оформления"),
@@ -284,6 +288,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "surname": MessageLookupByLibrary.simpleMessage("Фамилия"),
         "technicalStill": MessageLookupByLibrary.simpleMessage(
             "Технические работы все еще продолжаются"),
+        "temporarily_not_accepting_orders":
+            MessageLookupByLibrary.simpleMessage(
+                "Мы временно не принимаем заказы"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Спасибо за покупку! Мы свяжемся с вами с деталями для доставки"),
         "toBasket": MessageLookupByLibrary.simpleMessage("В корзину"),

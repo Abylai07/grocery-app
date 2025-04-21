@@ -86,7 +86,7 @@
   "deliveryBefore": "Delivery before",
   "deliveryTime": "Delivery time",
   "paymentType": "Payment method",
-  "cashToCourier": "Cash to courier",
+  "cashToCourier": "In Cash/Kaspi QR",
   "products": "Products",
   "deliveryPrice": "Delivery cost",
   "delivery30min": "Delivery from 30 minutes",
@@ -220,6 +220,10 @@
   "maintenance_description": "We are updating our system to improve service quality. Please try again later. Thank you for your patience!",
   "check_status": "Check status",
   "technicalStill" : "Technical work is still underway",
-  "email_invalid": "Invalid email format. Example: example@mail.com"
+  "email_invalid": "Invalid email format. Example: example@mail.com",
+  "account_blocked": "Account is blocked.",
+  "contact_admin": "To find out the reasons, contact the app administration.",
+  "temporarily_not_accepting_orders": "We are temporarily not accepting orders"
+
 }
 

@@ -5,6 +5,7 @@ class AppConfigModel extends AppConfigEntity {
     required super.isAppActive,
     required super.minOrderAmount,
     required super.isCashPaymentActive,
+    required super.isBankPaymentActive,
   });
 
   factory AppConfigModel.fromJson(Map<String, dynamic> json) {
@@ -12,6 +13,7 @@ class AppConfigModel extends AppConfigEntity {
       isAppActive: json['isAppActive'] == 1, // Преобразуем 1/0 в bool
       minOrderAmount: json['minOrderAmount'],
       isCashPaymentActive: json['isCashPaymentActive'] == 1, // Преобразуем 1/0 в bool
+      isBankPaymentActive: json['isBankPaymentActive'] == 1, // Преобразуем 1/0 в bool
     );
   }
 
@@ -20,6 +22,7 @@ class AppConfigModel extends AppConfigEntity {
       'isAppActive': isAppActive ? 1 : 0,
       'minOrderAmount': minOrderAmount,
       'isCashPaymentActive': isCashPaymentActive ? 1 : 0,
+      'isBankPaymentActive': isBankPaymentActive ? 1 : 0,
     };
   }
 }

@@ -51,14 +51,23 @@ class SelectPaymentWidget extends StatelessWidget {
                 builder: (context, state) {
                   if (state.status.isSuccess) {
                     AppConfigEntity settings = state.entity;
+
                     return BlocBuilder<CardsCubit, CardsState>(
                       builder: (context, state) {
                         if (state.status.isSuccess) {
+                          if (state.paymentType == PaymentType.none) {
+                            return Text(
+                              S.of(context).temporarily_not_accepting_orders,
+                              style: AppTextStyle.bodyMedium
+                                  .copyWith(color: Colors.red),
+                            );
+                          }
+
                           List<CardEntity> cards = state.entity ?? [];
                           return Column(
                             children: [
                               if (roles.contains('admin') ||
-                                  settings.isCashPaymentActive)...[
+                                  settings.isCashPaymentActive) ...[
                                 InkWell(
                                   onTap: () {
                                     context
@@ -88,7 +97,7 @@ class SelectPaymentWidget extends StatelessWidget {
                                   color: AppColors.grayContainer,
                                 ),
                               ],
-                              cards.isNotEmpty
+                              cards.isNotEmpty && settings.isBankPaymentActive
                                   ? ListView.builder(
                                       itemCount: cards.length,
                                       shrinkWrap: true,
@@ -147,45 +156,55 @@ class SelectPaymentWidget extends StatelessWidget {
                                           ],
                                         );
                                       })
-                                  : Column(
+                                  : settings.isBankPaymentActive
+                                      ? Column(
+                                          children: [
+                                            Image.asset(
+                                              AppAssets.noCard,
+                                              height: 100,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0, bottom: 12),
+                                              child: Text(
+                                                S.of(context).no_saved_cards,
+                                                style: AppTextStyle.titleMedium
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : const SizedBox(),
+                              Opacity(
+                                opacity: settings.isBankPaymentActive ? 1 : 0.5,
+                                child: TextButton(
+                                    onPressed: () {
+                                      if (settings.isBankPaymentActive) {
+                                        context.router
+                                            .push(const MyCardsRoute());
+                                      }
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Image.asset(
-                                          AppAssets.noCard,
-                                          height: 100,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 8.0, bottom: 12),
-                                          child: Text(
-                                            S.of(context).no_saved_cards,
-                                            style: AppTextStyle.titleMedium
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.w600),
+                                        Text(
+                                          S.of(context).addNewCard,
+                                          style:
+                                              AppTextStyle.bodyMedium.copyWith(
+                                            color: AppColors.main,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                              TextButton(
-                                  onPressed: () {
-                                    context.router.push(const MyCardsRoute());
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        S.of(context).addNewCard,
-                                        style: AppTextStyle.bodyMedium.copyWith(
+                                        4.width,
+                                        const Icon(
+                                          Icons.add,
                                           color: AppColors.main,
-                                        ),
-                                      ),
-                                      4.width,
-                                      const Icon(
-                                        Icons.add,
-                                        color: AppColors.main,
-                                      )
-                                    ],
-                                  ))
+                                        )
+                                      ],
+                                    )),
+                              )
                             ],
                           );
                         } else if (state.status.isLoading) {

@@ -6,6 +6,7 @@ class UserEntity extends Equatable {
   final String? lastname;
   final String phone;
   final String? email;
+  final bool isBanned;
   final DateTime createdAt;
   final DateTime updatedAt;
   final List<RoleEntity>? roles;
@@ -16,6 +17,7 @@ class UserEntity extends Equatable {
     required this.lastname,
     required this.phone,
     this.email,
+    required this.isBanned,
     required this.createdAt,
     required this.updatedAt,
     this.roles,
@@ -27,6 +29,7 @@ class UserEntity extends Equatable {
     firstname,
     lastname,
     phone,
+    isBanned,
     email,
     roles,
     createdAt,

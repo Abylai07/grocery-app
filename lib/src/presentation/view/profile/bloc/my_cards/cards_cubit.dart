@@ -3,6 +3,7 @@ import 'package:abricoz_app/src/domain/entity/user/card_entity.dart';
 import 'package:abricoz_app/src/domain/usecase/product/category_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/address_usecase.dart';
 import 'package:abricoz_app/src/domain/usecase/user/cards_usecase.dart';
+import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,17 +18,17 @@ class CardsCubit extends Cubit<CardsState> {
   final CardsUseCase _useCase;
 
   void fetchMyCards() async {
-    emit(const CardsState(status: CubitStatus.loading));
+    emit(state.copyWith(status: CubitStatus.loading));
 
     final failureOrAuth = await _useCase.fetchMyCards();
 
     emit(
       failureOrAuth.fold(
-        (l) => CardsState(
+        (l) => state.copyWith(
           status: CubitStatus.error,
           message: l.message,
         ),
-        (r) => CardsState(
+        (r) => state.copyWith(
           status: CubitStatus.success,
           selectCard: r.isNotEmpty ? r.first : null,
           entity: r,
@@ -73,5 +74,9 @@ class CardsCubit extends Cubit<CardsState> {
 
   selectPaymentType(PaymentType? type) {
     emit(state.copyWith(paymentType: type));
+  }
+
+  setInit() {
+    emit(const CardsState(status: CubitStatus.initial));
   }
 }

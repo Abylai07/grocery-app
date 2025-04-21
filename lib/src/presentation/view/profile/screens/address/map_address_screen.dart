@@ -89,8 +89,8 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
       );
       if (myPosition == null) return;
       getAddressByPoint(Point(
-        latitude: myPosition!.latitude,
-        longitude: myPosition!.longitude,
+        latitude: myPosition?.latitude ?? 50.300377,
+        longitude: myPosition?.longitude ?? 57.154555,
       ));
     } catch (e) {
       controller?.moveCamera(
@@ -112,18 +112,7 @@ class _MapAddressViewState extends State<MapAddressView> with YandexMapMixin {
     isFirstOpen = false;
 
     if (widget.address?.latitude == null || widget.address?.longitude == null) {
-      controller.moveCamera(
-        CameraUpdate.newCameraPosition(
-          const CameraPosition(
-            zoom: 13,
-            target: Point(
-              latitude: 50.300377,
-              longitude: 57.154555,
-            ),
-          ),
-        ),
-        animation: animation,
-      );
+      locatePosition();
     } else {
       double latitude = double.parse(widget.address!.latitude!);
       double longitude = double.parse(widget.address!.longitude!);

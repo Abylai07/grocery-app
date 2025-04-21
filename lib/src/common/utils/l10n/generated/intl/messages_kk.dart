@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "abricoz": MessageLookupByLibrary.simpleMessage("Abricozға"),
+        "account_blocked":
+            MessageLookupByLibrary.simpleMessage("Аккаунт бұғатталды."),
         "activeOrder":
             MessageLookupByLibrary.simpleMessage("Белсенді тапсырыс"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Мекенжай қосу"),
@@ -71,7 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cart_update": MessageLookupByLibrary.simpleMessage("Себетті жаңарту"),
         "carts": MessageLookupByLibrary.simpleMessage("Карталар"),
         "cashToCourier":
-            MessageLookupByLibrary.simpleMessage("Курьерге қолма-қол"),
+            MessageLookupByLibrary.simpleMessage("Қолма-қол ақшамен/Kaspi QR"),
         "catalog": MessageLookupByLibrary.simpleMessage("Каталог"),
         "category": MessageLookupByLibrary.simpleMessage("Категориялар"),
         "changeAddress":
@@ -89,6 +91,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "consent_to_personal_data_processing":
             MessageLookupByLibrary.simpleMessage(
                 "Дербес деректерді өңдеуге келісім"),
+        "contact_admin": MessageLookupByLibrary.simpleMessage(
+            "Себебін білу үшін қолданба әкімшілігіне хабарласыңыз."),
         "continueAgree": MessageLookupByLibrary.simpleMessage(
             "Жалғастыра отырып, сіз келісесіз "),
         "createDate": MessageLookupByLibrary.simpleMessage("Ресімдеу күні"),
@@ -283,6 +287,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "surname": MessageLookupByLibrary.simpleMessage("Тегі"),
         "technicalStill": MessageLookupByLibrary.simpleMessage(
             "Техникалық жұмыстар әлі де жалғасуда"),
+        "temporarily_not_accepting_orders":
+            MessageLookupByLibrary.simpleMessage(
+                "Біз уақытша тапсырыстар қабылдамаймыз"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Сатып алғаныңыз үшін рахмет! Жеткізу туралы мәліметтермен сізге хабарласамыз"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Себетке қосу"),

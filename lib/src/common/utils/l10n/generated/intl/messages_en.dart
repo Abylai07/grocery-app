@@ -34,6 +34,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "abricoz": MessageLookupByLibrary.simpleMessage("Abricoz"),
+        "account_blocked":
+            MessageLookupByLibrary.simpleMessage("Account is blocked."),
         "activeOrder": MessageLookupByLibrary.simpleMessage("Active order"),
         "addAddress": MessageLookupByLibrary.simpleMessage("Add address"),
         "addNewAddress":
@@ -69,7 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cart_update": MessageLookupByLibrary.simpleMessage("Cart Update"),
         "carts": MessageLookupByLibrary.simpleMessage("Cards"),
         "cashToCourier":
-            MessageLookupByLibrary.simpleMessage("Cash to courier"),
+            MessageLookupByLibrary.simpleMessage("In Cash/Kaspi QR"),
         "catalog": MessageLookupByLibrary.simpleMessage("Catalog"),
         "category": MessageLookupByLibrary.simpleMessage("Categories"),
         "changeAddress":
@@ -86,6 +88,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "consent_to_personal_data_processing":
             MessageLookupByLibrary.simpleMessage(
                 "Consent to Personal Data Processing"),
+        "contact_admin": MessageLookupByLibrary.simpleMessage(
+            "To find out the reasons, contact the app administration."),
         "continueAgree": MessageLookupByLibrary.simpleMessage(
             "By continuing, you agree to the "),
         "createDate": MessageLookupByLibrary.simpleMessage("Registration date"),
@@ -276,6 +280,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "surname": MessageLookupByLibrary.simpleMessage("Last name"),
         "technicalStill": MessageLookupByLibrary.simpleMessage(
             "Technical work is still underway"),
+        "temporarily_not_accepting_orders":
+            MessageLookupByLibrary.simpleMessage(
+                "We are temporarily not accepting orders"),
         "thanksForOrder": MessageLookupByLibrary.simpleMessage(
             "Thank you for your purchase! We will contact you with delivery details"),
         "toBasket": MessageLookupByLibrary.simpleMessage("Add to basket"),

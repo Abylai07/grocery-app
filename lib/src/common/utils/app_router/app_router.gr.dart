@@ -32,6 +32,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddressScreen(),
       );
     },
+    BannedUserRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BannedUserScreen(),
+      );
+    },
     BasketRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -282,6 +288,20 @@ class AddressRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddressRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BannedUserScreen]
+class BannedUserRoute extends PageRouteInfo<void> {
+  const BannedUserRoute({List<PageRouteInfo>? children})
+      : super(
+          BannedUserRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BannedUserRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

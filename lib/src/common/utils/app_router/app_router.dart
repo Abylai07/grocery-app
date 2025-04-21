@@ -17,6 +17,7 @@ import '../../../presentation/view/basket/basket_screen.dart';
 import '../../../presentation/view/basket/screens/link_payment_screen.dart';
 import '../../../presentation/view/basket/screens/make_order_screen.dart';
 import '../../../presentation/view/basket/screens/payment_screen.dart';
+import '../../../presentation/view/home/screens/banned_user_screen.dart';
 import '../../../presentation/view/home/screens/technical_work_screen.dart';
 import '../../../presentation/view/profile/screens/my_cards/my_cards_screen.dart';
 import '../../../presentation/view/profile/screens/my_cards/save_card_screen.dart';
@@ -70,5 +71,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: WebViewRoute.page),
         AutoRoute(page: MyCardsRoute.page),
         AutoRoute(page: TechnicalWorkRoute.page),
+        AutoRoute(page: BannedUserRoute.page),
       ];
 }

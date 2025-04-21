@@ -1,10 +1,11 @@
 part of 'cards_cubit.dart';
 
-enum PaymentType { cash, card }
+enum PaymentType { cash, card, none }
 
 extension PaymentTypeX on PaymentType {
   bool get isCash => this == PaymentType.cash;
   bool get isCard => this == PaymentType.card;
+  bool get isNone => this == PaymentType.none;
 }
 
 class CardsState extends Equatable {

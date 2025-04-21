@@ -78,7 +78,7 @@
   "deliveryBefore": "Доставка до",
   "deliveryTime": "Время доставки",
   "paymentType": "Способ оплаты",
-  "cashToCourier": "Наличными курьеру",
+  "cashToCourier": "Наличными/Kaspi QR",
   "products": "Продукты",
   "deliveryPrice": "Стоимость доставки",
   "delivery30min": "Доставка от 30 минут",
@@ -212,7 +212,10 @@
   "maintenance_description": "Мы проводим обновление системы для улучшения работы сервиса. Пожалуйста, попробуйте зайти позже. Спасибо за понимание!",
   "check_status" : "Проверить статус",
   "technicalStill" : "Технические работы все еще продолжаются",
-  "email_invalid": "Неверный формат электронной почты. Пример: example@mail.com"
+  "email_invalid": "Неверный формат электронной почты. Пример: example@mail.com",
+  "account_blocked": "Аккаунт заблокирован.",
+  "contact_admin": "Для выяснения причин свяжитесь с администрацией приложения.",
+  "temporarily_not_accepting_orders": "Мы временно не принимаем заказы"
 }
 
 

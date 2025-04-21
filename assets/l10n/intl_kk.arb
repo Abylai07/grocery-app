@@ -78,7 +78,7 @@
   "deliveryBefore": "Жеткізу уақытына дейін",
   "deliveryTime": "Жеткізу уақыты",
   "paymentType": "Төлем әдісі",
-  "cashToCourier": "Курьерге қолма-қол",
+  "cashToCourier": "Қолма-қол ақшамен/Kaspi QR",
   "products": "Өнімдер",
   "deliveryPrice": "Жеткізу құны",
   "delivery30min": "Жеткізу 30 минуттан бастап",
@@ -212,6 +212,9 @@
   "maintenance_description": "Біз қызмет сапасын жақсарту үшін жүйені жаңартудамыз. Кейінірек қайта кіріп көріңіз. Түсіністік танытқаныңызға рақмет!",
   "check_status": "Жұмыс біткенін тексеру",
   "technicalStill" : "Техникалық жұмыстар әлі де жалғасуда",
-  "email_invalid": "Электрондық пошта дұрыс емес. Мысал: example@mail.com"
+  "email_invalid": "Электрондық пошта дұрыс емес. Мысал: example@mail.com",
+  "account_blocked": "Аккаунт бұғатталды.",
+  "contact_admin": "Себебін білу үшін қолданба әкімшілігіне хабарласыңыз.",
+  "temporarily_not_accepting_orders": "Біз уақытша тапсырыстар қабылдамаймыз"
 }
 

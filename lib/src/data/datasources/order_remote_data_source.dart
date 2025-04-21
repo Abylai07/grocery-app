@@ -13,8 +13,6 @@ import '../../core/error/exception.dart';
 import '../../domain/entity/order/check_card_entity.dart';
 import '../models/order/check_card_model.dart';
 import '../models/order/order_history_model.dart';
-import '../models/order/order_model.dart';
-import '../models/user/card_model.dart';
 
 abstract class OrderRemoteDataSource {
   Future<CheckCardEntity> checkBasketItems(MapParams params);

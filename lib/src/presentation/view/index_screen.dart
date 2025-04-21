@@ -49,8 +49,10 @@ class _IndexScreenState extends State<IndexScreen> with CacheFileMixin {
     super.initState();
   }
 
-  checkSaveName(UserEntity user) {
-    if (user.firstname == null || user.lastname == null || user.email == null) {
+  checkUserBanAndEmail(UserEntity user) {
+    if(user.isBanned){
+      context.router.replaceAll([const BannedUserRoute()]);
+    } else if (user.firstname == null || user.lastname == null || user.email == null) {
       showModalBottomSheet(
         context: context,
         isDismissible: false,
@@ -114,7 +116,7 @@ class _IndexScreenState extends State<IndexScreen> with CacheFileMixin {
               BlocListener<UserCubit, BaseState>(
                 listener: (context, state) {
                   if (state.status.isSuccess) {
-                    checkSaveName(state.entity);
+                    checkUserBanAndEmail(state.entity);
                   }
                 },
               ),

@@ -1,5 +1,6 @@
 import 'package:abricoz_app/src/common/enums.dart';
 import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:abricoz_app/src/domain/entity/user/user_entity.dart';
 import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class CodeEnterView extends StatelessWidget {
     });
     return Scaffold(
       appBar: CustomAppBar(
-        onBackPressed: (){
+        onBackPressed: () {
           context.router.maybePop();
           context.read<TimerBloc>().add(ResetTimer());
         },
@@ -87,10 +88,15 @@ class CodeEnterView extends StatelessWidget {
                   if (state.status.isSuccessCode || state.status.isNeedName) {
                     context.read<TimerBloc>().add(ResetTimer());
                     context.read<UserSessionBloc>().add(LoadUserSession());
-                    if(state.status.isNeedName){
+                    if (state.status.isNeedName) {
                       context.router.replace(UserInfoRoute());
                     } else {
-                      context.router.replaceAll([const IndexRoute(children: [HomeNestedRoute()])]);
+                      UserEntity user = state.entity;
+                      context.router.replaceAll([
+                        user.isBanned
+                            ? const BannedUserRoute()
+                            : const IndexRoute(children: [HomeNestedRoute()])
+                      ]);
                     }
                   }
                 },

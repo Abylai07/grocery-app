@@ -100,31 +100,31 @@ class OrderDetailScreen extends StatelessWidget {
                                 );
                               },
                             ),
-                            12.height,
+                           // 12.height,
                           ],
                           //  if (canCancelOrder(order) || canOrderAgain(order))
-                          if (canCancelOrder(order))
-                            CustomGrayButton(
-                              text: canCancelOrder(order)
-                                  ? S.of(context).cancelOrder
-                                  : S.of(context).orderAgain,
-                              isLoading: state.status.isLoading,
-                              isActive: canCancelOrder(order),
-                              onTap: () {
-                                if (canCancelOrder(order)) {
-                                  confirmAlertDialog(
-                                    context,
-                                    title:
-                                        S.of(context).cancel_order_confirmation,
-                                    onYesTap: () {
-                                      Navigator.pop(context);
-                                      context.read<OrderCubit>().cancelOrder(
-                                          orderId: order.id.toString());
-                                    },
-                                  );
-                                } else if (canOrderAgain(order)) {}
-                              },
-                            ),
+                          // if (canCancelOrder(order))
+                          //   CustomGrayButton(
+                          //     text: canCancelOrder(order)
+                          //         ? S.of(context).cancelOrder
+                          //         : S.of(context).orderAgain,
+                          //     isLoading: state.status.isLoading,
+                          //     isActive: canCancelOrder(order),
+                          //     onTap: () {
+                          //       if (canCancelOrder(order)) {
+                          //         confirmAlertDialog(
+                          //           context,
+                          //           title:
+                          //               S.of(context).cancel_order_confirmation,
+                          //           onYesTap: () {
+                          //             Navigator.pop(context);
+                          //             context.read<OrderCubit>().cancelOrder(
+                          //                 orderId: order.id.toString());
+                          //           },
+                          //         );
+                          //       } else if (canOrderAgain(order)) {}
+                          //     },
+                          //   ),
                         ],
                       ),
                     );

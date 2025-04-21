@@ -19,6 +19,9 @@ import '../../../common/app_styles/colors.dart';
 import '../../../common/utils/firebase_api/notifications.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../common/utils/parsers/date_parser.dart';
+import '../../../domain/entity/user/app_config_entity.dart';
+import '../../bloc/base_state.dart';
+import '../../bloc/status_cubit.dart';
 import '../../widgets/alert_dialog/text_alert_dialog.dart';
 import '../../widgets/modal_bottoms/non_authorize_modal.dart';
 import '../home/bloc/city_bloc/city_cubit.dart';
@@ -167,14 +170,24 @@ class ProfileScreen extends StatelessWidget {
                       }
                     },
                   ),
-                  ProfileElementWidget(
-                    title: S.of(context).carts,
-                    icon: AppAssets.cards,
-                    onPressed: () {
-                      if (SharedPrefs().getAccessToken() == null) {
-                        nonAuthorizeModal(context);
+                  BlocBuilder<AppSettingsCubit, BaseState>(
+                    builder: (context, state) {
+                      if(state.status.isSuccess){
+                        AppConfigEntity entity = state.entity;
+
+                        return entity.isBankPaymentActive ? ProfileElementWidget(
+                          title: S.of(context).carts,
+                          icon: AppAssets.cards,
+                          onPressed: () {
+                            if (SharedPrefs().getAccessToken() == null) {
+                              nonAuthorizeModal(context);
+                            } else {
+                              context.router.push(const MyCardsRoute());
+                            }
+                          },
+                        ) : const SizedBox();
                       } else {
-                        context.router.push(const MyCardsRoute());
+                        return const SizedBox();
                       }
                     },
                   ),

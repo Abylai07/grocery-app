@@ -7,6 +7,7 @@ class UserModel extends UserEntity {
     super.firstname,
     super.lastname,
     required super.phone,
+    required super.isBanned,
     super.email,
     super.roles,
     required super.createdAt,
@@ -20,6 +21,7 @@ class UserModel extends UserEntity {
       lastname: json['lastname'],
       phone: json['phone'],
       email: json['email'],
+      isBanned: json['is_banned'] == 1,
       roles: (json['roles'] as List)
           .map((role) => RoleEntity.fromJson(role))
           .toList(),
@@ -34,6 +36,7 @@ class UserModel extends UserEntity {
       'firstname': firstname,
       'lastname': lastname,
       'phone': phone,
+      'is_banned': isBanned ? 1 : 0,
       'email': email,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),

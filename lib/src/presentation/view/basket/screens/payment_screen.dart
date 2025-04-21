@@ -102,37 +102,37 @@ class PaymentScreen extends StatelessWidget {
                             },
                           ),
                         ],
-                        if (canPayOrder(order) && canCancelOrder(order))
-                          12.height,
-                        if (canCancelOrder(order))
-                          BlocConsumer<OrderCubit, OrderState>(
-                            listener: (context, state) {
-                              if (state.status.isSuccess) {
-                                Navigator.pop(context);
-                                context
-                                    .read<ActiveOrdersCubit>()
-                                    .fetchActiveOrders();
-                              }
-                            },
-                            builder: (context, state) {
-                              return CustomGrayButton(
-                                text: S.of(context).cancelOrder,
-                                isLoading: state.status.isLoading,
-                                onTap: () {
-                                  confirmAlertDialog(
-                                    context,
-                                    title:
-                                        S.of(context).cancel_order_confirmation,
-                                    onYesTap: () {
-                                      Navigator.pop(context);
-                                      context.read<OrderCubit>().cancelOrder(
-                                          orderId: order!.id.toString());
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
+                        // if (canPayOrder(order) && canCancelOrder(order))
+                        //   12.height,
+                        // if (canCancelOrder(order))
+                        //   BlocConsumer<OrderCubit, OrderState>(
+                        //     listener: (context, state) {
+                        //       if (state.status.isSuccess) {
+                        //         Navigator.pop(context);
+                        //         context
+                        //             .read<ActiveOrdersCubit>()
+                        //             .fetchActiveOrders();
+                        //       }
+                        //     },
+                        //     builder: (context, state) {
+                        //       return CustomGrayButton(
+                        //         text: S.of(contextч,
+                        //         isLoading: state.status.isLoading,
+                        //         onTap: () {
+                        //           confirmAlertDialog(
+                        //             context,
+                        //             title:
+                        //                 S.of(context).cancel_order_confirmation,
+                        //             onYesTap: () {
+                        //               Navigator.pop(context);
+                        //               context.read<OrderCubit>().cancelOrder(
+                        //                   orderId: order!.id.toString());
+                        //             },
+                        //           );
+                        //         },
+                        //       );
+                        //     },
+                        //   ),
                       ],
                     ),
                   )
