@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
-import 'package:abricoz_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
+import 'package:grocery_app/src/presentation/view/profile/bloc/order/active_orders_cubit.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';

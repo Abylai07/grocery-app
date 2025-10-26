@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/presentation/view/profile/screens/orders/order_history_screen.dart';
+import 'package:grocery_app/src/presentation/view/profile/screens/orders/order_history_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 

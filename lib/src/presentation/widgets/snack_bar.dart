@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sliding_toast/flutter_sliding_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';

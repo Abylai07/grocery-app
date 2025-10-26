@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
-import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
+import 'package:grocery_app/src/domain/entity/order/order_history_entity.dart';
+import 'package:grocery_app/src/domain/usecase/product/product_usecase.dart';
+import 'package:grocery_app/src/presentation/bloc/base_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 

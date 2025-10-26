@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/app_styles/colors.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
-import 'package:abricoz_app/src/domain/entity/user/app_config_entity.dart';
-import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
-import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
-import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/app_styles/colors.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/domain/entity/user/app_config_entity.dart';
+import 'package:grocery_app/src/presentation/bloc/base_state.dart';
+import 'package:grocery_app/src/presentation/widgets/buttons/main_button.dart';
+import 'package:grocery_app/src/presentation/widgets/padding_nav_buttons.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';

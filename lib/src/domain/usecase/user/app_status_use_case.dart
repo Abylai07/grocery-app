@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/domain/entity/user/app_config_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
+import 'package:grocery_app/src/domain/entity/user/app_config_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/banner_entity.dart';
+import 'package:grocery_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/error/failure.dart';

@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 

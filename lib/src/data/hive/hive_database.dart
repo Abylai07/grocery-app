@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
+import 'package:grocery_app/src/data/hive/adapter/product_adapter.dart';
 import 'package:hive_flutter/adapters.dart';
 
 import '../../../../main.dart';

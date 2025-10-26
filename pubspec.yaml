@@ -1,10 +1,14 @@
-name: abricoz_app
-description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+name: grocery_app
+description: "A professional Flutter grocery delivery app showcasing Clean Architecture, BLoC pattern, and best practices."
 
-version: 1.2.4+32
+# Repository information
+homepage: https://github.com/yourusername/grocery_app
+repository: https://github.com/yourusername/grocery_app
+issue_tracker: https://github.com/yourusername/grocery_app/issues
+
+publish_to: 'none' # This is a showcase project
+
+version: 1.0.0+1
 
 environment:
   sdk: '>=3.3.4 <4.0.0'

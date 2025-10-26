@@ -3,7 +3,7 @@
  */
 import 'dart:io';
 
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';

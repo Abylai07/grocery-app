@@ -119,9 +119,9 @@ class S {
     );
   }
 
-  /// `Abricoz`
+  /// `Grocery App`
   String get abricoz {
-    return Intl.message('Abricoz', name: 'abricoz', desc: '', args: []);
+    return Intl.message('Grocery App', name: 'abricoz', desc: '', args: []);
   }
 
   /// `Введите номер телефона для продолжения`
@@ -479,10 +479,10 @@ class S {
     return Intl.message('Производитель', name: 'maker', desc: '', args: []);
   }
 
-  /// `Заказывайте клубнику в новом приложении от Abricoz!`
+  /// `Заказывайте свежую клубнику в нашем новом приложении!`
   String get bannerLocal {
     return Intl.message(
-      'Заказывайте клубнику в новом приложении от Abricoz!',
+      'Заказывайте свежую клубнику в нашем новом приложении!',
       name: 'bannerLocal',
       desc: '',
       args: [],
@@ -1344,10 +1344,10 @@ class S {
     );
   }
 
-  /// `Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время.`
+  /// `Для удаления аккаунта напишите нам на почту support@example.com. Ваш запрос будет обработан в ближайшее время.`
   String get write_message {
     return Intl.message(
-      'Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время.',
+      'Для удаления аккаунта напишите нам на почту support@example.com. Ваш запрос будет обработан в ближайшее время.',
       name: 'write_message',
       desc: '',
       args: [],
@@ -1429,10 +1429,10 @@ class S {
     );
   }
 
-  /// `В Abricoz новые функции и улучшения. Обновитесь, чтобы не пропустить важное!`
+  /// `В Grocery App новые функции и улучшения. Обновитесь, чтобы не пропустить важное!`
   String get update_message {
     return Intl.message(
-      'В Abricoz новые функции и улучшения. Обновитесь, чтобы не пропустить важное!',
+      'В Grocery App новые функции и улучшения. Обновитесь, чтобы не пропустить важное!',
       name: 'update_message',
       desc: '',
       args: [],

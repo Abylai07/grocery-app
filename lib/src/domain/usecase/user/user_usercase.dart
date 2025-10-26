@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/domain/entity/user/user_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/user_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/error/failure.dart';

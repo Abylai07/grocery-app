@@ -33,7 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "abricoz": MessageLookupByLibrary.simpleMessage("Abricoz"),
+    "abricoz": MessageLookupByLibrary.simpleMessage("Grocery App"),
     "account_blocked": MessageLookupByLibrary.simpleMessage(
       "Account is blocked.",
     ),
@@ -54,7 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "appLanguage": MessageLookupByLibrary.simpleMessage("App language"),
     "back": MessageLookupByLibrary.simpleMessage("Back"),
     "bannerLocal": MessageLookupByLibrary.simpleMessage(
-      "Order strawberries in the new Abricoz app!",
+      "Order fresh strawberries in our new app!",
     ),
     "basket": MessageLookupByLibrary.simpleMessage("Basket"),
     "basketEmpty": MessageLookupByLibrary.simpleMessage("Your basket is empty"),
@@ -348,7 +348,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "update_button": MessageLookupByLibrary.simpleMessage("Update the app"),
     "update_message": MessageLookupByLibrary.simpleMessage(
-      "New features and improvements in Abricoz. Update now to stay up to date!",
+      "New features and improvements in Grocery App. Update now to stay up to date!",
     ),
     "userAgre": MessageLookupByLibrary.simpleMessage("User Agreement"),
     "userAgreement": MessageLookupByLibrary.simpleMessage("User Agreement"),
@@ -357,7 +357,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcome": MessageLookupByLibrary.simpleMessage("Welcome to "),
     "write": MessageLookupByLibrary.simpleMessage("Write"),
     "write_message": MessageLookupByLibrary.simpleMessage(
-      "To delete your account, please contact us at info@abricoz.kz. Your request will be processed shortly.",
+      "To delete your account, please contact us at support@example.com. Your request will be processed shortly.",
     ),
     "wrongCurrentPass": MessageLookupByLibrary.simpleMessage(
       "The current password is incorrect",

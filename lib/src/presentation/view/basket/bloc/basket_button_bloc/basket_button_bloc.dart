@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
-import 'package:abricoz_app/src/data/models/product/product_model.dart';
-import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
+import 'package:grocery_app/src/data/hive/adapter/product_adapter.dart';
+import 'package:grocery_app/src/data/models/product/product_model.dart';
+import 'package:grocery_app/src/domain/entity/product/product_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/hive/hive_database.dart';

@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/domain/entity/order/check_card_entity.dart';
-import 'package:abricoz_app/src/presentation/widgets/main_functions.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/domain/entity/order/check_card_entity.dart';
+import 'package:grocery_app/src/presentation/widgets/main_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_styles/colors.dart';

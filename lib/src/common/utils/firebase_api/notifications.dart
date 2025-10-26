@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
-import 'package:abricoz_app/src/presentation/view/profile/screens/orders/order_detail_screen.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/presentation/view/profile/screens/orders/order_detail_screen.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';

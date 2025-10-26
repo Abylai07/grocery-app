@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/presentation/widgets/show_error_snackbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

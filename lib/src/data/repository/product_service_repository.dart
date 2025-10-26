@@ -1,9 +1,9 @@
-import 'package:abricoz_app/src/data/datasources/product_remote_data_source.dart';
-import 'package:abricoz_app/src/domain/entity/product/category_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/search_hint_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/sub_category_entity.dart';
-import 'package:abricoz_app/src/domain/repository/abstract_product_service_profile.dart';
+import 'package:grocery_app/src/data/datasources/product_remote_data_source.dart';
+import 'package:grocery_app/src/domain/entity/product/category_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/product_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/search_hint_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/sub_category_entity.dart';
+import 'package:grocery_app/src/domain/repository/abstract_product_service_profile.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/check_error_type.dart';

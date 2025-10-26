@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../env_config.dart';
 import 'geocoding_model.dart';
 
 class Geocoding {
@@ -11,7 +12,7 @@ class Geocoding {
 
   final Dio _dio = Dio();
 
-  static const mapAPIKey = 'AIzaSyC4ouccl5KDU341JXkGiSig0dLc55pbKRM';
+  static String get mapAPIKey => EnvConfig.googleMapsApiKey;
   static const mapAPI = 'https://maps.googleapis.com/maps/api';
 
   Future<Map<String, dynamic>> fetchAddress(double lat, double lon) async {
@@ -78,7 +79,6 @@ class Geocoding {
   Future<List<double>> fetchCoordinates(String placeId) async {
     final response = await _dio
         .get('$mapAPI/place/details/json?place_id=$placeId&key=$mapAPIKey');
-    print("RESPONSE RSERSES $response");
     return response.statusCode == 200
         ? [
             response.data['result']['geometry']['location']['lat'] as double,

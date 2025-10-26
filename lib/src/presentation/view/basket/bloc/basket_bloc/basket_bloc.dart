@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
-import 'package:abricoz_app/src/domain/entity/order/check_card_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/order/check_basket_usecase.dart';
+import 'package:grocery_app/src/data/hive/adapter/product_adapter.dart';
+import 'package:grocery_app/src/domain/entity/order/check_card_entity.dart';
+import 'package:grocery_app/src/domain/usecase/order/check_basket_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

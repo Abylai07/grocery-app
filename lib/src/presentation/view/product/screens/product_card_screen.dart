@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/presentation/view/product/widgets/product_bottom_bar.dart';
+import 'package:grocery_app/src/presentation/view/product/widgets/product_bottom_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

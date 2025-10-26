@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

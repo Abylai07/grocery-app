@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/domain/entity/product/category_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/category_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/product_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/error/failure.dart';

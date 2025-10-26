@@ -1,15 +1,18 @@
-// API
+// API Configuration
+import 'env_config.dart';
 
-const host = 'https://api.abricoz.kz/api/'; // prod
-// const host = 'http://195.210.47.45/api/'; // dev
+/// Base API URL (from environment configuration)
+String get host => EnvConfig.currentApiUrl;
 
+/// Development API key (from environment configuration)
+String get devKey => EnvConfig.devKey;
 
-const devKey = 'GKbLmNxd9QpGbgPMBZikLa'; // dev
-
-const privacyPolicy = 'https://docs.google.com/document/d/1qi7tbnpQrdaM6A6tGljKVz3dBcRIMp2cRTCVTLVrMzI/edit?usp=sharing';
-const userAgreement = 'https://docs.google.com/document/d/13Ut_RBBGSrwVhFzE2jQwuROemSk9KgFyvhoyH3pIKTU/edit?usp=sharing';
-const publicOffer = 'https://docs.google.com/document/d/1JYmmZX5GUYuAoRFynRXJx7_8VzspiA51ztw2b_JlgzI/edit?usp=sharing';
-const consentData = 'https://docs.google.com/document/d/1wrcK_F00iPMBtchqmvMnOMtYmsQgkYGYIznnmaXEh8A/edit?usp=sharing';
+// Legal documents
+// TODO: Replace these with your actual legal document URLs
+const privacyPolicy = 'https://github.com/yourusername/grocery_app/wiki/Privacy-Policy';
+const userAgreement = 'https://github.com/yourusername/grocery_app/wiki/User-Agreement';
+const publicOffer = 'https://github.com/yourusername/grocery_app/wiki/Public-Offer';
+const consentData = 'https://github.com/yourusername/grocery_app/wiki/Data-Consent';
 
 
 const httpStatusCode = _HttpStatusCode();

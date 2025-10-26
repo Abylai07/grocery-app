@@ -1,8 +1,8 @@
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
-import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
-import 'package:abricoz_app/src/presentation/widgets/snack_bar.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
+import 'package:grocery_app/src/presentation/widgets/show_error_snackbar.dart';
+import 'package:grocery_app/src/presentation/widgets/snack_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

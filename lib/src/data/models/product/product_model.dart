@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/data/models/product/pivot_model.dart';
+import 'package:grocery_app/src/data/models/product/pivot_model.dart';
 
 import '../../../domain/entity/product/product_entity.dart';
 import '../../../presentation/widgets/main_functions.dart';

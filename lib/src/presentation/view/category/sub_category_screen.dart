@@ -1,7 +1,7 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/domain/entity/product/category_entity.dart';
-import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
-import 'package:abricoz_app/src/presentation/view/category/widgets/sub_category_widget.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/domain/entity/product/category_entity.dart';
+import 'package:grocery_app/src/presentation/bloc/base_state.dart';
+import 'package:grocery_app/src/presentation/view/category/widgets/sub_category_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:abricoz_app/src/data/models/user/app_config_model.dart';
-import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/app_config_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
-import 'package:abricoz_app/src/domain/entity/user/location_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
-import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
+import 'package:grocery_app/src/data/models/user/app_config_model.dart';
+import 'package:grocery_app/src/domain/entity/user/address_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/app_config_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/banner_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/city_model.dart';
+import 'package:grocery_app/src/domain/entity/user/location_entity.dart';
+import 'package:grocery_app/src/domain/usecase/product/product_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dio/dio.dart';
 
 import '../../common/api.dart';

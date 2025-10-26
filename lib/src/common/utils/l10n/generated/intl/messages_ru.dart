@@ -33,7 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "abricoz": MessageLookupByLibrary.simpleMessage("Abricoz"),
+    "abricoz": MessageLookupByLibrary.simpleMessage("Grocery App"),
     "account_blocked": MessageLookupByLibrary.simpleMessage(
       "Аккаунт заблокирован.",
     ),
@@ -58,7 +58,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "appLanguage": MessageLookupByLibrary.simpleMessage("Язык приложения"),
     "back": MessageLookupByLibrary.simpleMessage("Назад"),
     "bannerLocal": MessageLookupByLibrary.simpleMessage(
-      "Заказывайте клубнику в новом приложении от Abricoz!",
+      "Заказывайте свежую клубнику в нашем новом приложении!",
     ),
     "basket": MessageLookupByLibrary.simpleMessage("Корзина"),
     "basketEmpty": MessageLookupByLibrary.simpleMessage("Ваша корзина пуста"),
@@ -358,7 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Обновить приложение",
     ),
     "update_message": MessageLookupByLibrary.simpleMessage(
-      "В Abricoz новые функции и улучшения. Обновитесь, чтобы не пропустить важное!",
+      "В Grocery App новые функции и улучшения. Обновитесь, чтобы не пропустить важное!",
     ),
     "userAgre": MessageLookupByLibrary.simpleMessage(
       "Пользовательское соглашение",
@@ -371,7 +371,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcome": MessageLookupByLibrary.simpleMessage("Добро пожаловать в "),
     "write": MessageLookupByLibrary.simpleMessage("Написать"),
     "write_message": MessageLookupByLibrary.simpleMessage(
-      "Для удаления аккаунта напишите нам на почту info@abricoz.kz. Ваш запрос будет обработан в ближайшее время.",
+      "Для удаления аккаунта напишите нам на почту support@example.com. Ваш запрос будет обработан в ближайшее время.",
     ),
     "wrongCurrentPass": MessageLookupByLibrary.simpleMessage(
       "Текущий пароль неверен",

@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/common/app_styles/colors.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
+import 'package:grocery_app/src/common/app_styles/colors.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/presentation/widgets/custom_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

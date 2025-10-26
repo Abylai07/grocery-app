@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
 import 'package:flutter/material.dart';
 
 class LocaleBuilder extends StatefulWidget {

@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/domain/usecase/user/favorite_usecase.dart';
-import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/favorite_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
+import 'package:grocery_app/src/domain/entity/order/order_history_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/product_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class PaginationEntity extends Equatable {

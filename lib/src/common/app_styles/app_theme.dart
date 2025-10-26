@@ -37,12 +37,12 @@ class AppTheme {
           size: 20,
         ),
       ),
-      bottomAppBarTheme: const BottomAppBarTheme(
+      bottomAppBarTheme: const BottomAppBarThemeData(
         elevation: 24,
         color: AppColors.gray1,
         shape: CircularNotchedRectangle(),
       ),
-      dialogTheme: const DialogTheme(
+      dialogTheme: const DialogThemeData(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
       ),

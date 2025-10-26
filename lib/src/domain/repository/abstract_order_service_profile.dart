@@ -1,8 +1,8 @@
 
 
-import 'package:abricoz_app/src/domain/entity/order/delivery_time_entity.dart';
-import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/pagination_entity.dart';
+import 'package:grocery_app/src/domain/entity/order/delivery_time_entity.dart';
+import 'package:grocery_app/src/domain/entity/order/order_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/pagination_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/error/failure.dart';

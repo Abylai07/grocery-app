@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/presentation/widgets/buttons/main_button.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/utils/l10n/generated/l10n.dart';

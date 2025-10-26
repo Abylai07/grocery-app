@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:abricoz_app/src/common/constants.dart';
+import 'package:grocery_app/src/common/constants.dart';
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 
 class AppsFlyerFunctions {

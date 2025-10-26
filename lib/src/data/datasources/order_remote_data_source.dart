@@ -1,10 +1,10 @@
-import 'package:abricoz_app/src/data/models/order/delivery_time_entity.dart';
-import 'package:abricoz_app/src/domain/entity/order/delivery_time_entity.dart';
-import 'package:abricoz_app/src/domain/entity/order/order_history_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/pagination_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/order/payment_use_case.dart';
-import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
-import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
+import 'package:grocery_app/src/data/models/order/delivery_time_entity.dart';
+import 'package:grocery_app/src/domain/entity/order/delivery_time_entity.dart';
+import 'package:grocery_app/src/domain/entity/order/order_history_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/pagination_entity.dart';
+import 'package:grocery_app/src/domain/usecase/order/payment_use_case.dart';
+import 'package:grocery_app/src/domain/usecase/product/product_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dio/dio.dart';
 
 import '../../common/api.dart';

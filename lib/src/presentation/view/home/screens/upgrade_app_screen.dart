@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/app_styles/colors.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
-import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/app_styles/colors.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/presentation/widgets/buttons/main_button.dart';
+import 'package:grocery_app/src/presentation/widgets/padding_nav_buttons.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';

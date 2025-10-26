@@ -1,10 +1,10 @@
-import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/card_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
-import 'package:abricoz_app/src/domain/entity/user/location_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/user_entity.dart';
-import 'package:abricoz_app/src/domain/repository/abstract_user_service_profile.dart';
+import 'package:grocery_app/src/domain/entity/user/address_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/banner_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/card_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/city_model.dart';
+import 'package:grocery_app/src/domain/entity/user/location_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/user_entity.dart';
+import 'package:grocery_app/src/domain/repository/abstract_user_service_profile.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/check_error_type.dart';

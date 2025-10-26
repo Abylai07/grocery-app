@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/presentation/view/product/widgets/rich_text_widget.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/presentation/view/product/widgets/rich_text_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_styles/colors.dart';

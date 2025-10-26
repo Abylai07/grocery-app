@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -11,15 +11,13 @@ import '../core/error/exception.dart';
 import 'constants.dart';
 
 class API {
-  final String _endpoint = '';
-
   late BaseOptions options;
 
   late final Dio dio = Dio(options);
 
   API() {
     options = BaseOptions(
-      baseUrl: _endpoint,
+      baseUrl: host,
       contentType: Headers.jsonContentType,
       headers: {
         "Accept": "application/json",
@@ -69,29 +67,30 @@ class _TokenInterceptor extends Interceptor {
       options.headers['Authorization'] = 'Bearer $authToken';
     }
 
-    if (options.data != null) {
-      if (options.data is FormData) {
-        debugPrint(
-          '--> $defaultConfig Request data: ${options.data.files ?? ''} ${options.data.fields ?? ''}',
-        );
-      } else {
+    if (kDebugMode) {
+      if (options.data != null) {
+        if (options.data is FormData) {
+          debugPrint(
+            '--> $defaultConfig Request data: ${options.data.files ?? ''} ${options.data.fields ?? ''}',
+          );
+        } else {
+          debugPrint(
+            '--> $defaultConfig Request queryParameters: ${options.queryParameters.entries}',
+          );
+        }
+      }
+
+      if (options.headers.isNotEmpty) {
+        debugPrint('--> $defaultConfig Request headers: ${options.headers}');
+      }
+
+      if (options.queryParameters.entries.isNotEmpty) {
         debugPrint(
           '--> $defaultConfig Request queryParameters: ${options.queryParameters.entries}',
         );
       }
     }
 
-    if (options.headers.isNotEmpty) {
-      debugPrint('--> $defaultConfig Request headers: ${options.headers}');
-    }
-
-    if (options.queryParameters.entries.isNotEmpty) {
-      debugPrint(
-        '--> $defaultConfig Request queryParameters: ${options.queryParameters.entries}',
-      );
-    }
-
-    //  debugPrint('--- $defaultConfig');
     return super.onRequest(options, handler);
   }
 
@@ -100,23 +99,11 @@ class _TokenInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    // final responseData = response.data;
-    // if (responseData is String && responseData.startsWith('{')) {
-    //   // Проверяем, содержит ли ответ тело запроса вместе с ответом
-    //   final regex = RegExp(r'^\{.*\}\{.*\}$');
-    //   if (regex.hasMatch(responseData)) {
-    //     // Разделяем строку на две части
-    //     final parts = responseData.split(RegExp(r'(?<=\})\{'));
-    //     if (parts.length > 1) {
-    //       // Берем только часть с ответом сервера (последняя часть)
-    //       final validPart = '{${parts.last}';
-    //       response.data = validPart;
-    //     }
-    //   }
-    // }
-    debugPrint(
-      '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode} ${response.data}',
-    );
+    if (kDebugMode) {
+      debugPrint(
+        '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode} ${response.data}',
+      );
+    }
 
     super.onResponse(response, handler);
   }
@@ -126,10 +113,12 @@ class _TokenInterceptor extends Interceptor {
     DioException error,
     ErrorInterceptorHandler handler,
   ) async {
-    debugPrint('Error -->');
-    debugPrint('${error.message} ${error.error}');
-    debugPrint(error.response?.data.toString());
-    debugPrint('Error -->');
+    if (kDebugMode) {
+      debugPrint('Error -->');
+      debugPrint('${error.message} ${error.error}');
+      debugPrint(error.response?.data.toString());
+      debugPrint('Error -->');
+    }
     String? refresh = SharedPrefs().getRefreshToken();
     try {
       if (error.response?.statusCode == 401) {
@@ -153,7 +142,7 @@ class _TokenInterceptor extends Interceptor {
         );
 
         if (kDebugMode) {
-          print('${host}user/api/token/refresh/');
+          log('Refresh token request to: ${host}user/api/token/refresh/');
           log(response.body);
         }
         if (response.statusCode == 200) {

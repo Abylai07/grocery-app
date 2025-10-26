@@ -33,7 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "abricoz": MessageLookupByLibrary.simpleMessage("Abricozға"),
+    "abricoz": MessageLookupByLibrary.simpleMessage("Grocery App"),
     "account_blocked": MessageLookupByLibrary.simpleMessage(
       "Аккаунт бұғатталды.",
     ),
@@ -54,7 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "appLanguage": MessageLookupByLibrary.simpleMessage("Қосымша тілі"),
     "back": MessageLookupByLibrary.simpleMessage("Артқа"),
     "bannerLocal": MessageLookupByLibrary.simpleMessage(
-      "Abricoz жаңа қосымшасында құлпынайға тапсырыс беріңіз!",
+      "Жаңа қосымшамызда құлпынайға тапсырыс беріңіз!",
     ),
     "basket": MessageLookupByLibrary.simpleMessage("Себет"),
     "basketEmpty": MessageLookupByLibrary.simpleMessage("Себетіңіз бос"),
@@ -356,7 +356,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "update_button": MessageLookupByLibrary.simpleMessage("Қосымшаны жаңарту"),
     "update_message": MessageLookupByLibrary.simpleMessage(
-      "Abricoz-те жаңа мүмкіндіктер мен жетілдірулер. Маңызды нәрселерді жіберіп алмау үшін жаңартыңыз!",
+      "Grocery App-те жаңа мүмкіндіктер мен жетілдірулер. Маңызды нәрселерді жіберіп алмау үшін жаңартыңыз!",
     ),
     "userAgre": MessageLookupByLibrary.simpleMessage("Пайдаланушы келісімі"),
     "userAgreement": MessageLookupByLibrary.simpleMessage(
@@ -367,7 +367,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "welcome": MessageLookupByLibrary.simpleMessage("Қош келдіңіз "),
     "write": MessageLookupByLibrary.simpleMessage("Жазу"),
     "write_message": MessageLookupByLibrary.simpleMessage(
-      "Аккаунтыңызды жою үшін бізге info@abricoz.kz поштасына хат жазыңыз. Сіздің өтінішіңіз жақын арада қарастырылады.",
+      "Аккаунтыңызды жою үшін бізге support@example.com поштасына хат жазыңыз. Сіздің өтінішіңіз жақын арада қарастырылады.",
     ),
     "wrongCurrentPass": MessageLookupByLibrary.simpleMessage("Құпия сөз қате"),
     "yourAddress": MessageLookupByLibrary.simpleMessage(

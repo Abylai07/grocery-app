@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
-import 'package:abricoz_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
-import 'package:abricoz_app/src/presentation/widgets/main_functions.dart';
-import 'package:abricoz_app/src/presentation/widgets/shimmer_widget.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/domain/entity/user/banner_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/city_model.dart';
+import 'package:grocery_app/src/presentation/view/home/bloc/city_bloc/city_cubit.dart';
+import 'package:grocery_app/src/presentation/widgets/main_functions.dart';
+import 'package:grocery_app/src/presentation/widgets/shimmer_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

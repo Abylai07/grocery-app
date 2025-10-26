@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/search_hint_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
+import 'package:grocery_app/src/domain/entity/product/product_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/search_hint_entity.dart';
+import 'package:grocery_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
