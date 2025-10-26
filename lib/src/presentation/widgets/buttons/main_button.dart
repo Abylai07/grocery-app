@@ -8,6 +8,7 @@ class CustomMainButton extends StatelessWidget {
   final Function()? onTap;
   final bool isLoading;
   final double height;
+  final double radius;
   final Color buttonColor;
   final bool isActive;
 
@@ -17,6 +18,7 @@ class CustomMainButton extends StatelessWidget {
     required this.onTap,
     this.isLoading = false,
     this.height = 48,
+    this.radius = 12,
     this.buttonColor = AppColors.main,
     this.isActive = true,
   });
@@ -28,22 +30,25 @@ class CustomMainButton extends StatelessWidget {
       width: size.width,
       height: height,
       decoration: BoxDecoration(
-          // gradient: AppColors.mainGradient,
-          borderRadius: BorderRadius.circular(120),
-         ),
+        // gradient: AppColors.mainGradient,
+        borderRadius: BorderRadius.circular(120),
+      ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(radius),
           ),
           backgroundColor: isActive ? buttonColor : AppColors.buttonGrey,
         ),
         onPressed: isActive && isLoading == false ? onTap : () {},
         child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(
-                color: AppColors.white,
-              ))
+            ? SizedBox(
+                height: height - 24,
+                width: height - 24,
+                child: const CircularProgressIndicator(
+                  color: AppColors.white,
+                ),
+              )
             : Text(
                 text,
                 style: AppTextStyle.bodyLarge.copyWith(
@@ -53,7 +58,6 @@ class CustomMainButton extends StatelessWidget {
     );
   }
 }
-
 
 class CustomGrayButton extends StatelessWidget {
   final String text;
@@ -92,20 +96,21 @@ class CustomGrayButton extends StatelessWidget {
         ),
         onPressed: isActive && isLoading == false ? onTap : () {},
         child: isLoading
-            ? const Center(
-            child: CircularProgressIndicator(
-              color: AppColors.white,
-            ))
+            ? const Padding(
+                padding: EdgeInsets.all(6),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
             : Text(
-          text,
-          style: AppTextStyle.bodyLarge.copyWith(
-              color: isActive ? AppColors.black : AppColors.gray),
-        ),
+                text,
+                style: AppTextStyle.bodyLarge.copyWith(
+                    color: isActive ? AppColors.black : AppColors.gray),
+              ),
       ),
     );
   }
 }
-
 
 class CustomOutlinedButton extends StatelessWidget {
   final String text;

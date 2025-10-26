@@ -1,0 +1,2 @@
+/Users/abylai/StudioProjects/abricoz_app/android/app/.cxx/RelWithDebInfo/2n512i66/x86/CMakeFiles/edit_cache.dir
+/Users/abylai/StudioProjects/abricoz_app/android/app/.cxx/RelWithDebInfo/2n512i66/x86/CMakeFiles/rebuild_cache.dir

@@ -3,13 +3,16 @@ part of 'sign_in_cubit.dart';
 
 
 /// Cubit statuses initial success error loading
-enum SignInStatus { initial, successPhone, successCode, error, loading}
+enum SignInStatus {initial, successPhone, successCode, needName, successName, error, errorCode, loading}
 
 extension SignInStatusX on SignInStatus {
   bool get isInitial => this == SignInStatus.initial;
   bool get isSuccessPhone => this == SignInStatus.successPhone;
+  bool get isNeedName => this == SignInStatus.needName;
+  bool get isSuccessName => this == SignInStatus.successName;
   bool get isSuccessCode => this == SignInStatus.successCode;
   bool get isError => this == SignInStatus.error;
+  bool get isErrorCode => this == SignInStatus.errorCode;
   bool get isLoading => this == SignInStatus.loading;
 }
 

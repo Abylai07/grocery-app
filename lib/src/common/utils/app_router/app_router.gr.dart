@@ -16,13 +16,13 @@ abstract class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     AddOrChangeAddressRoute.name: (routeData) {
-      final args = routeData.argsAs<AddOrChangeAddressRouteArgs>(
-          orElse: () => const AddOrChangeAddressRouteArgs());
+      final args = routeData.argsAs<AddOrChangeAddressRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: AddOrChangeAddressScreen(
           key: args.key,
           address: args.address,
+          selectAddress: args.selectAddress,
         ),
       );
     },
@@ -30,6 +30,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const AddressScreen(),
+      );
+    },
+    BannedUserRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BannedUserScreen(),
       );
     },
     BasketRoute.name: (routeData) {
@@ -50,6 +56,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const FavoriteScreen(),
       );
     },
+    HomeNestedRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HomeNestedScreen(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -60,6 +72,23 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const IndexScreen(),
+      );
+    },
+    InformationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const InformationScreen(),
+      );
+    },
+    LinkPaymentRoute.name: (routeData) {
+      final args = routeData.argsAs<LinkPaymentRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: LinkPaymentScreen(
+          key: args.key,
+          url: args.url,
+          type: args.type,
+        ),
       );
     },
     MakeOrderRoute.name: (routeData) {
@@ -73,13 +102,46 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    MapAddressRoute.name: (routeData) {
+      final args = routeData.argsAs<MapAddressRouteArgs>(
+          orElse: () => const MapAddressRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MapAddressScreen(
+          key: args.key,
+          address: args.address,
+        ),
+      );
+    },
+    MyCardsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyCardsScreen(),
+      );
+    },
+    OrderDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<OrderDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OrderDetailScreen(
+          key: args.key,
+          orderId: args.orderId,
+        ),
+      );
+    },
+    OrderHistoryRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OrderHistoryScreen(),
+      );
+    },
     PaymentRoute.name: (routeData) {
       final args = routeData.argsAs<PaymentRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: PaymentScreen(
           key: args.key,
-          orderInfo: args.orderInfo,
+          orderId: args.orderId,
         ),
       );
     },
@@ -97,6 +159,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ProfileScreen(),
+      );
+    },
+    SaveCardRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SaveCardScreen(),
       );
     },
     SearchedProductRoute.name: (routeData) {
@@ -125,6 +193,44 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    TechnicalWorkRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TechnicalWorkScreen(),
+      );
+    },
+    UpgradeAppRoute.name: (routeData) {
+      final args = routeData.argsAs<UpgradeAppRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: UpgradeAppScreen(
+          key: args.key,
+          storeUrl: args.storeUrl,
+        ),
+      );
+    },
+    UserInfoRoute.name: (routeData) {
+      final args = routeData.argsAs<UserInfoRouteArgs>(
+          orElse: () => const UserInfoRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: UserInfoScreen(
+          key: args.key,
+          isSignIn: args.isSignIn,
+        ),
+      );
+    },
+    WebViewRoute.name: (routeData) {
+      final args = routeData.argsAs<WebViewRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: WebViewScreen(
+          key: args.key,
+          title: args.title,
+          url: args.url,
+        ),
+      );
+    },
   };
 }
 
@@ -135,12 +241,14 @@ class AddOrChangeAddressRoute
   AddOrChangeAddressRoute({
     Key? key,
     AddressEntity? address,
+    required YandexAddress selectAddress,
     List<PageRouteInfo>? children,
   }) : super(
           AddOrChangeAddressRoute.name,
           args: AddOrChangeAddressRouteArgs(
             key: key,
             address: address,
+            selectAddress: selectAddress,
           ),
           initialChildren: children,
         );
@@ -155,15 +263,18 @@ class AddOrChangeAddressRouteArgs {
   const AddOrChangeAddressRouteArgs({
     this.key,
     this.address,
+    required this.selectAddress,
   });
 
   final Key? key;
 
   final AddressEntity? address;
 
+  final YandexAddress selectAddress;
+
   @override
   String toString() {
-    return 'AddOrChangeAddressRouteArgs{key: $key, address: $address}';
+    return 'AddOrChangeAddressRouteArgs{key: $key, address: $address, selectAddress: $selectAddress}';
   }
 }
 
@@ -177,6 +288,20 @@ class AddressRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddressRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [BannedUserScreen]
+class BannedUserRoute extends PageRouteInfo<void> {
+  const BannedUserRoute({List<PageRouteInfo>? children})
+      : super(
+          BannedUserRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BannedUserRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -224,6 +349,20 @@ class FavoriteRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [HomeNestedScreen]
+class HomeNestedRoute extends PageRouteInfo<void> {
+  const HomeNestedRoute({List<PageRouteInfo>? children})
+      : super(
+          HomeNestedRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeNestedRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -249,6 +388,63 @@ class IndexRoute extends PageRouteInfo<void> {
   static const String name = 'IndexRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [InformationScreen]
+class InformationRoute extends PageRouteInfo<void> {
+  const InformationRoute({List<PageRouteInfo>? children})
+      : super(
+          InformationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'InformationRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LinkPaymentScreen]
+class LinkPaymentRoute extends PageRouteInfo<LinkPaymentRouteArgs> {
+  LinkPaymentRoute({
+    Key? key,
+    required String url,
+    required String type,
+    List<PageRouteInfo>? children,
+  }) : super(
+          LinkPaymentRoute.name,
+          args: LinkPaymentRouteArgs(
+            key: key,
+            url: url,
+            type: type,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'LinkPaymentRoute';
+
+  static const PageInfo<LinkPaymentRouteArgs> page =
+      PageInfo<LinkPaymentRouteArgs>(name);
+}
+
+class LinkPaymentRouteArgs {
+  const LinkPaymentRouteArgs({
+    this.key,
+    required this.url,
+    required this.type,
+  });
+
+  final Key? key;
+
+  final String url;
+
+  final String type;
+
+  @override
+  String toString() {
+    return 'LinkPaymentRouteArgs{key: $key, url: $url, type: $type}';
+  }
 }
 
 /// generated route for
@@ -295,17 +491,121 @@ class MakeOrderRouteArgs {
 }
 
 /// generated route for
+/// [MapAddressScreen]
+class MapAddressRoute extends PageRouteInfo<MapAddressRouteArgs> {
+  MapAddressRoute({
+    Key? key,
+    AddressEntity? address,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MapAddressRoute.name,
+          args: MapAddressRouteArgs(
+            key: key,
+            address: address,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MapAddressRoute';
+
+  static const PageInfo<MapAddressRouteArgs> page =
+      PageInfo<MapAddressRouteArgs>(name);
+}
+
+class MapAddressRouteArgs {
+  const MapAddressRouteArgs({
+    this.key,
+    this.address,
+  });
+
+  final Key? key;
+
+  final AddressEntity? address;
+
+  @override
+  String toString() {
+    return 'MapAddressRouteArgs{key: $key, address: $address}';
+  }
+}
+
+/// generated route for
+/// [MyCardsScreen]
+class MyCardsRoute extends PageRouteInfo<void> {
+  const MyCardsRoute({List<PageRouteInfo>? children})
+      : super(
+          MyCardsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyCardsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OrderDetailScreen]
+class OrderDetailRoute extends PageRouteInfo<OrderDetailRouteArgs> {
+  OrderDetailRoute({
+    Key? key,
+    required int orderId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OrderDetailRoute.name,
+          args: OrderDetailRouteArgs(
+            key: key,
+            orderId: orderId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderDetailRoute';
+
+  static const PageInfo<OrderDetailRouteArgs> page =
+      PageInfo<OrderDetailRouteArgs>(name);
+}
+
+class OrderDetailRouteArgs {
+  const OrderDetailRouteArgs({
+    this.key,
+    required this.orderId,
+  });
+
+  final Key? key;
+
+  final int orderId;
+
+  @override
+  String toString() {
+    return 'OrderDetailRouteArgs{key: $key, orderId: $orderId}';
+  }
+}
+
+/// generated route for
+/// [OrderHistoryScreen]
+class OrderHistoryRoute extends PageRouteInfo<void> {
+  const OrderHistoryRoute({List<PageRouteInfo>? children})
+      : super(
+          OrderHistoryRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OrderHistoryRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [PaymentScreen]
 class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
   PaymentRoute({
     Key? key,
-    required OrderEntity orderInfo,
+    required int orderId,
     List<PageRouteInfo>? children,
   }) : super(
           PaymentRoute.name,
           args: PaymentRouteArgs(
             key: key,
-            orderInfo: orderInfo,
+            orderId: orderId,
           ),
           initialChildren: children,
         );
@@ -319,16 +619,16 @@ class PaymentRoute extends PageRouteInfo<PaymentRouteArgs> {
 class PaymentRouteArgs {
   const PaymentRouteArgs({
     this.key,
-    required this.orderInfo,
+    required this.orderId,
   });
 
   final Key? key;
 
-  final OrderEntity orderInfo;
+  final int orderId;
 
   @override
   String toString() {
-    return 'PaymentRouteArgs{key: $key, orderInfo: $orderInfo}';
+    return 'PaymentRouteArgs{key: $key, orderId: $orderId}';
   }
 }
 
@@ -380,6 +680,20 @@ class ProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SaveCardScreen]
+class SaveCardRoute extends PageRouteInfo<void> {
+  const SaveCardRoute({List<PageRouteInfo>? children})
+      : super(
+          SaveCardRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SaveCardRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -471,5 +785,138 @@ class SubCategoryRouteArgs {
   @override
   String toString() {
     return 'SubCategoryRouteArgs{key: $key, category: $category}';
+  }
+}
+
+/// generated route for
+/// [TechnicalWorkScreen]
+class TechnicalWorkRoute extends PageRouteInfo<void> {
+  const TechnicalWorkRoute({List<PageRouteInfo>? children})
+      : super(
+          TechnicalWorkRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TechnicalWorkRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [UpgradeAppScreen]
+class UpgradeAppRoute extends PageRouteInfo<UpgradeAppRouteArgs> {
+  UpgradeAppRoute({
+    Key? key,
+    required String storeUrl,
+    List<PageRouteInfo>? children,
+  }) : super(
+          UpgradeAppRoute.name,
+          args: UpgradeAppRouteArgs(
+            key: key,
+            storeUrl: storeUrl,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'UpgradeAppRoute';
+
+  static const PageInfo<UpgradeAppRouteArgs> page =
+      PageInfo<UpgradeAppRouteArgs>(name);
+}
+
+class UpgradeAppRouteArgs {
+  const UpgradeAppRouteArgs({
+    this.key,
+    required this.storeUrl,
+  });
+
+  final Key? key;
+
+  final String storeUrl;
+
+  @override
+  String toString() {
+    return 'UpgradeAppRouteArgs{key: $key, storeUrl: $storeUrl}';
+  }
+}
+
+/// generated route for
+/// [UserInfoScreen]
+class UserInfoRoute extends PageRouteInfo<UserInfoRouteArgs> {
+  UserInfoRoute({
+    Key? key,
+    bool isSignIn = true,
+    List<PageRouteInfo>? children,
+  }) : super(
+          UserInfoRoute.name,
+          args: UserInfoRouteArgs(
+            key: key,
+            isSignIn: isSignIn,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'UserInfoRoute';
+
+  static const PageInfo<UserInfoRouteArgs> page =
+      PageInfo<UserInfoRouteArgs>(name);
+}
+
+class UserInfoRouteArgs {
+  const UserInfoRouteArgs({
+    this.key,
+    this.isSignIn = true,
+  });
+
+  final Key? key;
+
+  final bool isSignIn;
+
+  @override
+  String toString() {
+    return 'UserInfoRouteArgs{key: $key, isSignIn: $isSignIn}';
+  }
+}
+
+/// generated route for
+/// [WebViewScreen]
+class WebViewRoute extends PageRouteInfo<WebViewRouteArgs> {
+  WebViewRoute({
+    Key? key,
+    required String title,
+    required String url,
+    List<PageRouteInfo>? children,
+  }) : super(
+          WebViewRoute.name,
+          args: WebViewRouteArgs(
+            key: key,
+            title: title,
+            url: url,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'WebViewRoute';
+
+  static const PageInfo<WebViewRouteArgs> page =
+      PageInfo<WebViewRouteArgs>(name);
+}
+
+class WebViewRouteArgs {
+  const WebViewRouteArgs({
+    this.key,
+    required this.title,
+    required this.url,
+  });
+
+  final Key? key;
+
+  final String title;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'WebViewRouteArgs{key: $key, title: $title, url: $url}';
   }
 }

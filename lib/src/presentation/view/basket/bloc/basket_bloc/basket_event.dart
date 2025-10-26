@@ -19,7 +19,8 @@ class SetProductById extends BasketEvent {
 }
 
 class CheckBasketItems extends BasketEvent {
-  const CheckBasketItems();
+  const CheckBasketItems({this.readyToOrder = false});
+  final bool readyToOrder;
 }
 
 

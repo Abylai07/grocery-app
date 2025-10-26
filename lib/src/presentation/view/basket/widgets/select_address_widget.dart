@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
-import 'package:abricoz_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/domain/entity/user/address_entity.dart';
+import 'package:grocery_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,11 +41,10 @@ class SelectAddressWidget extends StatelessWidget {
                   )
                 ],
               ),
-              24.height,
+              16.height,
               BlocBuilder<AddressCubit, AddressState>(
                 builder: (context, state) {
                   if (state.status.isSuccess) {
-
                     List<AddressEntity> addresses = state.entity ?? [];
                     return Column(
                       children: [
@@ -70,30 +69,38 @@ class SelectAddressWidget extends StatelessWidget {
                                               .read<AddressCubit>()
                                               .selectAddress(addresses[index]);
                                         },
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                                child: Text(
-                                              '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
-                                              style: AppTextStyle.bodyLarge,
-                                            )),
-                                            if (addresses[index].id ==
-                                                state.selectAddress?.id)
-                                              SvgPicture.asset(
-                                                  AppAssets.selected),
-                                          ],
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                  child: Text(
+                                                '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
+                                                style: AppTextStyle.bodyLarge,
+                                              )),
+                                              if (addresses[index].id ==
+                                                  state.selectAddress?.id)
+                                                SvgPicture.asset(
+                                                    AppAssets.selected),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       const Divider(
-                                        height: 24,
+                                        height: 12,
                                         color: AppColors.grayContainer,
                                       ),
                                     ],
                                   );
                                 }),
                         TextButton(
-                            onPressed: () {
-                              context.router.push(const AddressRoute());
+                            onPressed: () async {
+                              if(addresses.isEmpty){
+                                await context.router.push(MapAddressRoute());
+                                context.read<AddressCubit>().fetchAddress();
+                              } else {
+                                context.router.push(const AddressRoute());
+                              }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,

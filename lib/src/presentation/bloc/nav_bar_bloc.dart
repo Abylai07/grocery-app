@@ -16,7 +16,9 @@ class NavBarState {
 // Bloc
 class NavBarBloc extends Bloc<NavBarEvent, NavBarState> {
   NavBarBloc() : super(NavBarState(isVisible: false)) {
-    on<ShowNavBar>((event, emit) => emit(NavBarState(isVisible: true)));
+    on<ShowNavBar>((event, emit) {
+      emit(NavBarState(isVisible: true));
+    });
     on<HideNavBar>((event, emit) => emit(NavBarState(isVisible: false)));
   }
 }

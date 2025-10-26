@@ -23,6 +23,7 @@ class AppColors {
   static const Color border = Color(0xFFD6D6D7);
   static const Color buttonGrey = Color(0xFFEAEAEA);
   static const Color gray = Color(0xFFC4C4C4);
+  static const Color notActiveColor = Color(0xFFE9E9E9);
   static const Color grayContainer = Color(0xFFF5F5F5);
   static const Color textGray = Color(0xFF9D9D9D);
   static const Color lightGray = Color(0xffF8FAFD);

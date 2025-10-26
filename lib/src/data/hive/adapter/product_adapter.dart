@@ -38,6 +38,8 @@ class ProductHiveModel extends HiveObject {
   final int basketCount;
   @HiveField(16)
   final String? weight;
+  @HiveField(17)
+  final int? availableQuantity;
 
   ProductHiveModel({
     required this.id,
@@ -56,6 +58,7 @@ class ProductHiveModel extends HiveObject {
     this.weight,
      this.createdAt,
      this.updatedAt,
+     this.availableQuantity,
     this.basketCount = 1,
   });
 
@@ -66,15 +69,16 @@ class ProductHiveModel extends HiveObject {
       countryId: json['country_id'],
       brandId: json['brand_id'],
       photoUrl: json['photo_url'],
+      availableQuantity: json['available_quantity'],
       name: {
         'ru': json['name_ru'],
         'kz': json['name_kz'],
-        'en': json['name_en'],
+       // 'en': json['name_en'],
       },
       description: {
         'ru': json['description_ru'],
         'kz': json['description_kz'],
-        'en': json['description_en'],
+       // 'en': json['description_en'],
       },
       price: json['price'],
       weight: json['weight'],
@@ -99,12 +103,13 @@ class ProductHiveModel extends HiveObject {
       'weight': weight,
       'name_ru': name['ru'],
       'name_kz': name['kz'],
-      'name_en': name['en'],
+      // 'name_en': name['en'],
       'description_ru': description['ru'],
       'description_kz': description['kz'],
-      'description_en': description['en'],
+     // 'description_en': description['en'],
       'price': price,
       'discount': discount,
+      'available_quantity': availableQuantity,
       'price_with_discount': priceWithDiscount,
       'rating': rating,
       'total_sales': totalSales,
@@ -129,6 +134,7 @@ class ProductHiveModel extends HiveObject {
     double? priceWithDiscount,
     double? rating,
     int? totalSales,
+    int? availableQuantity,
     bool? isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -152,6 +158,7 @@ class ProductHiveModel extends HiveObject {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       basketCount: basketCount ?? this.basketCount,
+      availableQuantity: availableQuantity ?? this.availableQuantity,
     );
   }
 }

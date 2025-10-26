@@ -1,12 +1,12 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/domain/entity/user/user_entity.dart';
+import 'package:grocery_app/src/presentation/widgets/custom_app_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../../common/app_styles/assets.dart';
 import '../../../common/app_styles/colors.dart';
 import '../../../common/app_styles/text_styles.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
@@ -41,18 +41,18 @@ class CodeEnterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String number = AppUtils.phoneMaskFormatter.getUnmaskedText();
+    FocusNode focusNode = FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      focusNode.requestFocus();
+    });
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: SvgPicture.asset(AppAssets.back),
-          onPressed: () {
-            context.router.maybePop();
-            context.read<TimerBloc>().add(ResetTimer());
-          },
-        ),
-        title: Text(
-          S.of(context).signIn,
-        ),
+      appBar: CustomAppBar(
+        onBackPressed: () {
+          context.router.maybePop();
+          context.read<TimerBloc>().add(ResetTimer());
+        },
+        title: S.of(context).signIn,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -85,10 +85,19 @@ class CodeEnterView extends StatelessWidget {
               ),
               BlocConsumer<SingInCubit, SignInState>(
                 listener: (context, state) {
-                  if (state.status.isSuccessCode) {
+                  if (state.status.isSuccessCode || state.status.isNeedName) {
                     context.read<TimerBloc>().add(ResetTimer());
                     context.read<UserSessionBloc>().add(LoadUserSession());
-                    context.router.replaceAll([const IndexRoute(children: [HomeRoute()])]);
+                    if (state.status.isNeedName) {
+                      context.router.replace(UserInfoRoute());
+                    } else {
+                      UserEntity user = state.entity;
+                      context.router.replaceAll([
+                        user.isBanned
+                            ? const BannedUserRoute()
+                            : const IndexRoute(children: [HomeNestedRoute()])
+                      ]);
+                    }
                   }
                 },
                 builder: (context, state) {
@@ -96,6 +105,8 @@ class CodeEnterView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       PinCodeTextField(
+                        autoFocus: true,
+                        focusNode: focusNode,
                         appContext: context,
                         length: 6,
                         animationType: AnimationType.fade,

@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/enums.dart';

@@ -1,14 +1,16 @@
-import 'package:abricoz_app/src/common/app_styles/colors.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
-import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/delivery_time_bloc/delivery_time_cubit.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
-import 'package:abricoz_app/src/presentation/view/basket/widgets/select_address_widget.dart';
-import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
-import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
-import 'package:abricoz_app/src/presentation/widgets/show_error_snackbar.dart';
+import 'package:grocery_app/src/common/app_styles/colors.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/data/hive/adapter/product_adapter.dart';
+import 'package:grocery_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
+import 'package:grocery_app/src/presentation/view/basket/bloc/delivery_time_bloc/delivery_time_cubit.dart';
+import 'package:grocery_app/src/presentation/view/basket/bloc/order_bloc/order_cubit.dart';
+import 'package:grocery_app/src/presentation/view/basket/widgets/select_address_widget.dart';
+import 'package:grocery_app/src/presentation/view/profile/bloc/my_cards/cards_cubit.dart';
+import 'package:grocery_app/src/presentation/widgets/buttons/main_button.dart';
+import 'package:grocery_app/src/presentation/widgets/padding_nav_buttons.dart';
+import 'package:grocery_app/src/presentation/widgets/show_error_snackbar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,10 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../common/app_styles/assets.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../../domain/entity/user/app_config_entity.dart';
 import '../../../../get_it_sl.dart';
+import '../../../bloc/base_state.dart';
+import '../../../bloc/status_cubit.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../profile/bloc/address_bloc/address_cubit.dart';
 import '../widgets/select_payment_type.dart';
@@ -30,6 +35,9 @@ class MakeOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AppSettingsCubit>().fetchAppStatus();
+    context.read<CardsCubit>().fetchMyCards();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -58,41 +66,78 @@ class DeliveryTimeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CardsCubit>().checkMyCards();
+
+    String getFormattedDate(DateTime? dateTime) {
+      if (dateTime == null) return '';
+
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final tomorrow = today.add(const Duration(days: 1));
+      final inputDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+      if (inputDate == today) {
+        return S.of(context).today;
+      } else if (inputDate == tomorrow) {
+        return S.of(context).tomorrow;
+      } else {
+        return '${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}';
+      }
+    }
+
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).makeOrder,
       ),
       bottomNavigationBar: PaddingForNavButtons(
-        child: BlocConsumer<OrderCubit, OrderState>(
-          listener: (context, state) {
-            if (state.status.isSuccess && state.entity != null) {
-              context.router.push(PaymentRoute(orderInfo: state.entity!));
-            } else if (state.status.isError) {
-              showErrorSnackBar(context, S.of(context).somethingError);
-            }
-          },
-          builder: (context, state) {
-            return CustomMainButton(
-              isLoading: state.status.isLoading,
-              text: S.of(context).confirmPay(productSum),
-              onTap: () {
-                final timeId =
-                    context.read<DeliveryTimeCubit>().state.selectTime?.id;
-                final addressId =
-                    context.read<AddressCubit>().state.selectAddress?.id;
-                if (timeId == null || addressId == null) {
-                  showErrorSnackBar(
-                      context,
-                      addressId == null
-                          ? S.of(context).selectAddressPlease
-                          : S.of(context).selectTimePlease);
-                } else {
-                  context.read<OrderCubit>().createOrder(
-                        timeId: timeId,
-                        addressId: addressId,
-                        products: products,
-                      );
+        child: BlocBuilder<CardsCubit, CardsState>(
+          builder: (context, cardState) {
+            return BlocConsumer<OrderCubit, OrderState>(
+              listener: (context, state) {
+                if (state.status.isSuccess && state.entity != null) {
+                  context.read<BasketBloc>().add(const DeleteAllBasket());
+                  context.router
+                      .popAndPush(PaymentRoute(orderId: state.entity!));
+                } else if (state.status.isError) {
+                  showErrorSnackBar(context, state.message);
                 }
+              },
+              builder: (context, state) {
+                return CustomMainButton(
+                  isLoading: state.status.isLoading,
+                  isActive: !cardState.paymentType.isNone,
+                  text: S.of(context).confirmPay(productSum),
+                  onTap: () {
+                    final dateTime =
+                        context.read<DeliveryTimeCubit>().state.selectTime;
+                    final addressId =
+                        context.read<AddressCubit>().state.selectAddress?.id;
+                    final isCard =
+                        context.read<CardsCubit>().state.paymentType.isCard;
+                    final cardId =
+                        context.read<CardsCubit>().state.selectCard?.id;
+                    if (dateTime == null ||
+                        addressId == null ||
+                        (cardId == null && isCard)) {
+                      showErrorSnackBar(
+                        context,
+                        addressId == null
+                            ? S.of(context).selectAddressPlease
+                            : dateTime == null
+                                ? S.of(context).selectTimePlease
+                                : S.of(context).select_payment_method,
+                      );
+                    } else {
+                      context.read<OrderCubit>().createOrder(
+                            time: dateTime,
+                            addressId: addressId,
+                            products: products,
+                            paymentTypeId: isCard ? 2 : 1,
+                            cardId: cardId,
+                          );
+                    }
+                  },
+                );
               },
             );
           },
@@ -173,7 +218,7 @@ class DeliveryTimeView extends StatelessWidget {
             BlocBuilder<DeliveryTimeCubit, DeliveryTimeState>(
               builder: (context, state) {
                 return Container(
-                  height: 40,
+                  height: 56,
                   margin: const EdgeInsets.only(top: 8, bottom: 24),
                   child: state.status.isSuccess
                       ? state.entity?.isEmpty == true
@@ -188,8 +233,11 @@ class DeliveryTimeView extends StatelessWidget {
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                bool isSelected = state.entity?[index].id ==
-                                    state.selectTime?.id;
+                                bool isSelected = (state.entity?[index].id ==
+                                        state.selectTime?.id) &&
+                                    (state.entity?[index].date ==
+                                        state.selectTime?.date);
+
                                 return GestureDetector(
                                   onTap: () {
                                     context
@@ -208,12 +256,28 @@ class DeliveryTimeView extends StatelessWidget {
                                           : AppColors.grayContainer,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: Text(
-                                      state.entity?[index].name ?? '',
-                                      style: AppTextStyle.bodyMedium.copyWith(
-                                          color: isSelected
-                                              ? AppColors.main
-                                              : AppColors.black),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          state.entity?[index].name ?? '',
+                                          style: AppTextStyle.bodyMedium
+                                              .copyWith(
+                                                  color: isSelected
+                                                      ? AppColors.main
+                                                      : AppColors.black),
+                                        ),
+                                        Text(
+                                          getFormattedDate(
+                                              state.entity?[index].date),
+                                          style: AppTextStyle.bodyMedium
+                                              .copyWith(
+                                                  color: isSelected
+                                                      ? AppColors.main
+                                                      : AppColors.black),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 );
@@ -243,10 +307,11 @@ class DeliveryTimeView extends StatelessWidget {
                       ),
                     ),
                     builder: (context) {
-                      return const SelectPaymentType();
+                      return const SelectPaymentWidget();
                     });
               },
               child: Container(
+                width: double.infinity,
                 margin: const EdgeInsets.only(top: 8, bottom: 24),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -255,18 +320,75 @@ class DeliveryTimeView extends StatelessWidget {
                     border: Border.all(
                       color: AppColors.lightGrey,
                     )),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(AppAssets.cash),
-                    12.width,
-                    Expanded(
-                      child: Text(
-                        S.of(context).cashToCourier,
-                        style: AppTextStyle.bodyMedium,
-                      ),
-                    ),
-                    SvgPicture.asset(AppAssets.arrowNext)
-                  ],
+                child: BlocConsumer<AppSettingsCubit, BaseState>(
+                  listener: (context, setting) {
+                    if (setting.status.isSuccess) {
+                      AppConfigEntity settings = setting.entity;
+
+                      final cardsCubit = context.read<CardsCubit>();
+
+                      if (!settings.isBankPaymentActive &&
+                          !settings.isCashPaymentActive) {
+                        cardsCubit.selectPaymentType(PaymentType.none);
+                      } else if (!settings.isBankPaymentActive) {
+                        cardsCubit.selectPaymentType(PaymentType.cash);
+                      } else if (!settings.isCashPaymentActive) {
+                        cardsCubit.selectPaymentType(PaymentType.card);
+                      } else {
+                        // both available, no change – retain selection or use existing logic
+                        if (cardsCubit.state.paymentType == PaymentType.none) {
+                          cardsCubit
+                              .selectPaymentType(PaymentType.card); // or .cash
+                        }
+                      }
+                    }
+                  },
+                  builder: (context, setting) {
+                    if (setting.status.isSuccess) {
+                      return BlocBuilder<CardsCubit, CardsState>(
+                        builder: (context, state) {
+                          if (state.paymentType == PaymentType.none) {
+                            return Text(
+                              S.of(context).temporarily_not_accepting_orders,
+                              style: AppTextStyle.bodyMedium
+                                  .copyWith(color: Colors.red),
+                            );
+                          }
+                          return state.status.isSuccess
+                              ? Row(
+                                  children: [
+                                    SvgPicture.asset(state.paymentType.isCash
+                                        ? AppAssets.cash
+                                        : AppAssets.card),
+                                    12.width,
+                                    Expanded(
+                                      child: Text(
+                                        state.paymentType.isCash
+                                            ? S.of(context).cashToCourier
+                                            : state.selectCard == null
+                                                ? S
+                                                    .of(context)
+                                                    .select_payment_method
+                                                : '${state.selectCard?.issuer} ~ ${state.selectCard?.lastNumbers}',
+                                        style: AppTextStyle.bodyMedium,
+                                      ),
+                                    ),
+                                    SvgPicture.asset(AppAssets.arrowNext)
+                                  ],
+                                )
+                              : const Center(
+                                  child: CircularProgressIndicator.adaptive(),
+                                );
+                        },
+                      );
+                    } else if (setting.status.isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  },
                 ),
               ),
             ),

@@ -1,7 +1,7 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
-import 'package:abricoz_app/src/presentation/view/basket/bloc/basket_button_bloc/basket_button_bloc.dart';
-import 'package:abricoz_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/presentation/view/basket/bloc/basket_bloc/basket_bloc.dart';
+import 'package:grocery_app/src/presentation/view/basket/bloc/basket_button_bloc/basket_button_bloc.dart';
+import 'package:grocery_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +11,7 @@ import '../../../common/app_styles/colors.dart';
 import '../../../common/app_styles/text_styles.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../data/hive/adapter/product_adapter.dart';
+import '../../../data/hive/hive_database.dart';
 import '../product/widgets/product_loading_widget.dart';
 import '../product/widgets/product_widget.dart';
 
@@ -20,58 +21,69 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<ProductHiveModel> basketList = [];
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(S.of(context).favorite),
       ),
       body: BlocBuilder<BasketBloc, BasketState>(
         builder: (context, basketState) {
-          return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: BlocBuilder<FavoriteCubit, FavoriteState>(
-                builder: (context, state) {
-                  if (state.status.isSuccess &&
-                      state.entity?.isNotEmpty == true) {
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(top: 12, bottom: 24),
-                      itemCount: state.entity?.length,
-                      itemBuilder: (context, index) {
-                        ProductHiveModel? itemInBasket =
-                            basketState.allProducts?.firstWhere(
-                          (element) =>
-                              element.id == state.entity?[index].productId,
-                          orElse: () => ProductHiveModel(
-                            id: -1,
-                            name: {},
-                            description: {},
-                            price: 0,
-                          ),
-                        );
-                        return BlocProvider(
-                          create: (context) => BasketButtonBloc(itemInBasket),
-                          child: ProductWidget(
-                              product: state.entity![index].product),
-                        );
-                      },
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8.0,
-                        crossAxisSpacing: 8.0,
-                        mainAxisExtent: 360,
-                      ),
-                    );
-                  } else if (state.status.isSuccess &&
-                      state.entity?.isEmpty == true) {
-                    return buildEmptyFavorite(context);
-                  } else if (state.status.isLoading) {
-                    return const ProductLoadingWidget();
-                  } else {
-                    return const SizedBox();
-                  }
-                },
-              ));
+          basketList = basketState.allProducts ?? BasketDatabase().getAllProducts();
+
+          return RefreshIndicator(
+            onRefresh: (){
+              context.read<FavoriteCubit>().fetchFavorites();
+              return Future.value();
+            },
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                child: BlocBuilder<FavoriteCubit, FavoriteState>(
+                  builder: (context, state) {
+                    if (state.status.isSuccess &&
+                        state.entity?.isNotEmpty == true) {
+                      basketList = BasketDatabase().getAllProducts();
+
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 12, bottom: 24),
+                        itemCount: state.entity?.length,
+                        itemBuilder: (context, index) {
+                          ProductHiveModel? itemInBasket = basketList.firstWhere(
+                            (element) => element.id == state.entity?[index].id,
+                            orElse: () => ProductHiveModel(
+                              id: -1,
+                              name: {},
+                              description: {},
+                              price: 0,
+                            ),
+                          );
+                          return BlocProvider(
+                            key: ValueKey('${itemInBasket.id}=${itemInBasket.basketCount}'),
+                            create: (context) => BasketButtonBloc(itemInBasket),
+                            child: ProductWidget(product: state.entity![index]),
+                          );
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8.0,
+                          crossAxisSpacing: 8.0,
+                          mainAxisExtent: 350,
+                        ),
+                      );
+                    } else if (state.status.isSuccess &&
+                        state.entity?.isEmpty == true) {
+                      return buildEmptyFavorite(context);
+                    } else if (state.status.isLoading) {
+                      return const ProductLoadingWidget();
+                    } else {
+                      return buildEmptyFavorite(context);
+                    }
+                  },
+                )),
+          );
         },
       ),
     );

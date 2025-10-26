@@ -1,3 +1,5 @@
+import 'package:grocery_app/src/data/models/product/pivot_model.dart';
+
 import '../../../domain/entity/product/product_entity.dart';
 import '../../../presentation/widgets/main_functions.dart';
 
@@ -12,6 +14,7 @@ class ProductModel extends ProductEntity {
     required super.description,
     required super.price,
     required super.isActive,
+    super.amount,
     super.createdAt,
     super.updatedAt,
     super.discount,
@@ -23,9 +26,8 @@ class ProductModel extends ProductEntity {
     super.proteins,
     super.fats,
     super.carbohydrates,
-    super.brand,
-    super.country,
     super.productQuantity,
+    super.pivot,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -39,14 +41,15 @@ class ProductModel extends ProductEntity {
       name: {
         'ru': json['name_ru'],
         'kz': json['name_kz'],
-        'en': json['name_en'],
+        // 'en': json['name_en'],
       },
       description: {
-        'ru': json['description_ru'],
-        'kz': json['description_kz'],
-        'en': json['description_en'],
+        'ru': json['description_ru'] ?? '',
+        'kz': json['description_kz'] ?? '',
+        // 'en': json['description_en'],
       },
       price: json['price'],
+      amount: json['amount'],
       discount: json['discount'],
       priceWithDiscount: json['price_with_discount'],
       rating: json['rating'],
@@ -59,12 +62,7 @@ class ProductModel extends ProductEntity {
       proteins: json['proteins']?.toDouble(),
       fats: json['fats']?.toDouble(),
       carbohydrates: json['carbohydrates']?.toDouble(),
-      brand: json['brand'] != null
-          ? BrandModel.fromJson(json['brand'])
-          : json['brand'],
-      country: json['country'] != null
-          ? CountryModel.fromJson(json['country'])
-          : json['country'],
+      pivot: json['pivot'] != null ? PivotModel.fromJson(json['pivot']) : null,
     );
   }
 
@@ -77,11 +75,12 @@ class ProductModel extends ProductEntity {
       'photo_url': photoUrl,
       'name_ru': name['ru'],
       'name_kz': name['kz'],
-      'name_en': name['en'],
-      'description_ru': description?['ru'],
-      'description_kz': description?['kz'],
-      'description_en': description?['en'],
+      // 'name_en': name['en'],
+      'description_ru': description['ru'],
+      'description_kz': description['kz'],
+      //'description_en': description?['en'],
       'price': price,
+      'amount': amount,
       'product_quantity': productQuantity,
       'discount': discount,
       'price_with_discount': priceWithDiscount,
@@ -95,8 +94,6 @@ class ProductModel extends ProductEntity {
       'proteins': proteins,
       'fats': fats,
       'carbohydrates': carbohydrates,
-      'country': country,
-      'brand': brand,
     };
   }
 }
@@ -119,7 +116,7 @@ class SubcategoryModel extends SubcategoryEntity {
       name: {
         'ru': json['name_ru'],
         'kz': json['name_kz'],
-        'en': json['name_en'],
+        // 'en': json['name_en'],
       },
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
@@ -133,7 +130,7 @@ class SubcategoryModel extends SubcategoryEntity {
       'photo_url': photoUrl,
       'name_ru': name['ru'],
       'name_kz': name['kz'],
-      'name_en': name['en'],
+     // 'name_en': name['en'],
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };

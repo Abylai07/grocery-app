@@ -1,9 +1,18 @@
-// API
+// API Configuration
+import 'env_config.dart';
 
-const host = 'https://api.abricoz.kz/api/'; // prod
-// const host = 'http://91.201.215.143:8000/api/'; // dev
+/// Base API URL (from environment configuration)
+String get host => EnvConfig.currentApiUrl;
 
+/// Development API key (from environment configuration)
+String get devKey => EnvConfig.devKey;
 
+// Legal documents
+// TODO: Replace these with your actual legal document URLs
+const privacyPolicy = 'https://github.com/yourusername/grocery_app/wiki/Privacy-Policy';
+const userAgreement = 'https://github.com/yourusername/grocery_app/wiki/User-Agreement';
+const publicOffer = 'https://github.com/yourusername/grocery_app/wiki/Public-Offer';
+const consentData = 'https://github.com/yourusername/grocery_app/wiki/Data-Consent';
 
 
 const httpStatusCode = _HttpStatusCode();

@@ -1,10 +1,9 @@
-import 'package:abricoz_app/src/domain/entity/user/favorite_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
-import 'package:abricoz_app/src/domain/usecase/user/sign_in_usecase.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:grocery_app/src/domain/usecase/product/product_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/sign_in_usecase.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/error/failure.dart';
+import '../../entity/product/product_entity.dart';
 import '../../repository/abstract_user_service_profile.dart';
 
 class FavoriteUseCase {
@@ -12,11 +11,11 @@ class FavoriteUseCase {
 
   final AbstractUserServiceRepository repository;
 
-  Future<Either<Failure, List<FavoriteEntity>>> fetchFavorite() async {
+  Future<Either<Failure, List<ProductEntity>>> fetchFavorite() async {
     return await repository.fetchFavorite();
   }
 
-  Future<Either<Failure, FavoriteEntity>> storeFavorite(MapParams params) async {
+  Future<Either<Failure, ProductEntity>> storeFavorite(MapParams params) async {
     return await repository.storeFavorite(params);
   }
 

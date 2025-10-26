@@ -1,6 +1,7 @@
 import 'dart:developer';
 
-import 'package:abricoz_app/src/data/hive/adapter/product_adapter.dart';
+import 'package:grocery_app/src/data/hive/adapter/product_adapter.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import '../../../../main.dart';
 import '../models/product/product_model.dart';
@@ -62,9 +63,29 @@ class BasketDatabase {
   //   }
   // }
 
-  Future<void> addProduct(ProductHiveModel product) async {
-    await hiveBox?.add(product);
+  Future<void> addProducts(List<ProductHiveModel> products) async {
+    for(final item in products){
+      await hiveBox?.put(item.id.toString(), item);
+    }
   }
 
   Future<void> clearBasket() async => hiveBox?.clear();
+
+
+  Future<void> initHive({bool init = true}) async {
+    try{
+      await Hive.initFlutter();
+      if (!Hive.isAdapterRegistered(1)) {
+        Hive.registerAdapter(ProductHiveModelAdapter());
+      }
+      hiveBox = await Hive.openBox('box');
+    } catch (e){
+      print('Hive init Error: $e');
+      print('clear deleteFromDisk');
+      await Hive.deleteFromDisk();
+      if(init){
+        await initHive(init: false);
+      }
+    }
+  }
 }

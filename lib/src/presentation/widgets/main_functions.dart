@@ -1,9 +1,9 @@
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
-import 'package:flutter/material.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../common/app_styles/colors.dart';
 import '../../common/constants.dart';
+import '../../domain/entity/order/order_history_entity.dart';
 
 void launchUrlFunc(String link, {bool browser = false}) async {
   Uri uri = Uri.parse(link);
@@ -13,32 +13,57 @@ void launchUrlFunc(String link, {bool browser = false}) async {
           : LaunchMode.platformDefault);
 }
 
-String removeNonNumeric(String input) {
-  return input.replaceAll(RegExp(r'[^0-9]'), '');
-}
-
 String getLocaleText(Map<String, String>? input) {
   String? locale = SharedPrefs().getLocaleLang();
   return input?[locale == 'kk' ? 'kz' : locale] ?? '';
 }
 
-String convertFilePathToUrl(String filePath) {
+String convertFilePathToUrl(String? filePath) {
+  if(filePath == null) {
+    return '';
+  } else if(filePath.contains('https')) {
+    return filePath;
+  }
   return filePath.replaceFirst('/', host.replaceAll('api/', ''));
 }
 
 List<String> convertFilePathsToUrls(List<String> filePaths) {
   return filePaths.map((filePath) {
+    if(filePath.contains('https')) {
+      return filePath;
+    }
     return filePath.replaceFirst('/', host.replaceAll('api/', ''));
   }).toList();
 }
 
-Color? getColorByStatus(String key) {
-  final data = {
-    'all': AppColors.black,
-    'new': AppColors.green,
-    'accepted': AppColors.black,
-    'in_progress': AppColors.mainBlue,
-    'closed': AppColors.errorRedColor,
-  };
-  return data[key];
+String getServerDate(DateTime? dateTime) {
+
+  DateFormat formatter = DateFormat("yyyy-MM-dd");
+  String formattedDate = formatter.format(dateTime ?? DateTime.now());
+
+  return formattedDate;
+}
+
+String formatDate(DateTime dateTime) {
+  String locale = SharedPrefs().getLocaleLang();
+  DateFormat formatter = DateFormat("d MMMM y 'г.'", locale);
+  String formattedDate = formatter.format(dateTime);
+
+  return formattedDate;
+}
+
+bool canCancelOrder(OrderHistoryEntity order) {
+  return order.orderStatus.id == 1 && order.paymentTypeId == 1;
+}
+
+bool canOrderAgain(OrderHistoryEntity order) {
+  return order.orderStatus.id == 5;
+}
+
+bool canPayOrder(OrderHistoryEntity order) {
+  return order.orderStatus.id == 7 && order.paymentTypeId == 2;
+}
+
+bool isDiscountFunc(num? discount, price){
+  return discount != null && discount > 0 && discount < price;
 }

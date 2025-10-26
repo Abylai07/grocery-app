@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -38,15 +38,18 @@ nonAuthorizeModal(BuildContext context) {
                       child: Text(S.of(context).login)),
                 ),
                 const SizedBox(height: 24),
-                SafeArea(
+                SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () => context.router.maybePop(),
+                      child: Text(S.of(context).close,
+                          style: AppTextStyle.bodyLarge),
+                    )),
+                const SafeArea(
                   child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton(
-                        onPressed: () => context.router.maybePop(),
-                        child: Text(S.of(context).close,
-                            style: AppTextStyle.bodyLarge),
-                      )),
-                ),
+                    height: 16,
+                  ),
+                )
               ],
             ),
           ),

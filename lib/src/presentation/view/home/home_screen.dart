@@ -1,11 +1,12 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/domain/entity/product/category_entity.dart';
-import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
-import 'package:abricoz_app/src/presentation/view/category/widgets/category_widget.dart';
-import 'package:abricoz_app/src/presentation/view/home/widgets/slider_body_widget.dart';
-import 'package:abricoz_app/src/presentation/view/product/screens/search_product_view.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/domain/entity/product/category_entity.dart';
+import 'package:grocery_app/src/presentation/bloc/base_state.dart';
+import 'package:grocery_app/src/presentation/view/category/widgets/category_widget.dart';
+import 'package:grocery_app/src/presentation/view/home/widgets/slider_body_widget.dart';
+import 'package:grocery_app/src/presentation/view/product/screens/search_product_view.dart';
+import 'package:grocery_app/src/presentation/widgets/content_error_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     panelController.close();
     searchController.dispose();
     WidgetsBinding.instance.removeObserver(this);
-
     super.dispose();
   }
 
@@ -109,6 +109,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           panelController.open();
                         },
                         hintText: S.of(context).searchItem,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            searchController.clear();
+                          },
+                          icon: SvgPicture.asset(AppAssets.close, height: 14,),
+                        ),
                       ),
                       16.height,
                     ],
@@ -147,7 +153,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                             itemCount: categories.length,
                                             itemBuilder: (context, index) {
                                               return CategoryWidget(
-                                                  category: categories[index]);
+                                                controller: panelController,
+                                                  category: categories[index],
+                                              );
                                             },
                                             gridDelegate:
                                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -157,11 +165,18 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                   8.0, // spacing between rows
                                               crossAxisSpacing:
                                                   8.0, // spacing between columns
-                                              mainAxisExtent: 124,
+                                              mainAxisExtent: 136,
                                             ),
                                           );
                                         } else if (state.status.isLoading) {
                                           return const CategoryLoadingWidget();
+                                        } else if (state.status.isError){
+                                          return ContentErrorWidget(
+                                            message: S.of(context).error_message,
+                                            onTryAgain: () {
+                                              context.read<CategoryCubit>().fetchCategory();
+                                            },
+                                          );
                                         } else {
                                           return const SizedBox();
                                         }
@@ -182,10 +197,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           );
         },
         onPanelSlide: (position) {
+         final bloc = context.read<NavBarBloc>();
           if (position >= 0.94) {
-            context.read<NavBarBloc>().add(ShowNavBar());
-          } else {
-            context.read<NavBarBloc>().add(HideNavBar());
+            bloc.add(ShowNavBar());
+          } else if(bloc.state.isVisible){
+            bloc.add(HideNavBar());
           }
         },
         body: const SliderBodyWidget(),

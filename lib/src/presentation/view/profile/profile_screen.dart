@@ -1,15 +1,30 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/presentation/view/favorite/bloc/favorite_bloc/favorite_cubit.dart';
+import 'package:grocery_app/src/presentation/view/profile/bloc/user_cubit.dart';
+import 'package:grocery_app/src/presentation/view/profile/widgets/change_language_widget.dart';
+import 'package:grocery_app/src/presentation/view/profile/widgets/profile_element_widget.dart';
+import 'package:grocery_app/src/presentation/widgets/main_functions.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../common/app_styles/colors.dart';
+import '../../../common/utils/firebase_api/notifications.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 import '../../../common/utils/parsers/date_parser.dart';
+import '../../../domain/entity/user/app_config_entity.dart';
+import '../../bloc/base_state.dart';
+import '../../bloc/status_cubit.dart';
+import '../../widgets/alert_dialog/text_alert_dialog.dart';
+import '../../widgets/modal_bottoms/non_authorize_modal.dart';
+import '../home/bloc/city_bloc/city_cubit.dart';
 import 'bloc/user_session_bloc.dart';
 
 @RoutePage()
@@ -18,20 +33,57 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void sendEmail() async {
+      final String userNumber = SharedPrefs().getPhone() ?? '';
+      final Uri emailUri = Uri(
+        scheme: 'mailto',
+        path: 'info@abricoz.kz',
+        queryParameters: {
+          'subject': S.of(context).delete_account_email_subject,
+          'body': '${S.of(context).delete_account_email_body}+7$userNumber'
+        },
+      );
+
+      if (await canLaunchUrl(emailUri)) {
+        await launchUrl(emailUri);
+      } else {
+        debugPrint("Не удалось открыть почтовое приложение");
+      }
+    }
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: Text(S.of(context).profile),
+        centerTitle: true,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(AppAssets.settings),
-            ),
-          )
+          BlocBuilder<UserSessionBloc, UserSessionState>(
+            builder: (context, state) {
+              if (state is UserSessionLoaded) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: IconButton(
+                    onPressed: () {
+                      confirmAlertDialog(context,
+                          title: S.of(context).write_message,
+                          buttonText: S.of(context).write, onYesTap: () {
+                        Navigator.pop(context);
+                        sendEmail();
+                      });
+                    },
+                    icon: SvgPicture.asset(
+                      AppAssets.remove,
+                      colorFilter: const ColorFilter.mode(
+                          AppColors.redColor, BlendMode.srcIn),
+                    ),
+                  ),
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
         ],
       ),
       body: Padding(
@@ -45,7 +97,15 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  BlocBuilder<UserSessionBloc, UserSessionState>(
+                  BlocConsumer<UserSessionBloc, UserSessionState>(
+                    listener: (BuildContext context, UserSessionState state) {
+                      if (state is UserSessionLoggedOut) {
+                        context.read<FavoriteCubit>().setInitState();
+                      } else if (state is UserSessionLoaded) {
+                        Notifications().init(context);
+                        context.read<CityCubit>().fetchCityList();
+                      }
+                    },
                     builder: (context, state) {
                       if (state is UserSessionLoaded) {
                         return Column(
@@ -54,19 +114,25 @@ class ProfileScreen extends StatelessWidget {
                               title:
                                   '+7 ${AppUtils.phoneMaskFormatter.maskText(SharedPrefs().getPhone() ?? '')}',
                               icon: AppAssets.account,
-                              onPressed: () {
-                                // context.router.push(const SignInRoute());
-                              },
+                              onPressed: () {},
                             ),
                             ProfileElementWidget(
                               title: S.of(context).logout,
                               icon: AppAssets.logout,
                               logout: true,
                               onPressed: () {
-                                context.read<UserSessionBloc>().add(LogoutUserSession());
-                                context.router.replaceAll([
-                                  const IndexRoute(children: [HomeRoute()])
-                                ]);
+                                confirmAlertDialog(
+                                  context,
+                                  title: S.of(context).sureLogout,
+                                  onYesTap: () {
+                                    Navigator.pop(context);
+                                    context
+                                        .read<UserSessionBloc>()
+                                        .add(LogoutUserSession());
+                                    context.router
+                                        .replaceAll([const IndexRoute()]);
+                                  },
+                                );
                               },
                             ),
                           ],
@@ -97,60 +163,120 @@ class ProfileScreen extends StatelessWidget {
                     title: S.of(context).address,
                     icon: AppAssets.address,
                     onPressed: () {
-                      context.router.push(const AddressRoute());
+                      if (SharedPrefs().getAccessToken() == null) {
+                        nonAuthorizeModal(context);
+                      } else {
+                        context.router.push(const AddressRoute());
+                      }
                     },
                   ),
-                  ProfileElementWidget(
-                    title: S.of(context).carts,
-                    icon: AppAssets.cards,
-                    onPressed: () {
-                      //  context.router.push(const SignInRoute());
+                  BlocBuilder<AppSettingsCubit, BaseState>(
+                    builder: (context, state) {
+                      if (state.status.isSuccess) {
+                        AppConfigEntity entity = state.entity;
+
+                        return entity.isBankPaymentActive
+                            ? ProfileElementWidget(
+                                title: S.of(context).carts,
+                                icon: AppAssets.cards,
+                                onPressed: () {
+                                  if (SharedPrefs().getAccessToken() == null) {
+                                    nonAuthorizeModal(context);
+                                  } else {
+                                    context.router.push(const MyCardsRoute());
+                                  }
+                                },
+                              )
+                            : const SizedBox();
+                      } else {
+                        return const SizedBox();
+                      }
                     },
                   ),
                   ProfileElementWidget(
                     title: S.of(context).orders,
                     icon: AppAssets.orders,
                     onPressed: () {
-                      //context.router.push(const SignInRoute());
+                      if (SharedPrefs().getAccessToken() == null) {
+                        nonAuthorizeModal(context);
+                      } else {
+                        context.router.push(const OrderHistoryRoute());
+                      }
                     },
                   ),
                 ],
               ),
             ),
+            Container(
+              margin: const EdgeInsets.only(top: 16),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  ProfileElementWidget(
+                    title: S.of(context).appLanguage,
+                    icon: AppAssets.language,
+                    isLanguage: true,
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                        ),
+                        builder: (context) {
+                          return const ChangeLanguageWidget();
+                        },
+                      );
+                    },
+                  ),
+                  ProfileElementWidget(
+                    title: S.of(context).info,
+                    icon: AppAssets.info,
+                    onPressed: () {
+                      context.router.push(const InformationRoute());
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 16),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ProfileElementWidget(
+                title: S.of(context).contactUs,
+                icon: AppAssets.contactUs,
+                onPressed: () {
+                  launchUrlFunc('https://abricoz.kz/contacts');
+                },
+              ),
+            ),
+            24.height,
+            FutureBuilder<PackageInfo>(
+                future: PackageInfo.fromPlatform(),
+                builder: (ctx, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.done:
+                      return Text(
+                        ' ${S.of(context).version} ${snapshot.data?.version ?? '1.0.0'}',
+                        style: AppTextStyle.labelMedium.copyWith(
+                          color: AppColors.textGray,
+                        ),
+                      );
+                    default:
+                      return const SizedBox();
+                  }
+                }),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ProfileElementWidget extends StatelessWidget {
-  const ProfileElementWidget({
-    super.key,
-    required this.title,
-    required this.icon,
-    this.onPressed,
-    this.logout = false,
-  });
-  final String title;
-  final bool logout;
-  final String icon;
-  final Function()? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: ListTile(
-        leading: SvgPicture.asset(icon),
-        title: Text(
-          title,
-          style: AppTextStyle.bodyMedium.copyWith(
-              fontWeight: FontWeight.w600,
-              color: logout ? AppColors.redColor : AppColors.black),
-        ),
-        trailing:
-            logout ? const SizedBox() : SvgPicture.asset(AppAssets.arrowNext),
       ),
     );
   }

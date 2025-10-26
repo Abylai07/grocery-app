@@ -21,8 +21,9 @@ class SharedPrefs {
   static const _fullName = '_fullName';
   static const _cityName = '_cityName';
   static const _cityId = '_cityId';
+  static const _roles = '_roles';
   static const _email = '_email';
-  static const _password = '_password';
+  static const _appVersion = '_appVersion';
   static const _lightTheme = '_lightTheme';
   static const _setThemeAuto = '_setThemeAuto';
 
@@ -41,6 +42,8 @@ class SharedPrefs {
     _box.remove(_id);
     _box.remove(_fullName);
     _box.remove(_cityName);
+    _box.remove(_roles);
+    _box.remove(_email);
   }
 
   void setAccessToken(String? value) {
@@ -94,6 +97,14 @@ class SharedPrefs {
     return _getValue(_id);
   }
 
+  void setEmail(String? email) {
+    _setValue(_email, email);
+  }
+
+  String? getEmail() {
+    return _getValue(_email);
+  }
+
   void setFullName(String? name) {
     _setValue(_fullName, name);
   }
@@ -102,13 +113,13 @@ class SharedPrefs {
     return _getValue(_fullName);
   }
 
-
-  String? getPassword() {
-    return _getValue(_password);
+  void setAppVersion(String? value) {
+    if (value == null) return;
+    _setValue(_appVersion, value);
   }
 
-  void setPassword(String? value) {
-    _setValue(_password, value);
+  String? getAppVersion() {
+    return _getValue(_appVersion);
   }
 
   void setCityName(String? value) {
@@ -127,20 +138,12 @@ class SharedPrefs {
     return _getValue(_cityId);
   }
 
-  void setEmail(String? value) {
-    _setValue(_email, value);
+  void setRoles(List<String>? value) {
+    _setValue(_roles, value);
   }
 
-  String? getEmail() {
-    return _getValue(_email);
-  }
-
-  void setCode(String? value) {
-    _setValue(_password, value);
-  }
-
-  String? getCode() {
-    return _getValue(_password);
+  List? getRoles() {
+    return _getValue(_roles);
   }
 
   void setLightTheme([bool v = true]) => _setValue(_lightTheme, v);
@@ -154,16 +157,18 @@ class SharedPrefs {
   void deleteTokens() => _removePref();
 
   String getLocale() {
-    String locale = 'kk';
+    String locale = 'ru';
     final systemLocale = Platform.localeName;
     final filteredLocale = systemLocale.split('_')[0];
 
-    if (filteredLocale == 'ru') {
-      locale = 'ru';
-    } else if (filteredLocale == 'en') {
-      locale = 'en';
-    } else {
+    if (filteredLocale == 'kk') {
       locale = 'kk';
+    }
+    // else if (filteredLocale == 'en') {
+    //   locale = 'en';
+    // }
+    else {
+      locale = 'ru';
     }
     return locale;
   }

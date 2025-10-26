@@ -1,4 +1,3 @@
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -38,12 +37,12 @@ class AppTheme {
           size: 20,
         ),
       ),
-      bottomAppBarTheme: const BottomAppBarTheme(
+      bottomAppBarTheme: const BottomAppBarThemeData(
         elevation: 24,
         color: AppColors.gray1,
         shape: CircularNotchedRectangle(),
       ),
-      dialogTheme: const DialogTheme(
+      dialogTheme: const DialogThemeData(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
       ),
@@ -78,14 +77,9 @@ class AppTheme {
           style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white,
               backgroundColor: AppColors.main,
-              shape: const SmoothRectangleBorder(
-                  borderRadius: SmoothBorderRadius.all(
-                SmoothRadius(
-                  cornerRadius: 12,
-                  cornerSmoothing: 1,
-                ),
-              )),
-              // RoundedRectangleBorder(borderRadius: CustomRadius.radius(12)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12), // Replace SmoothRectangleBorder
+              ),
               elevation: 0,
               minimumSize: const Size(double.infinity, 48),
               textStyle: const TextStyle(
@@ -93,13 +87,9 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.main,
-              shape: const SmoothRectangleBorder(
-                  borderRadius: SmoothBorderRadius.all(
-                SmoothRadius(
-                  cornerRadius: 12,
-                  cornerSmoothing: 1,
-                ),
-              )),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12), // Replace SmoothRectangleBorder
+              ),
               elevation: 0,
               side: const BorderSide(color: AppColors.main, width: 1.2),
               textStyle: const TextStyle(

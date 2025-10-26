@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/domain/entity/product/product_entity.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ import '../../../bloc/base_state.dart';
 import '../../../widgets/main_functions.dart';
 import '../../../widgets/shimmer_widget.dart';
 import '../../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
+import '../../favorite/bloc/favorite_bloc/favorite_cubit.dart';
 import '../bloc/product_info_cubit.dart';
 import '../widgets/product_bottom_bar.dart';
 import '../widgets/product_structure_widget.dart';
@@ -55,6 +56,7 @@ class SearchedProductView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.background,
+        centerTitle: true,
         leading: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: IconButton(
@@ -65,14 +67,29 @@ class SearchedProductView extends StatelessWidget {
           ),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {
-                //Navigator.pop(context);
-              },
-              icon: SvgPicture.asset(AppAssets.favorite),
-            ),
+          BlocBuilder<ProductInfoCubit, BaseState>(
+            builder: (context, productState) {
+              if (productState.status.isSuccess) {
+                return BlocBuilder<FavoriteCubit, FavoriteState>(
+                  builder: (context, state) {
+                    bool isFavorite = state.entity?.any((element) =>
+                            element.id == productState.entity.id) ??
+                        false;
+                    return IconButton(
+                      onPressed: () {
+                        context.read<FavoriteCubit>().storeOrDeleteFavorite(
+                            isFavorite, productState.entity);
+                      },
+                      icon: SvgPicture.asset(isFavorite
+                          ? AppAssets.favoriteFill
+                          : AppAssets.favorite),
+                    );
+                  },
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
           ),
         ],
       ),
@@ -114,7 +131,7 @@ class SearchedProductView extends StatelessWidget {
                                   height: photoHeight,
                                 ),
                                 errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+                                    const SizedBox(),
                               )
                             : Container(
                                 width: double.infinity,
@@ -166,38 +183,38 @@ class SearchedProductView extends StatelessWidget {
                             color: AppColors.textGray,
                           ),
                         ),
-                        const Divider(
-                          height: 24,
-                          color: AppColors.gray,
-                        ),
-                        Text(
-                          S.of(context).brand,
-                          style: AppTextStyle.bodyLarge
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          product.brand?.name ?? '',
-                          style: AppTextStyle.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textGray,
-                          ),
-                        ),
-                        const Divider(
-                          height: 24,
-                          color: AppColors.gray,
-                        ),
-                        Text(
-                          S.of(context).maker,
-                          style: AppTextStyle.bodyLarge
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          product.country?.name ?? '',
-                          style: AppTextStyle.bodyMedium.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.textGray,
-                          ),
-                        ),
+                        // const Divider(
+                        //   height: 24,
+                        //   color: AppColors.gray,
+                        // ),
+                        // Text(
+                        //   S.of(context).brand,
+                        //   style: AppTextStyle.bodyLarge
+                        //       .copyWith(fontWeight: FontWeight.w600),
+                        // ),
+                        // Text(
+                        //   product.brand?.name ?? '',
+                        //   style: AppTextStyle.bodyMedium.copyWith(
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.textGray,
+                        //   ),
+                        // ),
+                        // const Divider(
+                        //   height: 24,
+                        //   color: AppColors.gray,
+                        // ),
+                        // Text(
+                        //   S.of(context).maker,
+                        //   style: AppTextStyle.bodyLarge
+                        //       .copyWith(fontWeight: FontWeight.w600),
+                        // ),
+                        // Text(
+                        //   product.country?.name ?? '',
+                        //   style: AppTextStyle.bodyMedium.copyWith(
+                        //     fontWeight: FontWeight.w400,
+                        //     color: AppColors.textGray,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

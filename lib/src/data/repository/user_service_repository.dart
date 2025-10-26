@@ -1,13 +1,16 @@
-import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/banner_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/city_model.dart';
-import 'package:abricoz_app/src/domain/entity/user/district_entity.dart';
-import 'package:abricoz_app/src/domain/entity/user/favorite_entity.dart';
-import 'package:abricoz_app/src/domain/repository/abstract_user_service_profile.dart';
+import 'package:grocery_app/src/domain/entity/user/address_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/banner_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/card_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/city_model.dart';
+import 'package:grocery_app/src/domain/entity/user/location_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/user_entity.dart';
+import 'package:grocery_app/src/domain/repository/abstract_user_service_profile.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../core/check_error_type.dart';
 import '../../core/error/failure.dart';
+import '../../domain/entity/product/product_entity.dart';
+import '../../domain/entity/user/app_config_entity.dart';
 import '../datasources/user_remote_data_source.dart';
 
 class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
@@ -22,9 +25,15 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> signInCode(params) {
+  Future<Either<Failure, UserEntity>> signInCode(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.signInCode(params));
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> setName(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.setName(params));
   }
 
   @override
@@ -52,19 +61,13 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   }
 
   @override
-  Future<Either<Failure, List<DistrictEntity>>> getDistricts() {
-    return _networkOperationHelper
-        .performNetworkOperation(() => dataSource.getDistricts());
-  }
-
-  @override
-  Future<Either<Failure, List<FavoriteEntity>>> fetchFavorite() {
+  Future<Either<Failure, List<ProductEntity>>> fetchFavorite() {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.fetchFavorites());
   }
 
   @override
-  Future<Either<Failure, FavoriteEntity>> storeFavorite(params) {
+  Future<Either<Failure, ProductEntity>> storeFavorite(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.storeFavorite(params));
   }
@@ -73,5 +76,47 @@ class UserServiceRepositoryImpl extends AbstractUserServiceRepository {
   Future<Either<Failure, Map<String, dynamic>>> deleteFavorite(params) {
     return _networkOperationHelper
         .performNetworkOperation(() => dataSource.deleteFavorite(params));
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> deleteAddress(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.deleteAddress(params));
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteUser() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.deleteUser());
+  }
+
+  @override
+  Future<Either<Failure, PointsEntity>> getCityPolygon(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.getCityPolygon(params));
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteCard(params) {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.deleteCard(params));
+  }
+
+  @override
+  Future<Either<Failure, List<CardEntity>>> fetchMyCards() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchMyCards());
+  }
+
+  @override
+  Future<Either<Failure, AppConfigEntity>> fetchAppSettings() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchAppSettings());
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> fetchUser() {
+    return _networkOperationHelper
+        .performNetworkOperation(() => dataSource.fetchUser());
   }
 }

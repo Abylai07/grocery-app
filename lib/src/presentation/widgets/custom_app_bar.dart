@@ -1,15 +1,15 @@
-import 'package:abricoz_app/src/presentation/widgets/text_fields/search_text_field.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../common/app_styles/assets.dart';
-import '../../common/utils/l10n/generated/l10n.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBar({super.key, this.onBackPressed, required this.title});
+  const CustomAppBar({super.key, this.onBackPressed, this.actions, required this.title});
   final Function()? onBackPressed;
   final String title;
+  final List<Widget>? actions;
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       title: Text(title),
+      actions: actions,
     );
   }
 

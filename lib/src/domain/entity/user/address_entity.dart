@@ -3,10 +3,11 @@ import 'package:equatable/equatable.dart';
 class AddressEntity extends Equatable {
   final int id;
   final int userId;
-  final int districtId;
   final int cityId;
   final num? deliveryPrice;
   final String streetAndHouse;
+  final String? latitude;
+  final String? longitude;
   final String? apartment;
   final String? entrance;
   final String? floor;
@@ -17,9 +18,10 @@ class AddressEntity extends Equatable {
   const AddressEntity( {
     required this.id,
     required this.userId,
-    required this.districtId,
     required this.cityId,
     required this.streetAndHouse,
+    this.latitude,
+    this.longitude,
     this.deliveryPrice,
     this.addressComment,
     this.apartment,
@@ -33,11 +35,12 @@ class AddressEntity extends Equatable {
   List<Object?> get props => [
     id,
     userId,
-    districtId,
     cityId,
     streetAndHouse,
     deliveryPrice,
     addressComment,
+    latitude,
+    longitude,
     apartment,
     entrance,
     floor,

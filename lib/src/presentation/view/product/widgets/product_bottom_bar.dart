@@ -5,6 +5,7 @@ import '../../../../common/app_styles/colors.dart';
 import '../../../../common/app_styles/text_styles.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
 import '../../../../domain/entity/product/product_entity.dart';
+import '../../../widgets/main_functions.dart';
 import '../../basket/bloc/basket_button_bloc/basket_button_bloc.dart';
 
 class ProductBottomBar extends StatelessWidget {
@@ -13,8 +14,8 @@ class ProductBottomBar extends StatelessWidget {
   final ProductEntity product;
   @override
   Widget build(BuildContext context) {
-    bool isDiscount = product.discount != null && product.discount! > 0;
-
+    bool isDiscount = isDiscountFunc(product.priceWithDiscount, product.price);
+    bool isActive = (product.amount ?? 0) > 0;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       decoration: const BoxDecoration(
@@ -49,7 +50,7 @@ class ProductBottomBar extends StatelessWidget {
             ),
             BlocBuilder<BasketButtonBloc, BasketButtonState>(
               builder: (context, state) {
-                return state.inBasket
+                return state.inBasket && isActive
                     ? Container(
                         height: 48,
                         width: 140,
@@ -90,24 +91,49 @@ class ProductBottomBar extends StatelessWidget {
                           ],
                         ),
                       )
-                    : InkWell(
-                        onTap: () {
-                          context.read<BasketButtonBloc>().add(AddToBasket(product));
-                        },
-                        child: Container(
-                          height: 48,
-                          width: 140,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: AppColors.main,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            S.of(context).toBasket,
-                            style: AppTextStyle.bodyMedium.copyWith(color: AppColors.white),
-                          ),
-                        ),
-                      );
+                    : isActive
+                        ? InkWell(
+                            onTap: () {
+                              context
+                                  .read<BasketButtonBloc>()
+                                  .add(AddToBasket(product));
+                            },
+                            child: Container(
+                              height: 48,
+                              width: 140,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: AppColors.main,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                S.of(context).toBasket,
+                                style: AppTextStyle.bodyMedium
+                                    .copyWith(color: AppColors.white),
+                              ),
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () {
+                              context
+                                  .read<BasketButtonBloc>()
+                                  .add(AddToBasket(product));
+                            },
+                            child: Container(
+                              height: 48,
+                              width: 140,
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: AppColors.notActiveColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                S.of(context).notActive,
+                                style: AppTextStyle.bodyMedium
+                                    .copyWith(color: AppColors.white),
+                              ),
+                            ),
+                          );
               },
             )
           ],

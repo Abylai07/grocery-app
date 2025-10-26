@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';

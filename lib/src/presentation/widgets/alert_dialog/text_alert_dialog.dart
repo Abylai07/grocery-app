@@ -1,5 +1,5 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/app_styles/assets.dart';
+import 'package:grocery_app/src/common/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,7 +9,7 @@ import '../../../common/app_styles/text_styles.dart';
 import '../../../common/utils/l10n/generated/l10n.dart';
 
 void confirmAlertDialog(BuildContext context,
-    {required String title, Function()? onYesTap}) {
+    {required String title, Function()? onYesTap, String? buttonText}) {
   showDialog(
     barrierDismissible: true,
     context: context,
@@ -42,14 +42,14 @@ void confirmAlertDialog(BuildContext context,
                 child: InkWell(
                   onTap: onYesTap,
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: AppColors.main,
                     ),
                     child: Text(
-                      S.of(context).confirm,
+                      buttonText ?? S.of(context).confirm,
                       style: AppTextStyle.bodyLarge
                           .copyWith(color: AppColors.white),
                     ),
@@ -63,7 +63,7 @@ void confirmAlertDialog(BuildContext context,
                     Navigator.pop(context);
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    height: 40,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),

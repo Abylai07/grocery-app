@@ -5,6 +5,7 @@ import '../../../../../common/utils/shared_preference.dart';
 import '../../../../../domain/usecase/user/sign_in_usecase.dart';
 
 part 'sign_in_state.dart';
+
 class SingInCubit extends Cubit<SignInState> {
   SingInCubit(this.signInUseCase) : super(const SignInState());
 
@@ -14,7 +15,7 @@ class SingInCubit extends Cubit<SignInState> {
     emit(const SignInState(status: SignInStatus.loading));
 
     final failureOrAuth = await signInUseCase
-        .signInPhone(MapParams({'phone': number.trim()}));
+        .signInPhone(MapParams({'phone': '+7$number',}));
 
     emit(
       failureOrAuth.fold(
@@ -34,15 +35,9 @@ class SingInCubit extends Cubit<SignInState> {
     emit(const SignInState(status: SignInStatus.loading));
 
     final failureOrAuth = await signInUseCase.signInCode(MapParams({
-      'phone': number.trim(),
+      'phone': '+7$number',
       'code': code,
     }));
-
-    if (failureOrAuth.isRight()) {
-      final data = failureOrAuth.toOption().toNullable();
-      SharedPrefs().setAccessToken(data?['data']['token']);
-      SharedPrefs().setPhone(number.trim());
-    }
 
     emit(
       failureOrAuth.fold(
@@ -50,10 +45,56 @@ class SingInCubit extends Cubit<SignInState> {
           status: SignInStatus.error,
           message: l.message,
         ),
-        (r) => SignInState(
-          status: SignInStatus.successCode,
-          entity: r,
+        (r) {
+          final data = r;
+          SharedPrefs().setId(r.id.toString());
+          SharedPrefs().setPhone(number.trim());
+          bool needName = data.firstname == null || data.email == null;
+          if (!needName) {
+            SharedPrefs().setEmail(r.email);
+            SharedPrefs().setFullName('${data.firstname} ${data.lastname}');
+          }
+          if (r.roles?.isNotEmpty == true) {
+            List<String> roles = [];
+            for (final item in r.roles!) {
+              roles.add(item.name);
+            }
+            SharedPrefs().setRoles(roles);
+          }
+          return SignInState(
+            status: needName
+                ? SignInStatus.needName
+                : SignInStatus.successCode,
+            entity: r,
+          );
+        },
+      ),
+    );
+  }
+
+  void setName(String name, String surname, String email) async {
+    emit(const SignInState(status: SignInStatus.loading));
+
+    final failureOrAuth = await signInUseCase.setName(MapParams({
+      'firstname': name,
+      'lastname': surname,
+      'email': email,
+    }));
+
+    emit(
+      failureOrAuth.fold(
+            (l) => SignInState(
+          status: SignInStatus.error,
+          message: l.message,
         ),
+            (r) {
+          SharedPrefs().setFullName('${r.firstname} ${r.lastname}');
+          SharedPrefs().setEmail(r.email);
+          return SignInState(
+            status: SignInStatus.successName,
+            entity: r,
+          );
+        },
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:abricoz_app/src/common/utils/shared_preference.dart';
+import 'package:grocery_app/src/common/utils/shared_preference.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -10,43 +10,42 @@ import '../core/error/error_response_model.dart';
 import '../core/error/exception.dart';
 import 'constants.dart';
 
-
-
 class API {
-  final String _endpoint = '';
-
   late BaseOptions options;
 
   late final Dio dio = Dio(options);
 
   API() {
     options = BaseOptions(
-      baseUrl: _endpoint,
+      baseUrl: host,
       contentType: Headers.jsonContentType,
       headers: {
         "Accept": "application/json",
       },
-      connectTimeout:
-          Duration(milliseconds: httpStatusCode.connectTimeout),
-      receiveTimeout:
-          Duration(milliseconds: httpStatusCode.receiveTimeout),
+      connectTimeout: Duration(milliseconds: httpStatusCode.connectTimeout),
+      receiveTimeout: Duration(milliseconds: httpStatusCode.receiveTimeout),
     );
     dio.interceptors.add(_TokenInterceptor());
   }
 
   handleDioException(DioException e) {
-    try{
+    try {
       if (e.response?.statusCode != null && e.response!.statusCode! >= 500) {
-        throw ServerException(messageError: e.response?.data['detail'] ?? e.error.toString());
+        throw ServerException(
+            messageError: e.response?.data['detail'] ??
+                e.response?.data['message'] ??
+                e.error.toString());
       } else {
         final err = ErrorResponseModel.fromJson(e.response?.data);
         throw CacheException(messageError: err.details);
       }
-    }catch (exe){
-      throw CacheException(messageError: e.response?.data.toString());
+    } catch (exe) {
+      throw CacheException(
+          messageError: e.response?.data['detail'] ??
+              e.response?.data['message'] ??
+              e.error.toString());
     }
   }
-
 }
 
 class _TokenInterceptor extends Interceptor {
@@ -62,33 +61,36 @@ class _TokenInterceptor extends Interceptor {
     String defaultConfig = '${options.method} ${options.path}';
 
     String? authToken = SharedPrefs().getAccessToken();
-    if (authToken != null && authToken != '' && options.extra['skipAuth'] != true) {
+    if (authToken != null &&
+        authToken != '' &&
+        options.extra['skipAuth'] != true) {
       options.headers['Authorization'] = 'Bearer $authToken';
     }
 
-    if (options.data != null) {
-      if (options.data is FormData) {
-        debugPrint(
-          '--> $defaultConfig Request data: ${options.data.files ?? ''} ${options.data.fields ?? ''}',
-        );
-      } else {
+    if (kDebugMode) {
+      if (options.data != null) {
+        if (options.data is FormData) {
+          debugPrint(
+            '--> $defaultConfig Request data: ${options.data.files ?? ''} ${options.data.fields ?? ''}',
+          );
+        } else {
+          debugPrint(
+            '--> $defaultConfig Request queryParameters: ${options.queryParameters.entries}',
+          );
+        }
+      }
+
+      if (options.headers.isNotEmpty) {
+        debugPrint('--> $defaultConfig Request headers: ${options.headers}');
+      }
+
+      if (options.queryParameters.entries.isNotEmpty) {
         debugPrint(
           '--> $defaultConfig Request queryParameters: ${options.queryParameters.entries}',
         );
       }
     }
 
-    if (options.headers.isNotEmpty) {
-      debugPrint('--> $defaultConfig Request headers: ${options.headers}');
-    }
-
-    if (options.queryParameters.entries.isNotEmpty) {
-      debugPrint(
-        '--> $defaultConfig Request queryParameters: ${options.queryParameters.entries}',
-      );
-    }
-
-    debugPrint('--- $defaultConfig');
     return super.onRequest(options, handler);
   }
 
@@ -97,16 +99,13 @@ class _TokenInterceptor extends Interceptor {
     Response response,
     ResponseInterceptorHandler handler,
   ) {
-    if(response.data.toString().contains('<!DOCTYPE html>')){
-      debugPrint(
-        '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode}',
-      );
-    } else {
+    if (kDebugMode) {
       debugPrint(
         '<-- ${response.requestOptions.method} ${response.requestOptions.path} ${response.statusCode} ${response.data}',
       );
     }
-    return super.onResponse(response, handler);
+
+    super.onResponse(response, handler);
   }
 
   @override
@@ -114,16 +113,20 @@ class _TokenInterceptor extends Interceptor {
     DioException error,
     ErrorInterceptorHandler handler,
   ) async {
-    debugPrint('Error -->');
-    debugPrint('${error.message} ${error.error}');
-    debugPrint(error.response?.data.toString());
-    debugPrint('Error -->');
+    if (kDebugMode) {
+      debugPrint('Error -->');
+      debugPrint('${error.message} ${error.error}');
+      debugPrint(error.response?.data.toString());
+      debugPrint('Error -->');
+    }
     String? refresh = SharedPrefs().getRefreshToken();
-    try{
-      if(error.response?.statusCode == 401){
+    try {
+      if (error.response?.statusCode == 401) {
         SharedPrefs().deleteTokens();
         return super.onError(error, handler);
-      } else if (error.response?.statusCode == 401 && refresh != null && tryRefreshCount < 3) {
+      } else if (error.response?.statusCode == 401 &&
+          refresh != null &&
+          tryRefreshCount < 3) {
         tryRefreshCount++;
         if (kDebugMode) {
           log('first step of refresh');
@@ -139,34 +142,40 @@ class _TokenInterceptor extends Interceptor {
         );
 
         if (kDebugMode) {
-          print('${host}user/api/token/refresh/');
+          log('Refresh token request to: ${host}user/api/token/refresh/');
           log(response.body);
         }
         if (response.statusCode == 200) {
           log('refreshToken', name: 'RefreshToken SUCCESS');
           SharedPrefs().setAccessToken(jsonDecode(response.body)['access']);
-        }else{
+        } else {
           log('refreshToken', name: 'RefreshToken failed');
           SharedPrefs().deleteTokens();
         }
-        return handler.resolve(await retry(requestOptions: error.requestOptions));
+        return handler
+            .resolve(await retry(requestOptions: error.requestOptions));
       } else {
         return super.onError(error, handler);
       }
-    } catch (e){
+    } catch (e) {
       return super.onError(error, handler);
     }
   }
+
   Future<Response> retry({required RequestOptions requestOptions}) {
     String? authToken = SharedPrefs().getRefreshToken();
-    Options options = Options(method: requestOptions.method, headers: authToken != null && authToken != '' ? {
-      'Authorization': 'Bearer $authToken',
-    } : {});
+    Options options = Options(
+        method: requestOptions.method,
+        headers: authToken != null && authToken != ''
+            ? {
+                'Authorization': 'Bearer $authToken',
+              }
+            : {});
     return API().dio.request(
-      requestOptions.path,
-      data: requestOptions.data,
-      queryParameters: requestOptions.queryParameters,
-      options: options,
-    );
+          requestOptions.path,
+          data: requestOptions.data,
+          queryParameters: requestOptions.queryParameters,
+          options: options,
+        );
   }
 }

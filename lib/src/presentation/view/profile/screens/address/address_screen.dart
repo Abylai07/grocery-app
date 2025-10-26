@@ -1,8 +1,7 @@
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/common/utils/app_router/app_router.dart';
-import 'package:abricoz_app/src/domain/entity/user/address_entity.dart';
-import 'package:abricoz_app/src/presentation/bloc/base_state.dart';
-import 'package:abricoz_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/domain/entity/user/address_entity.dart';
+import 'package:grocery_app/src/presentation/view/profile/bloc/address_bloc/address_cubit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +19,7 @@ class AddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<AddressCubit>().fetchAddress();
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).yourAddress,
@@ -31,82 +31,77 @@ class AddressScreen extends StatelessWidget {
             List<AddressEntity> addresses = state.entity ?? [];
             return addresses.isNotEmpty
                 ? Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: const BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
-                        bottomRight: Radius.circular(16),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            itemCount: addresses.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: Text(
-                                            '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
-                                        style: AppTextStyle.bodyLarge,
-                                      )),
-                                      IconButton(
-                                        icon:
-                                            SvgPicture.asset(AppAssets.redact),
-                                        onPressed: () async {
-                                          final result = await context.router
-                                              .push(AddOrChangeAddressRoute(
-                                                  address: addresses[index]));
-                                          if (result == 'refreshPage') {
-                                            context
-                                                .read<AddressCubit>()
-                                                .fetchAddress();
-                                          }
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                  const Divider(
-                                    height: 16,
-                                    color: AppColors.grayContainer,
-                                  ),
-                                ],
-                              );
-                            }),
-                        TextButton(
-                            onPressed: () async {
-                              final result = await context.router
-                                  .push(AddOrChangeAddressRoute());
-                              if (result == 'refreshPage') {
-                                context.read<AddressCubit>().fetchAddress();
-                              }
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+              padding: const EdgeInsets.all(16.0),
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: addresses.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            Row(
                               children: [
-                                Text(
-                                  S.of(context).addNewAddress,
-                                  style: AppTextStyle.bodyMedium.copyWith(
-                                    color: AppColors.main,
-                                  ),
-                                ),
-                                4.width,
-                                const Icon(
-                                  Icons.add,
-                                  color: AppColors.main,
+                                Expanded(
+                                    child: Text(
+                                      '${addresses[index].streetAndHouse}, ${addresses[index].apartment}',
+                                      style: AppTextStyle.bodyLarge,
+                                    )),
+                                IconButton(
+                                  icon:
+                                  SvgPicture.asset(AppAssets.redact),
+                                  onPressed: () async {
+                                    await context.router.push(
+                                        MapAddressRoute(
+                                            address: addresses[index]));
+                                    context
+                                        .read<AddressCubit>()
+                                        .fetchAddress();
+                                  },
                                 )
                               ],
-                            ))
-                      ],
-                    ),
-                  )
+                            ),
+                            const Divider(
+                              height: 16,
+                              color: AppColors.grayContainer,
+                            ),
+                          ],
+                        );
+                      }),
+                  TextButton(
+                      onPressed: () async {
+                        await context.router.push(MapAddressRoute());
+                        context.read<AddressCubit>().fetchAddress();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            S.of(context).addNewAddress,
+                            style: AppTextStyle.bodyMedium.copyWith(
+                              color: AppColors.main,
+                            ),
+                          ),
+                          4.width,
+                          const Icon(
+                            Icons.add,
+                            color: AppColors.main,
+                          )
+                        ],
+                      ))
+                ],
+              ),
+            )
                 : buildEmptyAddress(context);
           } else if (state.status.isLoading) {
             return const Center(
@@ -133,7 +128,7 @@ class AddressScreen extends StatelessWidget {
           child: Text(
             S.of(context).noAddress,
             style:
-                AppTextStyle.titleMedium.copyWith(fontWeight: FontWeight.w600),
+            AppTextStyle.titleMedium.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         Text(
@@ -144,15 +139,13 @@ class AddressScreen extends StatelessWidget {
         16.height,
         InkWell(
           onTap: () async {
-            final result = await context.router.push(AddOrChangeAddressRoute());
-            if (result == 'refreshPage') {
-              context.read<AddressCubit>().fetchAddress();
-            }
+            await context.router.push(MapAddressRoute());
+            context.read<AddressCubit>().fetchAddress();
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               color: AppColors.main,
             ),
             child: Text(

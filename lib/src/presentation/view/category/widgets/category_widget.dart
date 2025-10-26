@@ -1,13 +1,14 @@
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sliding_up_panel/src/panel.dart';
 
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/app_router/app_router.dart';
 import '../../../../domain/entity/product/category_entity.dart';
+import '../../../../domain/entity/product/sub_category_entity.dart';
 import '../../../widgets/main_functions.dart';
 import '../../../widgets/shimmer_widget.dart';
 
@@ -15,67 +16,76 @@ class CategoryWidget extends StatelessWidget {
   const CategoryWidget({
     super.key,
     required this.category,
+    required this.controller,
   });
 
   final CategoryEntity category;
+  final PanelController controller;
 
   @override
   Widget build(BuildContext context) {
-    // cachedSvgPhoto() async {
-    //   return await DefaultCacheManager().getSingleFile(category.mobileUrl!);
-    // }
-    // FutureBuilder(
-    //     future: cachedSvgPhoto(),
-    //     builder: (context, sn) {
-    //       return sn.data != null ? SvgPicture.file(
-    //         sn.data!,
-    //         height: 60,
-    //       ) : CircularProgressIndicator();
-    //     })
-
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
-        context.router.push(SubCategoryRoute(category: category));
+        if (controller.isAttached && !controller.isPanelOpen) {
+          controller.open();
+        }
+
+        if (category.forwardSubcategoryId != null) {
+          AutoRouter.of(context).push(ProductRoute(
+              subCategory: SubCategoryEntity(
+            id: category.forwardSubcategoryId ?? 1,
+            name: category.name,
+            categoryId: category.id,
+            photoUrl: category.mobileUrl,
+            isDiscount: false,
+          )));
+        } else {
+          AutoRouter.of(context).push(SubCategoryRoute(
+            category: category,
+          ));
+        }
       },
       child: Container(
-        padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: AppColors.background,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Text(
-              getLocaleText(category.name),
-              style: AppTextStyle.displayLarge
-                  .copyWith(fontWeight: FontWeight.w600),
-            ),
             if (category.mobileUrl != null)
-              Center(
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
                 child: category.mobileUrl?.contains('.svg') == true
                     ? SvgPicture.network(
                         category.mobileUrl!,
-                        height: 60,
+                        height: 80,
                       )
                     : CachedNetworkImage(
                         imageUrl: category.mobileUrl!,
-                        fit: BoxFit.fitWidth,
-                        height: 60,
+                        fit: BoxFit.contain,
+                        height: 80,
                         progressIndicatorBuilder:
                             (context, url, downloadProgress) =>
                                 const ShimmerWidget(
                           width: double.infinity,
-                          height: 60,
+                          height: 80,
                         ),
-                        errorWidget: (context, url, error) => const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(Icons.error),
-                        ),
+                        errorWidget: (context, url, error) => const SizedBox(),
                       ),
-              )
+              ),
+            Positioned(
+              top: 8,
+              right: 8,
+              left: 8,
+              child: Text(
+                getLocaleText(category.name),
+                style: AppTextStyle.displayLarge
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+            ),
           ],
         ),
       ),
@@ -100,15 +110,15 @@ class CategoryLoadingWidget extends StatelessWidget {
         children: [
           ShimmerWidget(
             width: width,
-            height: 120,
+            height: 130,
           ),
           ShimmerWidget(
             width: width,
-            height: 120,
+            height: 130,
           ),
           ShimmerWidget(
             width: width,
-            height: 120,
+            height: 130,
           ),
         ],
       ),

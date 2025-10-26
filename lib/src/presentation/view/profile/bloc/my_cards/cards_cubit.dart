@@ -1,0 +1,82 @@
+import 'package:grocery_app/src/domain/entity/user/address_entity.dart';
+import 'package:grocery_app/src/domain/entity/user/card_entity.dart';
+import 'package:grocery_app/src/domain/usecase/product/category_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/address_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/cards_usecase.dart';
+import 'package:grocery_app/src/presentation/bloc/base_state.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../common/enums.dart';
+import '../../../../../domain/usecase/product/product_usecase.dart';
+
+part 'cards_state.dart';
+
+class CardsCubit extends Cubit<CardsState> {
+  CardsCubit(this._useCase) : super(const CardsState());
+
+  final CardsUseCase _useCase;
+
+  void fetchMyCards() async {
+    emit(state.copyWith(status: CubitStatus.loading));
+
+    final failureOrAuth = await _useCase.fetchMyCards();
+
+    emit(
+      failureOrAuth.fold(
+        (l) => state.copyWith(
+          status: CubitStatus.error,
+          message: l.message,
+        ),
+        (r) => state.copyWith(
+          status: CubitStatus.success,
+          selectCard: r.isNotEmpty ? r.first : null,
+          entity: r,
+        ),
+      ),
+    );
+  }
+
+  void deleteCard(int? cardId) async {
+    emit(state.copyWith(status: CubitStatus.loading));
+
+    final failureOrAuth =
+        await _useCase.deleteCard(PathParams(cardId.toString()));
+
+    emit(
+      failureOrAuth.fold(
+        (l) => state.copyWith(
+          status: CubitStatus.error,
+          message: l.message,
+        ),
+        (r) {
+          final List<CardEntity> cards = state.entity ?? [];
+          cards.removeWhere((element) => element.id == cardId);
+          return CardsState(
+            status: CubitStatus.success,
+            entity: cards,
+            selectCard: cards.isNotEmpty ? cards.first : null,
+          );
+        },
+      ),
+    );
+  }
+
+  checkMyCards() {
+    if (!state.status.isLoading && !state.status.isSuccess) {
+      fetchMyCards();
+    }
+  }
+
+  selectCard(CardEntity? card) {
+    emit(state.copyWith(selectCard: card, paymentType: PaymentType.card));
+  }
+
+  selectPaymentType(PaymentType? type) {
+    emit(state.copyWith(paymentType: type));
+  }
+
+  setInit() {
+    emit(const CardsState(status: CubitStatus.initial));
+  }
+}

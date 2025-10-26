@@ -12,7 +12,7 @@ class  SearchHintModel extends SearchHintEntity {
       name: {
         'ru': json['name_ru'],
         'kz': json['name_kz'],
-        'en': json['name_en'],
+      //  'en': json['name_en'],
       },
     );
   }
@@ -22,7 +22,7 @@ class  SearchHintModel extends SearchHintEntity {
       'id': id,
       'name_ru': name['ru'],
       'name_kz': name['kz'],
-      'name_en': name['en'],
+      //'name_en': name['en'],
     };
   }
 }

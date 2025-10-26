@@ -1,4 +1,4 @@
-import 'package:abricoz_app/src/domain/usecase/user/city_usecase.dart';
+import 'package:grocery_app/src/domain/usecase/user/city_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,6 +30,8 @@ class CityCubit extends Cubit<CityState> {
 
           if (cityId != null) {
             city = r.firstWhere((element) => element.id == cityId);
+          } else {
+            SharedPrefs().setCityId(r.first.id);
           }
 
           return CityState(

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 class BannerEntity extends Equatable {
   final int id;
-  final Map<String, String> imageUrl;
+  final String imageUrl;
   final int number;
   final Map<String, String> title;
   final DateTime createdAt;

@@ -52,7 +52,7 @@ class OrderProductModel extends OrderProductEntity {
       name: {
         'ru': json['name_ru'],
         'kz': json['name_kz'],
-        'en': json['name_en'],
+       // 'en': json['name_en'],
       },
       price: json['price'],
       priceWithDiscount: json['price_with_discount'],
@@ -66,7 +66,7 @@ class OrderProductModel extends OrderProductEntity {
       'photo_url': photoUrl,
       'name_ru': name['ru'],
       'name_kz': name['kz'],
-      'name_en': name['en'],
+     // 'name_en': name['en'],
       'price': price,
       'price_with_discount': priceWithDiscount,
       'weight': weight,

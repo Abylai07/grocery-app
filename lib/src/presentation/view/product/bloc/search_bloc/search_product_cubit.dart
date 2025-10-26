@@ -1,6 +1,6 @@
-import 'package:abricoz_app/src/domain/entity/product/product_entity.dart';
-import 'package:abricoz_app/src/domain/entity/product/search_hint_entity.dart';
-import 'package:abricoz_app/src/domain/usecase/product/product_usecase.dart';
+import 'package:grocery_app/src/domain/entity/product/product_entity.dart';
+import 'package:grocery_app/src/domain/entity/product/search_hint_entity.dart';
+import 'package:grocery_app/src/domain/usecase/product/product_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -48,19 +48,19 @@ class SearchProductCubit extends Cubit<SearchProductState> {
         },
         (r) {
           if (pageKey == 1 && searchQuery.isEmpty && initialResults.isEmpty) {
-            initialResults = r;
+            initialResults = r.products;
           }
-          if (r.isEmpty || searchQuery.isNotEmpty) {
-            pagingController.appendLastPage(r);
+          if (r.totalItems <= r.currentPage || searchQuery.isNotEmpty) {
+            pagingController.appendLastPage(r.products);
           } else {
             final nextPageKey = pageKey + 1;
             // r.removeWhere((element) => pagingController.itemList?.contains(element) ?? false);
-            pagingController.appendPage(r, nextPageKey);
+            pagingController.appendPage(r.products, nextPageKey);
           }
 
           return SearchProductState(
             status: SearchStatus.success,
-            entity: r,
+            entity: r.products,
           );
         },
       ),

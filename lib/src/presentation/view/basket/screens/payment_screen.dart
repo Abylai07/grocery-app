@@ -1,182 +1,194 @@
-import 'package:abricoz_app/src/common/app_styles/assets.dart';
-import 'package:abricoz_app/src/common/app_styles/text_styles.dart';
-import 'package:abricoz_app/src/common/enums.dart';
-import 'package:abricoz_app/src/domain/entity/order/order_entity.dart';
-import 'package:abricoz_app/src/presentation/widgets/buttons/main_button.dart';
-import 'package:abricoz_app/src/presentation/widgets/custom_app_bar.dart';
-import 'package:abricoz_app/src/presentation/widgets/padding_nav_buttons.dart';
-import 'package:auto_route/annotations.dart';
+import 'package:grocery_app/src/common/app_styles/text_styles.dart';
+import 'package:grocery_app/src/common/enums.dart';
+import 'package:grocery_app/src/common/utils/app_router/app_router.dart';
+import 'package:grocery_app/src/domain/entity/order/order_entity.dart';
+import 'package:grocery_app/src/presentation/bloc/base_state.dart';
+import 'package:grocery_app/src/presentation/widgets/custom_app_bar.dart';
+import 'package:grocery_app/src/presentation/widgets/show_error_snackbar.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../common/app_styles/colors.dart';
 import '../../../../common/utils/l10n/generated/l10n.dart';
+import '../../../../domain/entity/order/order_history_entity.dart';
+import '../../../../domain/entity/product/product_entity.dart';
+import '../../../../get_it_sl.dart';
+import '../../../widgets/alert_dialog/text_alert_dialog.dart';
+import '../../../widgets/buttons/main_button.dart';
+import '../../../widgets/content_error_widget.dart';
 import '../../../widgets/main_functions.dart';
+import '../../../widgets/padding_nav_buttons.dart';
 import '../../../widgets/shimmer_widget.dart';
+import '../../profile/bloc/order/active_orders_cubit.dart';
+import '../../profile/bloc/order/order_history_cubit.dart';
+import '../../profile/widgets/order_products_widget.dart';
+import '../bloc/order_bloc/order_cubit.dart';
+import '../bloc/payment_bloc/payment_cubit.dart';
 
 @RoutePage()
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({super.key, required this.orderInfo});
-  final OrderEntity orderInfo;
+  const PaymentScreen({super.key, required this.orderId});
+  final int orderId;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: S.of(context).paymentOrder,
-      ),
-      backgroundColor: AppColors.background,
-      bottomNavigationBar: PaddingForNavButtons(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // No Online Payment
-            // CustomMainButton(
-            //   text: S.of(context).paymentOrder,
-            //   onTap: () {},
-            // ),
-            // 12.height,
-            CustomGrayButton(
-              text: S.of(context).cancelOrder,
-              onTap: () {},
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => OrderCubit(sl()),
+        ),
+        BlocProvider(
+          create: (context) => PaymentCubit(sl()),
+        ),
+        BlocProvider(
+          create: (context) => OrderHistoryCubit(sl())..fetchOrderById(orderId),
+        ),
+      ],
+      child: BlocBuilder<OrderHistoryCubit, BaseState>(
+        builder: (context, state) {
+          OrderHistoryEntity? order;
+          if (state.status.isSuccess) {
+            order = state.entity;
+          }
+          if (order?.paymentTypeId != 2) {
+            context.read<ActiveOrdersCubit>().fetchActiveOrders();
+          }
+
+          return Scaffold(
+            appBar: CustomAppBar(
+              title: order?.paymentTypeId == 2
+                  ? S.of(context).paymentOrder
+                  : S.of(context).order_info,
             ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildOrderInfo(context),
-            // No Online Payment
-            // Container(
-            //   margin: const EdgeInsets.symmetric(vertical: 12),
-            //   padding: const EdgeInsets.all(16.0),
-            //   decoration: BoxDecoration(
-            //     color: AppColors.white,
-            //     borderRadius: BorderRadius.circular(10),
-            //   ),
-            //   child: Row(
-            //     children: [
-            //       SvgPicture.asset(AppAssets.time),
-            //       12.width,
-            //       Expanded(child: Text(S.of(context).payTime(223))),
-            //     ],
-            //   ),
-            // ),
-            12.height,
-            buildOrderProducts(context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container buildOrderProducts(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).itemList,
-            style: AppTextStyle.titleBold,
-          ),
-          ListView.separated(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            physics: const BouncingScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: orderInfo.orderProducts.length,
-            itemBuilder: (context, index) {
-              OrderProductEntity product = orderInfo.orderProducts[index];
-              bool isDiscount = product.priceWithDiscount != null &&
-                  product.priceWithDiscount! > 0;
-              return Row(
-                children: [
-                  Container(
-                    height: 70,
-                    width: 70,
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundGray,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: product.photoUrl != null
-                        ? CachedNetworkImage(
-                            imageUrl: product.photoUrl!,
-                            fit: BoxFit.cover,
-                            height: 70,
-                            width: 70,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    const ShimmerWidget(
-                              width: 70,
-                              height: 70,
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
-                          )
-                        : const SizedBox(),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            getLocaleText(product.name),
-                            maxLines: 2,
-                            style: AppTextStyle.labelMedium,
+            backgroundColor: AppColors.background,
+            bottomNavigationBar: order != null
+                ? PaddingForNavButtons(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (canPayOrder(order)) ...[
+                          BlocConsumer<PaymentCubit, PaymentState>(
+                            listener: (context, state) async {
+                              if (state.status.isSuccess &&
+                                  state.paymentUrl != null) {
+                                await AutoRouter.of(context).push(
+                                  LinkPaymentRoute(
+                                    url: state.paymentUrl!,
+                                    type: 'halyk',
+                                  ),
+                                );
+                                context
+                                    .read<OrderHistoryCubit>()
+                                    .fetchOrderById(orderId);
+                              } else if (state.status.isError) {
+                                showErrorSnackBar(
+                                  context,
+                                  S.of(context).errorPlsAgain,
+                                );
+                              }
+                            },
+                            builder: (context, state) {
+                              return CustomMainButton(
+                                text: S.of(context).payOrder,
+                                isLoading: state.status.isLoading,
+                                onTap: () {
+                                  context
+                                      .read<PaymentCubit>()
+                                      .getPaymentLink(order!.id);
+                                },
+                              );
+                            },
                           ),
-                          4.height,
-                          Row(
-                            children: [
-                              if (isDiscount)
-                                Text(
-                                  '${product.priceWithDiscount} ₸  ',
-                                  style: AppTextStyle.labelMedium.copyWith(
-                                    color: AppColors.main,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              Text(
-                                '${product.price.toInt()} ₸',
-                                style: isDiscount
-                                    ? AppTextStyle.labelMedium.copyWith(
-                                        decoration: TextDecoration.lineThrough,
-                                        decorationColor: AppColors.gray,
-                                        color: AppColors.gray)
-                                    : AppTextStyle.labelMedium,
-                              ),
-                              if (product.weight != null)
-                                Text(
-                                  ' ∙ ${product.weight}',
-                                  style: AppTextStyle.labelMedium.copyWith(
-                                    color: AppColors.gray,
-                                  ),
-                                ),
-                            ],
-                          )
                         ],
-                      ),
+                        // if (canPayOrder(order) && canCancelOrder(order))
+                        //   12.height,
+                        // if (canCancelOrder(order))
+                        //   BlocConsumer<OrderCubit, OrderState>(
+                        //     listener: (context, state) {
+                        //       if (state.status.isSuccess) {
+                        //         Navigator.pop(context);
+                        //         context
+                        //             .read<ActiveOrdersCubit>()
+                        //             .fetchActiveOrders();
+                        //       }
+                        //     },
+                        //     builder: (context, state) {
+                        //       return CustomGrayButton(
+                        //         text: S.of(contextч,
+                        //         isLoading: state.status.isLoading,
+                        //         onTap: () {
+                        //           confirmAlertDialog(
+                        //             context,
+                        //             title:
+                        //                 S.of(context).cancel_order_confirmation,
+                        //             onYesTap: () {
+                        //               Navigator.pop(context);
+                        //               context.read<OrderCubit>().cancelOrder(
+                        //                   orderId: order!.id.toString());
+                        //             },
+                        //           );
+                        //         },
+                        //       );
+                        //     },
+                        //   ),
+                      ],
                     ),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const SizedBox(height: 8);
-            },
-          )
-        ],
+                  )
+                : const SizedBox(),
+            body: state.status.isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : state.status.isSuccess
+                    ? RefreshIndicator(
+                        onRefresh: () async {
+                          await context
+                              .read<OrderHistoryCubit>()
+                              .fetchOrderById(orderId);
+                        },
+                        child: SingleChildScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          child: Column(
+                            children: [
+                              buildOrderInfo(context, order),
+                              // No Online Payment
+                              // Container(
+                              //   margin: const EdgeInsets.symmetric(vertical: 12),
+                              //   padding: const EdgeInsets.all(16.0),
+                              //   decoration: BoxDecoration(
+                              //     color: AppColors.white,
+                              //     borderRadius: BorderRadius.circular(10),
+                              //   ),
+                              //   child: Row(
+                              //     children: [
+                              //       SvgPicture.asset(AppAssets.time),
+                              //       12.width,
+                              //       Expanded(child: Text(S.of(context).payTime(223))),
+                              //     ],
+                              //   ),
+                              // ),
+                              12.height,
+                              OrderProductsWidget(orderInfo: order),
+                            ],
+                          ),
+                        ),
+                      )
+                    : ContentErrorWidget(
+                        onTryAgain: () {
+                          context
+                              .read<OrderHistoryCubit>()
+                              .fetchOrderById(orderId);
+                        },
+                      ),
+          );
+        },
       ),
     );
   }
 
-  Container buildOrderInfo(BuildContext context) {
+  Container buildOrderInfo(BuildContext context, OrderHistoryEntity? order) {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
@@ -199,7 +211,7 @@ class PaymentScreen extends StatelessWidget {
                   AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
-              '№ ${orderInfo.orderId}',
+              '№ ${order?.id}',
               style: AppTextStyle.bodyMedium,
             ),
             const Divider(
@@ -212,7 +224,9 @@ class PaymentScreen extends StatelessWidget {
                   AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
-              orderInfo.paymentType,
+              order?.paymentTypeId == 2
+                  ? S.of(context).card_pay
+                  : S.of(context).cashToCourier,
               style: AppTextStyle.bodyMedium,
             ),
             const Divider(
@@ -220,12 +234,12 @@ class PaymentScreen extends StatelessWidget {
               color: AppColors.divider,
             ),
             Text(
-              S.of(context).payOrder,
+              S.of(context).totalSum,
               style:
                   AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
-              '${orderInfo.totalPrice} ₸',
+              '${order?.totalPrice.toInt()} ₸',
               style: AppTextStyle.bodyMedium,
             ),
             const Divider(
@@ -233,12 +247,12 @@ class PaymentScreen extends StatelessWidget {
               color: AppColors.divider,
             ),
             Text(
-              S.of(context).paymentStatus,
+              S.of(context).order_status,
               style:
                   AppTextStyle.labelMedium.copyWith(color: AppColors.textGray),
             ),
             Text(
-              orderInfo.orderStatus,
+              order?.orderStatus.name ?? '',
               style: AppTextStyle.bodyMedium,
             ),
           ],

@@ -1,4 +1,7 @@
+import 'package:grocery_app/src/domain/entity/order/pivot_entity.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../data/models/product/pivot_model.dart';
 
 class ProductEntity extends Equatable {
   final int id;
@@ -14,6 +17,7 @@ class ProductEntity extends Equatable {
   final num? priceWithDiscount;
   final num? rating;
   final int? totalSales;
+  final int? amount;
   final bool isActive;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -22,8 +26,7 @@ class ProductEntity extends Equatable {
   final num? proteins;
   final num? fats;
   final num? carbohydrates;
-  final BrandEntity? brand;
-  final CountryEntity? country;
+  final PivotEntity? pivot;
 
   const ProductEntity({
     required this.id,
@@ -32,9 +35,11 @@ class ProductEntity extends Equatable {
     this.brandId,
     this.productQuantity,
     this.photoUrl,
+    this.amount,
     required this.name,
     required this.description,
     required this.price,
+    this.pivot,
     this.discount,
     this.priceWithDiscount,
     this.rating,
@@ -47,8 +52,6 @@ class ProductEntity extends Equatable {
     this.proteins,
     this.fats,
     this.carbohydrates,
-    this.brand,
-    this.country,
   });
 
   @override
@@ -59,6 +62,8 @@ class ProductEntity extends Equatable {
         brandId,
         photoUrl,
         name,
+        pivot,
+    amount,
         description,
         price,
         discount,
@@ -74,8 +79,6 @@ class ProductEntity extends Equatable {
         proteins,
         fats,
         carbohydrates,
-        brand,
-        country,
       ];
 }
 
