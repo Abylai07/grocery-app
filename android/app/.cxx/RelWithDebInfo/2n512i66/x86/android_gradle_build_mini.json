@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/abylai/Desktop/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/abylai/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/abylai/StudioProjects/abricoz_app/android/app/.cxx/RelWithDebInfo/2n512i66/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/abylai/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/abylai/StudioProjects/abricoz_app/android/app/.cxx/RelWithDebInfo/2n512i66/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

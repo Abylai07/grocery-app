@@ -51,4 +51,5 @@ class AppAssets {
   static const String cancel = 'assets/icons/cancel.svg';
   static const String success = 'assets/icons/success.svg';
   static const String timeOut = 'assets/icons/time_out.svg';
+  static const String contactUs = 'assets/icons/contact_us.svg';
 }

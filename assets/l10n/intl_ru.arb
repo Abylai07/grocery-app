@@ -215,7 +215,8 @@
   "email_invalid": "Неверный формат электронной почты. Пример: example@mail.com",
   "account_blocked": "Аккаунт заблокирован.",
   "contact_admin": "Для выяснения причин свяжитесь с администрацией приложения.",
-  "temporarily_not_accepting_orders": "Мы временно не принимаем заказы"
+  "temporarily_not_accepting_orders": "Мы временно не принимаем заказы",
+  "contactUs": "Связаться с нами"
 }
 
 

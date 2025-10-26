@@ -172,20 +172,22 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   BlocBuilder<AppSettingsCubit, BaseState>(
                     builder: (context, state) {
-                      if(state.status.isSuccess){
+                      if (state.status.isSuccess) {
                         AppConfigEntity entity = state.entity;
 
-                        return entity.isBankPaymentActive ? ProfileElementWidget(
-                          title: S.of(context).carts,
-                          icon: AppAssets.cards,
-                          onPressed: () {
-                            if (SharedPrefs().getAccessToken() == null) {
-                              nonAuthorizeModal(context);
-                            } else {
-                              context.router.push(const MyCardsRoute());
-                            }
-                          },
-                        ) : const SizedBox();
+                        return entity.isBankPaymentActive
+                            ? ProfileElementWidget(
+                                title: S.of(context).carts,
+                                icon: AppAssets.cards,
+                                onPressed: () {
+                                  if (SharedPrefs().getAccessToken() == null) {
+                                    nonAuthorizeModal(context);
+                                  } else {
+                                    context.router.push(const MyCardsRoute());
+                                  }
+                                },
+                              )
+                            : const SizedBox();
                       } else {
                         return const SizedBox();
                       }
@@ -241,6 +243,20 @@ class ProfileScreen extends StatelessWidget {
                     },
                   ),
                 ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 16),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ProfileElementWidget(
+                title: S.of(context).contactUs,
+                icon: AppAssets.contactUs,
+                onPressed: () {
+                  launchUrlFunc('https://abricoz.kz/contacts');
+                },
               ),
             ),
             24.height,

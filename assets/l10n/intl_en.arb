@@ -223,7 +223,7 @@
   "email_invalid": "Invalid email format. Example: example@mail.com",
   "account_blocked": "Account is blocked.",
   "contact_admin": "To find out the reasons, contact the app administration.",
-  "temporarily_not_accepting_orders": "We are temporarily not accepting orders"
-
+  "temporarily_not_accepting_orders": "We are temporarily not accepting orders",
+  "contactUs": "Contact Us"
 }
 

@@ -215,6 +215,7 @@
   "email_invalid": "Электрондық пошта дұрыс емес. Мысал: example@mail.com",
   "account_blocked": "Аккаунт бұғатталды.",
   "contact_admin": "Себебін білу үшін қолданба әкімшілігіне хабарласыңыз.",
-  "temporarily_not_accepting_orders": "Біз уақытша тапсырыстар қабылдамаймыз"
+  "temporarily_not_accepting_orders": "Біз уақытша тапсырыстар қабылдамаймыз",
+  "contactUs": "Бізбен байланысу"
 }
 

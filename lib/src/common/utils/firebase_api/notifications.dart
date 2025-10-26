@@ -89,7 +89,7 @@ class Notifications {
 
     AndroidInitializationSettings initializationSettingsAndroid =
         const AndroidInitializationSettings('@mipmap/ic_launcher');
-    // iOS initialization
+
     DarwinInitializationSettings iosInitializationSettings =
         const DarwinInitializationSettings();
     InitializationSettings initializationSettings = InitializationSettings(
